@@ -1,20 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="dialog" persistent max-width="600px">
-      <template v-slot:activator="{ on, attrs }">
-        <v-app>
-          <v-app-bar app color="primary" dark>
-            <v-app-bar-nav-icon />
-            <v-toolbar-title>Page Title</v-toolbar-title>
-            <v-btn icon>
-              <v-icon>mdi-magnify</v-icon>
-            </v-btn>
-          </v-app-bar>
-          <v-btn color="primary" dark v-bind="attrs" v-on="on">
-            로그인
-          </v-btn>
-        </v-app>
-      </template>
+    <v-dialog v-model="getDialog" persistent max-width="600px">
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-card>
           <v-card-title>
@@ -83,7 +69,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false"
+            <v-btn color="blue darken-1" text @click="OnOffLoign()"
               >Close</v-btn
             >
           </v-card-actions>
@@ -104,8 +90,20 @@ export default {
       (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
     ],
   }),
+  computed: {
+    getDialog: {
+      get: function () {
+        return this.$store.state.dialog
+      },
+      set: function () {
+        }
+      }
+  },
 
   methods: {
+    OnOffLoign: function() {
+      this.$store.commit('CHANGE_DIALOG', false);
+    },
     validate() {
       this.$refs.form.validate();
     },
