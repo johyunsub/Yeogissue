@@ -2,6 +2,7 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
+        //모달창 외부 클릭시 창닫기
         <v-app>
           <v-app-bar app color="primary" dark>
             <v-app-bar-nav-icon />
