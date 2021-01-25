@@ -1,16 +1,8 @@
 <template>
-<<<<<<< HEAD
   <v-app id="inspire">
     <nav-bar/>
     <menu-bar/>
     <v-main class="">
-=======
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/login">Login</router-link> 
-    </div>
->>>>>>> a78e6030ef30d1e78791c04fd4fbc81c75a5c125
     <router-view/>
     </v-main>
   </v-app>

@@ -20,6 +20,7 @@
         <v-spacer></v-spacer>
 
         <notification/>
+        <router-link to="/login">Login</router-link> 
         <v-app-bar-nav-icon x-large @click="OnOffMenu()"></v-app-bar-nav-icon>
 
       </v-container>
