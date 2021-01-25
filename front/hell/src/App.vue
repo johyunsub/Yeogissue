@@ -1,12 +1,21 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/login">Login</router-link> 
-    </div>
+  <v-app id="inspire">
+    <nav-bar/>
+    <menu-bar/>
+    <v-main class="">
     <router-view/>
-  </div>
+    </v-main>
+  </v-app>
 </template>
+
+<script>
+import NavBar from './components/bar/NavBar.vue';
+import MenuBar from './components/bar/MenuBar.vue';
+
+export default {
+    components: { NavBar, MenuBar },
+  };
+</script>
 
 <style lang="scss">
 #app {
@@ -14,7 +23,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
 
 #nav {
@@ -28,5 +36,9 @@
       color: #42b983;
     }
   }
+}
+
+.border-bt{
+  border-bottom: 1px solid rgb(238, 238, 238);
 }
 </style>
