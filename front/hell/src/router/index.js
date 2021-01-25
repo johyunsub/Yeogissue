@@ -28,10 +28,7 @@ const routes = [
     name: 'Suggest',
     component: Suggest
   },
-<<<<<<< HEAD
  
-=======
->>>>>>> 385e493305b4af3bb65f6a1129b9fb2fa9456e45
 ]
 
 const router = new VueRouter({
