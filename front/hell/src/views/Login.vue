@@ -1,0 +1,120 @@
+<template>
+  <v-row justify="center">
+    <v-dialog v-model="dialog" persistent max-width="600px">
+      <template v-slot:activator="{ on, attrs }">
+        <v-app>
+          <v-app-bar app color="primary" dark>
+            <v-app-bar-nav-icon />
+            <v-toolbar-title>Page Title</v-toolbar-title>
+            <v-btn icon>
+              <v-icon>mdi-magnify</v-icon>
+            </v-btn>
+          </v-app-bar>
+          <v-btn color="primary" dark v-bind="attrs" v-on="on">
+            로그인
+          </v-btn>
+        </v-app>
+      </template>
+      <v-form ref="form" v-model="valid" lazy-validation>
+        <v-card>
+          <v-card-title>
+            <span class="headline">로그인</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Email*"
+                    required
+                    :rules="emailRules"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Password*"
+                    type="password"
+                    hint="영문,숫자 포함 8자리 이상 적어주세요."
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="12">
+                  <v-btn
+                    tile
+                    x-large
+                    color="info"
+                    :disabled="!valid"
+                    @click="validate"
+                    >로그인</v-btn
+                  >
+                </v-col>
+                <v-col cols="12" sm="12">
+                  <v-btn
+                    tile
+                    x-large
+                    color="yellow darken-2"
+                    @click="loginWithKakao"
+                    >카카오</v-btn
+                  >
+                </v-col>
+                
+                <v-col cols="12" sm="6">
+                  비밀번호를 잊으셨습니까?
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-btn
+                    text
+                    color="info"
+                    >비밀번호 찾기</v-btn
+                  >
+                </v-col>
+                <v-col cols="12" sm="6">
+                  회원가입을 하시겠습니까
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-btn
+                    text
+                    color="info"
+                    >회원가입</v-btn
+                  >
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="dialog = false"
+              >Close</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-form>
+    </v-dialog>
+  </v-row>
+</template>
+
+<script>
+export default {
+  data: () => ({
+    dialog: false,
+    valid: true,
+    email: "",
+    emailRules: [
+      (v) => !!v || "E-mail is required",
+      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+    ],
+  }),
+
+  methods: {
+    validate() {
+      this.$refs.form.validate();
+    },
+    loginWithKakao() {
+      const params = {
+          redirectUri: "http://localhost:8080/auth",
+      };
+      window.Kakao.Auth.authorize(params);
+    },
+  },
+};
+</script>
