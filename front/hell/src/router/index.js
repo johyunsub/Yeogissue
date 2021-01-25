@@ -28,7 +28,6 @@ const routes = [
     name: 'Suggest',
     component: Suggest
   },
- 
 ]
 
 const router = new VueRouter({

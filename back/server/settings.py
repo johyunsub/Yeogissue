@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'issue',
     'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -136,7 +137,9 @@ STATIC_URL = '/static/'
 
 
 # Custom User Model
-AUTH_USER_MODEL = 'accounts.User'
+# AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.MyUser'
+
 
 # JWT additional settings 
 
@@ -145,3 +148,20 @@ import datetime
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
 }
+
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+#     ),
+# }
+
+EMAIL_HOST = 'smtp.gmail.com' 		 # 메일 호스트 서버
+EMAIL_PORT = '587' 			 # 서버 포트
+EMAIL_HOST_USER = 'leessafy@gmail.com' 	 # 우리가 사용할 Gmail
+EMAIL_HOST_PASSWORD = 'adf1234!'		 # 우리가 사용할 Gmail p
+EMAIL_USE_TLS = True			 # TLS 보안 설정
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER	 # 응답 메일 관련 설정
