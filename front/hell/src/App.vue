@@ -43,6 +43,6 @@ export default {
 }
 
 .mr-tp{
-  margin-top: 20px;
+  margin-top : 20px;
 }
 </style>
