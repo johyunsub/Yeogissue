@@ -1,5 +1,12 @@
 <template>
     <v-container>
-    이슈모음입니다.
+      <issue-category/>
   </v-container>
 </template>
+
+<script>
+import IssueCategory from '../../components/Issue/IssueCategory.vue'
+export default {
+  components : { IssueCategory }
+}
+</script>

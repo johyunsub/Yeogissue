@@ -1,5 +1,6 @@
 <template>
   <v-row justify="center">
+<<<<<<< HEAD:front/hell/src/views/Login.vue
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
         //모달창 외부 클릭시 창닫기
@@ -16,6 +17,9 @@
           </v-btn>
         </v-app>
       </template>
+=======
+    <v-dialog v-model="getDialog" persistent max-width="600px">
+>>>>>>> cc1613b7ebfc5645d9d02f889363db659501c91d:front/hell/src/components/Login/Login.vue
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-card>
           <v-card-title>
@@ -84,7 +88,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false"
+            <v-btn color="blue darken-1" text @click="OnOffLoign()"
               >Close</v-btn
             >
           </v-card-actions>
@@ -105,8 +109,20 @@ export default {
       (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
     ],
   }),
+  computed: {
+    getDialog: {
+      get: function () {
+        return this.$store.state.dialog
+      },
+      set: function () {
+        }
+      }
+  },
 
   methods: {
+    OnOffLoign: function() {
+      this.$store.commit('CHANGE_DIALOG', false);
+    },
     validate() {
       this.$refs.form.validate();
     },
