@@ -18,24 +18,28 @@
         <v-btn text @click="MovePage('issue')">이슈모음</v-btn>
 
         <v-spacer></v-spacer>
-
+        
+        <v-btn text @click="OnOff('login')">로그인</v-btn>
         <notification/>
-        <router-link to="/login">Login</router-link> 
-        <v-app-bar-nav-icon x-large @click="OnOffMenu()"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon x-large @click="OnOff('menu')"></v-app-bar-nav-icon>
+        <login/>
 
       </v-container>
     </v-app-bar>
 </template>
 
 <script>
+import Login from '../Login/Login.vue'
 import Notification from './Notification.vue';
 
 export default {
-  components: { Notification },
+  components: { Notification, Login },
     methods: {
-    OnOffMenu: function() {
-      console.log(this.$store.state.drawer);
-      this.$store.commit('CHANGE_DRAWER', true);
+    OnOff: function(message) {
+      switch(message){
+          case 'menu' : this.$store.commit('CHANGE_DRAWER', true); break;
+          case 'login' : this.$store.commit('CHANGE_DIALOG', true); break;
+        }
     },
     MovePage : function(check){
         switch(check){
