@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# YOUTUBE_API_KEY = 'AIzaSyCUK-7ji58muTsxvtW6TfFwNy4fWgbzkjY'
 
 # Application definition
 
