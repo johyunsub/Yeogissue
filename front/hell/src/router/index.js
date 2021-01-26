@@ -3,7 +3,9 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Issue from '../views/Issue/IssuePage.vue'
 import Opinion from '../views/Opinion/OpinionPage.vue'
+import OpinionWrite from '../views/Opinion/OpinionWrite.vue'
 import Suggest from '../views/Suggest/SuggestPage.vue'
+import OpinionDetail from '../views/Opinion/OpinionDetail.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +29,16 @@ const routes = [
     path: '/suggest',
     name: 'Suggest',
     component: Suggest
+  },
+  {
+    path: '/opinionWrite',
+    name: 'OpinionWrite',
+    component: OpinionWrite
+  },
+  {
+    path: '/opinionDetail',
+    name: 'OpinionDetail',
+    component: OpinionDetail
   },
 ]
 

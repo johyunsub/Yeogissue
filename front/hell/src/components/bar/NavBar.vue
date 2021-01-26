@@ -16,6 +16,7 @@
         <v-btn text @click="MovePage('opinion')">의견나눔공간</v-btn>
         <v-btn text @click="MovePage('suggest')">제안하기</v-btn>
         <v-btn text @click="MovePage('issue')">이슈모음</v-btn>
+        <v-btn text @click="MovePage('data')">데이터</v-btn>
 
         <v-spacer></v-spacer>
         
@@ -47,6 +48,7 @@ export default {
           case 'home' : this.$router.push({ name: 'Home' }); break;
           case 'suggest' : this.$router.push({ name: 'Suggest' }); break;
           case 'issue' : this.$router.push({ name: 'Issue' }); break;
+          case 'data' : this.$router.push({ name: 'data' }); break;
         }
     }
   },
