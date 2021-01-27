@@ -9,6 +9,7 @@ export default new Vuex.Store({
     drawer: false,
     dialog: false,
     clubDialog: false,
+    clubDetailUrlDialog: false,
   },
   getters: {
     
@@ -23,6 +24,10 @@ export default new Vuex.Store({
 
     CLUB_CREATE_DIALOG(state, dialog) {
       state.clubDialog = dialog;
+    },
+
+    CLUB_DETAIL_URL_DIALOG(state, dialog) {
+      state.clubDetailUrlDialog = dialog;
     },
   },
   actions: {

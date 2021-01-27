@@ -2,14 +2,22 @@
   <v-container>
     <h2 class="text-center mr-tp mr-bt">클럽 이름??</h2>
     <v-row>
-      <v-col cols="3"></v-col>
+      <v-col cols="2"></v-col>
       <v-col id="opinion_main">
         <!-- 클럽 정보 -->
         <v-row class="mr-tp">
-          <v-sheet height="50%" width="100%" elevation="2">
-            <v-row>
+          <v-sheet height="30vh" width="100%" elevation="2">
+            <v-row class="mt-3">
               <v-col><img src="dddd" alt="이미지 넣어줘"/></v-col>
-              <v-col>클럽정보 (맴버수, 카테고리, 개설일, 마스터)</v-col>
+              <v-col>
+                <v-row>
+                  클럽정보 (맴버수, 카테고리, 개설일, 마스터)
+                </v-row>
+                <v-row class="mt-3">
+                  <v-btn color="blue darken-1" text @click="OnOff()">관리</v-btn>
+                  <v-btn color="blue darken-1" text @click="OnOff()">가입하기</v-btn>
+                </v-row>
+              </v-col>
             </v-row>
           </v-sheet>
         </v-row>
@@ -17,27 +25,7 @@
         <v-divider class="my-10"></v-divider>
 
         <!-- 가입해야지만 보이게-->
-
-        <!-- 카테고리 if문 처리-->
-        <v-row class="category">
-          <v-tabs>
-            <v-tab>소개</v-tab>
-            <v-tab>뉴스</v-tab>
-            <v-tab>유튜브</v-tab>
-            <v-tab>기타</v-tab>
-            <v-tab>의견나눔</v-tab>
-          </v-tabs>
-        </v-row>
-
-        <!-- 내용 -->
-        <v-row class="mr-tp">
-          <v-col v-if="viewType == 'list'"><opinion-table /></v-col>
-          <v-col v-if="viewType == 'card'"
-            ><card-list v-for="item in items" :key="item.tab" />
-          </v-col>
-        </v-row>
-
-        <!-- paging -->
+        <club-detail-content />
       </v-col>
       <v-col cols="2"></v-col>
     </v-row>
@@ -45,8 +33,10 @@
 </template>
 
 <script>
+import ClubDetailContent from '../../components/Club/Detail/ClubDetailContent.vue';
+
 export default {
-  components: {},
+  components: { ClubDetailContent },
   data: function() {
     return {};
   },
