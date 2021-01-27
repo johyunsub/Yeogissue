@@ -73,8 +73,8 @@
               </div>
           </v-col>
 
-          <v-col cols="2" >
-            <v-sheet rounded="lg" id="opinion_side">
+          <v-col cols="2">
+            <v-sheet rounded="lg" id="opinion_side" class="sticky">
               <side-list name='인기 많은순'></side-list>
               <v-divider class="my-2"></v-divider>
               <side-list name='댓글 많은순'></side-list>
@@ -142,4 +142,10 @@ export default {
   margin-top:20px;
   border: 1px solid rgb(238, 238, 238);
 }
+
+// .sticky {
+//   display: inline-block;
+//   position: sticky;
+//   background: blue;
+// }
 </style>
