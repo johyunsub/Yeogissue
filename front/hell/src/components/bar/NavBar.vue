@@ -20,6 +20,8 @@
         <v-spacer></v-spacer>
         
         <v-btn text @click="OnOff('login')">로그인</v-btn>
+        <h5> | </h5>
+        <v-btn text @click="MovePage('join')">회원가입</v-btn>
         <notification/>
         <v-app-bar-nav-icon x-large @click="OnOff('menu')"></v-app-bar-nav-icon>
         <login/>
@@ -47,6 +49,7 @@ export default {
           case 'home' : this.$router.push({ name: 'Home' }); break;
           case 'suggest' : this.$router.push({ name: 'Suggest' }); break;
           case 'issue' : this.$router.push({ name: 'Issue' }); break;
+          case 'join' : this.$router.push({ name: 'Join' }); break;
         }
     }
   },
