@@ -14,7 +14,6 @@
             </v-col>
             <v-col cols="auto">
                 <v-icon small>mdi-thumb-up-outline</v-icon> 100
-                <v-icon small>mdi-thumb-down-outline</v-icon> 100
             </v-col>
         </v-row>
 

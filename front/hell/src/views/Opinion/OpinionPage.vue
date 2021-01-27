@@ -1,5 +1,6 @@
 <template>
     <v-container>
+      <h2 class='text-center mr-tp mr-bt'>의견나눔</h2>
         <v-row>
           <v-col cols="2"></v-col>
           <v-col id="opinion_main">

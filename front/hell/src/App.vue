@@ -57,4 +57,8 @@ export default {
 .mr-rt{
   margin-right : 10px;
 }
+
+.choice_cursor{
+  cursor: pointer;
+}
 </style>

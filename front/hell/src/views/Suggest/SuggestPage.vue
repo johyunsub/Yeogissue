@@ -1,6 +1,7 @@
 <template>
     <v-container>
         <v-row class="mr-tp"></v-row>
+        <h2 class='text-center mr-tp'>클럽</h2>
         <v-row>
           <v-col cols="2"></v-col>
           <v-col>
@@ -19,7 +20,6 @@
               v-for="n in 9"
               :key="n"
               class="d-flex child-flex"
-              cols="4"
             >
               <v-row
                 align="center"
@@ -29,6 +29,15 @@
               </v-row>
             </v-col>
           </v-row>
+
+          <!-- paging -->
+              <div class="text-center mr-tp">
+                <v-pagination
+                  v-model="page"
+                  :length="pageCnt"
+                  circle
+                ></v-pagination>
+              </div>
           </v-col>
           <v-col cols="2"></v-col>
         </v-row>

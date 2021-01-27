@@ -5,7 +5,7 @@
         <v-col>
             <p class="blue--text mr-bt">카테고리</p>
             <p class="display-2">제목</p>
-            <p class="grey--text">글쓴이, 작성일, 수정, 삭제, 조회수</p>
+            <p class="grey--text">글쓴이, 작성일, 수정, 삭제, 조회수, 북마크</p>
             <v-divider class="my-4"></v-divider>
             
             <p class="text-justify">
@@ -15,17 +15,14 @@
 
             <v-row>
             <v-col></v-col>
-            <v-col cols="1">
+            <v-col class="mr-auto">
                 <v-icon large>mdi-thumb-up-outline</v-icon><p>100</p>
-            </v-col>
-            <v-col>
-                <v-icon large>mdi-thumb-down-outline</v-icon><p>100</p>
             </v-col>
             </v-row>
             
             <v-row>
                 <v-col cols="1"></v-col>
-                <v-col><comment v-for="item in items" :key="item.tab"/></v-col>
+                <v-col class="mr-auto"><comment v-for="item in items" :key="item.tab"/></v-col>
             </v-row>
 
             <!-- paging -->

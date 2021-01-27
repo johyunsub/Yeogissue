@@ -6,7 +6,6 @@
             <v-row class="mr-tp"> 
                 <v-col
                     class="d-flex"
-                    cols="4"
                     sm="2"
                 >
                     <v-select
@@ -16,8 +15,6 @@
                     ></v-select>
                 </v-col>
                 <v-col
-                cols="4"
-                sm="2"
                 class="py-2"
                 >
                 <v-btn-toggle v-model="toggle_exclusive">
@@ -40,7 +37,6 @@
                 </v-col>
 
                 <v-col
-                cols="4"
                 sm="3"
                 class="py-2"
                 >
