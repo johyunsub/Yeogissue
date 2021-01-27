@@ -132,16 +132,10 @@ def youtube(issue):
     data = []
     for i in response_dict['items']:
         news = {}
-        # print('title',i['snippet']['title'])
         news['title']=i['snippet']['title']
-        # print('videoId',i['id']['videoId'])
-        news['videoId']=i['id']['videoId']
+        news['videoId']='http://youtube.com/watch?v='+i['id']['videoId']
         data.append(news)
-        print()
-        print()
-    # context = {
-    #     'youtube_items': response_dict['items']
-    # }
+   
     return data
 
 @api_view(['POST'])
