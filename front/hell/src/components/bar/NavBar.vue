@@ -6,6 +6,7 @@
       id="navbar"
     >
       <v-container class="py-0 fill-height" >
+        <v-col>
         <v-avatar
           class="mr-10"
           color="grey darken-1"
@@ -14,11 +15,10 @@
         >로고</v-avatar>
 
         <v-btn text @click="MovePage('opinion')">의견나눔공간</v-btn>
-        <v-btn text @click="MovePage('suggest')">제안하기</v-btn>
+        <v-btn text @click="MovePage('club')">클럽</v-btn>
         <v-btn text @click="MovePage('issue')">이슈모음</v-btn>
         <v-btn text @click="MovePage('data')">데이터</v-btn>
-
-        <v-spacer></v-spacer>
+        </v-col>
         
         <v-btn text @click="OnOff('login')">로그인</v-btn>
         <notification/>
@@ -46,7 +46,7 @@ export default {
         switch(check){
           case 'opinion' : this.$router.push({ name: 'Opinion' }); break;
           case 'home' : this.$router.push({ name: 'Home' }); break;
-          case 'suggest' : this.$router.push({ name: 'Suggest' }); break;
+          case 'club' : this.$router.push({ name: 'Club' }); break;
           case 'issue' : this.$router.push({ name: 'Issue' }); break;
           case 'data' : this.$router.push({ name: 'data' }); break;
         }

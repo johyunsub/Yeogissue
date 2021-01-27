@@ -3,7 +3,6 @@
         v-slot="{ hover }"
         open-delay="200">
     <v-card
-    :loading="loading"
     class="mx-auto my-5 elevation-5 choice_cursor { 'on-hover': hover }"
     max-width="250"
     :elevation="hover ? 16 : 2"

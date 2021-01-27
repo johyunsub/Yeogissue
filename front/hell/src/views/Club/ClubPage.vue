@@ -25,7 +25,7 @@
                 align="center"
                 justify="center"
               >
-              <suggest-card/>  
+              <club-card/>  
               </v-row>
             </v-col>
           </v-row>
@@ -45,8 +45,14 @@
 </template>
 
 <script>
-import SuggestCard from '../../components/Suggest/SuggestCard.vue';
+import ClubCard from '../../components/Club/ClubCard.vue';
 export default {
-  components : {SuggestCard},
+  components : {ClubCard},
+  data: function() {
+    return {
+      page: 1,
+      pageCnt : 3,
+    };
+  },
 }
 </script>
