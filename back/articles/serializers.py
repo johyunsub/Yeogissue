@@ -15,4 +15,11 @@ class ArticleListSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Article
-        fields = ('id', 'title',)
+        fields = ('id', 'title','user','created_at','read_count')
+
+
+class HashtagSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Hashtag
+        fields = ('name')
