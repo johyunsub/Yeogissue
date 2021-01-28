@@ -8,7 +8,8 @@ class Club(models.Model):
     is_private = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     master = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
+    def __str__(self):              # __unicode__ on Python 2
+        return self.title
 
 class Club_article(models.Model):
     comment = models.TextField()
@@ -24,3 +25,4 @@ class Club_member(models.Model):
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    
