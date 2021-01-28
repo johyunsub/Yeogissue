@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Issue from '../views/Issue/IssuePage.vue'
 import Opinion from '../views/Opinion/OpinionPage.vue'
 import Suggest from '../views/Suggest/SuggestPage.vue'
+import Join from '../views/Join.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,12 @@ const routes = [
     name: 'Suggest',
     component: Suggest
   },
+  {
+    path: '/join',
+    name: 'Join',
+    component: Join
+  },
+ 
 ]
 
 const router = new VueRouter({
