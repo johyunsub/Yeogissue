@@ -107,7 +107,6 @@ export default {
 }
 
 .btnLC{
-  margin-top:20px;
   border: 1px solid rgb(238, 238, 238);
 }
 </style>
