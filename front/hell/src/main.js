@@ -6,7 +6,6 @@ import store from './store'
 import router from './router'
 
 Vue.config.productionTip = false
-window.Kakao.init('ebbcba463d0c5113870c2df8674ac8c7');
 
 new Vue({
   vuetify,
