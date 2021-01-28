@@ -7,6 +7,7 @@ import OpinionDetail from '../views/Opinion/OpinionDetail.vue'
 import Club from '../views/Club/ClubPage.vue'
 import ClubDetail from '../views/Club/ClubDetail.vue'
 import Issue from '../views/Issue/IssuePage.vue'
+import Join from '../views/Member/Join.vue'
 
 Vue.use(VueRouter)
 
@@ -52,6 +53,14 @@ const routes = [
     name: 'Issue',
     component: Issue
   },
+
+  //member
+  {
+    path: '/join',
+    name: 'Join',
+    component: Join
+  },
+ 
 ]
 
 const router = new VueRouter({

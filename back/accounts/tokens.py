@@ -14,6 +14,3 @@ def make_code():
     for i in range(6):
         result += random.choice(string_pool)
     return result
-account_activation_token = make_code()
-
-print(str(account_activation_token))
