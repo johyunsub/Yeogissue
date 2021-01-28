@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="getDialog" persistent max-width="600px">
+    <v-dialog v-model="getDialog" max-width="600px">
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-card>
           <v-card-title>
@@ -118,6 +118,7 @@ export default {
         return this.$store.state.dialog
       },
       set: function () {
+        this.$store.commit('CHANGE_DIALOG', false);
         }
       }
   },
