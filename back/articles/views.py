@@ -42,3 +42,5 @@ def article_detail(request, article_pk):
     else:
         article.delete()
         return Response({ 'id': article_pk }, status=status.HTTP_204_NO_CONTENT)
+
+        
