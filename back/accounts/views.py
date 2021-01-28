@@ -7,6 +7,16 @@ from .models import MyUser as User
 from django.core.mail import EmailMessage
 from .tokens import make_code
 
+@api_view(['POST'])
+def make_admin(request):
+    email = request.data.get('email')
+    if User.objects.filter(email=email).exists():
+        user = User.objects.get(email=email)
+        user.is_admin = True
+        user.save()
+        return Response({'success'})
+    return Response({'fail'})
+
 # Create your views here.
 @api_view(['POST'])
 def nickname_check(request):

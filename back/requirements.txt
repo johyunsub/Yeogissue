@@ -6,9 +6,9 @@ django-cors-headers==3.5.0
 djangorestframework==3.12.2
 djangorestframework-jwt==1.11.0
 idna==2.10
-mysqlclient==2.0.3
+mysql-connector-python==8.0.22
 PyJWT==1.7.1
-pytz==2020.5
+pytz==2020.4
 requests==2.25.1
 sqlparse==0.4.1
 urllib3==1.26.2

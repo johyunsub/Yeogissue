@@ -139,7 +139,10 @@ export default {
 }
 
 .btnLC{
+<<<<<<< HEAD
   margin-top:20px;
+=======
+>>>>>>> 60c2a4dd377f80bfee33da3be9e47e1d81878210
   border: 1px solid rgb(238, 238, 238);
 }
 
