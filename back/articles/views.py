@@ -13,7 +13,7 @@ from .models import Article, Hashtag
 def article_list(request):
     articles = Article.objects.all()
     serializer = ArticleListSerializer(articles, many=True)
-    hashtag = 
+    # hashtag = 
     HashtagSerializer()
     return Response(serializer.data)
 
