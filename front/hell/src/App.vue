@@ -41,4 +41,24 @@ export default {
 .border-bt{
   border-bottom: 1px solid rgb(238, 238, 238);
 }
+
+.mr-tp{
+  margin-top : 20px;
+}
+
+.mr-bt{
+  margin-bottom : 20px;
+}
+
+.mr-le{
+  margin-left : 10px;
+}
+
+.mr-rt{
+  margin-right : 10px;
+}
+
+.choice_cursor{
+  cursor: pointer;
+}
 </style>
