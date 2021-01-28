@@ -8,14 +8,11 @@ export default new Vuex.Store({
     //Meun 상태
     drawer: false,
     dialog: false,
+    clubDialog: false,
+    clubDetailUrlDialog: false,
   },
   getters: {
-    getDrawer(state) {
-      return state.drawer;
-    },
-    getDialog(state) {
-      return state.dialog;
-    },
+    
   },
   mutations: {
     CHANGE_DRAWER(state, drawer) {
@@ -23,6 +20,14 @@ export default new Vuex.Store({
     },
     CHANGE_DIALOG(state, dialog) {
       state.dialog = dialog;
+    },
+
+    CLUB_CREATE_DIALOG(state, dialog) {
+      state.clubDialog = dialog;
+    },
+
+    CLUB_DETAIL_URL_DIALOG(state, dialog) {
+      state.clubDetailUrlDialog = dialog;
     },
   },
   actions: {

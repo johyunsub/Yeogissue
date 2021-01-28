@@ -1,5 +1,5 @@
 <template>
-   <v-card width="40%">
+   <v-card width="60%" outlined class="mr-rt">
     <v-tabs
       v-model="tab"
       background-color="#C8E6C9"
@@ -36,9 +36,9 @@ import axios from "axios";
         items: [
           { tab: '연예', content: ['Tab 1 Content', 'Tab 1 Content','Tab 1 Content','Tab 1 Content', 'Tab 1 Content']},
           { tab: 'IT/과학', content: ['Tab 1 Content', 'Tab 1 Content','Tab 1 Content','Tab 1 Content', 'Tab 1 Content']},
-        //   { tab: 'IT/과학', content: 'Tab 2 Content' },
-        //   { tab: '해외', content: 'Tab 3 Content' },
-        //   { tab: '경제', content: 'Tab 4 Content' },
+          { tab: '해외', content: ['Tab 1 Content', 'Tab 1 Content','Tab 1 Content','Tab 1 Content', 'Tab 1 Content']},
+          { tab: '경제', content: ['Tab 1 Content', 'Tab 1 Content','Tab 1 Content','Tab 1 Content', 'Tab 1 Content']},
+
         //   { tab: '스포츠', content: 'Tab 5 Content' },
         //   { tab: '정치', content: 'Tab 6 Content' },
         //   { tab: '사회', content: 'Tab 7 Content' },
