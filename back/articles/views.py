@@ -12,9 +12,7 @@ from .models import Article, Hashtag
 @api_view(['GET'])
 def article_list(request):
     articles = Article.objects.all()
-    serializer = ArticleListSerializer(articles, many=True)
-    # hashtag = 
-    HashtagSerializer()
+    serializer = ArticleListSerializer(articles, many=True)      
     return Response(serializer.data)
 
 @api_view(['POST'])
@@ -24,6 +22,12 @@ def article_create(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+@api_view(['POST'])
+def hashtag_create(request,article_pk):
+    serializer = HashtagSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def article_detail(request, article_pk):

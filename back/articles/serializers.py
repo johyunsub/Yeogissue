@@ -9,7 +9,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = '__all__'
-
+ 
 
 class ArticleListSerializer(serializers.ModelSerializer):
     
@@ -22,4 +22,4 @@ class HashtagSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Hashtag
-        fields = ('name')
+        fields = '__all__'
