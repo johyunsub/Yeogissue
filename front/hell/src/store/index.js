@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+import opinionStroe from '@/store/modules/opinionStroe'
+
 export default new Vuex.Store({
   state: {
     //Meun 상태
@@ -33,5 +35,6 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
+    opinionStroe: opinionStroe,
   }
 })
