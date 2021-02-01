@@ -29,7 +29,7 @@
         </v-row>
 
         <!-- 카테고리 -->
-        <v-row class="mr-tp mr-le" style="padding-top:20px">
+        <v-row class="mr-tp mr-le" style="padding-top: 20px">
           <v-btn class="" outlined>전체</v-btn>
           <v-btn class="" outlined>연예</v-btn>
           <v-btn class="" outlined>IT/과학</v-btn>
@@ -92,39 +92,49 @@
 import CardList from '../../components/Opinion/CardList.vue';
 import OpinionTable from '../../components/Opinion/OpinionTable.vue';
 import SideList from '../../components/Opinion/SideList.vue';
+import { mapActions } from 'vuex';
+
 export default {
   components: { SideList, OpinionTable, CardList },
-  data: function() {
+  computed: {
+    // ...mapState(['myaccount']),
+  },
+  data: function () {
     return {
       search: 'dd',
       viewType: 'card',
       page: 1,
       pageCnt: 3,
       items: [
-        { tab: '' },
-        { tab: '' },
-        { tab: '' },
-        { tab: '' },
-        { tab: '' },
-        { tab: '' },
-        { tab: '' },
-        { tab: '' },
-        { tab: '' },
-        { tab: '' },
+        { tab: '하이' },
+        { tab: '하이1' },
+        { tab: '하이2' },
+        { tab: '하이3' },
+        { tab: '하이4' },
+        { tab: '하이5' },
+        { tab: '하이6' },
+        { tab: '하이7' },
+        { tab: '하이8' },
+        { tab: '하이9' },
       ],
     };
   },
   methods: {
+    ...mapActions('opinionStore', ['opinionList']),
     ChageType(type) {
       this.viewType = type;
     },
-    MovePage: function(check) {
+    MovePage: function (check) {
       switch (check) {
         case 'write':
           this.$router.push({ name: 'OpinionWrite' });
           break;
       }
     },
+  },
+  created() {
+    console.log('하이');
+    this.opinionList();
   },
 };
 </script>
