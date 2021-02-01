@@ -106,13 +106,17 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   components: {},
+  computed: {
+    ...mapState('opinionStore', ['opinionData']),
+  },
   data: function() {
     return {
       createData: {
+        id: null,
         title: null,
         content: null,
         comment_type: true,
@@ -141,14 +145,31 @@ export default {
     };
   },
   methods: {
-    ...mapActions('opinionStore', ['opinionCreate']),
+    ...mapActions('opinionStore', ['opinionCreate', 'opinionUpdate']),
     CreateOpinion: function() {
       if (this.comment_type == '토의') this.createData.comment_type = true;
       else this.createData.comment_type = false;
 
-      this.opinionCreate(this.createData);
-      this.$router.push({ name: 'Opinion' });
+      if (this.$route.query.type === 'create') {
+        this.opinionCreate(this.createData);
+        this.$router.push({ name: 'Opinion' });
+      } else if (this.$route.query.type === 'update') {
+        this.opinionUpdate(this.createData);
+        this.$router.push(`/opinionDetail?id=${this.createData.id}`);
+      }
     },
+  },
+
+  created() {
+    if (this.$route.query.type === 'update') {
+      this.createData.id = this.opinionData.id;
+      this.createData.title = this.opinionData.title;
+      this.createData.content = this.opinionData.content;
+      if (this.opinionData.comment_type == true) this.comment_type = '토의';
+      else this.comment_type = '찬반';
+      this.createData.category = this.opinionData.category;
+      this.createData.user = this.opinionData.user;
+    }
   },
 };
 </script>

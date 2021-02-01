@@ -61,6 +61,7 @@
             ><card-list
               v-for="(item, index) in opinionPaging"
               :key="`${index}_items`"
+              :id="item.id"
               :title="item.title"
               :user="item.user"
             />
@@ -137,7 +138,7 @@ export default {
     MovePage: function (check) {
       switch (check) {
         case 'write':
-          this.$router.push({ name: 'OpinionWrite' });
+          this.$router.push(`/opinionWrite?type=write`);
           break;
       }
     },

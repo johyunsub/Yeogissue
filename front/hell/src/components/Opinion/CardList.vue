@@ -3,7 +3,7 @@
     <v-card-text>
       <v-row>
         <v-col cols="auto" class="mr-auto">
-          <p class="subtitle-1 text--primary choice_cursor" @click="MovePage('opinionDetail')">
+          <p class="subtitle-1 text--primary choice_cursor" @click="MovePage('opinionDetail', id)">
             {{ title }}
           </p>
         </v-col>
@@ -23,16 +23,20 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   props: {
+    id: { type: Number },
     title: { type: String },
     user: { type: Number },
   },
   methods: {
-    MovePage: function(check) {
+    ...mapActions('opinionStore', ['opinionDetail']),
+    MovePage: function(check, value) {
       switch (check) {
         case 'opinionDetail':
-          this.$router.push({ name: 'OpinionDetail' });
+          this.$router.push(`/opinionDetail?id=${value}`);
           break;
       }
     },

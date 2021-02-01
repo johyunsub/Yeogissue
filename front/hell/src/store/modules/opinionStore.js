@@ -11,6 +11,9 @@ const opinionStore = {
     pagingCnt: 0,
 
     opinionCategory: null,
+
+    // 디테일 변수
+    opinionData: null,
   },
   getters: {},
   mutations: {
@@ -28,6 +31,9 @@ const opinionStore = {
         if (i == state.opinions.length) break;
         state.opinionPaging[index++] = state.opinions[i];
       }
+    },
+    SET_OPINIONDETAIL(state, opinion) {
+      state.opinionData = opinion;
     },
   },
   actions: {
@@ -47,6 +53,36 @@ const opinionStore = {
         .post('/articles/article_create/', data)
         .then(() => {
           dispatch('opinionList');
+        })
+        .catch((err) => console.log(err.response));
+    },
+
+    //수정
+    opinionUpdate({ commit }, data) {
+      instance
+        .put(`/articles/${data.id}/`, data)
+        .then(() => {
+          commit('SET_OPINIONDETAIL', data);
+        })
+        .catch((err) => console.log(err.response));
+    },
+
+    //삭제
+    opinionDelete({ commit }, id) {
+      instance
+        .delete(`/articles/${id}/`)
+        .then(() => {
+          commit('SET_OPINIONDETAIL', null);
+        })
+        .catch((err) => console.log(err.response));
+    },
+
+    // 디테일
+    opinionDetail({ commit }, id) {
+      instance
+        .get(`/articles/${id}`)
+        .then((res) => {
+          commit('SET_OPINIONDETAIL', res.data);
         })
         .catch((err) => console.log(err.response));
     },
