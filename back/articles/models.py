@@ -13,5 +13,6 @@ class Article(models.Model):
     read_count = models.IntegerField(default=0)
 
 class Hashtag(models.Model):
-    article = models.ManyToManyField(Article)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_hashtags')
+    articles = models.ManyToManyField(Article,related_name='hashtags')
     name = models.CharField(max_length=100)

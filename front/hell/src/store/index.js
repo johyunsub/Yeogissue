@@ -1,7 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
+
+import opinionStore from './modules/opinionStore';
 
 export default new Vuex.Store({
   state: {
@@ -11,9 +13,7 @@ export default new Vuex.Store({
     clubDialog: false,
     clubDetailUrlDialog: false,
   },
-  getters: {
-    
-  },
+  getters: {},
   mutations: {
     CHANGE_DRAWER(state, drawer) {
       state.drawer = drawer;
@@ -30,8 +30,8 @@ export default new Vuex.Store({
       state.clubDetailUrlDialog = dialog;
     },
   },
-  actions: {
-  },
+  actions: {},
   modules: {
-  }
-})
+    opinionStore: opinionStore,
+  },
+});

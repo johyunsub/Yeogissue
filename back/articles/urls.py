@@ -6,5 +6,6 @@ urlpatterns = [
     path('article_list/', views.article_list),
     path('article_create/', views.article_create),
     path('<int:article_pk>/', views.article_detail),
+    path('hashtag/<int:article_pk>/',views.hashtag_create)
 
 ]
