@@ -20,9 +20,9 @@ def make_admin(request):
 # Create your views here.
 @api_view(['POST'])
 def nickname_check(request):
-    nickname = request.GET.get('nickname')
+    nickname = request.data.get('nickname')
     # print(nickname)
-    if User.objects.filter(nickname=nickname).exists():
+    if nickname == None or User.objects.filter(nickname=nickname).exists():
         # print(nickname)
         return Response({'fail'})
     
@@ -33,7 +33,7 @@ def userid_check(request):
     email = request.data.get('email')
     # print(email)
 
-    if User.objects.filter(email=email).exists():
+    if email == None or User.objects.filter(email=email).exists():
         return Response({'fail'})
     
     return Response({'success'})
@@ -66,13 +66,16 @@ def signup(request):
 
 @api_view(['POST'])
 def email_check(request):
+    if User.objects.filter(email=request.data.get('email')).exists():
+        user = User.objects.get(email=request.data.get('email'))
+    else:
+        return Response({'등록된 이메일이 없음'})
     token = request.data.get('token')
-    user = User.objects.get(email=request.data.get('email'))
     if user.token == token:
         user.is_active = True
         user.save()
         return Response({'success'})
-    return Response({'fail'})
+    return Response({'토큰이 다름'})
 
 @api_view(['POST'])
 def user_delete(request):
@@ -89,7 +92,9 @@ def user_update(request):
     email = request.data.get('email')
     nickname = request.data.get('nickname')
     # password = request.data.get('password')
-    user = User.objects.get(email=email)
-    user.nickname = nickname
-    user.save()
-    return Response({'success'})
+    if User.objects.filter(email=email).exists():
+        user = User.objects.get(email=email)
+        user.nickname = nickname
+        user.save()
+        return Response({'success'})
+    return Response({'없는계정'})

@@ -29,9 +29,9 @@ def club_create(request):
     if serializer.is_valid(raise_exception=True):
         serializer.save()
         user = MyUser.objects.get(id=request.data.get('master'))
-        print(user)
+        # print(user)
         club = Club.objects.get(title=request.data.get('title'))
-        print(club)
+        # print(club)
         club_member = Club_member()
         club_member.user = user
         club_member.club = club
@@ -52,17 +52,15 @@ def club_detail(request, club_pk):
         return Response(serializer.data)
 
     # 접속하려는 유저의 인스턴스 모델 생성
-    # user = MyUser.objects.get(id=request.data.get('user'))
-    # print(user)
+   
     user_id = request.data.get('user')
-    # club_member = Club_member.objects.get(Q(club_id=club_pk)&Q(is_admin=True))
-    # club_member_admin = club_member.user
-    # print(club_member_admin)
-    club_master = club.master
-
+   
+    club_master = club.master.id
+    # print(club_master==user_id)
     if request.method == 'PUT':
-        # if club_member_admin.id == user.id:
-        if club_master == user_id:
+  
+        if club_master == int(user_id):
+            print('ddd')
             serializer = ClubUpdateSerializer(club, data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
@@ -70,19 +68,26 @@ def club_detail(request, club_pk):
         return Response({'권한없음'})
         
     else:
-        # if club_member_admin.id == user.id:
-        if club_master == user_id:
+    
+        if club_master == int(user_id):
             club.delete()
             return Response({ 'id': club_pk }, status=status.HTTP_204_NO_CONTENT)
         return Response({'권한없음'})
         
+
+@api_view(['GET'])
+def club_article_list(request,club_pk):
+    club_article = Club_article.objects.filter(club_id=club_pk)
+    serializer = ClubArticleSerializer(club_article,many=True)
+    return Response(serializer.data)
+
 @api_view(['POST'])
 def club_article(request):
     serializer = ClubArticleCreateSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
+    return Response({'작성실패'})
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def club_article_detail(request, club_article_pk):
@@ -94,11 +99,9 @@ def club_article_detail(request, club_article_pk):
         serializer = ClubArticleSerializer(club_article)
         return Response(serializer.data)
 
-
-    # user = MyUser.objects.get(id=request.data.get('user'))
     user = request.data.get('user')
     if request.method == 'PUT':
-        if club_article.user_id == user:
+        if club_article.user_id == int(user):
             serializer = ClubArticleUpdateSerializer(club_article, data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
@@ -106,7 +109,7 @@ def club_article_detail(request, club_article_pk):
         return Response({'권한없음'})
 
     else:
-        if club_article.user_id == user:
+        if club_article.user_id == int(user):
             club_article.delete()
             return Response({ 'id': club_article_pk }, status=status.HTTP_204_NO_CONTENT)
         return Response({'권한없음'})
