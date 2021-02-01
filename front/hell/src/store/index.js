@@ -5,8 +5,6 @@ Vue.use(Vuex);
 
 import opinionStore from './modules/opinionStore';
 
-import opinionStroe from '@/store/modules/opinionStroe';
-
 export default new Vuex.Store({
   state: {
     //Meun 상태
