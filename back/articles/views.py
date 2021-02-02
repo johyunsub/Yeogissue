@@ -5,10 +5,11 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import ArticleListSerializer, ArticleSerializer,HashtagSerializer
-from .models import Article, Hashtag
+from .serializers import ArticleListSerializer, ArticleSerializer,HashtagSerializer,CommentSerializer
+from .models import Article, Hashtag, Comment
 # Create your views here.
 
+# 의견나눔 게시글
 @api_view(['GET'])
 def article_list(request):
     articles = Article.objects.all()
@@ -18,6 +19,7 @@ def article_list(request):
 @api_view(['POST'])
 def article_create(request):
     serializer = ArticleSerializer(data=request.data)
+    hashtag_sr = HashtagSerializer(data=request.data.get('name'))
     if serializer.is_valid(raise_exception=True):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -47,4 +49,35 @@ def article_detail(request, article_pk):
         article.delete()
         return Response({ 'id': article_pk }, status=status.HTTP_204_NO_CONTENT)
 
-        
+
+# 의견나눔 게시글 댓글
+@api_view(['POST'])
+def create_comment(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(article=article)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def comment_list(request):
+    comments = Comment.objects.all()
+    serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def comment_detail_update_delete(request, comment_pk):
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    if request.method == 'GET':
+        serializer = CommentSerializer(comment)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = CommentSerializer(comment, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+    else:
+        comment.delete()
+        return Response({ 'id': comment_pk }, status=status.HTTP_204_NO_CONTENT)

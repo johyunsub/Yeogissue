@@ -58,7 +58,13 @@
         <v-row class="mr-tp">
           <v-col v-if="viewType == 'list'"><opinion-table /></v-col>
           <v-col v-if="viewType == 'card'"
-            ><card-list v-for="item in items" :key="item.tab" />
+            ><card-list
+              v-for="(item, index) in opinionPaging"
+              :key="`${index}_items`"
+              :id="item.id"
+              :title="item.title"
+              :user="item.user"
+            />
           </v-col>
         </v-row>
 
@@ -71,7 +77,7 @@
 
         <!-- paging -->
         <div class="text-center">
-          <v-pagination v-model="page" :length="pageCnt" circle></v-pagination>
+          <v-pagination v-model="page" :length="pagingCnt" circle></v-pagination>
         </div>
       </v-col>
 
@@ -92,19 +98,18 @@
 import CardList from '../../components/Opinion/CardList.vue';
 import OpinionTable from '../../components/Opinion/OpinionTable.vue';
 import SideList from '../../components/Opinion/SideList.vue';
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   components: { SideList, OpinionTable, CardList },
   computed: {
-    // ...mapState(['myaccount']),
+    ...mapState('opinionStore', ['opinionPaging', 'pagingCnt']),
   },
   data: function () {
     return {
       search: 'dd',
       viewType: 'card',
       page: 1,
-      pageCnt: 3,
       items: [
         { tab: '하이' },
         { tab: '하이1' },
@@ -119,6 +124,12 @@ export default {
       ],
     };
   },
+  watch: {
+    page: function (newVal) {
+      console.log('바뀐');
+      this.$store.commit('opinionStore/SET_OPINIONPAGING', (newVal - 1) * 10);
+    },
+  },
   methods: {
     ...mapActions('opinionStore', ['opinionList']),
     ChageType(type) {
@@ -127,13 +138,12 @@ export default {
     MovePage: function (check) {
       switch (check) {
         case 'write':
-          this.$router.push({ name: 'OpinionWrite' });
+          this.$router.push(`/opinionWrite?type=write`);
           break;
       }
     },
   },
   created() {
-    console.log('하이');
     this.opinionList();
   },
 };

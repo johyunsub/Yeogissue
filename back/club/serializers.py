@@ -17,7 +17,16 @@ class ClubUpdateSerializer(serializers.ModelSerializer):
         model = Club
         exclude = ('master'),
 
+class ClubArticleCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Club_article
+        fields = '__all__'
 class ClubArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club_article
-        exclude = ('created_at','updated_at'),
+        fields = '__all__'
+        
+class ClubArticleUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Club_article
+        fields = ('comment','url')
