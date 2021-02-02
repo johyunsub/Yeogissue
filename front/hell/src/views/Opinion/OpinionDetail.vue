@@ -29,7 +29,7 @@
           <v-col cols="1"></v-col>
           <v-col class="mr-auto"
             ><comment
-              v-for="item in opinionData.comment_set"
+              v-for="item in opinionCommentPaging"
               :key="item.id"
               :type="item.opinion_type"
               :content="item.content"
@@ -42,10 +42,17 @@
 
         <!-- 댓글 paging -->
         <div class="text-center mr-tp">
-          <v-pagination v-model="page" :length="pageCnt" circle></v-pagination>
+          <v-pagination v-model="page" :length="opinionCommentPagingCnt" circle></v-pagination>
         </div>
+
+        <!-- 댓글 등록 -->
+        <v-row class="mt-10 mb-10">
+          <v-col cols="1"></v-col>
+          <v-col class="mr-auto"> <comment-create /></v-col>
+        </v-row>
       </v-col>
       <v-col cols="2"></v-col>
+
       <!-- footer쓸까? -->
     </v-row>
   </v-container>
@@ -53,12 +60,18 @@
 
 <script>
 import Comment from '../../components/Opinion/Comment.vue';
+import CommentCreate from '../../components/Opinion/CommentCreate.vue';
 import { mapState, mapActions } from 'vuex';
 
 export default {
-  components: { Comment },
+  components: { Comment, CommentCreate },
   computed: {
-    ...mapState('opinionStore', ['opinionData']),
+    ...mapState('opinionStore', [
+      'opinionData',
+      'opinionComment',
+      'opinionCommentPaging',
+      'opinionCommentPagingCnt',
+    ]),
   },
   data: function() {
     return {
@@ -77,6 +90,11 @@ export default {
         { tab: '0' },
       ],
     };
+  },
+  watch: {
+    page: function(newVal) {
+      this.$store.commit('opinionStore/SET_OPINION_COMMENT_PAGING', (newVal - 1) * 10);
+    },
   },
   methods: {
     ...mapActions('opinionStore', ['opinionDetail', 'opinionDelete']),
