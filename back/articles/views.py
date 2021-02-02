@@ -81,3 +81,27 @@ def comment_detail_update_delete(request, comment_pk):
     else:
         comment.delete()
         return Response({ 'id': comment_pk }, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
+def like(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    print('a')
+    # user가 article을 좋아요 누른 전체유저에 존재하는지.
+    if article.like_users.filter(pk=request.data.get('user')).exists():
+        # 좋아요 취소
+        print('a')
+        article.like_users.remove(request.data.get('user'))
+    else:
+        # 좋아요
+        article.like_users.add(request.data.get('user'))
+    return Response({'success'},status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def scrap(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    if article.scrap_users.filter(pk=request.data.get('user')).exists():
+        article.scrap_users.remove(request.data.get('user'))
+    else:
+        article.scrap_users.add(request.data.get('user'))
+    return Response({'success'},status=status.HTTP_201_CREATED)
