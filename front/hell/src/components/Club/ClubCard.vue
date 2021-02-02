@@ -14,10 +14,10 @@
         <v-row align="center" class="mx-0"> </v-row>
 
         <div class="my-2 subtitle-4">
-          카테고리
+          {{ clubInfo.category }}
         </div>
 
-        <div class="body-1">내용</div>
+        <div class="body-1">{{ clubInfo.content }}</div>
       </v-card-text>
 
       <v-divider class="mx-4"></v-divider>
@@ -39,19 +39,13 @@ export default {
   },
   data() {
     return {
-      id: "",
-      title: "",
-      category: "",
-      master: "",
-      content: "",
-      cretaed_at: "",
     }
   },
   props:{
     clubInfo: Object,
   },
   created(){
-    console.log(this.getClubs.data[0].master)
+    //console.log(this.getClubs.data[0].master)
   },
   methods: {
     MovePage: function(check) {
