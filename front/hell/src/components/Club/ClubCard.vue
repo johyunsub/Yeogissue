@@ -8,16 +8,16 @@
     >
       <v-img height="150" src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
 
-      <v-card-title class="headline mb-0">제목</v-card-title>
+      <v-card-title class="headline mb-0">{{clubInfo.title}}</v-card-title>
 
       <v-card-text>
         <v-row align="center" class="mx-0"> </v-row>
 
         <div class="my-2 subtitle-4">
-          카테고리
+          {{ clubInfo.category }}
         </div>
 
-        <div class="body-1">내용</div>
+        <div class="body-1">{{ clubInfo.content }}</div>
       </v-card-text>
 
       <v-divider class="mx-4"></v-divider>
@@ -30,7 +30,23 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
+  name: "clubCard",
+  computed: {
+    ...mapGetters([ "getClubs" ])
+  },
+  data() {
+    return {
+    }
+  },
+  props:{
+    clubInfo: Object,
+  },
+  created(){
+    //console.log(this.getClubs.data[0].master)
+  },
   methods: {
     MovePage: function(check) {
       switch (check) {
