@@ -41,6 +41,8 @@ export default {
   data: () => ({
     valid: true,
     email: '',
+    row: "",
+    value: '',
   }),
   computed: {
     getDialog: {
