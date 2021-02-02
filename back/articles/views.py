@@ -7,6 +7,8 @@ from rest_framework.response import Response
 
 from .serializers import ArticleListSerializer, ArticleSerializer,HashtagSerializer,CommentSerializer, HashtagSerializer2,ReCommentSerializer
 from .models import Article, Hashtag, Comment, ReComment
+
+from accounts.models import MyUser as User
 # Create your views here.
 
 # 의견나눔 게시글
@@ -102,7 +104,7 @@ def comment_detail_update_delete(request, comment_pk):
 
 
 
-# 의견나눔 게시글 댓글
+# 의견나눔 게시글 대댓글
 @api_view(['POST'])
 def create_recomment(request, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
@@ -135,15 +137,7 @@ def recomment_detail_update_delete(request, recomment_pk):
         return Response({ 'id': recomment_pk }, status=status.HTTP_204_NO_CONTENT)
 
 
-
-
-
-
-
-
-
-
-
+# 좋아요_스크랩
 @api_view(['POST'])
 def like(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
@@ -166,3 +160,14 @@ def scrap(request, article_pk):
     else:
         article.scrap_users.add(request.data.get('user'))
     return Response({'success'},status=status.HTTP_201_CREATED)
+
+
+#하나의 유저가 스크랩한 게시물 목록 출력
+@api_view(['GET'])
+def myscrap(request,user_pk):
+    myuser = get_object_or_404(User, pk=user_pk)
+    scrap_list = myuser.scrap_articles.all()
+    serializer = ArticleListSerializer(scrap_list, many=True) 
+    # print(scrap_list)
+    return Response(serializer.data)
+    
