@@ -18,4 +18,6 @@ urlpatterns = [
 
     path('<int:article_pk>/like/', views.like),
     path('<int:article_pk>/scrap/', views.scrap),
+
+    path('myscrap/<int:user_pk>/',views.myscrap),
 ]
