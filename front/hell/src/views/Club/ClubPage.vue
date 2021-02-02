@@ -7,19 +7,32 @@
       <v-col>
         <!-- 카테고리 -->
         <v-row class="mr-tp text-center">
-          <v-tabs>
+          <v-tabs background-color="light-blue accent-4" center-active dark>
             <v-tab>전체</v-tab>
+            <v-tab>정치</v-tab>
             <v-tab>경제</v-tab>
+            <v-tab>IT/과학</v-tab>
             <v-tab>스포츠</v-tab>
             <v-tab>연예</v-tab>
+            <v-tab>유머</v-tab>
+            <v-tab>여행</v-tab>
+            <v-tab>건강</v-tab>
+            <v-tab>쇼핑</v-tab>
+            <v-tab>교육</v-tab>
+            <v-tab>게임</v-tab>
           </v-tabs>
         </v-row>
 
         <!-- card -->
         <v-row class="mr-tp">
-          <v-col v-for="n in 9" :key="n" class="d-flex child-flex">
+          <v-col
+            v-for="(clubInfo, n) in clubs"
+            :key="n"
+            :clubInfo="clubInfo"
+            class="d-flex child-flex"
+          >
             <v-row align="center" justify="center">
-              <club-card />
+              <club-card :clubInfo="clubInfo" />
             </v-row>
           </v-col>
         </v-row>
@@ -43,20 +56,45 @@
 </template>
 
 <script>
-import ClubCard from '../../components/Club/ClubCard.vue';
-import ClubCreate from '../../components/Club/ClubCreate.vue';
+import { mapGetters } from "vuex";
+import ClubCard from "../../components/Club/ClubCard.vue";
+import ClubCreate from "../../components/Club/ClubCreate.vue";
 
 export default {
   components: { ClubCard, ClubCreate },
-  data: function() {
+  computed: {
+    ...mapGetters(["getClubs"]),
+  },
+  data: function () {
     return {
       page: 1,
       pageCnt: 3,
+      clubs: [
+        {
+          id: "",
+          title: "",
+          category: "",
+          content: "",
+          master: "",
+          created_at: "",
+        },
+      ],
     };
+  },
+  created() {
+    // axios.get("http://127.0.0.1:8000/club/")
+    // .then(({data}) => {
+    //   this.clubs = data;
+    // console.log(this.clubs[0].master);
+    // });
+    this.$store
+      .dispatch("GET_CLUBS")
+      // .then(() => this.clubs = this.getClubs);
+      .then(() => (this.clubs[0] = this.getClubs.data[0]));
   },
   methods: {
     OnOff() {
-      this.$store.commit('CLUB_CREATE_DIALOG', true);
+      this.$store.commit("CLUB_CREATE_DIALOG", true);
     },
   },
 };

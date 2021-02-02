@@ -29,7 +29,7 @@
         </v-row>
 
         <!-- 카테고리 -->
-        <v-row class="mr-tp mr-le" style="padding-top:20px">
+        <v-row class="mr-tp mr-le" style="padding-top: 20px">
           <v-btn class="" outlined>전체</v-btn>
           <v-btn class="" outlined>연예</v-btn>
           <v-btn class="" outlined>IT/과학</v-btn>
@@ -58,7 +58,13 @@
         <v-row class="mr-tp">
           <v-col v-if="viewType == 'list'"><opinion-table /></v-col>
           <v-col v-if="viewType == 'card'"
-            ><card-list v-for="item in items" :key="item.tab" />
+            ><card-list
+              v-for="(item, index) in opinionPaging"
+              :key="`${index}_items`"
+              :id="item.id"
+              :title="item.title"
+              :user="item.user"
+            />
           </v-col>
         </v-row>
 
@@ -71,7 +77,7 @@
 
         <!-- paging -->
         <div class="text-center">
-          <v-pagination v-model="page" :length="pageCnt" circle></v-pagination>
+          <v-pagination v-model="page" :length="pagingCnt" circle></v-pagination>
         </div>
       </v-col>
 
@@ -92,39 +98,53 @@
 import CardList from '../../components/Opinion/CardList.vue';
 import OpinionTable from '../../components/Opinion/OpinionTable.vue';
 import SideList from '../../components/Opinion/SideList.vue';
+import { mapState, mapActions } from 'vuex';
+
 export default {
   components: { SideList, OpinionTable, CardList },
+  computed: {
+    ...mapState('opinionStore', ['opinionPaging', 'pagingCnt']),
+  },
   data: function() {
     return {
       search: 'dd',
       viewType: 'card',
       page: 1,
-      pageCnt: 3,
       items: [
-        { tab: '' },
-        { tab: '' },
-        { tab: '' },
-        { tab: '' },
-        { tab: '' },
-        { tab: '' },
-        { tab: '' },
-        { tab: '' },
-        { tab: '' },
-        { tab: '' },
+        { tab: '하이' },
+        { tab: '하이1' },
+        { tab: '하이2' },
+        { tab: '하이3' },
+        { tab: '하이4' },
+        { tab: '하이5' },
+        { tab: '하이6' },
+        { tab: '하이7' },
+        { tab: '하이8' },
+        { tab: '하이9' },
       ],
     };
   },
+  watch: {
+    page: function(newVal) {
+      console.log('바뀐');
+      this.$store.commit('opinionStore/SET_OPINION_PAGING', (newVal - 1) * 10);
+    },
+  },
   methods: {
+    ...mapActions('opinionStore', ['opinionList']),
     ChageType(type) {
       this.viewType = type;
     },
     MovePage: function(check) {
       switch (check) {
         case 'write':
-          this.$router.push({ name: 'OpinionWrite' });
+          this.$router.push(`/opinionWrite?type=write`);
           break;
       }
     },
+  },
+  created() {
+    this.opinionList();
   },
 };
 </script>

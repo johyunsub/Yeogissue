@@ -135,7 +135,11 @@ export default {
             if(response.status == 200){
               this.accounts_valid = false
             }
-            console.log(response.status)
+            localStorage.setItem('email', this.logindata.email);
+            localStorage.setItem('token', response.data.token);
+            //console.log(response.data);
+            //var tmp = localStorage.getItem('token');
+            //console.log(tmp)
             this.$router.push({ name: 'Home' });
         });
       this.accounts_valid = true
