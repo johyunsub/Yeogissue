@@ -24,9 +24,8 @@ def article_create(request):
         data = {}
         data['articles']=[serializer.data['id']]
         data['user']=[request.data.get('user')]
-        print(list(map(str,request.data.get('name').split(','))))
         for i in list(map(str,request.data.get('name').split(','))):
-            print(i.strip(),'i')
+            # print(i.strip(),'i')
             data['name']= i.strip()
             hashtag_create(data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -34,15 +33,16 @@ def article_create(request):
 
 def hashtag_create(data):
     name = data['name']
-    print(name)
+    # print(name)
     if Hashtag.objects.filter(name=name).exists():
         hash = Hashtag.objects.get(name=name)
-        hash.articles.set(data['articles'])  
-        hash.user.set(data['user'])
+        hash.articles.add(data['articles'][0])  
+        hash.user.add(data['user'][0])
         hash.save()
-        # print(hash.articles)
+        # 숫자세기
+        # print(hash.articles.all().count())
     else:
-        print(name,'없음')
+        # print(name,'없음')
         serializer = HashtagSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
