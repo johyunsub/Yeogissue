@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Article, Hashtag, Comment
+from .models import Article, Hashtag, Comment,ReComment
 from django.contrib.auth import get_user_model
 
 class HashtagSerializer(serializers.ModelSerializer):
@@ -15,8 +15,19 @@ class HashtagSerializer2(serializers.ModelSerializer):
         exclude = ('name',)
         # fields = '__all__'
         # read_only_fields = ('articles',)
-class CommentSerializer(serializers.ModelSerializer):
+class ReCommentSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = ReComment
+        fields = '__all__'
+        read_only_fields = ('comment',)
+
+class CommentSerializer(serializers.ModelSerializer):
+    recomment_set = ReCommentSerializer(many=True, read_only=True)
+    recomment_count = serializers.IntegerField(
+        source='recomment_set.count',
+        read_only=True,
+    )
     class Meta:
         model = Comment
         fields = '__all__'
