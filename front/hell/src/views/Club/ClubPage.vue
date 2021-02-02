@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row class="mr-tp"></v-row>
-    <h2 class="text-center mr-tp">클럽</h2>
+    <h2 class="text-center font-weight-bold display-1 mr-tp">클럽</h2>
     <v-row>
       <v-col cols="2"></v-col>
       <v-col>
@@ -90,7 +90,7 @@ export default {
     this.$store
       .dispatch("GET_CLUBS")
       // .then(() => this.clubs = this.getClubs);
-      .then(() => (this.clubs[0] = this.getClubs.data[0]));
+      .then(() => (this.clubs = this.getClubs.data));
   },
   methods: {
     OnOff() {
