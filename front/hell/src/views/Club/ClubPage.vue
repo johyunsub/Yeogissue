@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row class="mr-tp"></v-row>
-    <h2 class="text-center mr-tp">클럽</h2>
+    <h2 class="text-center font-weight-bold display-1 mr-tp">클럽</h2>
     <v-row>
       <v-col cols="2"></v-col>
       <v-col>
@@ -56,45 +56,38 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import ClubCard from "../../components/Club/ClubCard.vue";
-import ClubCreate from "../../components/Club/ClubCreate.vue";
+import { mapState, mapActions } from 'vuex';
+import ClubCard from '../../components/Club/ClubCard.vue';
+import ClubCreate from '../../components/Club/ClubCreate.vue';
 
 export default {
   components: { ClubCard, ClubCreate },
   computed: {
-    ...mapGetters(["getClubs"]),
+    ...mapState('clubStore', ['clubs']),
   },
-  data: function () {
+  data: function() {
     return {
       page: 1,
       pageCnt: 3,
-      clubs: [
+      clubData: [
         {
-          id: "",
-          title: "",
-          category: "",
-          content: "",
-          master: "",
-          created_at: "",
+          id: '',
+          title: '',
+          category: '',
+          content: '',
+          master: '',
+          created_at: '',
         },
       ],
     };
   },
   created() {
-    // axios.get("http://127.0.0.1:8000/club/")
-    // .then(({data}) => {
-    //   this.clubs = data;
-    // console.log(this.clubs[0].master);
-    // });
-    this.$store
-      .dispatch("GET_CLUBS")
-      // .then(() => this.clubs = this.getClubs);
-      .then(() => (this.clubs[0] = this.getClubs.data[0]));
+    this.clubList();
   },
   methods: {
+    ...mapActions('clubStore', ['clubList']),
     OnOff() {
-      this.$store.commit("CLUB_CREATE_DIALOG", true);
+      this.$store.commit('CLUB_CREATE_DIALOG', true);
     },
   },
 };

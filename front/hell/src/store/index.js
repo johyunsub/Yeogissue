@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 import opinionStore from './modules/opinionStore';
+import clubStore from './modules/clubStore';
 
 export default new Vuex.Store({
   state: {
@@ -12,8 +13,14 @@ export default new Vuex.Store({
     dialog: false,
     clubDialog: false,
     clubDetailUrlDialog: false,
+
+    //Club 리스트 페이지
   },
-  getters: {},
+  getters: {
+    getClubs(state) {
+      return state.clubs;
+    },
+  },
   mutations: {
     CHANGE_DRAWER(state, drawer) {
       state.drawer = drawer;
@@ -33,5 +40,6 @@ export default new Vuex.Store({
   actions: {},
   modules: {
     opinionStore: opinionStore,
+    clubStore: clubStore,
   },
 });
