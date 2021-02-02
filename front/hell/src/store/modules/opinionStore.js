@@ -14,6 +14,9 @@ const opinionStore = {
 
     // 디테일 변수
     opinionData: null,
+
+    //댓글
+    opinionComment: null,
   },
   getters: {},
   mutations: {

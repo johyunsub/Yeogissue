@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row class="mr-tp">
-      <v-col cols="3"></v-col>
+      <v-col cols="2"></v-col>
       <v-col>
         <p class="blue--text mr-bt">{{ opinionData.category }}</p>
         <p class="display-2">{{ opinionData.title }}</p>
@@ -24,12 +24,23 @@
           </v-col>
         </v-row>
 
+        <!-- 댓글 -->
         <v-row>
           <v-col cols="1"></v-col>
-          <v-col class="mr-auto"><comment v-for="item in items" :key="item.tab" /></v-col>
+          <v-col class="mr-auto"
+            ><comment
+              v-for="item in opinionData.comment_set"
+              :key="item.id"
+              :type="item.opinion_type"
+              :content="item.content"
+              :created_at="item.created_at"
+              :updated_at="item.updated_at"
+              :user="item.user"
+              :article="item.article"
+          /></v-col>
         </v-row>
 
-        <!-- paging -->
+        <!-- 댓글 paging -->
         <div class="text-center mr-tp">
           <v-pagination v-model="page" :length="pageCnt" circle></v-pagination>
         </div>
@@ -49,7 +60,7 @@ export default {
   computed: {
     ...mapState('opinionStore', ['opinionData']),
   },
-  data: function () {
+  data: function() {
     return {
       page: 1,
       pageCnt: 3,
