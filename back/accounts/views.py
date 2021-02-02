@@ -2,10 +2,12 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import UserSerializer
+from .serializers import UserSerializer,GetUserSerializer
 from .models import MyUser as User
 from django.core.mail import EmailMessage
 from .tokens import make_code
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 
 @api_view(['POST'])
 def make_admin(request):
@@ -98,3 +100,10 @@ def user_update(request):
         user.save()
         return Response({'success'})
     return Response({'없는계정'})
+
+
+@api_view(['POST'])
+def get_user(request):
+    user = get_object_or_404(get_user_model(), email=request.data.get('email'))
+    serializer = GetUserSerializer(user)
+    return Response(serializer.data)

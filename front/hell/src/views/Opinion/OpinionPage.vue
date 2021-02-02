@@ -105,7 +105,7 @@ export default {
   computed: {
     ...mapState('opinionStore', ['opinionPaging', 'pagingCnt']),
   },
-  data: function () {
+  data: function() {
     return {
       search: 'dd',
       viewType: 'card',
@@ -125,9 +125,9 @@ export default {
     };
   },
   watch: {
-    page: function (newVal) {
+    page: function(newVal) {
       console.log('바뀐');
-      this.$store.commit('opinionStore/SET_OPINIONPAGING', (newVal - 1) * 10);
+      this.$store.commit('opinionStore/SET_OPINION_PAGING', (newVal - 1) * 10);
     },
   },
   methods: {
@@ -135,7 +135,7 @@ export default {
     ChageType(type) {
       this.viewType = type;
     },
-    MovePage: function (check) {
+    MovePage: function(check) {
       switch (check) {
         case 'write':
           this.$router.push(`/opinionWrite?type=write`);
