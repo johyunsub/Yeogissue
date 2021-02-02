@@ -7,7 +7,7 @@
         append-icon="mdi-comment"
         class="mx-2"
         :label="massage"
-        rows="5"
+        rows="3"
         auto-grow
       ></v-textarea>
       <v-row>
