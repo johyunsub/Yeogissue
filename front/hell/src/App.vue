@@ -1,9 +1,9 @@
 <template>
   <v-app id="inspire">
-    <nav-bar/>
-    <menu-bar/>
+    <nav-bar />
+    <menu-bar />
     <v-main class="">
-    <router-view/>
+      <router-view />
     </v-main>
   </v-app>
 </template>
@@ -13,8 +13,8 @@ import NavBar from './components/bar/NavBar.vue';
 import MenuBar from './components/bar/MenuBar.vue';
 
 export default {
-    components: { NavBar, MenuBar },
-  };
+  components: { NavBar, MenuBar },
+};
 </script>
 
 <style lang="scss">
@@ -38,27 +38,31 @@ export default {
   }
 }
 
-.border-bt{
+.border-bt {
   border-bottom: 1px solid rgb(238, 238, 238);
 }
 
-.mr-tp{
-  margin-top : 20px;
+.mr-tp {
+  margin-top: 20px;
 }
 
-.mr-bt{
-  margin-bottom : 20px;
+.mr-bt {
+  margin-bottom: 20px;
 }
 
-.mr-le{
-  margin-left : 10px;
+.mr-le {
+  margin-left: 10px;
 }
 
-.mr-rt{
-  margin-right : 10px;
+.mr-rt {
+  margin-right: 10px;
 }
 
-.choice_cursor{
+.choice_cursor {
   cursor: pointer;
+}
+
+.back-gray:hover {
+  background-color: rgb(204, 200, 200);
 }
 </style>
