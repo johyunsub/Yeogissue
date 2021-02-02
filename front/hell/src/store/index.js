@@ -47,6 +47,7 @@ export default new Vuex.Store({
       .get("http://127.0.0.1:8000/club/")
       .then((response) => {
         context.commit("GET_CLUBS", response);
+        console.log("ok")
       })
     },
   },
