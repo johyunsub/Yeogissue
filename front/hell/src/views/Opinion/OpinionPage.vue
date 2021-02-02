@@ -126,7 +126,6 @@ export default {
   },
   watch: {
     page: function(newVal) {
-      console.log('바뀐');
       this.$store.commit('opinionStore/SET_OPINION_PAGING', (newVal - 1) * 10);
     },
   },
