@@ -7,8 +7,14 @@ class HashtagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hashtag
         fields = '__all__'
-        read_only_fields = ('article',)
-
+        # read_only_fields = ('articles',)
+class HashtagSerializer2(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Hashtag
+        exclude = ('name',)
+        # fields = '__all__'
+        # read_only_fields = ('articles',)
 class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -41,6 +47,8 @@ class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = '__all__'
+        read_only_fields = ('like_users','scrap_users')
+
  
 
 class ArticleListSerializer(serializers.ModelSerializer):

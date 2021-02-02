@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import ArticleListSerializer, ArticleSerializer,HashtagSerializer,CommentSerializer
+from .serializers import ArticleListSerializer, ArticleSerializer,HashtagSerializer,CommentSerializer, HashtagSerializer2
 from .models import Article, Hashtag, Comment
 # Create your views here.
 
@@ -19,17 +19,34 @@ def article_list(request):
 @api_view(['POST'])
 def article_create(request):
     serializer = ArticleSerializer(data=request.data)
-    hashtag_sr = HashtagSerializer(data=request.data.get('name'))
     if serializer.is_valid(raise_exception=True):
         serializer.save()
+        data = {}
+        data['articles']=[serializer.data['id']]
+        data['user']=[request.data.get('user')]
+        for i in list(map(str,request.data.get('name').split(','))):
+            # print(i.strip(),'i')
+            data['name']= i.strip()
+            hashtag_create(data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-@api_view(['POST'])
-def hashtag_create(request,article_pk):
-    serializer = HashtagSerializer(data=request.data)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+def hashtag_create(data):
+    name = data['name']
+    # print(name)
+    if Hashtag.objects.filter(name=name).exists():
+        hash = Hashtag.objects.get(name=name)
+        hash.articles.add(data['articles'][0])  
+        hash.user.add(data['user'][0])
+        hash.save()
+        # 숫자세기
+        # print(hash.articles.all().count())
+    else:
+        # print(name,'없음')
+        serializer = HashtagSerializer(data=data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def article_detail(request, article_pk):
