@@ -63,7 +63,7 @@ def issuemaker(request):
     }
 
     response = json.loads(requests.post(url, headers=headers, data=json.dumps(params)).text)
-
+    print(response)
     result = []
     k = 1
     for i in response['return_object']['topics']:
