@@ -12,6 +12,10 @@ urlpatterns = [
     path('comments/', views.comment_list),
     path('comments/<int:comment_pk>/', views.comment_detail_update_delete),
 
+    path('<int:comment_pk>/recomments/', views.create_recomment),
+    path('recomments/', views.recomment_list),
+    path('recomments/<int:recomment_pk>/', views.recomment_detail_update_delete),
+
     path('<int:article_pk>/like/', views.like),
     path('<int:article_pk>/scrap/', views.scrap),
 ]

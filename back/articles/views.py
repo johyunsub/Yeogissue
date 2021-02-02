@@ -5,8 +5,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import ArticleListSerializer, ArticleSerializer,HashtagSerializer,CommentSerializer, HashtagSerializer2
-from .models import Article, Hashtag, Comment
+from .serializers import ArticleListSerializer, ArticleSerializer,HashtagSerializer,CommentSerializer, HashtagSerializer2,ReCommentSerializer
+from .models import Article, Hashtag, Comment, ReComment
 # Create your views here.
 
 # 의견나눔 게시글
@@ -98,6 +98,50 @@ def comment_detail_update_delete(request, comment_pk):
     else:
         comment.delete()
         return Response({ 'id': comment_pk }, status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+# 의견나눔 게시글 댓글
+@api_view(['POST'])
+def create_recomment(request, comment_pk):
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    serializer = ReCommentSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(comment=comment)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def recomment_list(request):
+    recomments = ReComment.objects.all()
+    serializer = ReCommentSerializer(recomments, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def recomment_detail_update_delete(request, recomment_pk):
+    recomment = get_object_or_404(ReComment, pk=recomment_pk)
+    if request.method == 'GET':
+        serializer = ReCommentSerializer(recomment)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = ReCommentSerializer(recomment, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+    else:
+        recomment.delete()
+        return Response({ 'id': recomment_pk }, status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
+
+
+
+
 
 
 @api_view(['POST'])
