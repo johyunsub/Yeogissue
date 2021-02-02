@@ -10,3 +10,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         exclude = ['token']
         # fields = '__all__'
+
+class GetUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id','email','nickname']

@@ -1,73 +1,122 @@
 <template>
-    <v-container>
-        <v-row class="mr-tp">
-        <v-col cols="2"></v-col>
-        <v-col>
-            <p class="blue--text mr-bt">카테고리</p>
-            <p class="display-2">제목</p>
-            <p class="grey--text">글쓴이, 작성일, 수정, 삭제, 조회수, 북마크</p>
-            <v-divider class="my-4"></v-divider>
-            
-            <p class="text-justify">
-                Morbi mattis ullamcorper velit. Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla. Fusce convallis metus id felis luctus adipiscing. Aenean massa. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus.
-                Nulla consequat massa quis enim. Praesent venenatis metus at tortor pulvinar varius. Donec venenatis vulputate lorem. Phasellus accumsan cursus velit. Pellentesque ut neque.
-            </p>
+  <v-container>
+    <v-row class="mr-tp">
+      <v-col cols="2"></v-col>
+      <v-col>
+        <p class="blue--text mr-bt">{{ opinionData.category }}</p>
+        <p class="display-2">{{ opinionData.title }}</p>
+        <p class="grey--text">
+          {{ opinionData.user }} | 날짜 | 조회수 {{ opinionData.read_count }} |
+          <span class="choice_cursor text-bt" @click="opUpdate">수정</span> |
+          <span class="choice_cursor text-bt" @click="opDelete">삭제</span>
+        </p>
+        <v-divider class="my-4"></v-divider>
 
-            <v-row>
-            <v-col></v-col>
-            <v-col class="mr-auto">
-                <v-icon large>mdi-thumb-up-outline</v-icon><p>100</p>
-            </v-col>
-            </v-row>
-            
-            <v-row>
-                <v-col cols="1"></v-col>
-                <v-col class="mr-auto"><comment v-for="item in items" :key="item.tab"/></v-col>
-            </v-row>
+        <p class="text-justify">
+          {{ opinionData.content }}
+        </p>
 
-            <!-- paging -->
-            <div class="text-center mr-tp">
-                <v-pagination
-                  v-model="page"
-                  :length="pageCnt"
-                  circle
-                ></v-pagination>
-            </div>
-        </v-col>
-        <v-col cols="2"></v-col>
-        <!-- footer쓸까? -->
+        <v-row>
+          <v-col></v-col>
+          <v-col class="mr-auto">
+            <v-icon large>mdi-thumb-up-outline</v-icon>
+            <p>100</p>
+          </v-col>
         </v-row>
-      </v-container>
+
+        <!-- 댓글 -->
+        <v-row>
+          <v-col cols="1"></v-col>
+          <v-col class="mr-auto"
+            ><comment
+              v-for="item in opinionCommentPaging"
+              :key="item.id"
+              :type="item.opinion_type"
+              :content="item.content"
+              :created_at="item.created_at"
+              :updated_at="item.updated_at"
+              :user="item.user"
+              :article="item.article"
+          /></v-col>
+        </v-row>
+
+        <!-- 댓글 paging -->
+        <div class="text-center mr-tp">
+          <v-pagination v-model="page" :length="opinionCommentPagingCnt" circle></v-pagination>
+        </div>
+
+        <!-- 댓글 등록 -->
+        <v-row class="mt-10 mb-10">
+          <v-col cols="1"></v-col>
+          <v-col class="mr-auto"> <comment-create /></v-col>
+        </v-row>
+      </v-col>
+      <v-col cols="2"></v-col>
+
+      <!-- footer쓸까? -->
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 import Comment from '../../components/Opinion/Comment.vue';
+import CommentCreate from '../../components/Opinion/CommentCreate.vue';
+import { mapState, mapActions } from 'vuex';
 
 export default {
-    components : {Comment},
-    data: function() {
+  components: { Comment, CommentCreate },
+  computed: {
+    ...mapState('opinionStore', [
+      'opinionData',
+      'opinionComment',
+      'opinionCommentPaging',
+      'opinionCommentPagingCnt',
+    ]),
+  },
+  data: function() {
     return {
       page: 1,
-      pageCnt : 3,
+      pageCnt: 3,
       items: [
-          { tab: '',},
-          { tab: '',},
-          { tab: '',},
-          { tab: '',},
-          { tab: '',},
-          { tab: '',},
-          { tab: '',},
-          { tab: '',},
-          { tab: '',},
-          { tab: '',},
-        ],
+        { tab: '1' },
+        { tab: '2' },
+        { tab: '3' },
+        { tab: '4' },
+        { tab: '5' },
+        { tab: '6' },
+        { tab: '7' },
+        { tab: '8' },
+        { tab: '9' },
+        { tab: '0' },
+      ],
     };
   },
-}
+  watch: {
+    page: function(newVal) {
+      this.$store.commit('opinionStore/SET_OPINION_COMMENT_PAGING', (newVal - 1) * 10);
+    },
+  },
+  methods: {
+    ...mapActions('opinionStore', ['opinionDetail', 'opinionDelete']),
+    opUpdate() {
+      this.$router.push(`/opinionWrite?type=update`);
+    },
+    opDelete() {
+      this.opinionDelete(this.opinionData.id);
+      this.$router.push({ name: 'Opinion' });
+    },
+  },
+  created() {
+    this.opinionDetail(this.$route.query.id);
+  },
+};
 </script>
 
 <style scoped>
-#recommend{
-    margin-right: 10px;
+#recommend {
+  margin-right: 10px;
+}
+.text-bt:hover {
+  border-bottom: 1px solid gray;
 }
 </style>

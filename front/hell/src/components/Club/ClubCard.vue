@@ -8,7 +8,7 @@
     >
       <v-img height="150" src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
 
-      <v-card-title class="headline mb-0">제목</v-card-title>
+      <v-card-title class="headline mb-0">{{clubInfo.title}}</v-card-title>
 
       <v-card-text>
         <v-row align="center" class="mx-0"> </v-row>
@@ -30,7 +30,29 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
+  name: "clubCard",
+  computed: {
+    ...mapGetters([ "getClubs" ])
+  },
+  data() {
+    return {
+      id: "",
+      title: "",
+      category: "",
+      master: "",
+      content: "",
+      cretaed_at: "",
+    }
+  },
+  props:{
+    clubInfo: Object,
+  },
+  created(){
+    console.log(this.getClubs.data[0].master)
+  },
   methods: {
     MovePage: function(check) {
       switch (check) {

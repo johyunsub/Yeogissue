@@ -12,4 +12,5 @@ urlpatterns = [
     path('user_update/', views.user_update),
     path('api-token-auth/', obtain_jwt_token),
     path('make_admin/', views.make_admin),
+    path('get_user/', views.get_user),
 ]
