@@ -19,7 +19,8 @@
         <v-row>
           <v-col></v-col>
           <v-col class="mr-auto">
-            <v-icon large class="choice_cursor">mdi-thumb-up-outline</v-icon>
+            <v-icon v-if="!isLike" large class="choice_cursor" @click="thumbup">mdi-thumb-up-outline</v-icon>
+            <v-icon v-if="isLike" large class="choice_cursor" @click="thumbup">mdi-thumb-up</v-icon>
             <p>100</p>
           </v-col>
         </v-row>
@@ -89,6 +90,7 @@ export default {
         { tab: '9' },
         { tab: '0' },
       ],
+      isLike: false,
     };
   },
   watch: {
@@ -105,6 +107,9 @@ export default {
       this.opinionDelete(this.opinionData.id);
       this.$router.push({ name: 'Opinion' });
     },
+    thumbup() {
+      this.isLike = !this.isLike;
+    }
   },
   created() {
     this.opinionDetail(this.$route.query.id);
