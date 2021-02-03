@@ -14,6 +14,12 @@ import MenuBar from './components/bar/MenuBar.vue';
 
 export default {
   components: { NavBar, MenuBar },
+  created() {
+    if (localStorage.getItem('email') != '') {
+      this.$store.dispatch(localStorage.getItem('email'));
+      this.$store.commit('SET_LOGIN_TOKEN', localStorage.getItem('token'));
+    }
+  },
 };
 </script>
 

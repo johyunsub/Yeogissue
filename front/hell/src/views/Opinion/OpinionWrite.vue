@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row class="mr-tp mb-10">
-      <v-col cols="2"></v-col>
+      <v-col cols="3"></v-col>
       <v-col>
         <v-row class="mr-tp">
           <v-col class="d-flex" sm="2">
@@ -84,7 +84,6 @@ export default {
   data: function() {
     return {
       createData: {
-        id: null,
         title: null,
         content: null,
         comment_type: true,
@@ -93,6 +92,7 @@ export default {
         user: 1,
         
       },
+      id: '',
       comment_type: '',
       toggle_multiple: '',
       toggle_exclusive: '',
@@ -119,12 +119,13 @@ export default {
       if (this.comment_type == '토의') this.createData.comment_type = true;
       else this.createData.comment_type = false;
 
-      if (this.$route.query.type === 'create') {
+      console.log('들어옴1');
+      if (this.$route.query.type === 'write') {
         this.opinionCreate(this.createData);
         this.$router.push({ name: 'Opinion' });
       } else if (this.$route.query.type === 'update') {
         this.opinionUpdate(this.createData);
-        this.$router.push(`/opinionDetail?id=${this.createData.id}`);
+        this.$router.push(`/opinionDetail?id=${this.id}`);
       }
       this.createData.content = this.$refs.toastuiEditor.invoke("getMarkdown");
       // var content = this.$ref.toastuiEditor.invoke("getMarkdown");
@@ -166,13 +167,10 @@ export default {
 
   created() {
     if (this.$route.query.type === 'update') {
-      this.createData.id = this.opinionData.id;
-      this.createData.title = this.opinionData.title;
-      this.createData.content = this.opinionData.content;
+      this.createData = this.opinionData;
+      this.id = this.opinionData.id;
       if (this.opinionData.comment_type == true) this.comment_type = '토의';
       else this.comment_type = '찬반';
-      this.createData.category = this.opinionData.category;
-      this.createData.user = this.opinionData.user;
     }
   },
 };
