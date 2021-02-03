@@ -19,7 +19,7 @@
         <v-row>
           <v-col></v-col>
           <v-col class="mr-auto">
-            <v-icon large>mdi-thumb-up-outline</v-icon>
+            <v-icon large class="choice_cursor">mdi-thumb-up-outline</v-icon>
             <p>100</p>
           </v-col>
         </v-row>
