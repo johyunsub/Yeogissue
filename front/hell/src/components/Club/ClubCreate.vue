@@ -41,8 +41,13 @@ export default {
   data: () => ({
     valid: true,
     email: '',
+<<<<<<< HEAD
     value: '',
     row: '',
+=======
+    row: "",
+    value: '',
+>>>>>>> 5b5c540a06ed8de090ff2411a6dadbbeb48f3077
   }),
   computed: {
     getDialog: {

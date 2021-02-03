@@ -33,50 +33,11 @@
           <v-col cols="3"></v-col>
         </v-row>
 
-        <!-- 에디터 기능 -->
-        <v-row class="mt-7">
-          <v-btn-toggle v-model="toggle_exclusive">
-            <v-btn>
-              <v-icon>mdi-format-align-left</v-icon>
-            </v-btn>
-            <v-btn>
-              <v-icon>mdi-format-align-center</v-icon>
-            </v-btn>
-            <v-btn>
-              <v-icon>mdi-format-align-right</v-icon>
-            </v-btn>
-            <v-btn>
-              <v-icon>mdi-format-align-justify</v-icon>
-            </v-btn>
-          </v-btn-toggle>
-
-          <v-col class="py-2">
-            <v-btn-toggle v-model="toggle_multiple" dense background-color="primary" dark multiple>
-              <v-btn>
-                <v-icon>mdi-format-bold</v-icon>
-              </v-btn>
-              <v-btn>
-                <v-icon>mdi-format-italic</v-icon>
-              </v-btn>
-              <v-btn>
-                <v-icon>mdi-format-underline</v-icon>
-              </v-btn>
-              <v-btn>
-                <v-icon>mdi-format-color-fill</v-icon>
-              </v-btn>
-            </v-btn-toggle>
-          </v-col>
-        </v-row>
-
         <!-- 내용 -->
-        <v-row>
-          <v-textarea
-            v-model="createData.content"
-            label="Text"
-            rows="20"
-            class="mr-tp"
-          ></v-textarea>
-          <v-col cols="3"></v-col>
+        <v-row class="mt-7">
+
+          <Editor ref="toastuiEditor" height="500px" initialEditType="wysiwyg" width="700px"/>
+          
         </v-row>
 
         <!-- 해시태그 -->
@@ -95,8 +56,9 @@
         </v-row>
 
         <v-row class="mt-10">
-          <v-btn class="" color="blue" large @click="CreateOpinion()">작성완료</v-btn>
+          <v-btn class="" color="blue" large @click="createform_check">작성완료</v-btn>
         </v-row>
+
       </v-col>
       <v-col cols="1"></v-col>
 
@@ -107,9 +69,15 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import 'codemirror/lib/codemirror.css'; 
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Editor } from '@toast-ui/vue-editor';
+
 
 export default {
-  components: {},
+  components: {
+    Editor
+  },
   computed: {
     ...mapState('opinionStore', ['opinionData']),
   },
@@ -122,6 +90,7 @@ export default {
         category: null,
         //미정
         user: 1,
+        
       },
       id: '',
       comment_type: '',
@@ -158,7 +127,42 @@ export default {
         this.opinionUpdate(this.createData);
         this.$router.push(`/opinionDetail?id=${this.id}`);
       }
+      this.createData.content = this.$refs.toastuiEditor.invoke("getMarkdown");
+      // var content = this.$ref.toastuiEditor.invoke("getMarkdown");
+      // console.log(this.createData);
+      // console.log(content);
+
     },
+
+    createform_check() {
+      //변수에 담아주기
+      
+      // var uid = document.getElementById("uid");
+      
+      if (this.createData.category === null) { //해당 입력값이 없을 경우 같은말: if(!uid.value)
+        alert("카테고리를 선택해주세요");
+        //uid.focus(); //focus(): 커서가 깜빡이는 현상, blur(): 커서가 사라지는 현상
+        return; //return: 반환하다 return false:  아무것도 반환하지 말아라 아래 코드부터 아무것도 진행하지 말것
+      }
+
+      if (this.createData.comment_type === null) { 
+        alert("댓글 형태를 선택해주세요");
+        return; 
+      }
+
+      if (this.createData.title === null) { 
+        alert("제목을 입력해주세요");
+        return; 
+      }
+
+      // if (this.createData.content === null) { 
+      //   alert("내용을 선택해주세요");
+      //   return; 
+      // }
+      //입력 값 전송
+      this.CreateOpinion(); //유효성 검사의 포인트  
+      console.log('폼체크'); 
+    }
   },
 
   created() {
@@ -173,3 +177,5 @@ export default {
 </script>
 
 <style lang="scss" scoped></style>
+
+
