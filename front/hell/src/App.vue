@@ -16,8 +16,8 @@ export default {
   components: { NavBar, MenuBar },
   created() {
     if (localStorage.getItem('email') != '') {
-      this.$store.dispatch(localStorage.getItem('email'));
       this.$store.commit('SET_LOGIN_TOKEN', localStorage.getItem('token'));
+      this.$store.dispatch('userData', localStorage.getItem('email'));
     }
   },
 };

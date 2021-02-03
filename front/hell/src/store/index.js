@@ -61,7 +61,7 @@ export default new Vuex.Store({
   actions: {
     userData({ commit }, data) {
       instance
-        .post(`/accounts/get_user/`, data)
+        .post('/accounts/get_user/', { email: data })
         .then((res) => {
           commit('SET_USER_INFO', res.data);
         })
