@@ -48,6 +48,10 @@ export default {
   border-bottom: 1px solid rgb(238, 238, 238);
 }
 
+.btn-border {
+  border: 1px solid black;
+}
+
 .mr-tp {
   margin-top: 20px;
 }

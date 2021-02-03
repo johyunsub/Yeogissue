@@ -11,7 +11,7 @@ const opinionStore = {
     opinionPaging: {},
     pagingCnt: 0,
 
-    opinionCategory: {},
+    opinionCategory: null,
 
     // 디테일 변수
     opinionData: null,
@@ -35,12 +35,13 @@ const opinionStore = {
       let index = 0;
       for (let i = start; i < start + 10; i++) {
         if (i == state.opinionCategory.length) break;
+        console.log('넣어부려' + i + ' ' + state.opinionCategory.length);
         state.opinionPaging[index++] = state.opinionCategory[i];
       }
     },
 
     SET_OPINION_CATEGORY(state, category) {
-      state.opinionCategory = {};
+      state.opinionCategory = [];
       let index = 0;
       //전체 보기이면 그대로 저장
       if (category == '전체') {
@@ -54,7 +55,6 @@ const opinionStore = {
           state.opinionCategory[index++] = state.opinions[i];
         }
       }
-      console.log('들어옴');
     },
 
     SET_OPINION_DETAIL(state, opinion) {
