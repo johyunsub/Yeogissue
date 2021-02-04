@@ -34,7 +34,7 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="OnOff('create')">Create</v-btn>
+              <v-btn color="blue darken-1" text @click="ClubCreate('create')">Create</v-btn>
               <v-btn color="blue darken-1" text @click="OnOff('close')">Close</v-btn>
             </v-card-actions>
           </div>
@@ -50,8 +50,9 @@ export default {
   data: () => ({
     valid: true,
     email: '',
-    row: "",
+    row: '',
     value: '',
+    clubData: {},
   }),
   computed: {
     getDialog: {
@@ -64,12 +65,14 @@ export default {
 
   methods: {
     ...mapActions('clubStore', ['clubCreate']),
-    OnOff: function(check) {
+    ClubCreate(check) {
       if (check == 'create') {
         this.clubData.master = this.$store.state.userInfo.id;
         this.clubCreate(this.clubData);
         this.clubData = {};
       }
+    },
+    OnOff: function() {
       this.$store.commit('CLUB_CREATE_DIALOG', false);
     },
     validate() {
