@@ -161,10 +161,13 @@ def like(request, article_pk):
         # 좋아요 취소
         print('a')
         article.like_users.remove(request.data.get('user'))
+        return Response({'success', 'dislike'},status=status.HTTP_201_CREATED)
     else:
         # 좋아요
         article.like_users.add(request.data.get('user'))
-    return Response({'success'},status=status.HTTP_201_CREATED)
+        return Response({'success', 'like'},status=status.HTTP_201_CREATED)
+
+
 
 @api_view(['POST'])
 def scrap(request, article_pk):
