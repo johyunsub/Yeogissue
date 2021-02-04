@@ -20,9 +20,24 @@
           <v-col></v-col>
           <v-col class="mr-auto">
             <v-icon v-if="!isLike" large class="choice_cursor" @click="thumbUp">mdi-thumb-up-outline</v-icon>
-            <v-icon v-if="isLike" large class="choice_cursor" @click="thumbDown">mdi-thumb-up</v-icon>
-            <p>{{ likeCnt }}</p>
+            <v-icon v-if="isLike" large class="choice_cursor" @click="thumbUp">mdi-thumb-up</v-icon>
+            <v-chip
+              class="ma-2"
+              color="green"
+              text-color="white"
+            >
+              <v-avatar
+                left
+                class="green darken-4"
+              >
+                {{ likeCnt }}
+              </v-avatar>
+              공감
+            </v-chip>
           </v-col>
+            
+            
+          
         </v-row>
 
         <!-- 댓글 -->
@@ -111,18 +126,18 @@ export default {
     },
     thumbUp() {
       this.isLike = !this.isLike;
-      this.opinionLike(this.opinionData.user)
+      this.opinionLike(this.opinionData);
     },
-    thumbDown() {
-      this.isLike = !this.isLike;
-      //좋아요 취소 미완성
-    }
   },
   created() {
     this.opinionDetail(this.$route.query.id);
-  },
+    },
   updated() {
     this.likeCnt = this.opinionData.like_users.length;
+    if(this.opinionData.like_users.includes(this.opinionData.user)){
+      this.isLike = true;
+    }
+    console.log("데이터 바뀜")
   },
 };
 </script>

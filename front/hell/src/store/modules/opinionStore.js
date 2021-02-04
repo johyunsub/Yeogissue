@@ -158,12 +158,23 @@ const opinionStore = {
     },
 
     //디테일에서 의견 따봉눌렀을 때 좋아요한 목록에 넣어주기; id(게시글번호), 유저id
-    opinionLike({ dispatch, state }, user) {
+    opinionLike({ dispatch, state }, data) {
       instance
-        .post(`/articles/${state.opinionData.id}/like/`, user)
-        .then(() => {
-          state.opinionData.like_users.push(user);
-          dispatch('opinionUpdate', state.opinionData);
+        .post(`/articles/${state.opinionData.id}/like/`, data)
+        .then((res) => {
+          //article_artilce의 like_users의 user 추가
+          if(res.data[0] == 'like'){
+            state.opinionData.like_users.push(data.user);
+            dispatch('opinionUpdate', state.opinionData);
+          }else{  
+            //article_artilce의 like_users의 user 제거
+            for(var i=0; i<state.opinionData.like_users.length; i++) {
+              if(state.opinionData.like_users[i] == data.user) {
+                state.opinionData.like_users.splice(i, 1);
+              }
+            }
+          }
+          console.log(res.data[0])
         })
     },
   },
