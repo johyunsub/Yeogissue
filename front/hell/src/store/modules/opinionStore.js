@@ -130,6 +130,7 @@ const opinionStore = {
       instance
         .get(`/articles/${id}`)
         .then((res) => {
+          console.log(res.data);
           commit('SET_OPINION_DETAIL', res.data);
           commit('SET_OPINION_COMMENT', res.data.comment_set);
           commit('SET_OPINION_COMMENT_PAGING', 0);
