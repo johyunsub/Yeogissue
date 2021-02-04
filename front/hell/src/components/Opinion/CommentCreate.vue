@@ -28,7 +28,7 @@ export default {
       createData: {
         opinion_type: false, // 찬반 추후 수정
         content: '',
-        user: 2, // 찬한 추후 수정
+        user: 1, // 찬한 추후 수정
       },
     };
   },

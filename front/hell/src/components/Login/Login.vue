@@ -72,6 +72,7 @@
 <script>
 import { mapActions } from 'vuex';
 import axios from 'axios';
+import { API_BASE_URL } from "../../config";
 
 export default {
   data: () => ({
@@ -105,7 +106,7 @@ export default {
     },
     validate() {
       axios
-        .post('http://127.0.0.1:8000/accounts/api-token-auth/', this.logindata)
+        .post(`${API_BASE_URL}accounts/api-token-auth/`, this.logindata)
         .then((res) => {
           console.log(res);
           this.$store.commit('SET_LOGIN_TOKEN', res.data.token);
