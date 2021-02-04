@@ -14,6 +14,12 @@ import MenuBar from './components/bar/MenuBar.vue';
 
 export default {
   components: { NavBar, MenuBar },
+  created() {
+    if (localStorage.getItem('email') != '') {
+      this.$store.commit('SET_LOGIN_TOKEN', localStorage.getItem('token'));
+      this.$store.dispatch('userData', localStorage.getItem('email'));
+    }
+  },
 };
 </script>
 
@@ -40,6 +46,10 @@ export default {
 
 .border-bt {
   border-bottom: 1px solid rgb(238, 238, 238);
+}
+
+.btn-border {
+  border: 1px solid black;
 }
 
 .mr-tp {

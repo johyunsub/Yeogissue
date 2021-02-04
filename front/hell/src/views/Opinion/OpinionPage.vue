@@ -29,17 +29,7 @@
         </v-row>
 
         <!-- 카테고리 -->
-        <v-row class="mr-tp mr-le" style="padding-top: 20px">
-          <v-btn class="" outlined>전체</v-btn>
-          <v-btn class="" outlined>연예</v-btn>
-          <v-btn class="" outlined>IT/과학</v-btn>
-          <v-btn class="" outlined>해외</v-btn>
-          <v-btn class="" outlined>경제</v-btn>
-          <v-btn class="" outlined>스포츠</v-btn>
-          <v-btn class="" outlined>정치</v-btn>
-          <v-btn class="" outlined>사회</v-btn>
-          <v-btn class="" outlined>생활</v-btn>
-        </v-row>
+        <opinion-category />
 
         <!-- 보여주기 형태 -->
         <v-row class="mr-tp">
@@ -99,34 +89,23 @@ import CardList from '../../components/Opinion/CardList.vue';
 import OpinionTable from '../../components/Opinion/OpinionTable.vue';
 import SideList from '../../components/Opinion/SideList.vue';
 import { mapState, mapActions } from 'vuex';
+import OpinionCategory from '../../components/Opinion/OpinionCategory.vue';
 
 export default {
-  components: { SideList, OpinionTable, CardList },
+  components: { SideList, OpinionTable, CardList, OpinionCategory },
   computed: {
     ...mapState('opinionStore', ['opinionPaging', 'pagingCnt']),
   },
   data: function() {
     return {
+      cateBtn: 'center',
       search: 'dd',
       viewType: 'card',
       page: 1,
-      items: [
-        { tab: '하이' },
-        { tab: '하이1' },
-        { tab: '하이2' },
-        { tab: '하이3' },
-        { tab: '하이4' },
-        { tab: '하이5' },
-        { tab: '하이6' },
-        { tab: '하이7' },
-        { tab: '하이8' },
-        { tab: '하이9' },
-      ],
     };
   },
   watch: {
     page: function(newVal) {
-      console.log('바뀐');
       this.$store.commit('opinionStore/SET_OPINION_PAGING', (newVal - 1) * 10);
     },
   },
