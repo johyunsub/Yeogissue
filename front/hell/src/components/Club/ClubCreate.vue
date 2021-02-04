@@ -49,14 +49,9 @@ import { mapActions } from 'vuex';
 export default {
   data: () => ({
     valid: true,
-    categoryItems: ['연예', 'IT/과학', '해외', '경제', '스포츠', '정치', '사회', '생활'],
-    clubData: {
-      title: '',
-      category: '',
-      content: '',
-      master: '',
-      // check: '',
-    },
+    email: '',
+    row: "",
+    value: '',
   }),
   computed: {
     getDialog: {

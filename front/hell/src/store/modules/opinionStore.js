@@ -20,6 +20,10 @@ const opinionStore = {
     opinionComment: null,
     opinionCommentPaging: {},
     opinionCommentPagingCnt: 0,
+
+    //좋아요한 article들의 번호
+    //likedOpinion: [],
+
   },
   getters: {},
   mutations: {
@@ -76,6 +80,12 @@ const opinionStore = {
         state.opinionCommentPaging[index++] = state.opinionComment[i];
       }
     },
+
+    //의견 LIKED 상태로 변경 << 
+    // SET_OPINION_LIKED(state, id) {
+    //   state.opinionLike.push(id);
+    // },
+    
   },
   actions: {
     //조회
@@ -145,6 +155,16 @@ const opinionStore = {
           dispatch('opinionDetail', state.opinionData.id);
         })
         .catch((err) => console.log(err.response));
+    },
+
+    //디테일에서 의견 따봉눌렀을 때 좋아요한 목록에 넣어주기; id(게시글번호), 유저id
+    opinionLike({ dispatch, state }, user) {
+      instance
+        .post(`/articles/${state.opinionData.id}/like/`, user)
+        .then(() => {
+          state.opinionData.like_users.push(user);
+          dispatch('opinionUpdate', state.opinionData);
+        })
     },
   },
 };
