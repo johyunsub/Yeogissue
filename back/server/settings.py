@@ -25,7 +25,7 @@ SECRET_KEY = 's015lqxlvs$c!q4e239$9djsnxh3t)lks*en1a3gouz9mhqa3l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['13.125.17.117']
+ALLOWED_HOSTS = ['i4d108.p.ssafy.io']
 
 # YOUTUBE_API_KEY = 'AIzaSyCUK-7ji58muTsxvtW6TfFwNy4fWgbzkjY'
 
