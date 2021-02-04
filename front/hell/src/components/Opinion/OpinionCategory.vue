@@ -1,8 +1,8 @@
 <template>
   <v-row class="mr-tp mr-le" style="padding-top: 20px;">
     <v-btn-toggle v-model="cateBtn" color="deep-purple accent-3" group borderless>
-      <v-btn class="border-bt" outlined @click="categoryChange('전체')">전체</v-btn>
-      <v-btn class="border-bt" outlined @click="categoryChange('연예')">연예</v-btn>
+      <v-btn class="" outlined @click="categoryChange('전체')">전체</v-btn>
+      <v-btn class="" outlined @click="categoryChange('연예')">연예</v-btn>
       <v-btn class="" outlined @click="categoryChange('IT/과학')">IT/과학</v-btn>
       <v-btn class="" outlined @click="categoryChange('해외')">해외</v-btn>
       <v-btn class="" outlined @click="categoryChange('경제')">경제</v-btn>
@@ -16,13 +16,17 @@
 
 <script>
 import { mapActions } from 'vuex';
+// import $ from 'jquery';
 
 export default {
   data: function() {
     return {
-      cateBtn: 'center',
+      cateBtn: 0,
     };
   },
+  // updated() {
+  //     $('#allclick').trigger('click');
+  // },
   methods: {
     ...mapActions('opinionStore', ['opinionCategorySelelct']),
     categoryChange: function(change) {

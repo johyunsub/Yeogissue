@@ -110,7 +110,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('opinionStore', ['opinionList']),
+    ...mapActions('opinionStore', ['opinionList', 'opinionDetail']),
     ChageType(type) {
       this.viewType = type;
     },
