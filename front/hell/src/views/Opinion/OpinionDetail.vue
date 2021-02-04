@@ -3,18 +3,21 @@
     <v-row class="mr-tp">
       <v-col cols="2"></v-col>
       <v-col>
-        <p class="blue--text mr-bt">{{ opinionData.category }}</p>
-        <p class="display-2">{{ opinionData.title }}</p>
+        <p class="blue--text mr-bt">{{ detailData.category }}</p>
+        <p class="display-2">{{ detailData.title }}</p>
         <p class="grey--text">
-          {{ opinionData.user }} | 날짜 | 조회수 {{ opinionData.read_count }} |
+          {{ detailData.user }} | 날짜 | 조회수 {{ detailData.read_count }} |
           <span class="choice_cursor text-bt" @click="opUpdate">수정</span> |
           <span class="choice_cursor text-bt" @click="opDelete">삭제</span>
         </p>
         <v-divider class="my-4"></v-divider>
 
-        <p class="text-justify">
+        <!-- <p class="text-justify">
           {{ opinionData.content }}
-        </p>
+        </p> -->
+
+        <Viewer v-if="detailData.content != null" :initialValue="detailData.content" /> 
+
 
         <v-row>
           <v-col></v-col>
@@ -86,11 +89,18 @@ import axios from 'axios';
 import { API_BASE_URL } from "../../config";
 
 
+import "codemirror/lib/codemirror.css"; 
+import "@toast-ui/editor/dist/toastui-editor.css"; 
+import { Viewer } from "@toast-ui/vue-editor";
+
+import axios from 'axios';
+import { API_BASE_URL } from "../../config";
+
+
 export default {
-  components: { Comment, CommentCreate },
+  components: { Comment, CommentCreate, Viewer },
   computed: {
     ...mapState('opinionStore', [
-      'opinionData',
       'opinionComment',
       'opinionCommentPaging',
       'opinionCommentPagingCnt',
@@ -101,18 +111,7 @@ export default {
     return {
       page: 1,
       pageCnt: 3,
-      items: [
-        { tab: '1' },
-        { tab: '2' },
-        { tab: '3' },
-        { tab: '4' },
-        { tab: '5' },
-        { tab: '6' },
-        { tab: '7' },
-        { tab: '8' },
-        { tab: '9' },
-        { tab: '0' },
-      ],
+      detailData : Object,
       isLike: false,
       likeCnt: 0,
     };
@@ -128,7 +127,7 @@ export default {
       this.$router.push(`/opinionWrite?type=update`);
     },
     opDelete() {
-      this.opinionDelete(this.opinionData.id);
+      this.opinionDelete(this.detailData.id);
       this.$router.push({ name: 'Opinion' });
     },
     thumbUp() {

@@ -31,27 +31,21 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 export default {
   name: 'clubCard',
-  computed: {
-    ...mapGetters(['getClubs']),
-  },
+  computed: {},
   data() {
     return {};
   },
   props: {
     clubInfo: Object,
   },
-  created() {
-    //console.log(this.getClubs.data[0].master)
-  },
+  created() {},
   methods: {
     MovePage: function(check) {
       switch (check) {
         case 'detail':
-          this.$router.push({ name: 'ClubDetail' });
+          this.$router.push(`/clubDetail?id=${this.clubInfo.id}`);
           break;
       }
     },

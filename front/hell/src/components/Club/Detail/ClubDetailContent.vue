@@ -31,7 +31,7 @@
     <!-- paging -->
 
     <!-- url -->
-    <club-detail-url-create />
+    <club-detail-url-create :type="'create'" />
   </div>
 </template>
 
