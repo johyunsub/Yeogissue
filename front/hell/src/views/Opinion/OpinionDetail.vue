@@ -19,8 +19,11 @@
         <v-row>
           <v-col></v-col>
           <v-col class="mr-auto">
+          <v-row>
             <v-icon v-if="!isLike" large class="choice_cursor" @click="thumbUp">mdi-thumb-up-outline</v-icon>
             <v-icon v-if="isLike" large class="choice_cursor" @click="thumbUp">mdi-thumb-up</v-icon>
+          </v-row>
+          <v-row>
             <v-chip
               class="ma-2"
               color="green"
@@ -34,6 +37,7 @@
               </v-avatar>
               공감
             </v-chip>
+            </v-row>
           </v-col>
             
             
@@ -78,6 +82,9 @@
 import Comment from '../../components/Opinion/Comment.vue';
 import CommentCreate from '../../components/Opinion/CommentCreate.vue';
 import { mapState, mapActions } from 'vuex';
+import axios from 'axios';
+import { API_BASE_URL } from "../../config";
+
 
 export default {
   components: { Comment, CommentCreate },
@@ -131,13 +138,27 @@ export default {
   },
   created() {
     this.opinionDetail(this.$route.query.id);
+    axios.get(`${API_BASE_URL}articles/${this.$route.query.id}`)
+      .then((res) => {
+        this.likeCnt = res.data.like_users.length;
+        if(res.data.like_users.includes(res.data.user)){
+          this.isLike = true;
+        }
+          this.likeCnt = res.data.like_users.length;
+           console.log(this.likeCnt + " <<<<<")
+      })
+
     },
   updated() {
-    this.likeCnt = this.opinionData.like_users.length;
-    if(this.opinionData.like_users.includes(this.opinionData.user)){
-      this.isLike = true;
-    }
-    console.log("데이터 바뀜")
+    axios.get(`${API_BASE_URL}articles/${this.$route.query.id}`)
+      .then((res) => {
+        this.likeCnt = res.data.like_users.length;
+        if(res.data.like_users.includes(res.data.user)){
+          this.isLike = true;
+        }
+          this.likeCnt = res.data.like_users.length;
+           
+      })
   },
 };
 </script>
