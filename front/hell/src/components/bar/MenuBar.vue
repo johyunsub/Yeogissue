@@ -6,9 +6,10 @@
       </v-list-item-avatar>
 
       <v-list-item-content>
-        <v-list-item-title>이름 넣어주세요</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
+          <v-list-item-title>{{ nickname }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
 
     <v-divider></v-divider>
 
@@ -31,8 +32,13 @@
 
 <script>
 import $ from 'jquery';
+import { mapState} from 'vuex';
+import axios from 'axios';
+import { API_BASE_URL } from "../../config";
+
 export default {
   computed: {
+    ...mapState('index', ['userData']),
     getDrawer: {
       get: function() {
         return this.$store.state.drawer;
@@ -46,8 +52,17 @@ export default {
         { title: 'Home', icon: 'mdi-view-dashboard' },
         { title: 'About', icon: 'mdi-forum' },
       ],
-    };
+      nickname: '',
+    }
   },
+  created(){
+        axios.post(`${API_BASE_URL}accounts/get_user/`, { email: localStorage.getItem('email')})
+        .then((res) => {
+          this.nickname = res.data.nickname
+        })
+        
+    },
+
   updated() {
     // 바탕화면 누르면 vuex 값을 바꿔주기 위해
     $(document).ready(function() {
@@ -65,5 +80,5 @@ export default {
       this.$store.commit('CHANGE_DRAWER', false);
     },
   },
-};
+}
 </script>
