@@ -7,7 +7,7 @@
         append-icon="mdi-comment"
         class="mx-2"
         :label="massage"
-        rows="5"
+        rows="3"
         auto-grow
       ></v-textarea>
       <v-row>
@@ -28,7 +28,7 @@ export default {
       createData: {
         opinion_type: false, // 찬반 추후 수정
         content: '',
-        user: 2, // 찬한 추후 수정
+        user: 1, // 찬한 추후 수정
       },
     };
   },

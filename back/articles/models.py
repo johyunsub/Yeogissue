@@ -13,11 +13,12 @@ class Article(models.Model):
     comment_type = models.BooleanField()
     category = models.CharField(max_length=100)
     read_count = models.IntegerField(default=0)
+    club_pk = models.IntegerField(default=0)
 
 class Hashtag(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_hashtags')
-    articles = models.ManyToManyField(Article,related_name='hashtags')
     name = models.CharField(max_length=100)
+    articles = models.ManyToManyField(Article,related_name='hashtags')
+    user = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='user_hashtags')
 
 
 class Comment(models.Model):
@@ -27,3 +28,13 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    badcomment = models.IntegerField(default=0)
+    
+
+class ReComment(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    badcomment = models.IntegerField(default=0)
