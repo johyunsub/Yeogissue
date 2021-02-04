@@ -75,6 +75,6 @@ export default {
     validate() {
       this.$refs.form.validate();
     },
-  },
-};
+  }
+}
 </script>
