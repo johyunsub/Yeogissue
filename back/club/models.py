@@ -12,6 +12,7 @@ class Club(models.Model):
         return self.title
 
 class Club_article(models.Model):
+    category = models.CharField(max_length=50)
     comment = models.TextField()
     url = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)

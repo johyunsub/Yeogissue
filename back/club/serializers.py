@@ -29,4 +29,4 @@ class ClubArticleSerializer(serializers.ModelSerializer):
 class ClubArticleUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club_article
-        fields = ('comment','url')
+        fields = ('category','comment','url')
