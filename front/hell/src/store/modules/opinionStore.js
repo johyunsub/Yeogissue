@@ -11,7 +11,7 @@ const opinionStore = {
     opinionPaging: {},
     pagingCnt: 0,
 
-    opinionCategory: {},
+    opinionCategory: null,
 
     // 디테일 변수
     opinionData: null,
@@ -20,6 +20,10 @@ const opinionStore = {
     opinionComment: null,
     opinionCommentPaging: {},
     opinionCommentPagingCnt: 0,
+
+    //좋아요한 article들의 번호
+    //likedOpinion: [],
+
   },
   getters: {},
   mutations: {
@@ -35,12 +39,13 @@ const opinionStore = {
       let index = 0;
       for (let i = start; i < start + 10; i++) {
         if (i == state.opinionCategory.length) break;
+        console.log('넣어부려' + i + ' ' + state.opinionCategory.length);
         state.opinionPaging[index++] = state.opinionCategory[i];
       }
     },
 
     SET_OPINION_CATEGORY(state, category) {
-      state.opinionCategory = {};
+      state.opinionCategory = [];
       let index = 0;
       //전체 보기이면 그대로 저장
       if (category == '전체') {
@@ -54,7 +59,6 @@ const opinionStore = {
           state.opinionCategory[index++] = state.opinions[i];
         }
       }
-      console.log('들어옴');
     },
 
     SET_OPINION_DETAIL(state, opinion) {
@@ -76,6 +80,12 @@ const opinionStore = {
         state.opinionCommentPaging[index++] = state.opinionComment[i];
       }
     },
+
+    //의견 LIKED 상태로 변경 << 
+    // SET_OPINION_LIKED(state, id) {
+    //   state.opinionLike.push(id);
+    // },
+    
   },
   actions: {
     //조회
@@ -146,6 +156,16 @@ const opinionStore = {
           dispatch('opinionDetail', state.opinionData.id);
         })
         .catch((err) => console.log(err.response));
+    },
+
+    //디테일에서 의견 따봉눌렀을 때 좋아요한 목록에 넣어주기; id(게시글번호), 유저id
+    opinionLike({ dispatch, state }, user) {
+      instance
+        .post(`/articles/${state.opinionData.id}/like/`, user)
+        .then(() => {
+          state.opinionData.like_users.push(user);
+          dispatch('opinionUpdate', state.opinionData);
+        })
     },
   },
 };

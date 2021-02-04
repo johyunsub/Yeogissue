@@ -29,17 +29,7 @@
         </v-row>
 
         <!-- 카테고리 -->
-        <v-row class="mr-tp mr-le" style="padding-top: 20px">
-          <v-btn class="" outlined @click="categoryChange('전체')">전체</v-btn>
-          <v-btn class="" outlined @click="categoryChange('연예')">연예</v-btn>
-          <v-btn class="" outlined @click="categoryChange('IT/과학')">IT/과학</v-btn>
-          <v-btn class="" outlined @click="categoryChange('해외')">해외</v-btn>
-          <v-btn class="" outlined @click="categoryChange('경제')">경제</v-btn>
-          <v-btn class="" outlined @click="categoryChange('스포츠')">스포츠</v-btn>
-          <v-btn class="" outlined @click="categoryChange('정치')">정치</v-btn>
-          <v-btn class="" outlined @click="categoryChange('사회')">사회</v-btn>
-          <v-btn class="" outlined @click="categoryChange('생활')">생활</v-btn>
-        </v-row>
+        <opinion-category />
 
         <!-- 보여주기 형태 -->
         <v-row class="mr-tp">
@@ -99,14 +89,16 @@ import CardList from '../../components/Opinion/CardList.vue';
 import OpinionTable from '../../components/Opinion/OpinionTable.vue';
 import SideList from '../../components/Opinion/SideList.vue';
 import { mapState, mapActions } from 'vuex';
+import OpinionCategory from '../../components/Opinion/OpinionCategory.vue';
 
 export default {
-  components: { SideList, OpinionTable, CardList },
+  components: { SideList, OpinionTable, CardList, OpinionCategory },
   computed: {
     ...mapState('opinionStore', ['opinionPaging', 'pagingCnt']),
   },
   data: function() {
     return {
+      cateBtn: 'center',
       search: 'dd',
       viewType: 'card',
       page: 1,
@@ -118,7 +110,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('opinionStore', ['opinionList', 'opinionCategorySelelct']),
+    ...mapActions('opinionStore', ['opinionList']),
     ChageType(type) {
       this.viewType = type;
     },
@@ -128,9 +120,6 @@ export default {
           this.$router.push(`/opinionWrite?type=write`);
           break;
       }
-    },
-    categoryChange: function(change) {
-      this.opinionCategorySelelct(change);
     },
   },
   created() {

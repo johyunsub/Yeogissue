@@ -101,6 +101,12 @@ def comment_detail_update_delete(request, comment_pk):
         comment.delete()
         return Response({ 'id': comment_pk }, status=status.HTTP_204_NO_CONTENT)
 
+# 댓글 신고
+@api_view(['GET'])
+def badcomment(request,comment_pk):
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    comment.badcomment += 1
+    comment.save()
 
 
 
@@ -135,6 +141,14 @@ def recomment_detail_update_delete(request, recomment_pk):
     else:
         recomment.delete()
         return Response({ 'id': recomment_pk }, status=status.HTTP_204_NO_CONTENT)
+    return Response({'success'})
+# 대댓글 신고
+@api_view(['GET'])
+def badrecomment(request,recomment_pk):
+    recomment = get_object_or_404(ReComment, pk=recomment_pk)
+    recomment.badcomment += 1
+    recomment.save()
+    return Response({'success'})
 
 
 # 좋아요_스크랩
@@ -170,4 +184,11 @@ def myscrap(request,user_pk):
     serializer = ArticleListSerializer(scrap_list, many=True) 
     # print(scrap_list)
     return Response(serializer.data)
-    
+
+
+@api_view(['GET'])
+def club_article(request,club_pk):
+    article = Article.objects.filter(club_pk=club_pk)
+    serializer = ArticleListSerializer(article, many=True) 
+    return Response(serializer.data)
+

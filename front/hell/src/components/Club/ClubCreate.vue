@@ -7,18 +7,26 @@
             <div class="headline text-center pt-3">클럽 생성</div>
             <v-card-text>
               <v-row>
-                <v-col cols="12">
-                  <v-text-field label="제목*"></v-text-field>
+                <v-col class="12">
+                  <v-select
+                    v-model="clubData.category"
+                    :items="categoryItems"
+                    label="카테고리"
+                    outlined
+                  ></v-select>
                 </v-col>
                 <v-col cols="12">
-                  <v-textarea label="내용" rows="10" :value="value"></v-textarea>
+                  <v-text-field v-model="clubData.title" label="제목*"></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-textarea v-model="clubData.content" label="내용" rows="10"></v-textarea>
                 </v-col>
 
                 <!-- 공개 비공개 -->
                 <div class="ml-3">
-                  <v-radio-group v-model="row" row>
-                    <v-radio label="공개" value="radio-1"></v-radio>
-                    <v-radio label="비공개" value="radio-2"></v-radio>
+                  <v-radio-group v-model="clubData.check" row>
+                    <v-radio label="공개" value="공개"></v-radio>
+                    <v-radio label="비공개" value="비공개"></v-radio>
                   </v-radio-group>
                 </div>
               </v-row>
@@ -26,8 +34,8 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="OnOff()">Create</v-btn>
-              <v-btn color="blue darken-1" text @click="OnOff()">Close</v-btn>
+              <v-btn color="blue darken-1" text @click="OnOff('create')">Create</v-btn>
+              <v-btn color="blue darken-1" text @click="OnOff('close')">Close</v-btn>
             </v-card-actions>
           </div>
         </v-card>
@@ -37,6 +45,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   data: () => ({
     valid: true,
@@ -54,7 +63,13 @@ export default {
   },
 
   methods: {
-    OnOff: function() {
+    ...mapActions('clubStore', ['clubCreate']),
+    OnOff: function(check) {
+      if (check == 'create') {
+        this.clubData.master = this.$store.state.userInfo.id;
+        this.clubCreate(this.clubData);
+        this.clubData = {};
+      }
       this.$store.commit('CLUB_CREATE_DIALOG', false);
     },
     validate() {

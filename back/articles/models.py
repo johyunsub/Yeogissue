@@ -13,6 +13,7 @@ class Article(models.Model):
     comment_type = models.BooleanField()
     category = models.CharField(max_length=100)
     read_count = models.IntegerField(default=0)
+    club_pk = models.IntegerField(default=0)
 
 class Hashtag(models.Model):
     name = models.CharField(max_length=100)
@@ -27,6 +28,8 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    badcomment = models.IntegerField(default=0)
+    
 
 class ReComment(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
@@ -34,3 +37,4 @@ class ReComment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    badcomment = models.IntegerField(default=0)
