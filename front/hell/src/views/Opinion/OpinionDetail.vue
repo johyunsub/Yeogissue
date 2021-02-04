@@ -19,9 +19,9 @@
         <v-row>
           <v-col></v-col>
           <v-col class="mr-auto">
-            <v-icon v-if="!isLike" large class="choice_cursor" @click="thumbup">mdi-thumb-up-outline</v-icon>
-            <v-icon v-if="isLike" large class="choice_cursor" @click="thumbup">mdi-thumb-up</v-icon>
-            <p>100</p>
+            <v-icon v-if="!isLike" large class="choice_cursor" @click="thumbUp">mdi-thumb-up-outline</v-icon>
+            <v-icon v-if="isLike" large class="choice_cursor" @click="thumbDown">mdi-thumb-up</v-icon>
+            <p>{{ likeCnt }}</p>
           </v-col>
         </v-row>
 
@@ -72,6 +72,7 @@ export default {
       'opinionComment',
       'opinionCommentPaging',
       'opinionCommentPagingCnt',
+      'likedOpinion',
     ]),
   },
   data: function() {
@@ -91,6 +92,7 @@ export default {
         { tab: '0' },
       ],
       isLike: false,
+      likeCnt: 0,
     };
   },
   watch: {
@@ -99,7 +101,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('opinionStore', ['opinionDetail', 'opinionDelete']),
+    ...mapActions('opinionStore', ['opinionDetail', 'opinionDelete', 'opinionLike']),
     opUpdate() {
       this.$router.push(`/opinionWrite?type=update`);
     },
@@ -107,12 +109,20 @@ export default {
       this.opinionDelete(this.opinionData.id);
       this.$router.push({ name: 'Opinion' });
     },
-    thumbup() {
+    thumbUp() {
       this.isLike = !this.isLike;
+      this.opinionLike(this.opinionData.user)
+    },
+    thumbDown() {
+      this.isLike = !this.isLike;
+      //좋아요 취소 미완성
     }
   },
   created() {
     this.opinionDetail(this.$route.query.id);
+  },
+  updated() {
+    this.likeCnt = this.opinionData.like_users.length;
   },
 };
 </script>
