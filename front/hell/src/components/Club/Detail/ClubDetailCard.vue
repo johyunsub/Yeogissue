@@ -29,8 +29,13 @@
             <v-col cols="auto" class="mr-auto"></v-col>
             <div>
               <v-col cols="auto">
-                <v-btn color="blue darken-1" text @click="OnOff()">관리</v-btn>
-                <v-btn color="blue darken-1" text @click="OnOff()">가입하기</v-btn>
+                <div v-if="clubDetailManegerBtn === false">
+                  <v-btn color="blue darken-1" text @click="managerOnOff(true)">관리</v-btn>
+                  <v-btn color="blue darken-1" text @click="OnOff()">가입하기</v-btn>
+                </div>
+                <div v-if="clubDetailManegerBtn === true">
+                  <v-btn color="blue darken-1" text @click="managerOnOff(false)">홈으로</v-btn>
+                </div>
               </v-col>
             </div>
           </v-row>
@@ -44,7 +49,12 @@
 import { mapState } from 'vuex';
 export default {
   computed: {
-    ...mapState('clubStore', ['clubData']),
+    ...mapState('clubStore', ['clubData', 'clubDetailManegerBtn']),
+  },
+  methods: {
+    managerOnOff(check) {
+      this.$store.commit('clubStore/SET_CLUB_MANAGER_BTN', check);
+    },
   },
 };
 </script>
