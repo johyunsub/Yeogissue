@@ -89,6 +89,7 @@ export default {
     return {
       page: 1,
       pageCnt: 3,
+      detailData : Object,
       isLike: false,
       likeCnt: 0,
     };
