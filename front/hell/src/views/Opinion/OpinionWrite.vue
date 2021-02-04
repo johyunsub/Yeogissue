@@ -36,7 +36,7 @@
         <!-- 내용 -->
         <v-row class="mt-7">
 
-          <Editor ref="toastuiEditor" height="500px" initialEditType="wysiwyg" width="700px"/>
+          <Editor ref="toastuiEditor" height="500px" initialEditType="wysiwyg" :initialValue="initialValue"/>
           
         </v-row>
 
@@ -90,8 +90,9 @@ export default {
         category: null,
         //미정
         user: 1,
-        
+        name: '나에용',
       },
+      initialValue: '',
       id: '',
       comment_type: '',
       toggle_multiple: '',
@@ -119,18 +120,19 @@ export default {
       if (this.comment_type == '토의') this.createData.comment_type = true;
       else this.createData.comment_type = false;
 
+      this.createData.content = this.$refs.toastuiEditor.invoke("getMarkdown");  
+
       console.log('들어옴1');
+
       if (this.$route.query.type === 'write') {
         this.opinionCreate(this.createData);
+        console.log(this.createData.content);
         this.$router.push({ name: 'Opinion' });
       } else if (this.$route.query.type === 'update') {
         this.opinionUpdate(this.createData);
         this.$router.push(`/opinionDetail?id=${this.id}`);
       }
-      this.createData.content = this.$refs.toastuiEditor.invoke("getMarkdown");
-      // var content = this.$ref.toastuiEditor.invoke("getMarkdown");
-      // console.log(this.createData);
-      // console.log(content);
+      
 
     },
 
@@ -139,18 +141,18 @@ export default {
       
       // var uid = document.getElementById("uid");
       
-      if (this.createData.category === null) { //해당 입력값이 없을 경우 같은말: if(!uid.value)
+      if (this.createData.category === '') { //해당 입력값이 없을 경우 같은말: if(!uid.value)
         alert("카테고리를 선택해주세요");
         //uid.focus(); //focus(): 커서가 깜빡이는 현상, blur(): 커서가 사라지는 현상
         return; //return: 반환하다 return false:  아무것도 반환하지 말아라 아래 코드부터 아무것도 진행하지 말것
       }
 
-      if (this.createData.comment_type === null) { 
+      if (this.createData.comment_type === '') { 
         alert("댓글 형태를 선택해주세요");
         return; 
       }
 
-      if (this.createData.title === null) { 
+      if (this.createData.title === '') { 
         alert("제목을 입력해주세요");
         return; 
       }
@@ -169,6 +171,7 @@ export default {
     if (this.$route.query.type === 'update') {
       this.createData = this.opinionData;
       this.id = this.opinionData.id;
+      this.initialValue = this.opinionData.content;
       if (this.opinionData.comment_type == true) this.comment_type = '토의';
       else this.comment_type = '찬반';
     }

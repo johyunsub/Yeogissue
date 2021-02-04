@@ -189,6 +189,6 @@ test/
 front/hell/settings.json
 
 # file
-# back/db.sqlite3
-# back/db.sqlite3~Stashed changes
-# back/db.sqlite3~478cd684daf18e0ada8879b87cb326e8ebfc51fa
+back/db.sqlite3
+back/db.sqlite3~Stashed changes
+back/db.sqlite3~478cd684daf18e0ada8879b87cb326e8ebfc51fa
