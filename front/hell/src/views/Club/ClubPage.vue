@@ -51,7 +51,7 @@
       </v-col>
       <v-col cols="2"></v-col>
     </v-row>
-    <club-create />
+    <club-create :type="'create'" />
   </v-container>
 </template>
 
@@ -87,7 +87,8 @@ export default {
   methods: {
     ...mapActions('clubStore', ['clubList']),
     OnOff() {
-      this.$store.commit('CLUB_CREATE_DIALOG', true);
+      console.log('하이');
+      this.$store.commit('clubStore/CLUB_CREATE_DIALOG', true);
     },
   },
 };

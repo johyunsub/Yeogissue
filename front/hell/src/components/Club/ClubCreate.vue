@@ -9,22 +9,23 @@
               <v-row>
                 <v-col class="12">
                   <v-select
-                    v-model="clubData.category"
+                    v-model="clubCreateData.category"
                     :items="categoryItems"
                     label="카테고리"
                     outlined
                   ></v-select>
                 </v-col>
                 <v-col cols="12">
-                  <v-text-field v-model="clubData.title" label="제목*"></v-text-field>
+                  <v-text-field v-model="clubCreateData.title" label="제목*"></v-text-field>
                 </v-col>
                 <v-col cols="12">
-                  <v-textarea v-model="clubData.content" label="내용" rows="10"></v-textarea>
+                  <v-textarea v-model="clubCreateData.content" label="내용" rows="10"></v-textarea>
                 </v-col>
 
                 <!-- 공개 비공개 -->
                 <div class="ml-3">
-                  <v-radio-group v-model="clubData.check" row>
+                  <!--  v-model="clubCreateData.check" -->
+                  <v-radio-group row>
                     <v-radio label="공개" value="공개"></v-radio>
                     <v-radio label="비공개" value="비공개"></v-radio>
                   </v-radio-group>
@@ -34,8 +35,8 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="OnOff('create')">Create</v-btn>
-              <v-btn color="blue darken-1" text @click="OnOff('close')">Close</v-btn>
+              <v-btn color="blue darken-1" text @click="ClubCreate()">등록</v-btn>
+              <v-btn color="blue darken-1" text @click="OnOff('close')">취소</v-btn>
             </v-card-actions>
           </div>
         </v-card>
@@ -45,36 +46,77 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 export default {
   data: () => ({
     valid: true,
     email: '',
-    row: "",
+    row: '',
     value: '',
+
+    flag: false,
+    btnCheck: false,
+
+    categoryItems: ['연예', 'IT/과학', '해외', '경제', '스포츠', '정치', '사회', '생활'],
+    clubCreateData: {
+      title: '',
+      category: '',
+      content: '',
+      master: '',
+      user: '',
+    },
   }),
+  props: {
+    type: String,
+  },
   computed: {
+    ...mapState('clubStore', ['clubData']),
     getDialog: {
       get: function() {
-        return this.$store.state.clubDialog;
+        return this.$store.state.clubStore.clubDialog;
       },
       set: function() {},
     },
   },
 
   methods: {
-    ...mapActions('clubStore', ['clubCreate']),
-    OnOff: function(check) {
-      if (check == 'create') {
-        this.clubData.master = this.$store.state.userInfo.id;
-        this.clubCreate(this.clubData);
-        this.clubData = {};
+    ...mapActions('clubStore', ['clubUpdate']),
+    ClubCreate() {
+      if (this.type == 'create') {
+        this.clubCreateData.master = this.$store.state.userInfo.id;
+        this.clubCreate(this.clubCreateData);
+        this.clubCreateData = {};
+      } else if (this.type == 'update') {
+        this.clubUpdate(this.clubCreateData);
+        this.clubCreateData = {};
+        this.flag = false;
       }
-      this.$store.commit('CLUB_CREATE_DIALOG', false);
+
+      this.OnOff('create');
+    },
+    OnOff(check) {
+      if (check == 'create') this.btnCheck = false;
+      else if (check == 'close') this.btnCheck = true;
+
+      this.$store.commit('clubStore/CLUB_CREATE_DIALOG', false);
     },
     validate() {
       this.$refs.form.validate();
     },
-  }
-}
+    typeCheck() {
+      return { ddd: this.type };
+    },
+  },
+
+  updated() {
+    if (this.typeCheck().ddd == 'update' && this.flag == false && this.btnCheck == false) {
+      // 시발 비동기 통신하자 그냥 데이터
+      this.clubCreateData.title = this.clubData.title;
+      this.clubCreateData.category = this.clubData.category;
+      this.clubCreateData.content = this.clubData.content;
+      this.clubCreateData.user = this.clubData.master;
+      this.flag = true;
+    }
+  },
+};
 </script>

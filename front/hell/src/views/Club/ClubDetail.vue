@@ -10,7 +10,10 @@
         <v-divider class="my-10"></v-divider>
 
         <!-- 가입해야지만 보이게-->
-        <club-detail-content />
+        <club-detail-content v-if="clubDetailManegerBtn === false" />
+
+        <!-- 클럽 관리자 -->
+        <club-detail-manager-content v-if="clubDetailManegerBtn === true" />
       </v-col>
       <v-col cols="2"></v-col>
     </v-row>
@@ -19,12 +22,15 @@
 
 <script>
 import ClubDetailContent from '../../components/Club/Detail/ClubDetailContent.vue';
+import ClubDetailManagerContent from '../../components/Club/Detail/Manager/ClubDetailManagerContent.vue';
 import ClubDetailCard from '../../components/Club/Detail/ClubDetailCard.vue';
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
-  components: { ClubDetailContent, ClubDetailCard },
-  computed: {},
+  components: { ClubDetailContent, ClubDetailCard, ClubDetailManagerContent },
+  computed: {
+    ...mapState('clubStore', ['clubDetailManegerBtn']),
+  },
   data: function() {
     return {};
   },

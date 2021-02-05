@@ -20,16 +20,8 @@ export default new Vuex.Store({
     //Meun 상태
     drawer: false,
     dialog: false,
-
-    //클럽 모달 변수
-    clubDialog: false,
-    clubDetailUrlDialog: false,
   },
-  getters: {
-    getClubs(state) {
-      return state.clubs;
-    },
-  },
+  getters: {},
   mutations: {
     //Login
     SET_LOGIN_TOKEN(state, token) {
@@ -48,14 +40,6 @@ export default new Vuex.Store({
     },
     CHANGE_DIALOG(state, dialog) {
       state.dialog = dialog;
-    },
-
-    //Club Modal
-    CLUB_CREATE_DIALOG(state, dialog) {
-      state.clubDialog = dialog;
-    },
-    CLUB_DETAIL_URL_DIALOG(state, dialog) {
-      state.clubDetailUrlDialog = dialog;
     },
   },
   actions: {
