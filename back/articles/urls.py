@@ -19,9 +19,14 @@ urlpatterns = [
     path('badrecomments/<int:recomment_pk>/', views.badrecomment),
 
     path('<int:article_pk>/like/', views.like),
+    path('<int:comment_pk>/comment_like/', views.like),
     path('<int:article_pk>/scrap/', views.scrap),
 
     path('myscrap/<int:user_pk>/',views.myscrap),
 
     path('club/<int:club_pk>/',views.club_article),
+
+    path('make_hashtag/',views.hashtag_suggest),
+
+    path('search_bar/',views.search_bar),
 ]

@@ -8,6 +8,7 @@ class HashtagSerializer(serializers.ModelSerializer):
         model = Hashtag
         fields = '__all__'
         # read_only_fields = ('articles',)
+
 class HashtagSerializer2(serializers.ModelSerializer):
     
     class Meta:
@@ -28,10 +29,14 @@ class CommentSerializer(serializers.ModelSerializer):
         source='recomment_set.count',
         read_only=True,
     )
+    like_users_count = serializers.IntegerField(
+        source='like_users.count',
+        read_only = True,
+    )
     class Meta:
         model = Comment
         fields = '__all__'
-        read_only_fields = ('article',)
+        read_only_fields = ('article','like_users')
 
 class ArticleSerializer(serializers.ModelSerializer):
     hashtags = HashtagSerializer(many=True, read_only=True)
@@ -63,10 +68,14 @@ class ArticleSerializer(serializers.ModelSerializer):
  
 
 class ArticleListSerializer(serializers.ModelSerializer):
-    
+    # hashtags = HashtagSerializer(many=True, read_only=True)
+    # hashtags = serializers.CharField(
+    #     source='hashtags',
+    #     read_only=True
+    # )
     class Meta:
         model = Article
-        fields = ('id', 'title','user','created_at','read_count','category')
+        fields = ('id', 'title','user','created_at','read_count','category','hashtags')
 
 
 
