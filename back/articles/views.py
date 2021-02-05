@@ -8,8 +8,9 @@ from rest_framework.response import Response
 from .serializers import ArticleListSerializer, ArticleSerializer,HashtagSerializer,CommentSerializer, HashtagSerializer2,ReCommentSerializer
 from .models import Article, Hashtag, Comment, ReComment
 
+from .use_ai import keyword_mining
+
 from accounts.models import MyUser as User
-# Create your views here.
 
 # 의견나눔 게시글
 @api_view(['GET'])
@@ -38,6 +39,7 @@ def hashtag_create(data):
     # print(name)
     if Hashtag.objects.filter(name=name).exists():
         hash = Hashtag.objects.get(name=name)
+        hash.post_cnt += 1
         hash.articles.add(data['articles'][0])  
         hash.user.add(data['user'][0])
         hash.save()
@@ -168,6 +170,23 @@ def like(request, article_pk):
         return Response({'success', 'like'},status=status.HTTP_201_CREATED)
 
 
+# 댓글 좋아요
+@api_view(['POST'])
+def like(request, comment_pk):
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    print('a')
+    # user가 article을 좋아요 누른 전체유저에 존재하는지.
+    if comment.like_users.filter(pk=request.data.get('user')).exists():
+        # 좋아요 취소
+        print('a')
+        comment.like_users.remove(request.data.get('user'))
+        return Response({'success', 'dislike'},status=status.HTTP_201_CREATED)
+    else:
+        # 좋아요
+        comment.like_users.add(request.data.get('user'))
+        return Response({'success', 'like'},status=status.HTTP_201_CREATED)
+
+
 
 @api_view(['POST'])
 def scrap(request, article_pk):
@@ -195,3 +214,28 @@ def club_article(request,club_pk):
     serializer = ArticleListSerializer(article, many=True) 
     return Response(serializer.data)
 
+@api_view(['POST'])
+def hashtag_suggest(request):
+    comment = request.data.get('comment')
+    suggest = keyword_mining(comment)
+    info = {
+        'keyword' : suggest 
+    }
+    return Response(info)
+
+
+@api_view(['POST'])
+def search_bar(request):
+    name = request.data.get('name')
+    if Hashtag.objects.filter(name=name).exists():
+        hash = Hashtag.objects.get(name=name)
+        
+        articles = hash.articles.all()
+        # .filter(hashtag_id=hash.id)
+        # serializer =
+        print(articles) 
+        serializer = ArticleListSerializer(articles, many=True) 
+
+        return Response(serializer.data)
+    else:
+        return Response({'없음'})
