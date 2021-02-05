@@ -22,10 +22,27 @@
         <v-row>
           <v-col></v-col>
           <v-col class="mr-auto">
+          <v-row>
             <v-icon v-if="!isLike" large class="choice_cursor" @click="thumbUp">mdi-thumb-up-outline</v-icon>
-            <v-icon v-if="isLike" large class="choice_cursor" @click="thumbDown">mdi-thumb-up</v-icon>
-            <p>{{ likeCnt }}</p>
+            <v-icon v-if="isLike" large class="choice_cursor" @click="thumbUp">mdi-thumb-up</v-icon>
+          </v-row>
+          <v-row>
+            <v-chip
+              class="ma-2"
+              color="green"
+              text-color="white"
+            >
+              <v-avatar
+                left
+                class="green darken-4"
+              >
+                {{ likeCnt }}
+              </v-avatar>
+              공감
+            </v-chip>
+            </v-row>
           </v-col>
+
         </v-row>
 
         <!-- 댓글 -->
@@ -89,6 +106,7 @@ export default {
     return {
       page: 1,
       pageCnt: 3,
+      detailData : Object,
       isLike: false,
       likeCnt: 0,
     };
@@ -109,12 +127,9 @@ export default {
     },
     thumbUp() {
       this.isLike = !this.isLike;
-      this.opinionLike(this.opinionData.user)
+      this.opinionLike(this.detailData);
     },
-    thumbDown() {
-      this.isLike = !this.isLike;
-      //좋아요 취소 미완성
-    }
+
   },
   created() {
     axios
@@ -124,15 +139,27 @@ export default {
           this.$store.commit('opinionStore/SET_OPINION_COMMENT', res.data.comment_set);
           this.$store.commit('opinionStore/SET_OPINION_COMMENT_PAGING', 0);
           this.detailData = res.data;
+          this.likeCnt = res.data.like_users.length;
+        if(res.data.like_users.includes(res.data.user)){
+          this.isLike = true;
+        }
+          this.likeCnt = res.data.like_users.length;
         })
         .catch((err) => {
           console.log(err.response);
         });
   },
   updated() {
-    this.likeCnt = this.opinionData.like_users.length;
+    axios.get(`${API_BASE_URL}articles/${this.$route.query.id}`)
+      .then((res) => {
+        this.likeCnt = res.data.like_users.length;
+        if(res.data.like_users.includes(res.data.user)){
+          this.isLike = true;
+        }
+          this.likeCnt = res.data.like_users.length;
+      })
   },
-};
+}
 </script>
 
 <style scoped>
