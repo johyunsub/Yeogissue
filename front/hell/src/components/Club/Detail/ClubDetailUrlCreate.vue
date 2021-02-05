@@ -22,7 +22,7 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="OnOff()">Create</v-btn>
+              <v-btn color="blue darken-1" text @click="CreateOption(type)">Create</v-btn>
               <v-btn color="blue darken-1" text @click="OnOff()">Close</v-btn>
             </v-card-actions>
           </div>
@@ -33,10 +33,11 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
   props: {
     type: { Type: String },
-    UpdateUrlData: { Type: Object },
   },
   data: () => ({
     valid: true,
@@ -50,24 +51,31 @@ export default {
     },
   }),
   computed: {
+    ...mapState('clubStore', ['clubData']),
     getDialog: {
       get: function() {
-        return this.$store.state.clubDetailUrlDialog;
+        return this.$store.state.clubStore.clubDetailUrlDialog;
       },
       set: function() {},
     },
   },
 
   methods: {
-    CreateOption() {
-      if (this.type === 'create') {
-        this.$store.dispatch('clubDetailUrlCreate', this.DetailUrlData);
-      } else if (this.type === 'update') {
-        this.$store.dispatch('clubDetailUrlUpdate', this.DetailUrlData);
+    ...mapActions('clubStore', ['clubDetailUrlCreate', 'clubDetailUrlUpdate']),
+    CreateOption(check) {
+      if (check === 'create') {
+        this.DetailUrlData.user = this.$store.state.userInfo.id;
+        console.log(this.$store.state.clubData);
+        this.DetailUrlData.club = this.clubData.id;
+        this.clubDetailUrlCreate(this.DetailUrlData);
+      } else if (this.check === 'update') {
+        this.clubDetailUrlUpdate(this.DetailUrlData);
       }
+      this.DetailUrlData = {};
+      this.OnOff();
     },
     OnOff: function() {
-      this.$store.commit('CLUB_DETAIL_URL_DIALOG', false);
+      this.$store.commit('clubStore/CLUB_DETAIL_URL_DIALOG', false);
     },
     validate() {
       this.$refs.form.validate();

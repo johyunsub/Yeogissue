@@ -52,6 +52,7 @@ export default {
     ClubDetailOpinion,
     ClubDetailUrlCreate,
   },
+
   data() {
     return {
       categoryType: 'intro',
@@ -62,8 +63,11 @@ export default {
       this.categoryType = category;
     },
     OnOff: function() {
-      this.$store.commit('CLUB_DETAIL_URL_DIALOG', true);
+      this.$store.commit('clubStore/CLUB_DETAIL_URL_DIALOG', true);
     },
+  },
+  created() {
+    this.$store.dispatch('clubStore/clubDetailUrlList');
   },
 };
 </script>
