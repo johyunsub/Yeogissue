@@ -23,8 +23,8 @@
           <v-col></v-col>
           <v-col class="mr-auto">
           <v-row>
-            <v-icon v-if="!isLike" large class="choice_cursor" @click="thumbUp">mdi-thumb-up-outline</v-icon>
-            <v-icon v-if="isLike" large class="choice_cursor" @click="thumbUp">mdi-thumb-up</v-icon>
+            <v-icon v-if="!isLike" large class="choice_cursor" @click="isLogin">mdi-thumb-up-outline</v-icon>
+            <v-icon v-if="isLike" large class="choice_cursor" @click="isLogin">mdi-thumb-up</v-icon>
           </v-row>
           <v-row>
             <v-chip
@@ -125,39 +125,58 @@ export default {
       this.opinionDelete(this.detailData.id);
       this.$router.push({ name: 'Opinion' });
     },
+    isLogin(){
+      if(localStorage.getItem('token') == null){
+        alert("로그인 후 이용가능합니다.")
+      }else{
+        this.thumbUp();
+      }
+    },
     thumbUp() {
       this.isLike = !this.isLike;
       this.opinionLike(this.detailData);
+      axios.get(`${API_BASE_URL}articles/${this.$route.query.id}`)
+      .then((res) => {
+        this.likeCnt = res.data.like_users.length;
+        if(res.data.like_users.includes(this.$store.state.userInfo.id)){
+          this.isLike = true;
+        }
+      })
     },
 
   },
   created() {
+    console.log("created됨")
     axios
         .get(`${API_BASE_URL}articles/${this.$route.query.id}`)
         .then((res) => {
+          
+          console.log(localStorage.getItem('token') + ",<<<<")
           this.$store.commit('opinionStore/SET_OPINION_DETAIL', res.data);
           this.$store.commit('opinionStore/SET_OPINION_COMMENT', res.data.comment_set);
           this.$store.commit('opinionStore/SET_OPINION_COMMENT_PAGING', 0);
           this.detailData = res.data;
           this.likeCnt = res.data.like_users.length;
-        if(res.data.like_users.includes(res.data.user)){
+          console.log(this.$store.state.userInfo.id + "유저id")
+        if(localStorage.getItem('token') != null && this.detailData.like_users.includes(this.$store.state.userInfo.id)){
           this.isLike = true;
+          console.log("로그인 됨!! ")
         }
-          this.likeCnt = res.data.like_users.length;
         })
         .catch((err) => {
           console.log(err.response);
         });
   },
   updated() {
-    axios.get(`${API_BASE_URL}articles/${this.$route.query.id}`)
-      .then((res) => {
-        this.likeCnt = res.data.like_users.length;
-        if(res.data.like_users.includes(res.data.user)){
-          this.isLike = true;
-        }
-          this.likeCnt = res.data.like_users.length;
-      })
+    // axios.get(`${API_BASE_URL}articles/${this.$route.query.id}`)
+    //   .then((res) => {
+    //     console.log("데이터바뀜") 
+    //     this.likeCnt = res.data.like_users.length;
+    //     if(res.data.like_users.includes(this.$store.state.userInfo.id)){
+    //       this.isLike = true;
+    //     }
+    //       this.likeCnt = res.data.like_users.length;
+    //   })
   },
 }
 </script>

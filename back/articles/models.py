@@ -17,9 +17,11 @@ class Article(models.Model):
 
 class Hashtag(models.Model):
     name = models.CharField(max_length=100)
+    post_cnt = models.IntegerField(default=1)
     articles = models.ManyToManyField(Article,related_name='hashtags')
     user = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='user_hashtags')
-
+    def __str__(self):
+        return self.name
 
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_comment')
@@ -29,6 +31,7 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     badcomment = models.IntegerField(default=0)
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_comments')
     
 
 class ReComment(models.Model):

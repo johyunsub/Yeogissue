@@ -34,7 +34,7 @@ def nickname_check(request):
 def userid_check(request):
     email = request.data.get('email')
     # print(email)
-
+    
     if email == None or User.objects.filter(email=email).exists():
         return Response({'fail'})
     
@@ -44,12 +44,11 @@ def userid_check(request):
 def signup(request):
     password = request.data.get('password')
     password_confirmation = request.data.get('passwordConfirmation')
-    
+
     if password != password_confirmation:
         return Response({'error': '비밀번호가 일치하지 않습니다.'},status=status.HTTP_400_BAD_REQUEST)
     
     serializer = UserSerializer(data=request.data)
-    
     if serializer.is_valid(raise_exception=True):
         user = serializer.save()
         # user.is_active = True
@@ -104,15 +103,9 @@ def user_update(request):
 
 @api_view(['POST'])
 def get_user(request):
-    user = get_object_or_404(get_user_model(), email=request.data.get('email'))
+    user = get_object_or_404(get_user_model(), pk=request.data.get('user'))
     serializer = GetUserSerializer(user)
     return Response(serializer.data)
 
-@api_view(['GET'])
-def mypage(request,user_pk):
-    #하나의 유저가 스크랩한 게시물 목록 출력
-    myuser = get_object_or_404(User, pk=user_pk)
-    scrap_list = myuser.scrap_articles.all()
-    print('a')
-    print(scrap_list)
+
     
