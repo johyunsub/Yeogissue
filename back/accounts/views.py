@@ -103,15 +103,9 @@ def user_update(request):
 
 @api_view(['POST'])
 def get_user(request):
-    user = get_object_or_404(get_user_model(), email=request.data.get('email'))
+    user = get_object_or_404(get_user_model(), pk=request.data.get('user'))
     serializer = GetUserSerializer(user)
     return Response(serializer.data)
 
-@api_view(['GET'])
-def mypage(request,user_pk):
-    #하나의 유저가 스크랩한 게시물 목록 출력
-    myuser = get_object_or_404(User, pk=user_pk)
-    scrap_list = myuser.scrap_articles.all()
-    print('a')
-    print(scrap_list)
+
     
