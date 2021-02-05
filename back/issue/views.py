@@ -6,6 +6,8 @@ from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.db.models import Q
+import urllib
+from bs4 import BeautifulSoup
 
 
 @api_view(['POST'])
@@ -112,6 +114,15 @@ def naver_search(issue):
         news_list.append({'title':title,
         'link':i['originallink'],
         })
+    # print(news_list)
+    # # link = news_list[1]['link']
+    # link = 'https://gooweon.tistory.com/47'
+    # print(link)
+    # html = urllib.request.urlopen(link)
+    # source = html.read()
+    # soup = BeautifulSoup(source,'html.parser')
+    # print(soup)
+
         # print('확인')
     
     return news_list
