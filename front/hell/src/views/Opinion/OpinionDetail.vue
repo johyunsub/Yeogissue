@@ -109,7 +109,6 @@ export default {
       detailData : Object,
       isLike: false,
       likeCnt: 0,
-      loginedUserId: '',
     };
   },
   watch: {
@@ -134,9 +133,7 @@ export default {
       }
     },
     thumbUp() {
-      this.opinionLike(this.detailData);
-      console.log(this.loginedUserId + "<<<로그인된 유저 id")
-      axios.post(`${API_BASE_URL}articles/${this.$route.query.id}/like/`, this.$loginedUserId)
+      axios.post(`${API_BASE_URL}articles/${this.$route.query.id}/like/`, {user: this.$store.state.userInfo.id})
       if(this.isLike) {
         this.likeCnt--;
       }else{
@@ -148,6 +145,7 @@ export default {
   },
   created() {
     this.loginedUserId = this.$store.state.userInfo.id;
+    console.log(this.loginedUserId)
     axios
         .get(`${API_BASE_URL}articles/${this.$route.query.id}`)
         .then((res) => {

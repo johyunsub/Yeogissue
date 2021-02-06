@@ -107,9 +107,10 @@ export default {
       axios
         .post(`${API_BASE_URL}accounts/api-token-auth/`, this.logindata)
         .then((res) => {
-          console.log(res);
+          console.log(res + "<<<<<<<" + this.logindata.email);
           this.$store.commit('SET_LOGIN_TOKEN', res.data.token);
-          this.userData(this.logindata.email);
+          this.$store.commit("SET_USER_INFO", this.logindata);
+          this.$store.dispatch('userData', this.logindata.email);
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('email', this.logindata.email);
           this.OnOffLoign();
