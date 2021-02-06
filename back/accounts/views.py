@@ -57,7 +57,7 @@ def signup(request):
         user.save()
         print(token)
         message = f'이메일 인증을 위해서 {token} 을 입력해주세요'
-        mail_title = '오토토 이메일 인증'
+        mail_title = '여기이슈 이메일 인증메일입니다.'
         mail_to = request.data.get('email')
         email = EmailMessage(mail_title,message,to=[mail_to])
         email.send()
@@ -107,4 +107,11 @@ def get_user(request):
     return Response(serializer.data)
 
 
-    
+@api_view(['POST'])
+def login(request):
+    email = request.data.get('email')
+    if User.objects.filter(email=email).exists():
+        user = User.objects.get(email=email)
+        if user.is_active == False:
+            return Response({'0'})
+    return Response({'1'})

@@ -17,7 +17,7 @@ export default new Vuex.Store({
     // 유저 정보
     userInfo: {
       email : '',
-      id : 1,
+      id : '',
       nickname : '',
     },
 
@@ -49,7 +49,7 @@ export default new Vuex.Store({
   actions: {
     //유저 정보 받아오기
     userData({ commit }, data) {
-      console.log(data)
+      console.log("index userdata "+data)
       instance
         .post('/accounts/get_user/', { email: data })
         .then((res) => {
@@ -64,7 +64,7 @@ export default new Vuex.Store({
       commit('SET_USER_INFO', null);
       localStorage.removeItem('token');
       localStorage.removeItem('email');
-      
+                                             
     },
   },
   modules: {

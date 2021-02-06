@@ -136,7 +136,7 @@ export default {
     thumbUp() {
       this.opinionLike(this.detailData);
       console.log(this.loginedUserId + "<<<로그인된 유저 id")
-      axios.post(`${API_BASE_URL}articles/${this.$route.query.id}/like/`, this.$loginedUserId)
+      axios.post(`${API_BASE_URL}articles/${this.$route.query.id}/like/`, this.loginedUserId)
       if(this.isLike) {
         this.likeCnt--;
       }else{
@@ -156,7 +156,7 @@ export default {
           this.$store.commit('opinionStore/SET_OPINION_COMMENT_PAGING', 0);
           this.detailData = res.data;
           this.likeCnt = res.data.like_users.length;
-          // console.log(this.detailData.like_users)
+          console.log(this.loginedUserId)
           if(this.detailData.like_users.includes(this.loginedUserId)){
           this.isLike = true;
           }

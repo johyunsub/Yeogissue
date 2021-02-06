@@ -34,7 +34,7 @@
                 </v-col>
 
                 <v-col cols="12" sm="12">
-                  <v-btn tile x-large color="info" :disabled="!valid" @click="validate"
+                  <v-btn tile x-large color="info" :disabled="!valid" @click="certCheck"
                     >로그인</v-btn
                   >
                 </v-col>
@@ -83,6 +83,7 @@ export default {
       email: '',
       password: '',
     },
+    certdata:'',
     emailRules: [
       (v) => !!v || 'E-mail is required',
       (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
@@ -107,7 +108,8 @@ export default {
       axios
         .post(`${API_BASE_URL}accounts/api-token-auth/`, this.logindata)
         .then((res) => {
-          console.log(res);
+          console.log(res.data)
+          // this.certCheck();
           this.$store.commit('SET_LOGIN_TOKEN', res.data.token);
           this.userData(this.logindata.email);
           localStorage.setItem('token', res.data.token);
@@ -117,8 +119,28 @@ export default {
         })
         .catch((err) => {
           console.log(err.response);
-          this.accounts_valid = true;
+          this.accounts_valid = true; //에러일때 노출 
         });
+    },
+    certCheck() {
+      axios
+        .post(`${API_BASE_URL}accounts/login/`,{email:this.logindata.email,password:this.logindata.password} )   
+        .then((res) => {
+          console.log("인증값"+res.data);
+          if(res.data == '1')//인증되있으면
+            this.validate();
+          else{
+            this.$fire({
+              title: "이메일인증이 필요합니다",
+              text: "인증페이지로 이동합니다",
+              type: "error",
+            }).then(r => {
+              console.log(r.value);
+              this.$store.commit('CHANGE_DIALOG', false);           
+              this.$router.push({ name: 'MyPage' })
+            });
+          }
+        })
     },
     loginWithKakao() {
       const params = {
@@ -127,9 +149,11 @@ export default {
       window.Kakao.Auth.authorize(params);
     },
     forgotpw() {
+      this.$store.commit('CHANGE_DIALOG', false);
       this.$router.push({ name: 'Home' });
     },
     gojoin() {
+      this.$store.commit('CHANGE_DIALOG', false);
       this.$router.push({ name: 'Home' });
     },
   },
