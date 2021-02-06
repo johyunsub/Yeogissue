@@ -19,8 +19,8 @@
         #해시태그
         <v-row class="mr-tp">
           <v-chip-group mandatory>
-            <v-chip v-for="tag in data.hashtags" :key="tag.name"> 
-              {{ tag.name }}
+            <v-chip disabled v-for="tag in data.hashtags" :key="tag.name"> 
+              <span style='color:red; font-weight:600'>#{{ tag.name }}</span>
             </v-chip>
           </v-chip-group>
           <v-col cols="4"></v-col>
