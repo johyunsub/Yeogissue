@@ -126,8 +126,6 @@ def badcomment(request,comment_pk):
     comment.badcomment += 1
     comment.save()
 
-
-
 # 의견나눔 게시글 대댓글
 @api_view(['POST'])
 def create_recomment(request, comment_pk):
@@ -160,6 +158,7 @@ def recomment_detail_update_delete(request, recomment_pk):
         recomment.delete()
         return Response({ 'id': recomment_pk }, status=status.HTTP_204_NO_CONTENT)
     return Response({'success'})
+
 # 대댓글 신고
 @api_view(['GET'])
 def badrecomment(request,recomment_pk):
@@ -257,3 +256,7 @@ def search_bar(request):
         return Response(serializer.data)
     else:
         return Response({'없음'})
+
+
+@api_view(['POST'])
+def comment_emotion(reqeust):
