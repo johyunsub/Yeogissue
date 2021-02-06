@@ -3,11 +3,17 @@ from .models import Article, Hashtag, Comment,ReComment
 from django.contrib.auth import get_user_model
 
 class HashtagSerializer(serializers.ModelSerializer):
-    
+        
     class Meta:
         model = Hashtag
         fields = '__all__'
         # read_only_fields = ('articles',)
+class HashtagNameSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Hashtag
+        fields = ('name',)
+        
 
 class HashtagSerializer2(serializers.ModelSerializer):
     
@@ -68,14 +74,18 @@ class ArticleSerializer(serializers.ModelSerializer):
  
 
 class ArticleListSerializer(serializers.ModelSerializer):
-    # hashtags = HashtagSerializer(many=True, read_only=True)
-    # hashtags = serializers.CharField(
-    #     source='hashtags',
-    #     read_only=True
-    # )
+    hashtags = HashtagNameSerializer(many=True, read_only=True)
+    like_users_count = serializers.IntegerField(
+        source='like_users.count',
+        read_only=True,
+    )
+    username = serializers.ReadOnlyField(source='user.nickname')
+    # hastag = serializers.ReadOnlyField(source='hashtags.name')
     class Meta:
         model = Article
-        fields = ('id', 'title','user','created_at','read_count','category','hashtags')
+        exclude = ('like_users','scrap_users')
+        read_only_fields = ('like_users',)
+
 
 
 
