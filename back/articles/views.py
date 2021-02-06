@@ -258,5 +258,5 @@ def search_bar(request):
         return Response({'없음'})
 
 
-@api_view(['POST'])
-def comment_emotion(reqeust):
+#@api_view(['POST'])
+#def comment_emotion(reqeust):

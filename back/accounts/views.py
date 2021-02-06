@@ -44,13 +44,14 @@ def userid_check(request):
 def signup(request):
     password = request.data.get('password')
     password_confirmation = request.data.get('passwordConfirmation')
-
+    print('dfdfdfdfdfddf')
     if password != password_confirmation:
         return Response({'error': '비밀번호가 일치하지 않습니다.'},status=status.HTTP_400_BAD_REQUEST)
     
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         user = serializer.save()
+        print('dfdfdfdfdfddf222')
         # user.is_active = True
         user.set_password(request.data.get('password'))
         token = make_code()
