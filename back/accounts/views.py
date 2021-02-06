@@ -47,7 +47,6 @@ def userid_check(request):
 def signup(request):
     password = request.data.get('password')
     password_confirmation = request.data.get('passwordConfirmation')
-
     if password != password_confirmation:
         return Response({'error': '비밀번호가 일치하지 않습니다.'},status=status.HTTP_400_BAD_REQUEST)
     
@@ -61,7 +60,7 @@ def signup(request):
         user.save()
         print(token)
         message = f'이메일 인증을 위해서 {token} 을 입력해주세요'
-        mail_title = '오토토 이메일 인증'
+        mail_title = '여기이슈 이메일 인증메일입니다.'
         mail_to = request.data.get('email')
         email = EmailMessage(mail_title,message,to=[mail_to])
         email.send()
@@ -117,7 +116,5 @@ def login(request):
     if User.objects.filter(email=email).exists():
         user = User.objects.get(email=email)
         if user.is_active == False:
-            return Response({'비활성상태'})
-    return Response({'pass'})
-
-    
+            return Response({'0'})
+    return Response({'1'})
