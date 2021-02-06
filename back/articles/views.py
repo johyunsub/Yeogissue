@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import ArticleListSerializer, ArticleSerializer,HashtagSerializer,CommentSerializer, HashtagSerializer2,ReCommentSerializer
+from .serializers import ArticleListSerilizer, ArticleSerializer,HashtagSerializer,CommentSerializer, HashtagSerializer2,ReCommentSerializer
 from .models import Article, Hashtag, Comment, ReComment
 
 from .use_ai import keyword_mining
@@ -77,6 +77,14 @@ def article_detail(request, article_pk):
 @api_view(['POST'])
 def create_comment(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
+    if int(request.data.get('opinion_type')) == True:
+        article.agree_count += 1
+        article.save()
+    elif int(request.data.get('opinion_type')) == False:
+        article.disagree_count += 1
+        article.save()
+
+    
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save(article=article)
@@ -102,6 +110,12 @@ def comment_detail_update_delete(request, comment_pk):
             serializer.save()
             return Response(serializer.data)
     else:
+        if comment.opinion_type == True:
+            comment.article.agree_count -= 1
+            comment.article.save()
+        elif comment.opinion_type == False:
+            comment.article.disagree_count -= 1
+            comment.article.save()
         comment.delete()
         return Response({ 'id': comment_pk }, status=status.HTTP_204_NO_CONTENT)
 

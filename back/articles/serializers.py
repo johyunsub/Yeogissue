@@ -33,6 +33,13 @@ class CommentSerializer(serializers.ModelSerializer):
         source='like_users.count',
         read_only = True,
     )
+
+    # type_count = serializers.IntegerField(
+    #     source='opinion_type.count',
+    #     read_only=True,
+    # )
+
+
     class Meta:
         model = Comment
         fields = '__all__'
@@ -59,6 +66,11 @@ class ArticleSerializer(serializers.ModelSerializer):
         source='scrap_users.count',
         read_only=True,
     )
+ 
+    # type_count = serializers.IntegerField(
+    #     source='comment_set.data.opinion_type.count',
+    #     read_only=True,
+    # )
 
     class Meta:
         model = Article
@@ -67,7 +79,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
  
 
-class ArticleListSerializer(serializers.ModelSerializer):
+class ArticleListSerilizer(serializers.ModelSerializer):
     # hashtags = HashtagSerializer(many=True, read_only=True)
     # hashtags = serializers.CharField(
     #     source='hashtags',
