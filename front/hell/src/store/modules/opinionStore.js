@@ -24,9 +24,16 @@ const opinionStore = {
     //좋아요한 article들의 번호
     //likedOpinion: [],
 
+    //해시태그
+    hashtags : [],
+
   },
   getters: {},
   mutations: {
+    SET_HASHTAGS(state, hashtags) {
+      state.hashtags = hashtags;
+    },
+
     SET_OPINIONS(state, opinions) {
       state.opinions = opinions;
     },
@@ -144,6 +151,17 @@ const opinionStore = {
           commit('SET_OPINION_DETAIL', res.data);
           commit('SET_OPINION_COMMENT', res.data.comment_set);
           commit('SET_OPINION_COMMENT_PAGING', 0);
+        })
+        .catch((err) => console.log(err.response));
+    },
+
+    // 해시태그 추천
+    getHashtag({ commit }, data) {
+      instance
+        .post('/articles/make_hashtag/',data)
+        .then((res) => {
+          console.log(res.data)
+          commit('SET_HASHTAGS',res.data);
         })
         .catch((err) => console.log(err.response));
     },

@@ -13,6 +13,7 @@ import NavBar from './components/bar/NavBar.vue';
 import MenuBar from './components/bar/MenuBar.vue';
 
 export default {
+  name: 'App',
   components: { NavBar, MenuBar },
   created() {
     if (localStorage.getItem('email') != '') {
