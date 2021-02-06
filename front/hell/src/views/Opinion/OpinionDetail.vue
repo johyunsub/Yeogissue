@@ -18,6 +18,15 @@
 
         <Viewer v-if="detailData.content != null" :initialValue="detailData.content" /> 
 
+        #해시태그
+        <v-row class="mr-tp">
+          <v-chip-group mandatory>
+            <v-chip v-for="tag in detailData.hashtags" :key="tag"> 
+              {{ tag.name }}
+            </v-chip>
+          </v-chip-group>
+          <v-col cols="4"></v-col>
+        </v-row>
 
         <v-row>
           <v-col></v-col>
