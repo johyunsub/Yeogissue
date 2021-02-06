@@ -29,14 +29,15 @@ export default {
         opinion_type: false, // 찬반 추후 수정
         content: '',
         user: 1, // 찬한 추후 수정
+        emotion: '',
       },
     };
   },
   methods: {
-    ...mapActions('opinionStore', ['opinionCommentCreate']),
+    ...mapActions('opinionStore', ['opinionCommentEmotion']),
     CommentCreate() {
       this.createData.content = this.content;
-      this.opinionCommentCreate(this.createData);
+      this.opinionCommentEmotion(this.createData);
       this.content = '';
     },
   },

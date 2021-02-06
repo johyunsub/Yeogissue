@@ -9,6 +9,9 @@ from .tokens import make_code
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
+from rest_framework_jwt.views import obtain_jwt_token
+
+
 @api_view(['POST'])
 def make_admin(request):
     email = request.data.get('email')
@@ -107,5 +110,14 @@ def get_user(request):
     serializer = GetUserSerializer(user)
     return Response(serializer.data)
 
+
+@api_view(['POST'])
+def login(request):
+    email = request.data.get('email')
+    if User.objects.filter(email=email).exists():
+        user = User.objects.get(email=email)
+        if user.is_active == False:
+            return Response({'비활성상태'})
+    return Response({'pass'})
 
     
