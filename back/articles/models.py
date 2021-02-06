@@ -34,8 +34,9 @@ class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     badcomment = models.IntegerField(default=0)
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_comments')
-    emotion = models.TextField()
-     
+    emotion = models.CharField(max_length = 10)
+    
+
 class ReComment(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -43,4 +44,3 @@ class ReComment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     badcomment = models.IntegerField(default=0)
-    emotion = models.TextField()
