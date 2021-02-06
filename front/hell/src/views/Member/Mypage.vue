@@ -120,7 +120,7 @@ export default {
           scrap: false,
           update: false,
           write: false,
-          
+          nickname: '',
       }
   },
   methods: {

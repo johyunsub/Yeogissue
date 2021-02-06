@@ -30,5 +30,5 @@ urlpatterns = [
 
     path('search_bar/',views.search_bar),
 
-    path('comment_emotion',views.comment_emotion),
+    #path('comment_emotion',views.comment_emotion),
 ]
