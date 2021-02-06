@@ -46,7 +46,6 @@ const opinionStore = {
       let index = 0;
       for (let i = start; i < start + 10; i++) {
         if (i == state.opinionCategory.length) break;
-        console.log('넣어부려' + i + ' ' + state.opinionCategory.length);
         state.opinionPaging[index++] = state.opinionCategory[i];
       }
     },
@@ -99,6 +98,17 @@ const opinionStore = {
     opinionList({ commit }) {
       instance
         .get('/articles/article_list')
+        .then((res) => {
+          commit('SET_OPINIONS', res.data);
+          commit('SET_OPINION_CATEGORY', '전체');
+          commit('SET_OPINION_PAGING', 0);
+        })
+        .catch((err) => console.log(err.response));
+    },
+    // 해시태그 검색 조회
+    hashOpinionList({ commit }, data) {
+      instance
+        .post('/articles/search_bar/', data)
         .then((res) => {
           commit('SET_OPINIONS', res.data);
           commit('SET_OPINION_CATEGORY', '전체');

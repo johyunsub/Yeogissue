@@ -22,7 +22,7 @@
         <v-row class="mr-tp">
           <v-chip-group mandatory>
             <v-chip v-for="tag in detailData.hashtags" :key="tag"> 
-              {{ tag.name }}
+              #{{ tag.name }}
             </v-chip>
           </v-chip-group>
           <v-col cols="4"></v-col>
