@@ -9,6 +9,7 @@ import ClubDetail from '../views/Club/ClubDetail.vue';
 import Issue from '../views/Issue/IssuePage.vue';
 import IssueDetail from '../views/Issue/IssueDetail.vue';
 import Join from '../views/Member/Join.vue';
+import Mypage from '../views/Member/Mypage.vue';
 
 Vue.use(VueRouter);
 
@@ -66,7 +67,14 @@ const routes = [
     name: 'Join',
     component: Join,
   },
-];
+  //MyPage
+  {
+    path: '/mypage',
+    name: 'MyPage',
+    component: Mypage
+  },
+ 
+]
 
 const router = new VueRouter({
   routes,

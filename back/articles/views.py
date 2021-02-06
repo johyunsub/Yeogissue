@@ -27,7 +27,9 @@ def article_create(request):
         data = {}
         data['articles']=[serializer.data['id']]
         data['user']=[request.data.get('user')]
-        for i in list(map(str,request.data.get('name').split(','))):
+        print(request.data.get('name'))
+        # for i in list(map(str,request.data.get('name').split(','))):
+        for i in request.data.get('name'):
             # print(i.strip(),'i')
             data['name']= i.strip()
             hashtag_create(data)
@@ -75,6 +77,14 @@ def article_detail(request, article_pk):
 @api_view(['POST'])
 def create_comment(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
+    if int(request.data.get('opinion_type')) == True:
+        article.agree_count += 1
+        article.save()
+    elif int(request.data.get('opinion_type')) == False:
+        article.disagree_count += 1
+        article.save()
+
+    
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save(article=article)
@@ -100,6 +110,12 @@ def comment_detail_update_delete(request, comment_pk):
             serializer.save()
             return Response(serializer.data)
     else:
+        if comment.opinion_type == True:
+            comment.article.agree_count -= 1
+            comment.article.save()
+        elif comment.opinion_type == False:
+            comment.article.disagree_count -= 1
+            comment.article.save()
         comment.delete()
         return Response({ 'id': comment_pk }, status=status.HTTP_204_NO_CONTENT)
 
@@ -172,7 +188,7 @@ def like(request, article_pk):
 
 # 댓글 좋아요
 @api_view(['POST'])
-def like(request, comment_pk):
+def like_comment(request, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
     print('a')
     # user가 article을 좋아요 누른 전체유저에 존재하는지.
@@ -216,7 +232,9 @@ def club_article(request,club_pk):
 
 @api_view(['POST'])
 def hashtag_suggest(request):
-    comment = request.data.get('comment')
+    title = request.data.get('title')
+    content = request.data.get('content')
+    comment = title + content
     suggest = keyword_mining(comment)
     info = {
         'keyword' : suggest 

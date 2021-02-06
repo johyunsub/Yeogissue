@@ -21,6 +21,7 @@
     </v-col>
     <v-col cols="auto" v-if="isLoginToken != ''">
       안녕하세요 {{ userInfo.nickname }}님
+      <v-btn text @click="MovePage('myPage')">마이페이지</v-btn>
       <notification />
       <v-btn text color="red" @click="Out">로그아웃</v-btn>
     </v-col>
@@ -75,6 +76,9 @@ export default {
           break;
         case "join":
           this.$router.push({ name: "Join" });
+          break;
+        case 'myPage':
+          this.$router.push({ name: 'MyPage' });
           break;
       }
     },
