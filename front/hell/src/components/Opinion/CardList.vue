@@ -17,6 +17,14 @@
       <v-divider class="my-2"></v-divider>
       <div class="text--primary">
         #해시태그
+        <v-row class="mr-tp">
+          <v-chip-group mandatory>
+            <v-chip v-for="tag in data.hashtags" :key="tag"> 
+              {{ tag.name }}
+            </v-chip>
+          </v-chip-group>
+          <v-col cols="4"></v-col>
+        </v-row>
       </div>
     </v-card-text>
   </v-card>
