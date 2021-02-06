@@ -19,7 +19,7 @@ urlpatterns = [
     path('badrecomments/<int:recomment_pk>/', views.badrecomment),
 
     path('<int:article_pk>/like/', views.like),
-    path('<int:comment_pk>/comment_like/', views.like),
+    path('<int:comment_pk>/comment_like/', views.like_comment),
     path('<int:article_pk>/scrap/', views.scrap),
 
     path('myscrap/<int:user_pk>/',views.myscrap),
