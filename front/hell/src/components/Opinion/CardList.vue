@@ -3,13 +3,13 @@
     <v-card-text>
       <v-row>
         <v-col cols="auto" class="mr-auto">
-          <p class="subtitle-1 text--primary choice_cursor" @click="MovePage('opinionDetail', id)">
-            {{ title }}
+          <p class="subtitle-1 text--primary choice_cursor" @click="MovePage('opinionDetail', data.id)">
+            {{ data.title }}
           </p>
         </v-col>
-        <v-col cols="auto"> <v-icon small>mdi-thumb-up-outline</v-icon> 100 </v-col>
+        <v-col cols="auto"> <v-icon small>mdi-thumb-up-outline</v-icon> {{ data.like_users_count}} </v-col>
       </v-row>
-      <p>{{ user }}</p>
+      <p>작성자 : {{ data.user }}</p>
       <div class="text--primary choice_cursor">
         간단한 내용
       </div>
@@ -27,9 +27,8 @@ import { mapActions } from 'vuex';
 
 export default {
   props: {
-    id: { type: Number },
-    title: { type: String },
-    user: { type: Number },
+    data: {type: Object},
+    
   },
   methods: {
     ...mapActions('opinionStore', ['opinionDetail']),
