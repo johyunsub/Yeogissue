@@ -17,7 +17,7 @@ export default new Vuex.Store({
     // 유저 정보
     userInfo: {
       email : '',
-      id : 1,
+      id : '',
       nickname : '',
     },
 
