@@ -14,6 +14,7 @@
 
       <v-row>
         <v-col cols="2">
+          <div>{{emotion}}</div>
           <v-avatar class="profile ml-10" color="grey" size="80">
             <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
           </v-avatar>
@@ -42,6 +43,7 @@ export default {
     updated_at: { type: String },
     user: { type: Number },
     article: { type: Number },
+    emotion: { type: String},
   },
 };
 </script>

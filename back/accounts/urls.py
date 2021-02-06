@@ -11,6 +11,7 @@ urlpatterns = [
     path('user_delete/', views.user_delete),
     path('user_update/', views.user_update),
     path('api-token-auth/', obtain_jwt_token),
+    path('login/', views.login),
     path('make_admin/', views.make_admin),
     path('get_user/', views.get_user),
     # path('<int:user_pk>/mypage/',views.mypage),

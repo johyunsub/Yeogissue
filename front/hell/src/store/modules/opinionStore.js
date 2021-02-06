@@ -165,7 +165,28 @@ const opinionStore = {
         })
         .catch((err) => console.log(err.response));
     },
-
+    opinionCommentEmotion({dispatch},data) {
+      instance
+        .post(`/articles/emotion_comment/`,data)
+        .then((res) => {
+          console.log('이거 왜 안나옴?? ')
+          console.log(res.data.emotion)
+          if(res.data.state == false){
+            var con_firm = confirm('너무 화가 많은 댓글로 여겨 집니다.');
+            if(con_firm==true){
+              document.write('수정');
+            }
+            else if(con_firm==false){
+              console.log(res.data)
+              dispatch('opinionCommentCreate',res.data);
+            }
+          }else {
+            console.log(res.data)
+            dispatch('opinionCommentCreate',res.data);
+          }
+        })
+        .catch((err) => console.log(err.response));
+    },
     // 댓글 등록
     opinionCommentCreate({ dispatch, state }, data) {
       instance

@@ -58,6 +58,7 @@
               :updated_at="item.updated_at"
               :user="item.user"
               :article="item.article"
+              :emotion="item.emotion"
           /></v-col>
         </v-row>
 
