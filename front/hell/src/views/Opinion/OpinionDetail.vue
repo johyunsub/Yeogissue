@@ -134,56 +134,38 @@ export default {
       }
     },
     thumbUp() {
-      this.isLike = !this.isLike;
       this.opinionLike(this.detailData);
       console.log(this.loginedUserId + "<<<로그인된 유저 id")
       axios.post(`${API_BASE_URL}articles/${this.$route.query.id}/like/`, this.$loginedUserId)
-      // axios.get(`${API_BASE_URL}articles/${this.$route.query.id}`)
-      // .then((res) => {
-      //   this.likeCnt = res.data.like_users.length;
-      //   if(res.data.like_users.includes(this.$store.state.userInfo.id)){
-      //     this.isLike = true;
-      //   }
-      // })
+      if(this.isLike) {
+        this.likeCnt--;
+      }else{
+        this.likeCnt++;
+      }
+      this.isLike = !this.isLike;
     },
 
   },
   created() {
-    console.log("created됨")
-    // this.loginedUserId = this.$store.state.userInfo.id;
-    // console.log(this.loginedUserId  + " <<<<여기")
+    this.loginedUserId = this.$store.state.userInfo.id;
     axios
         .get(`${API_BASE_URL}articles/${this.$route.query.id}`)
         .then((res) => {
-          // console.log(localStorage.getItem('token') + ",<<<<")
           this.$store.commit('opinionStore/SET_OPINION_DETAIL', res.data);
           this.$store.commit('opinionStore/SET_OPINION_COMMENT', res.data.comment_set);
           this.$store.commit('opinionStore/SET_OPINION_COMMENT_PAGING', 0);
           this.detailData = res.data;
           this.likeCnt = res.data.like_users.length;
-          console.log(this.detailData)
-          console.log(this.detailData.like_users_count)
-          
-          // console.log(this.$store.state.userInfo.id + "유저id")
-        // if(localStorage.getItem('token') != null && this.detailData.like_users.includes(this.$store.state.userInfo.id)){
-        //   this.isLike = true;
-        //   console.log("로그인 됨!! ")
-        // }
+          // console.log(this.detailData.like_users)
+          if(this.detailData.like_users.includes(this.loginedUserId)){
+          this.isLike = true;
+          }
         })
         .catch((err) => {
           console.log(err.response);
         });
   },
   updated() {
-    // axios.get(`${API_BASE_URL}articles/${this.$route.query.id}`)
-    //   .then((res) => {
-    //     console.log("데이터바뀜") 
-    //     this.likeCnt = res.data.like_users.length;
-    //     if(res.data.like_users.includes(this.$store.state.userInfo.id)){
-    //       this.isLike = true;
-    //     }
-    //       this.likeCnt = res.data.like_users.length;
-    //   })
   },
 }
 </script>
