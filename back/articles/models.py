@@ -44,3 +44,4 @@ class ReComment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     badcomment = models.IntegerField(default=0)
+    emotion = models.CharField(max_length = 10)
