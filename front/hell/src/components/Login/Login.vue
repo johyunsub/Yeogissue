@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="getDialog" max-width="600px">
+    <v-dialog v-model="getDialog" max-width="600px" persistent>
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-card>
           <v-card-title>
