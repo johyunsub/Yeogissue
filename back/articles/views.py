@@ -290,10 +290,7 @@ def search_bar(request):
         return Response(serializer.data)
     else:
         return Response({'없음'})
-<<<<<<< HEAD
 
 
 #@api_view(['POST'])
 #def comment_emotion(reqeust):
-=======
->>>>>>> cdf5c416cd12096cc8f2247d743e49e594ff75a4

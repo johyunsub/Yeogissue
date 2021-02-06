@@ -29,9 +29,6 @@ urlpatterns = [
     path('make_hashtag/',views.hashtag_suggest),
 
     path('search_bar/',views.search_bar),
-<<<<<<< HEAD
 
     #path('comment_emotion',views.comment_emotion),
-=======
->>>>>>> cdf5c416cd12096cc8f2247d743e49e594ff75a4
 ]
