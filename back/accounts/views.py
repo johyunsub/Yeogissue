@@ -103,7 +103,7 @@ def user_update(request):
 
 @api_view(['POST'])
 def get_user(request):
-    user = get_object_or_404(get_user_model(), pk=request.data.get('user'))
+    user = get_object_or_404(get_user_model(), email=request.data.get('email'))
     serializer = GetUserSerializer(user)
     return Response(serializer.data)
 
