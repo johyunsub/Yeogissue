@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from .serializers import ArticleListSerializer, ArticleSerializer,HashtagSerializer,CommentSerializer, HashtagSerializer2,ReCommentSerializer
 from .models import Article, Hashtag, Comment, ReComment
 
-from .use_ai import keyword_mining
+from .use_ai import keyword_mining, emotion_comment
 
 from accounts.models import MyUser as User
 
@@ -76,7 +76,11 @@ def article_detail(request, article_pk):
 # 의견나눔 게시글 댓글
 @api_view(['POST'])
 def create_comment(request, article_pk):
+    
+    emotion = emotion_comment(request.data.get('content'))
+
     article = get_object_or_404(Article, pk=article_pk)
+
     if int(request.data.get('opinion_type')) == True:
         article.agree_count += 1
         article.save()
@@ -84,8 +88,23 @@ def create_comment(request, article_pk):
         article.disagree_count += 1
         article.save()
 
+    data = request.GET.copy()
+    print(data)
+    data['content'] = request.data.get('content')
+    data['user'] = request.data.get('user')
+    data['opinion_type'] = request.data.get('opinion_type')
     
-    serializer = CommentSerializer(data=request.data)
+    if emotion[0][0] > 0.5:
+        data['emotion']= emotion[0][1]
+    else:
+        data['emotion'] = '감정불가'
+        
+    data['emotion']=emotion
+    print(data)
+
+
+
+    serializer = CommentSerializer(data=data)
     if serializer.is_valid(raise_exception=True):
         serializer.save(article=article)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -129,8 +148,23 @@ def badcomment(request,comment_pk):
 # 의견나눔 게시글 대댓글
 @api_view(['POST'])
 def create_recomment(request, comment_pk):
+
+    emotion = emotion_comment(request.data.get('content'))
+    print(emotion)
     comment = get_object_or_404(Comment, pk=comment_pk)
-    serializer = ReCommentSerializer(data=request.data)
+
+    data = request.GET.copy()
+    print(data)
+    data['content'] = request.data.get('content')
+    data['user'] = request.data.get('user')
+    if emotion[0][0] > 0.5:
+        data['emotion']= emotion[0][1]
+    else:
+        data['emotion'] = '감정불가'
+    print(data)
+
+
+    serializer = ReCommentSerializer(data=data)
     if serializer.is_valid(raise_exception=True):
         serializer.save(comment=comment)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -256,7 +290,10 @@ def search_bar(request):
         return Response(serializer.data)
     else:
         return Response({'없음'})
+<<<<<<< HEAD
 
 
 #@api_view(['POST'])
 #def comment_emotion(reqeust):
+=======
+>>>>>>> cdf5c416cd12096cc8f2247d743e49e594ff75a4
