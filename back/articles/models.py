@@ -14,6 +14,8 @@ class Article(models.Model):
     category = models.CharField(max_length=100)
     read_count = models.IntegerField(default=0)
     club_pk = models.IntegerField(default=0)
+    agree_count = models.IntegerField(default=0)
+    disagree_count = models.IntegerField(default=0)
 
 class Hashtag(models.Model):
     name = models.CharField(max_length=100)
