@@ -46,7 +46,6 @@ const opinionStore = {
       let index = 0;
       for (let i = start; i < start + 10; i++) {
         if (i == state.opinionCategory.length) break;
-        console.log('넣어부려' + i + ' ' + state.opinionCategory.length);
         state.opinionPaging[index++] = state.opinionCategory[i];
       }
     },
@@ -99,6 +98,17 @@ const opinionStore = {
     opinionList({ commit }) {
       instance
         .get('/articles/article_list')
+        .then((res) => {
+          commit('SET_OPINIONS', res.data);
+          commit('SET_OPINION_CATEGORY', '전체');
+          commit('SET_OPINION_PAGING', 0);
+        })
+        .catch((err) => console.log(err.response));
+    },
+    // 해시태그 검색 조회
+    hashOpinionList({ commit }, data) {
+      instance
+        .post('/articles/search_bar/', data)
         .then((res) => {
           commit('SET_OPINIONS', res.data);
           commit('SET_OPINION_CATEGORY', '전체');
@@ -165,7 +175,28 @@ const opinionStore = {
         })
         .catch((err) => console.log(err.response));
     },
-
+    opinionCommentEmotion({dispatch},data) {
+      instance
+        .post(`/articles/emotion_comment/`,data)
+        .then((res) => {
+          console.log('이거 왜 안나옴?? ')
+          console.log(res.data.emotion)
+          if(res.data.state == false){
+            var con_firm = confirm('너무 화가 많은 댓글로 여겨 집니다.');
+            if(con_firm==true){
+              document.write('수정');
+            }
+            else if(con_firm==false){
+              console.log(res.data)
+              dispatch('opinionCommentCreate',res.data);
+            }
+          }else {
+            console.log(res.data)
+            dispatch('opinionCommentCreate',res.data);
+          }
+        })
+        .catch((err) => console.log(err.response));
+    },
     // 댓글 등록
     opinionCommentCreate({ dispatch, state }, data) {
       instance

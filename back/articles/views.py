@@ -8,15 +8,15 @@ from rest_framework.response import Response
 from .serializers import ArticleListSerializer, ArticleSerializer,HashtagSerializer,CommentSerializer, HashtagSerializer2,ReCommentSerializer
 from .models import Article, Hashtag, Comment, ReComment
 
-from .use_ai import keyword_mining, emotion_comment
+from .use_ai import keyword_mining, emotion
 
 from accounts.models import MyUser as User
 
 # 의견나눔 게시글
 @api_view(['GET'])
 def article_list(request):
-    articles = Article.objects.all()
-    serializer = ArticleListSerializer(articles, many=True)      
+    articles = Article.objects.all().order_by('-id')
+    serializer = ArticleListSerializer(articles, many=True)
     return Response(serializer.data)
 
 @api_view(['POST'])
@@ -72,21 +72,10 @@ def article_detail(request, article_pk):
         article.delete()
         return Response({ 'id': article_pk }, status=status.HTTP_204_NO_CONTENT)
 
-
-# 의견나눔 게시글 댓글
+# 댓글 감정 분석
 @api_view(['POST'])
-def create_comment(request, article_pk):
-    
-    emotion = emotion_comment(request.data.get('content'))
-
-    article = get_object_or_404(Article, pk=article_pk)
-
-    if int(request.data.get('opinion_type')) == True:
-        article.agree_count += 1
-        article.save()
-    elif int(request.data.get('opinion_type')) == False:
-        article.disagree_count += 1
-        article.save()
+def emotion_comment(request):
+    emotion_co = emotion(request.data.get('content'))
 
     data = request.GET.copy()
     print(data)
@@ -94,17 +83,42 @@ def create_comment(request, article_pk):
     data['user'] = request.data.get('user')
     data['opinion_type'] = request.data.get('opinion_type')
     
-    if emotion[0][0] > 0.5:
-        data['emotion']= emotion[0][1]
+    if emotion_co[0][0] > 0.5:
+        data['emotion']= emotion_co[0][1]
     else:
         data['emotion'] = '감정불가'
+    
+    return Response(data)
+
+# 의견나눔 게시글 댓글
+@api_view(['POST'])
+def create_comment(request, article_pk):
+    
+    # emotion = emotion_comment(request.data.get('content'))
+
+    article = get_object_or_404(Article, pk=article_pk)
+    print(request.data)
+    if int(request.data.get('opinion_type')) == True:
+        article.agree_count += 1
+        article.save()
+    elif int(request.data.get('opinion_type')) == False:
+        article.disagree_count += 1
+        article.save()
+
+    # data = request.GET.copy()
+    # print(data)
+    # data['content'] = request.data.get('content')
+    # data['user'] = request.data.get('user')
+    # data['opinion_type'] = request.data.get('opinion_type')
+    
+    # if emotion[0][0] > 0.5:
+    #     data['emotion']= emotion[0][1]
+    # else:
+    #     data['emotion'] = '감정불가'
         
-    data['emotion']=emotion
-    print(data)
-
-
-
-    serializer = CommentSerializer(data=data)
+   
+    # print(data)
+    serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save(article=article)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -286,11 +300,7 @@ def search_bar(request):
         # serializer =
         print(articles) 
         serializer = ArticleListSerializer(articles, many=True) 
-
+        
         return Response(serializer.data)
     else:
         return Response({'없음'})
-
-
-#@api_view(['POST'])
-#def comment_emotion(reqeust):

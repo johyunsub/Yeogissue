@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="getDialog" max-width="600px">
+    <v-dialog v-model="getDialog" max-width="600px" persistent>
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-card>
           <v-card-title>
@@ -109,9 +109,9 @@ export default {
         .post(`${API_BASE_URL}accounts/api-token-auth/`, this.logindata)
         .then((res) => {
           console.log(res.data)
-          // this.certCheck();
           this.$store.commit('SET_LOGIN_TOKEN', res.data.token);
-          this.userData(this.logindata.email);
+          this.$store.commit("SET_USER_INFO", this.logindata);
+          this.$store.dispatch('userData', this.logindata.email);
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('email', this.logindata.email);
           this.OnOffLoign();

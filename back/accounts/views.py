@@ -9,6 +9,9 @@ from .tokens import make_code
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
+from rest_framework_jwt.views import obtain_jwt_token
+
+
 @api_view(['POST'])
 def make_admin(request):
     email = request.data.get('email')

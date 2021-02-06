@@ -174,6 +174,7 @@ export default {
     createHashtags: function () {
       this.tags.push(this.input_tag);
       console.log(this.tags);
+      this.input_tag = '';
   },
     hashtag_delete: function (index) {
       console.log(index)

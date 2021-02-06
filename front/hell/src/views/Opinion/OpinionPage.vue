@@ -8,6 +8,7 @@
         <v-row>
           <v-col cols="2" class="mr-auto"></v-col>
           <v-text-field
+            @keypress.enter='search_hashtag'
             v-model="search"
             label="Search KeyWord"
             flat
@@ -16,6 +17,7 @@
             hide-details
             text-field-filled-margin-top="100px"
             clearable
+            @click:clear="gotoList"
             clear-icon="mdi-close-circle-outline"
           ></v-text-field>
           <v-col cols="2" class="mr-auto"></v-col>
@@ -97,7 +99,7 @@ export default {
   data: function() {
     return {
       cateBtn: 'center',
-      search: 'dd',
+      search: '',
       viewType: 'card',
       page: 1,
     };
@@ -108,7 +110,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('opinionStore', ['opinionList', 'opinionDetail']),
+    ...mapActions('opinionStore', ['opinionList', 'opinionDetail','hashOpinionList']),
     ChageType(type) {
       this.viewType = type;
     },
@@ -119,6 +121,12 @@ export default {
           break;
       }
     },
+    search_hashtag() {
+      this.hashOpinionList({name:this.search});
+    },
+    gotoList() {
+      this.opinionList();
+    }
   },
   created() {
     this.opinionList();
@@ -148,5 +156,9 @@ export default {
 //   display: inline-block;
 //   position: sticky;
 //   background: blue;
+// }
+
+// .scroll-downs {
+//   position: absolute;
 // }
 </style>
