@@ -27,7 +27,9 @@ def article_create(request):
         data = {}
         data['articles']=[serializer.data['id']]
         data['user']=[request.data.get('user')]
-        for i in list(map(str,request.data.get('name').split(','))):
+        print(request.data.get('name'))
+        # for i in list(map(str,request.data.get('name').split(','))):
+        for i in request.data.get('name'):
             # print(i.strip(),'i')
             data['name']= i.strip()
             hashtag_create(data)
@@ -216,7 +218,9 @@ def club_article(request,club_pk):
 
 @api_view(['POST'])
 def hashtag_suggest(request):
-    comment = request.data.get('comment')
+    title = request.data.get('title')
+    content = request.data.get('content')
+    comment = title + content
     suggest = keyword_mining(comment)
     info = {
         'keyword' : suggest 
