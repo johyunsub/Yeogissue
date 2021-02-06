@@ -94,6 +94,7 @@ export default {
         return this.$store.state.dialog;
       },
       set: function() {
+        this.$store.commit('CHANGE_DIALOG', false);
       },
     },
   },
@@ -109,7 +110,7 @@ export default {
         .then((res) => {
           console.log(res);
           this.$store.commit('SET_LOGIN_TOKEN', res.data.token);
-          this.userData(this.logindata.email);
+          this.userData(this.logindata);
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('email', this.logindata.email);
           this.OnOffLoign();

@@ -1,32 +1,13 @@
 <template>
   <form>
     <v-text-field
-      v-model="email"
-      :error-messages="emailErrors"
-      label=" E-mail "
-      required
-      @input="$v.email.$touch()"
-      @blur="$v.email.$touch()"
-    ></v-text-field>
-
-    <v-text-field
       v-model="name"
       :error-messages="nameErrors"
       :counter="10"
-      label=" 이름 "
+      label="ID"
       required
       @input="$v.name.$touch()"
       @blur="$v.name.$touch()"
-    ></v-text-field>
-
-    <v-text-field
-      v-model="nickname"
-      :error-messages="nicknameErrors"
-      :counter="10"
-      label=" 닉네임 ( 10자 이하로 입력해주세요 ) "
-      required
-      @input="$v.nickname.$touch()"
-      @blur="$v.nickname.$touch()"
     ></v-text-field>
 
     <v-text-field
@@ -34,7 +15,7 @@
       :error-messages="passwordErrors"
       :append-icon="show4 ? 'mdi-eye' : 'mdi-eye-off'"
       :type="show4 ? 'text' : 'password'"
-      label=" 비밀번호 "
+      label="비밀번호"
       @click:append="show4 = !show4"
       @input="$v.password.$touch()"
       @blur="$v.password.$touch()"
@@ -45,13 +26,20 @@
       :error-messages="passwordCheckErrors"
       :append-icon="show5 ? 'mdi-eye' : 'mdi-eye-off'"
       :type="show5 ? 'text' : 'password'"
-      label=" 비밀번호확인 "
+      label="비밀번호확인"
       @click:append="show5 = !show5"
       @input="$v.passwordCheck.$touch()"
       @blur="$v.passwordCheck.$touch()"
     ></v-text-field>
     
-    
+    <v-text-field
+      v-model="email"
+      :error-messages="emailErrors"
+      label="E-mail"
+      required
+      @input="$v.email.$touch()"
+      @blur="$v.email.$touch()"
+    ></v-text-field>
     
     <v-checkbox
       v-model="checkbox"
@@ -70,15 +58,12 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required, minLength, maxLength, email, sameAs } from 'vuelidate/lib/validators'
-  import axios from 'axios'
-  import { API_BASE_URL } from "../../config";
 
   export default {
     mixins: [validationMixin],
 
     validations: {
-      name: { required },
-      nickname: { required, maxLength: maxLength(10) },
+      name: { required, maxLength: maxLength(10) },
       email: { required, email },
       password: { required, minLength: minLength(8) },
       passwordCheck: { required, minLength: minLength(8), sameAsPassword: sameAs('password') },
@@ -90,21 +75,13 @@
     },
 
     data: () => ({
-        joinData: {
-          nickname: '',
-          name: '',
-          password: '',
-          passwordConfirmation: '',
-          email: '',
-        },
-        name: '',
-        nickname: '',
-        password: '',
-        passwordCheck: '',
-        email: '',
-        checkbox: false,
-        show4: false,
-        show5: false
+      name: '',
+      password: '',
+      passwordCheck: '',
+      email: '',
+      checkbox: false,
+      show4: false,
+      show5: false,
     }),
 
     computed: {
@@ -117,14 +94,8 @@
       nameErrors () {
         const errors = []
         if (!this.$v.name.$dirty) return errors
+        !this.$v.name.maxLength && errors.push('ID는 10자이하여야 합니다')
         !this.$v.name.required && errors.push('ID를 입력해주세요.')
-        return errors
-      },
-      nicknameErrors () {
-        const errors = []
-        if (!this.$v.nickname.$dirty) return errors
-        !this.$v.nickname.maxLength && errors.push('닉네임은 10자이하여야 합니다')
-        !this.$v.nickname.required && errors.push('닉네임을 입력해주세요.')
         return errors
       },
       passwordErrors () {
@@ -153,35 +124,27 @@
 
     methods: {
       submit () {
-        this.joinData.name = this.name;
-        this.joinData.nickname = this.nickname;
-        this.joinData.password = this.password;
-        this.joinData.passwordConfirmation = this.passwordCheck;
-        this.joinData.email = this.email;
-        console.log(this.joinData)
-        this.signup();
         this.$v.$touch()
       },
       clear () {
         this.$v.$reset()
         this.name = ''
-        this.nickname = ''
         this.password = ''
         this.passwordCheck = ''
         this.email = ''
         this.checkbox = false
       },
-      signup: function () {
-        console.log(this.joinData.name + "<<<")
-        axios.post(`${API_BASE_URL}accounts/signup/`, this.joinData)
-        .then((res) => {
-          console.log(res + " <<<<<<!!!")
-          this.$router.push({ name: 'Home' })
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-      }
+      // signup: function () {
+      // console.log(`${SERVER_URL}`)
+      // axios.post(`${SERVER_URL}/accounts/signup/`, this.credentials)
+      //   .then((res) => {
+      //     console.log(res)
+      //     this.$router.push({ name: 'Login' })
+      //   })
+      //   .catch((err) => {
+      //     console.log(err)
+      //   })
+      // }
     },
   }
 </script>

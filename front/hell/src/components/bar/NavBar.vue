@@ -1,11 +1,7 @@
 <template>
   <v-app-bar app color="white" flat id="navbar">
     <v-col class="ml-16">
-      <v-avatar
-        class="mr-10"
-        color="grey darken-1"
-        size="32"
-        @click="MovePage('home')"
+      <v-avatar class="mr-10" color="grey darken-1" size="32" @click="MovePage('home')"
         >로고</v-avatar
       >
 
@@ -15,77 +11,64 @@
       <v-btn text @click="MovePage('data')">데이터</v-btn>
     </v-col>
 
-    <v-col cols="auto" v-if="isLoginToken == ''">
+    <v-col cols="auto" v-show="isLoginToken == ''">
       <v-btn text @click="OnOff('login')">로그인</v-btn>
       <v-btn text @click="MovePage('join')">회원가입</v-btn>
     </v-col>
-    <v-col cols="auto" v-if="isLoginToken != ''">
-      안녕하세요 {{ userInfo.nickname }}님
+    <v-col cols="auto" v-show="isLoginToken != ''">
       <v-btn text @click="MovePage('myPage')">마이페이지</v-btn>
       <notification />
-      <v-btn text color="red" @click="Out">로그아웃</v-btn>
+      <v-app-bar-nav-icon x-large @click="OnOff('menu')"></v-app-bar-nav-icon>
+      <login />
     </v-col>
-    <login />
   </v-app-bar>
 </template>
 
 <script>
-import Login from "../Login/Login.vue";
-import Notification from "./Notification.vue";
-import { mapState } from "vuex";
+import Login from '../Login/Login.vue';
+import Notification from './Notification.vue';
+import { mapState } from 'vuex';
 
 export default {
   components: { Notification, Login },
   computed: {
-    ...mapState(["userInfo", "isLoginToken"]),
-  },
-  data() {
-    return {
-    };
-  },
-  created() {
-  
+    ...mapState(['isLoginToken']),
   },
   methods: {
-    OnOff: function (message) {
+    OnOff: function(message) {
       switch (message) {
-        case "menu":
-          this.$store.commit("CHANGE_DRAWER", true);
+        case 'menu':
+          this.$store.commit('CHANGE_DRAWER', true);
           break;
-        case "login":
-          this.$store.commit("CHANGE_DIALOG", true);
+        case 'login':
+          this.$store.commit('CHANGE_DIALOG', true);
           break;
       }
     },
-    MovePage: function (check) {
+    MovePage: function(check) {
       switch (check) {
-        case "opinion":
-          this.$router.push({ name: "Opinion" });
+        case 'opinion':
+          this.$router.push({ name: 'Opinion' });
           break;
-        case "home":
-          this.$router.push({ name: "Home" });
+        case 'home':
+          this.$router.push({ name: 'Home' });
           break;
-        case "club":
-          this.$router.push({ name: "Club" });
+        case 'club':
+          this.$router.push({ name: 'Club' });
           break;
-        case "issue":
-          this.$router.push({ name: "Issue" });
+        case 'issue':
+          this.$router.push({ name: 'Issue' });
           break;
-        case "data":
-          this.$router.push({ name: "data" });
+        case 'data':
+          this.$router.push({ name: 'data' });
           break;
-        case "join":
-          this.$router.push({ name: "Join" });
+        case 'join':
+          this.$router.push({ name: 'Join' });
           break;
         case 'myPage':
           this.$router.push({ name: 'MyPage' });
           break;
       }
-    },
-    Out: function () {
-      this.$store.dispatch("userLogout");
-      console.log("dafadsf");
-      this.$store.commit("CHANGE_DRAWER", false);
     },
   },
 };
