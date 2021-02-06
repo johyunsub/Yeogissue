@@ -174,7 +174,7 @@ def like(request, article_pk):
 
 # 댓글 좋아요
 @api_view(['POST'])
-def like(request, comment_pk):
+def like_comment(request, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
     print('a')
     # user가 article을 좋아요 누른 전체유저에 존재하는지.
