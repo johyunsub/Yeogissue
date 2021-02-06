@@ -7,9 +7,9 @@
             {{ title }}
           </p>
         </v-col>
-        <v-col cols="auto"> <v-icon small>mdi-thumb-up-outline</v-icon> 100 </v-col>
+        <v-col cols="auto"> <v-icon small>mdi-thumb-up-outline</v-icon> {{ }} </v-col>
       </v-row>
-      <p>{{ user }}</p>
+      <p>작성자 : {{ user }}</p>
       <div class="text--primary choice_cursor">
         간단한 내용
       </div>
@@ -30,6 +30,7 @@ export default {
     id: { type: Number },
     title: { type: String },
     user: { type: Number },
+    
   },
   methods: {
     ...mapActions('opinionStore', ['opinionDetail']),

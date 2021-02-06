@@ -124,6 +124,7 @@ export default {
   },
   created() {
     this.opinionList();
+    console.log(this.$store.opinionStore.opinions)
   },
 };
 </script>
