@@ -228,7 +228,6 @@ def like(request, article_pk):
     # user가 article을 좋아요 누른 전체유저에 존재하는지.
     if article.like_users.filter(pk=request.data.get('user')).exists():
         # 좋아요 취소
-        print('a')
         article.like_users.remove(request.data.get('user'))
         return Response({'success', 'dislike'},status=status.HTTP_201_CREATED)
     else:
@@ -308,3 +307,7 @@ def search_bar(request):
         return Response(serializer.data)
     else:
         return Response({'없음'})
+
+
+#@api_view(['POST'])
+#def comment_emotion(reqeust):

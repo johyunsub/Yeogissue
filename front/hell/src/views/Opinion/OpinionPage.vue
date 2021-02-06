@@ -51,9 +51,7 @@
             ><card-list
               v-for="(item, index) in opinionPaging"
               :key="`${index}_items`"
-              :id="item.id"
-              :title="item.title"
-              :user="item.user"
+              :data="item"
             />
           </v-col>
         </v-row>
@@ -150,5 +148,9 @@ export default {
 //   display: inline-block;
 //   position: sticky;
 //   background: blue;
+// }
+
+// .scroll-downs {
+//   position: absolute;
 // }
 </style>
