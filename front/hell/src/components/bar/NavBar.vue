@@ -16,6 +16,7 @@
       <v-btn text @click="MovePage('join')">회원가입</v-btn>
     </v-col>
     <v-col cols="auto" v-show="isLoginToken != ''">
+      <v-btn text @click="MovePage('myPage')">마이페이지</v-btn>
       <notification />
       <v-app-bar-nav-icon x-large @click="OnOff('menu')"></v-app-bar-nav-icon>
       <login />
@@ -63,6 +64,9 @@ export default {
           break;
         case 'join':
           this.$router.push({ name: 'Join' });
+          break;
+        case 'myPage':
+          this.$router.push({ name: 'MyPage' });
           break;
       }
     },
