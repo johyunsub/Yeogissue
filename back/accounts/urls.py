@@ -13,4 +13,5 @@ urlpatterns = [
     path('api-token-auth/', obtain_jwt_token),
     path('make_admin/', views.make_admin),
     path('get_user/', views.get_user),
+    # path('<int:user_pk>/mypage/',views.mypage),
 ]

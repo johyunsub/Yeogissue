@@ -9,6 +9,10 @@ from django.conf import settings
 from accounts.models import MyUser
 from django.db.models import Q
 
+import requests
+import urllib
+from bs4 import BeautifulSoup
+
 # 클럽 리스트 보기
 @api_view(['GET'])
 def club_list(request):
@@ -79,6 +83,32 @@ def club_detail(request, club_pk):
 def club_article_list(request,club_pk):
     club_article = Club_article.objects.filter(club_id=club_pk)
     serializer = ClubArticleSerializer(club_article,many=True)
+    # for i in serializer.data:
+        # print(i['url'])
+        # link = i['url']
+        # link = 'https://blog.naver.com/ppo1127/221691536152'
+        # print(link)
+        # headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'}
+        # html = urllib.request.urlopen(link)
+        # html = requests.get(link,headers=headers).text
+        # print(html)
+        # source = html.read()
+        # soup = BeautifulSoup(source,'html.parser')
+        # print(soup.find('iframe'),'qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq')
+        # print(soup)
+        # break
+        # for meta in soup.find_all('meta'):
+        #     print(meta)
+
+        # print(soup.find_all('meta',{'property':'og:title'}))
+        # print(soup.find_all('meta',{'property':'og:description'}))
+        # print(soup.find_all('meta',{'name':'title'}))
+        # print(soup.find_all('meta',{'name':'description'}))
+
+        # print(soup.body.find('meta',{'property':'og:title'}))
+        # print(soup.body.find('meta',{'property':'og:description'}))
+        # print(soup.head.find('meta',{'name':'title'}))
+        # print(soup.head.find('meta',{'name':'description'}))
     return Response(serializer.data)
 
 @api_view(['POST'])

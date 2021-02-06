@@ -5,9 +5,12 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import ArticleListSerializer, ArticleSerializer,HashtagSerializer,CommentSerializer
-from .models import Article, Hashtag, Comment
-# Create your views here.
+from .serializers import ArticleListSerializer, ArticleSerializer,HashtagSerializer,CommentSerializer, HashtagSerializer2,ReCommentSerializer
+from .models import Article, Hashtag, Comment, ReComment
+
+from .use_ai import keyword_mining
+
+from accounts.models import MyUser as User
 
 # 의견나눔 게시글
 @api_view(['GET'])
@@ -19,17 +22,37 @@ def article_list(request):
 @api_view(['POST'])
 def article_create(request):
     serializer = ArticleSerializer(data=request.data)
-    hashtag_sr = HashtagSerializer(data=request.data.get('name'))
     if serializer.is_valid(raise_exception=True):
         serializer.save()
+        data = {}
+        data['articles']=[serializer.data['id']]
+        data['user']=[request.data.get('user')]
+        print(request.data.get('name'))
+        # for i in list(map(str,request.data.get('name').split(','))):
+        for i in request.data.get('name'):
+            # print(i.strip(),'i')
+            data['name']= i.strip()
+            hashtag_create(data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-@api_view(['POST'])
-def hashtag_create(request,article_pk):
-    serializer = HashtagSerializer(data=request.data)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+def hashtag_create(data):
+    name = data['name']
+    # print(name)
+    if Hashtag.objects.filter(name=name).exists():
+        hash = Hashtag.objects.get(name=name)
+        hash.post_cnt += 1
+        hash.articles.add(data['articles'][0])  
+        hash.user.add(data['user'][0])
+        hash.save()
+        # 숫자세기
+        # print(hash.articles.all().count())
+    else:
+        # print(name,'없음')
+        serializer = HashtagSerializer(data=data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def article_detail(request, article_pk):
@@ -82,7 +105,57 @@ def comment_detail_update_delete(request, comment_pk):
         comment.delete()
         return Response({ 'id': comment_pk }, status=status.HTTP_204_NO_CONTENT)
 
+# 댓글 신고
+@api_view(['GET'])
+def badcomment(request,comment_pk):
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    comment.badcomment += 1
+    comment.save()
 
+
+
+# 의견나눔 게시글 대댓글
+@api_view(['POST'])
+def create_recomment(request, comment_pk):
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    serializer = ReCommentSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(comment=comment)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def recomment_list(request):
+    recomments = ReComment.objects.all()
+    serializer = ReCommentSerializer(recomments, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def recomment_detail_update_delete(request, recomment_pk):
+    recomment = get_object_or_404(ReComment, pk=recomment_pk)
+    if request.method == 'GET':
+        serializer = ReCommentSerializer(recomment)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = ReCommentSerializer(recomment, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+    else:
+        recomment.delete()
+        return Response({ 'id': recomment_pk }, status=status.HTTP_204_NO_CONTENT)
+    return Response({'success'})
+# 대댓글 신고
+@api_view(['GET'])
+def badrecomment(request,recomment_pk):
+    recomment = get_object_or_404(ReComment, pk=recomment_pk)
+    recomment.badcomment += 1
+    recomment.save()
+    return Response({'success'})
+
+
+# 좋아요_스크랩
 @api_view(['POST'])
 def like(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
@@ -92,10 +165,30 @@ def like(request, article_pk):
         # 좋아요 취소
         print('a')
         article.like_users.remove(request.data.get('user'))
+        return Response({'success', 'dislike'},status=status.HTTP_201_CREATED)
     else:
         # 좋아요
         article.like_users.add(request.data.get('user'))
-    return Response({'success'},status=status.HTTP_201_CREATED)
+        return Response({'success', 'like'},status=status.HTTP_201_CREATED)
+
+
+# 댓글 좋아요
+@api_view(['POST'])
+def like(request, comment_pk):
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    print('a')
+    # user가 article을 좋아요 누른 전체유저에 존재하는지.
+    if comment.like_users.filter(pk=request.data.get('user')).exists():
+        # 좋아요 취소
+        print('a')
+        comment.like_users.remove(request.data.get('user'))
+        return Response({'success', 'dislike'},status=status.HTTP_201_CREATED)
+    else:
+        # 좋아요
+        comment.like_users.add(request.data.get('user'))
+        return Response({'success', 'like'},status=status.HTTP_201_CREATED)
+
+
 
 @api_view(['POST'])
 def scrap(request, article_pk):
@@ -105,3 +198,48 @@ def scrap(request, article_pk):
     else:
         article.scrap_users.add(request.data.get('user'))
     return Response({'success'},status=status.HTTP_201_CREATED)
+
+
+#하나의 유저가 스크랩한 게시물 목록 출력
+@api_view(['GET'])
+def myscrap(request,user_pk):
+    myuser = get_object_or_404(User, pk=user_pk)
+    scrap_list = myuser.scrap_articles.all()
+    serializer = ArticleListSerializer(scrap_list, many=True) 
+    # print(scrap_list)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def club_article(request,club_pk):
+    article = Article.objects.filter(club_pk=club_pk)
+    serializer = ArticleListSerializer(article, many=True) 
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def hashtag_suggest(request):
+    title = request.data.get('title')
+    content = request.data.get('content')
+    comment = title + content
+    suggest = keyword_mining(comment)
+    info = {
+        'keyword' : suggest 
+    }
+    return Response(info)
+
+
+@api_view(['POST'])
+def search_bar(request):
+    name = request.data.get('name')
+    if Hashtag.objects.filter(name=name).exists():
+        hash = Hashtag.objects.get(name=name)
+        
+        articles = hash.articles.all()
+        # .filter(hashtag_id=hash.id)
+        # serializer =
+        print(articles) 
+        serializer = ArticleListSerializer(articles, many=True) 
+
+        return Response(serializer.data)
+    else:
+        return Response({'없음'})

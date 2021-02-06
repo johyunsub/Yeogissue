@@ -13,12 +13,15 @@ class Article(models.Model):
     comment_type = models.BooleanField()
     category = models.CharField(max_length=100)
     read_count = models.IntegerField(default=0)
+    club_pk = models.IntegerField(default=0)
 
 class Hashtag(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_hashtags')
-    articles = models.ManyToManyField(Article,related_name='hashtags')
     name = models.CharField(max_length=100)
-
+    post_cnt = models.IntegerField(default=1)
+    articles = models.ManyToManyField(Article,related_name='hashtags')
+    user = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='user_hashtags')
+    def __str__(self):
+        return self.name
 
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_comment')
@@ -27,3 +30,14 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    badcomment = models.IntegerField(default=0)
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_comments')
+    
+
+class ReComment(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    badcomment = models.IntegerField(default=0)
