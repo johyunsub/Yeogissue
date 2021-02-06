@@ -19,7 +19,7 @@
         #해시태그
         <v-row class="mr-tp">
           <v-chip-group mandatory>
-            <v-chip v-for="tag in data.hashtags" :key="tag"> 
+            <v-chip v-for="tag in data.hashtags" :key="tag.name"> 
               {{ tag.name }}
             </v-chip>
           </v-chip-group>
