@@ -21,7 +21,7 @@
         #해시태그
         <v-row class="mr-tp">
           <v-chip-group mandatory>
-            <v-chip v-for="tag in detailData.hashtags" :key="tag"> 
+            <v-chip v-for="tag in detailData.hashtags" :key="tag.name"> 
               {{ tag.name }}
             </v-chip>
           </v-chip-group>
@@ -165,7 +165,7 @@ export default {
           this.$store.commit('opinionStore/SET_OPINION_COMMENT_PAGING', 0);
           this.detailData = res.data;
           this.likeCnt = res.data.like_users.length;
-          // console.log(this.detailData.like_users)
+          console.log(this.loginedUserId)
           if(this.detailData.like_users.includes(this.loginedUserId)){
           this.isLike = true;
           }

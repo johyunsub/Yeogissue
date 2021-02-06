@@ -87,10 +87,6 @@ def emotion_comment(request):
         data['emotion']= emotion_co[0][1]
     else:
         data['emotion'] = '감정불가'
-    data['state'] = True
-    if data['emotion'] == ['혐오'] or ['분노']:
-        data['state']= False
-        return Response(data)
     
     return Response(data)
 
@@ -228,6 +224,7 @@ def like(request, article_pk):
     # user가 article을 좋아요 누른 전체유저에 존재하는지.
     if article.like_users.filter(pk=request.data.get('user')).exists():
         # 좋아요 취소
+        print('a')
         article.like_users.remove(request.data.get('user'))
         return Response({'success', 'dislike'},status=status.HTTP_201_CREATED)
     else:
@@ -303,11 +300,7 @@ def search_bar(request):
         # serializer =
         print(articles) 
         serializer = ArticleListSerializer(articles, many=True) 
-
+        
         return Response(serializer.data)
     else:
         return Response({'없음'})
-
-
-#@api_view(['POST'])
-#def comment_emotion(reqeust):

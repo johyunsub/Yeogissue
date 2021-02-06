@@ -1,9 +1,8 @@
 <template>
     <v-container>
-        <v-row class="py-5">
-            <h1>My 이슈</h1>
-            <h1>안녕하세요, {{nickname}} 님</h1>
-        </v-row>
+        <h1>My 이슈</h1>
+        <h1>안녕하세요, {{nickname}} 님</h1>
+        
         <v-row class="py-5">
             <v-col cols="3">
                 <v-row class="py-4" justify="center">

@@ -174,8 +174,7 @@
       signup: function () {
         console.log(this.joinData.name + "<<<")
         axios.post(`${API_BASE_URL}accounts/signup/`, this.joinData)
-        .then((res) => {
-          console.log(res + " <<<<<<!!!")
+        .then(() => {
           this.$store.commit("CHANGE_DRAWER", false);
           this.$router.push({ name: 'Home' })
         })
