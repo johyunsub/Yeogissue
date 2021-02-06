@@ -8,7 +8,7 @@
             {{ updated_at }}
           </div>
         </v-col>
-        <v-col cols="auto"> <v-icon small>mdi-thumb-up-outline</v-icon> 100 </v-col>
+        <v-col cols="auto" class="choice_cursor" @click="commLike"> <v-icon small>mdi-thumb-up-outline</v-icon> {{ }} </v-col>
         <v-col cols="auto"> <comment-menu /></v-col>
       </v-row>
 
@@ -44,7 +44,14 @@ export default {
     user: { type: Number },
     article: { type: Number },
     emotion: { type: String},
+    commlikeCnt: { type: Number },
   },
+  methods: {
+    commLike() {
+      console.log(this.commlikeCnt)
+      
+    }
+  }
 };
 </script>
 

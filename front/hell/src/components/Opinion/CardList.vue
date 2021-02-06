@@ -7,7 +7,8 @@
             {{ data.title }}
           </p>
         </v-col>
-        <v-col cols="auto"> <v-icon small>mdi-thumb-up-outline</v-icon> {{ data.like_users_count}} </v-col>
+        <v-col cols="auto"> 
+          <v-icon small>mdi-thumb-up</v-icon> {{ data.like_users_count}} </v-col>
       </v-row>
       <p>작성자 : {{ data.user }}</p>
       <div class="text--primary choice_cursor">

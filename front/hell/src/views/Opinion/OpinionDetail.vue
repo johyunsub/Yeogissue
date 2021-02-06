@@ -68,6 +68,7 @@
               :user="item.user"
               :article="item.article"
               :emotion="item.emotion"
+              :commlikeCnt="item.commlikeCnt"
           /></v-col>
         </v-row>
 
