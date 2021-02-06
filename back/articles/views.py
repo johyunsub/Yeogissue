@@ -93,6 +93,12 @@ def create_comment(request, article_pk):
     data['content'] = request.data.get('content')
     data['user'] = request.data.get('user')
     data['opinion_type'] = request.data.get('opinion_type')
+    
+    if emotion[0][0] > 0.5:
+        data['emotion']= emotion[0][1]
+    else:
+        data['emotion'] = '감정불가'
+        
     data['emotion']=emotion
     print(data)
 
@@ -142,8 +148,23 @@ def badcomment(request,comment_pk):
 # 의견나눔 게시글 대댓글
 @api_view(['POST'])
 def create_recomment(request, comment_pk):
+
+    emotion = emotion_comment(request.data.get('content'))
+    print(emotion)
     comment = get_object_or_404(Comment, pk=comment_pk)
-    serializer = ReCommentSerializer(data=request.data)
+
+    data = request.GET.copy()
+    print(data)
+    data['content'] = request.data.get('content')
+    data['user'] = request.data.get('user')
+    if emotion[0][0] > 0.5:
+        data['emotion']= emotion[0][1]
+    else:
+        data['emotion'] = '감정불가'
+    print(data)
+
+
+    serializer = ReCommentSerializer(data=data)
     if serializer.is_valid(raise_exception=True):
         serializer.save(comment=comment)
         return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -42,4 +42,4 @@ def emotion_comment(comment):
     }
 
     response = json.loads(requests.post(url, headers=headers, data=json.dumps(params)).text)
-    return response['Result'][0][1]
+    return response['Result']
