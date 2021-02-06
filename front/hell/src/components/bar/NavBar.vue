@@ -16,8 +16,11 @@
       <v-btn text @click="MovePage('join')">회원가입</v-btn>
     </v-col>
     <v-col cols="auto" v-show="isLoginToken != ''">
+      <p>안녕하세요 {{nickname}}님</p>
       <notification />
-      <v-app-bar-nav-icon x-large @click="OnOff('menu')"></v-app-bar-nav-icon>
+      
+      <v-btn text color="red" @click="Out">로그아웃</v-btn>
+      <!--<v-app-bar-nav-icon x-large @click="OnOff('menu')"></v-app-bar-nav-icon>-->
       <login />
     </v-col>
   </v-app-bar>
@@ -28,10 +31,24 @@ import Login from '../Login/Login.vue';
 import Notification from './Notification.vue';
 import { mapState } from 'vuex';
 
+import axios from 'axios';
+import { API_BASE_URL } from "../../config";
+
 export default {
   components: { Notification, Login },
   computed: {
-    ...mapState(['isLoginToken']),
+    ...mapState('index',['userInfo','isLoginToken']),
+  },
+   data() {
+    return {
+     nickname: '',
+    }
+  },
+  created(){
+    axios.post(`${API_BASE_URL}accounts/get_user/`, { email: localStorage.getItem('email')})
+    .then((res) => {
+      this.nickname = res.data.nickname
+    })       
   },
   methods: {
     OnOff: function(message) {
@@ -65,6 +82,10 @@ export default {
           this.$router.push({ name: 'Join' });
           break;
       }
+    },
+    Out: function() {
+      this.$store.dispatch('userLogout');
+      //this.$store.commit('CHANGE_DRAWER', false);
     },
   },
 };
