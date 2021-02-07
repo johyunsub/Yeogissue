@@ -145,6 +145,9 @@ def club_article_list(request,club_pk):
 def club_article(request):
     serializer = ClubArticleCreateSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
+        member = Club_member.objects.get(Q(user_id=request.data.get('user'))&Q(club_id=request.data.get('club')))
+        member.article_cnt += 1
+        member.save()
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response({'작성실패'})
@@ -160,18 +163,14 @@ def club_article_detail(request, club_article_pk):
 
     user = request.data.get('user')
     if request.method == 'PUT':
-        if club_article.user_id == int(user):
-            serializer = ClubArticleUpdateSerializer(club_article, data=request.data)
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response({'권한없음'})
+        serializer = ClubArticleUpdateSerializer(club_article, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     else:
-        if club_article.user_id == int(user):
-            club_article.delete()
-            return Response({ 'id': club_article_pk }, status=status.HTTP_204_NO_CONTENT)
-        return Response({'권한없음'})
+        club_article.delete()
+        return Response({ 'id': club_article_pk }, status=status.HTTP_204_NO_CONTENT)
 
 
 
@@ -221,7 +220,6 @@ def member_check(request,club_pk):
     else:
         club_member = Club_member.objects.filter(Q(club_id=club_pk)&Q(is_active=False))
         serializer = ClubMemberSerializer(club_member,many=True)
-
     return Response(serializer.data)
 
 @api_view(['POST'])
