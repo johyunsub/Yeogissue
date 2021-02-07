@@ -127,8 +127,11 @@ export default {
         .post(`${API_BASE_URL}accounts/login/`,{email:this.logindata.email,password:this.logindata.password} )   
         .then((res) => {
           console.log("인증값"+res.data);
-          if(res.data == '1')//인증되있으면
+
+          if(res.data == '1') {//인증되있으면
+            console.log("인증값 : "+res.data);
             this.validate();
+          }
           else{
             this.$fire({
               title: "이메일인증이 필요합니다",
@@ -137,7 +140,7 @@ export default {
             }).then(r => {
               console.log(r.value);
               this.$store.commit('CHANGE_DIALOG', false);           
-              this.$router.push({ name: 'MyPage' })
+              this.$router.push({ name: 'MyPageCert' })
             });
           }
         })

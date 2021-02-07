@@ -18,11 +18,11 @@
     </v-row>
 
     <!-- 내용 -->
-    <!-- <v-row class="mr-tp">
-      <v-col v-if="categoryType == 'member'"><club-detail-intro /></v-col>
-      <v-col v-if="categoryType == 'board'"><club-detail-news /></v-col>
-      <v-col v-if="categoryType == 'join'"><club-detail-youtube /></v-col>
-    </v-row> -->
+    <v-row class="mr-tp">
+      <v-col v-if="categoryType == 'member'"><manage-join /></v-col>
+      <v-col v-if="categoryType == 'board'"><manage-article /></v-col>
+      <v-col v-if="categoryType == 'join'"><manage-member /></v-col>
+    </v-row>
 
     <!-- paging -->
 
@@ -32,21 +32,13 @@
 </template>
 
 <script>
-// import ClubDetailIntro from './ClubDetailIntro';
-// import ClubDetailNews from './ClubDetailNews';
-// import ClubDetailYoutube from './ClubDetailYoutube';
-// import ClubDetailEtc from './ClubDetailEtc';
-// import ClubDetailOpinion from './ClubDetailOpinion';
-import ClubCreate from '../../ClubCreate.vue';
+import ManageJoin from './ManageJoin.vue';
+import ManageArticle from './ManageArticle.vue';
+import ManageMember from './ManageMember.vue';
 
 export default {
   components: {
-    // ClubDetailIntro,
-    // ClubDetailNews,
-    // ClubDetailYoutube,
-    // ClubDetailEtc,
-    // ClubDetailOpinion,
-    ClubCreate,
+    ManageJoin, ManageArticle, ManageMember
   },
 
   data() {

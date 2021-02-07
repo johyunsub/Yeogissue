@@ -8,7 +8,12 @@
             {{ updated_at }}
           </div>
         </v-col>
-        <v-col cols="auto"> <v-icon small>mdi-thumb-up-outline</v-icon> 100 </v-col>
+        <v-col v-if="!getLike" cols="auto" class="choice_cursor" @click="thumbUp"> 
+          <v-icon small>mdi-thumb-up-outline</v-icon> {{ like_users_count }} 
+        </v-col>
+        <v-col v-if="getLike" cols="auto" class="choice_cursor" @click="thumbUp"> 
+          <v-icon small>mdi-thumb-up</v-icon> {{ like_users_count }} 
+        </v-col>
         <v-col cols="auto"> <comment-menu /></v-col>
       </v-row>
 
@@ -33,8 +38,23 @@
 
 <script>
 import CommentMenu from './CommentMenu.vue';
+import { mapState } from 'vuex';
+// import axios from 'axios';
+// import { API_BASE_URL } from "../../config";
+
 export default {
   components: { CommentMenu },
+  computed: {
+    ...mapState('opinionStore', ['opinionComment']),
+    getLike: {
+      get: function(){
+        if(this.like_users.includes(this.$store.state.userInfo.id)){
+            return true;
+          }
+        return false;
+      }
+    }
+  },
   props: {
     id: { type: Number },
     opinion_type: { type: Boolean },
@@ -44,7 +64,35 @@ export default {
     user: { type: Number },
     article: { type: Number },
     emotion: { type: String},
+    like_users_count: { type: Number },
+    like_users: { type: Array }
   },
+  data: () =>{
+    return {
+      isLike: false,
+      // likeCnt: this.like_users_count,
+      articleno: '',
+    }
+  },
+  methods: {
+    thumbUp() {
+      console.log(this.id +" <<<<<값이 왜 안받아와지냐 진짜;")
+      this.$emit('take')
+      // axios.post(`${API_BASE_URL}articles/${this.id}/comment_like/`, {user: this.$store.state.userInfo.id})
+      if(this.getLike) {
+        // this.opinionData.like_users_count--;
+      }else{
+        // this.opinionData.like_users_count++;
+      }
+      console.log(this.id)
+      this.opinionDetail(this.id);
+      // if(this.like_users.includes(this.$store.state.userInfo.id))
+      
+    }
+  },
+  created() {
+
+  }
 };
 </script>
 

@@ -7,7 +7,11 @@
             {{ data.title }}
           </p>
         </v-col>
+
+        <v-col cols="auto"> 
+          <v-icon small>mdi-thumb-up</v-icon> {{ data.like_users_count}} </v-col>
         <v-col cols="auto"> <v-icon small>far fa-eye</v-icon> {{ data.read_count }} <v-icon small color = "red">far fa-heart</v-icon> {{ data.like_users_count}} </v-col>
+
       </v-row>
 
       <v-col>

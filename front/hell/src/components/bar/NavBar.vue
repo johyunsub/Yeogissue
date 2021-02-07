@@ -84,8 +84,8 @@ export default {
     },
     Out: function () {
       this.$store.dispatch("userLogout");
-      console.log("dafadsf");
       this.$store.commit("CHANGE_DRAWER", false);
+      this.$router.push({name: 'Home'})
     },
   },
 };

@@ -21,8 +21,6 @@ const opinionStore = {
     opinionCommentPaging: {},
     opinionCommentPagingCnt: 0,
 
-    //좋아요한 article들의 번호
-    //likedOpinion: [],
 
     //해시태그
     hashtags : [],
@@ -105,17 +103,6 @@ const opinionStore = {
         })
         .catch((err) => console.log(err.response));
     },
-    // 해시태그 검색 조회
-    hashOpinionList({ commit }, data) {
-      instance
-        .post('/articles/search_bar/', data)
-        .then((res) => {
-          commit('SET_OPINIONS', res.data);
-          commit('SET_OPINION_CATEGORY', '전체');
-          commit('SET_OPINION_PAGING', 0);
-        })
-        .catch((err) => console.log(err.response));
-    },
     //생성
     opinionCreate({ dispatch }, data) {
       instance
@@ -157,7 +144,6 @@ const opinionStore = {
       instance
         .get(`/articles/${id}`)
         .then((res) => {
-          console.log(res.data);
           commit('SET_OPINION_DETAIL', res.data);
           commit('SET_OPINION_COMMENT', res.data.comment_set);
           commit('SET_OPINION_COMMENT_PAGING', 0);
@@ -175,28 +161,7 @@ const opinionStore = {
         })
         .catch((err) => console.log(err.response));
     },
-    opinionCommentEmotion({dispatch},data) {
-      instance
-        .post(`/articles/emotion_comment/`,data)
-        .then((res) => {
-          console.log('이거 왜 안나옴?? ')
-          console.log(res.data.emotion)
-          if(res.data.state == false){
-            var con_firm = confirm('너무 화가 많은 댓글로 여겨 집니다.');
-            if(con_firm==true){
-              document.write('수정');
-            }
-            else if(con_firm==false){
-              console.log(res.data)
-              dispatch('opinionCommentCreate',res.data);
-            }
-          }else {
-            console.log(res.data)
-            dispatch('opinionCommentCreate',res.data);
-          }
-        })
-        .catch((err) => console.log(err.response));
-    },
+
     // 댓글 등록
     opinionCommentCreate({ dispatch, state }, data) {
       instance
@@ -205,26 +170,6 @@ const opinionStore = {
           dispatch('opinionDetail', state.opinionData.id);
         })
         .catch((err) => console.log(err.response));
-    },
-
-    //디테일에서 의견 따봉눌렀을 때 좋아요한 목록에 넣어주기; id(게시글번호), 유저id
-    opinionLike({ dispatch, state }, data) {
-      instance
-        .post(`/articles/${state.opinionData.id}/like/`, data)
-        .then((res) => {
-          //article_artilce의 like_users의 user 추가
-          if(res.data[0] == 'like'){
-            state.opinionData.like_users.push(data.user);
-            dispatch('opinionUpdate', state.opinionData);
-          }else{  
-            //article_artilce의 like_users의 user 제거
-            for(var i=0; i<state.opinionData.like_users.length; i++) {
-              if(state.opinionData.like_users[i] == data.user) {
-                state.opinionData.like_users.splice(i, 1);
-              }
-            }
-          }
-        })
     },
   },
 }
