@@ -23,11 +23,15 @@ const opinionStore = {
 
 
     //해시태그
+    top_hashtags : [],
     hashtags : [],
 
   },
   getters: {},
   mutations: {
+    SET_TOP_HASHTAGS(state,hashtags) {
+      state.top_hashtags = hashtags
+    },
     SET_HASHTAGS(state, hashtags) {
       state.hashtags = hashtags;
     },
@@ -102,6 +106,26 @@ const opinionStore = {
           commit('SET_OPINION_PAGING', 0);
         })
         .catch((err) => console.log(err.response));
+    },
+    //해시태그 조회
+    hashOpinionList({ commit },data) {
+      instance
+        .post('/articles/search_bar/',data)
+        .then((res) => {
+          commit('SET_OPINIONS', res.data);
+          commit('SET_OPINION_CATEGORY', '전체');
+          commit('SET_OPINION_PAGING', 0);
+        })
+        .catch((err) => console.log(err.response));
+    },
+    // 해시태그 탑 10
+    hash_top10({commit}) {
+      instance
+        .get('/articles/top_hashtag/')
+        .then((res)=> {
+          commit('SET_TOP_HASHTAGS',res.data);
+        })
+        .catch((err)=> console.log(err.response))
     },
     //생성
     opinionCreate({ dispatch }, data) {

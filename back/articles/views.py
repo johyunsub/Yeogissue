@@ -296,9 +296,7 @@ def search_bar(request):
         hash = Hashtag.objects.get(name=name)
         
         articles = hash.articles.all().order_by('-id')
-        # .filter(hashtag_id=hash.id)
-        # serializer =
-        print(articles) 
+        # print(articles) 
         serializer = ArticleListSerializer(articles, many=True) 
         
         return Response(serializer.data)
