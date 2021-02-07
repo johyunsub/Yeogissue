@@ -30,3 +30,12 @@ class ClubArticleUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club_article
         fields = ('category','comment','url')
+
+class ClubMemberSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(
+        source='user.nickname'
+    )
+    
+    class Meta:
+        model = Club_member
+        exclude = ('user',)

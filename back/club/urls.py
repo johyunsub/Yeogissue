@@ -9,5 +9,7 @@ urlpatterns = [
     path('club_article_list/<str:club_pk>/',views.club_article_list),
     path('club_article_detail/<str:club_article_pk>/',views.club_article_detail),
     path('club_signup/<str:club_pk>/',views.club_signup),
+    path('member_approve/<str:club_pk>/',views.member_approve),
+    path('member_check/<str:club_pk>/',views.member_check),
     path('club_member_delete/<str:club_pk>/',views.club_member_delete),
 ]

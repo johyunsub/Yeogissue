@@ -33,4 +33,6 @@ urlpatterns = [
     path('search_bar/',views.search_bar),
 
     #path('comment_emotion',views.comment_emotion),
+
+    path('top_hashtag/', views.top_hashtag),
 ]
