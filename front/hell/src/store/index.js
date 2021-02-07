@@ -16,7 +16,11 @@ export default new Vuex.Store({
     isLoginToken: '',
 
     // 유저 정보
-    userInfo: null,
+    userInfo: {
+      email : '',
+      id : '',
+      nickname : '',
+    },
 
     //Meun 상태
     drawer: false,
@@ -27,7 +31,7 @@ export default new Vuex.Store({
     //Login
     SET_LOGIN_TOKEN(state, token) {
       state.isLoginToken = token;
-      // localStorage.setItem('token', token);
+      localStorage.setItem('token', token);
     },
 
     //userInfo
@@ -46,21 +50,23 @@ export default new Vuex.Store({
   actions: {
     //유저 정보 받아오기
     userData({ commit }, data) {
+      console.log("index userdata "+data)
       instance
         .post('/accounts/get_user/', { email: data })
         .then((res) => {
           commit('SET_USER_INFO', res.data);
+          console.log("유저 정보는 " + data + " id는 " + res.data.id)
         })
         .catch((err) => console.log(err.response));
     },
 
     //로그아웃
     userLogout({ commit }) {
-      console.log('되나?');
       commit('SET_LOGIN_TOKEN', '');
       commit('SET_USER_INFO', null);
       localStorage.removeItem('token');
       localStorage.removeItem('email');
+                                             
     },
   },
   modules: {

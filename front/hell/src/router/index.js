@@ -10,6 +10,7 @@ import Issue from '../views/Issue/IssuePage.vue';
 import IssueDetail from '../views/Issue/IssueDetail.vue';
 import Join from '../views/Member/Join.vue';
 import Mypage from '../views/Member/Mypage.vue';
+import MyPageCert from '../views/Member/Cert.vue';
 
 Vue.use(VueRouter);
 
@@ -72,6 +73,11 @@ const routes = [
     path: '/mypage',
     name: 'MyPage',
     component: Mypage
+  },
+  {
+    path: '/mypage/cert',
+    name: 'MyPageCert',
+    component: MyPageCert
   },
  
 ]

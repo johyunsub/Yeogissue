@@ -6,7 +6,7 @@
       </v-list-item-avatar>
 
       <v-list-item-content>
-          <v-list-item-title>{{ nickname }}</v-list-item-title>
+          <v-list-item-title>adfasdf</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 

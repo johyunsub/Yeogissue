@@ -21,8 +21,6 @@ const opinionStore = {
     opinionCommentPaging: {},
     opinionCommentPagingCnt: 0,
 
-    //좋아요한 article들의 번호
-    //likedOpinion: [],
 
     //해시태그
     hashtags : [],
@@ -46,7 +44,6 @@ const opinionStore = {
       let index = 0;
       for (let i = start; i < start + 10; i++) {
         if (i == state.opinionCategory.length) break;
-        console.log('넣어부려' + i + ' ' + state.opinionCategory.length);
         state.opinionPaging[index++] = state.opinionCategory[i];
       }
     },
@@ -147,7 +144,6 @@ const opinionStore = {
       instance
         .get(`/articles/${id}`)
         .then((res) => {
-          console.log(res.data);
           commit('SET_OPINION_DETAIL', res.data);
           commit('SET_OPINION_COMMENT', res.data.comment_set);
           commit('SET_OPINION_COMMENT_PAGING', 0);
@@ -174,26 +170,6 @@ const opinionStore = {
           dispatch('opinionDetail', state.opinionData.id);
         })
         .catch((err) => console.log(err.response));
-    },
-
-    //디테일에서 의견 따봉눌렀을 때 좋아요한 목록에 넣어주기; id(게시글번호), 유저id
-    opinionLike({ dispatch, state }, data) {
-      instance
-        .post(`/articles/${state.opinionData.id}/like/`, data)
-        .then((res) => {
-          //article_artilce의 like_users의 user 추가
-          if(res.data[0] == 'like'){
-            state.opinionData.like_users.push(data.user);
-            dispatch('opinionUpdate', state.opinionData);
-          }else{  
-            //article_artilce의 like_users의 user 제거
-            for(var i=0; i<state.opinionData.like_users.length; i++) {
-              if(state.opinionData.like_users[i] == data.user) {
-                state.opinionData.like_users.splice(i, 1);
-              }
-            }
-          }
-        })
     },
   },
 }

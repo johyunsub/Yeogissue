@@ -1,7 +1,6 @@
 <template>
   <v-app id="inspire">
     <nav-bar />
-    <menu-bar />
     <v-main class="">
       <router-view />
     </v-main>
@@ -10,13 +9,13 @@
 
 <script>
 import NavBar from './components/bar/NavBar.vue';
-import MenuBar from './components/bar/MenuBar.vue';
 
 export default {
   name: 'App',
-  components: { NavBar, MenuBar },
+  components: { NavBar },
   created() {
-    if (localStorage.getItem('email') != '') {
+    if (localStorage.getItem('token') != null) {
+      console.log(localStorage.getItem('token') + '<<<adfdddd')
       this.$store.commit('SET_LOGIN_TOKEN', localStorage.getItem('token'));
       this.$store.dispatch('userData', localStorage.getItem('email'));
     }
