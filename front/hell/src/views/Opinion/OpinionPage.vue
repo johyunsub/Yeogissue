@@ -1,16 +1,19 @@
 <template>
+<v-sheet height="100%"  lighten-5>
+  <v-sheet height="15vh" lighten-5></v-sheet>
   <v-container>
-    <h2 class="text-center mr-tp mr-bt">의견나눔</h2>
+    <h2 class="text-left mr-tp mr-bt">의견나눔</h2>
+    <h3 class="text-left mr-tp mr-bt">핫 이슈에대해 의견을 나눠보세요!</h3>
     <v-row>
-      <v-col cols="2"></v-col>
+      <v-col cols="auto"></v-col>
       <v-col id="opinion_main">
         <!-- 검색 -->
         <v-row>
-          <v-col cols="2" class="mr-auto"></v-col>
+          <v-col cols="3" class="mr-auto"></v-col>
           <v-text-field
             @keypress.enter='search_hashtag'
             v-model="search"
-            label="Search KeyWord"
+            label="#키워드에대한 다양한 의견을 검색해보세요"
             flat
             color="purple"
             solo-inverted
@@ -23,13 +26,17 @@
           <v-col cols="2" class="mr-auto"></v-col>
         </v-row>
 
+        <v-sheet lighten-5>
         <!-- 해시태그 -->
         <v-row class="mr-tp">
           <v-col cols="2"></v-col>
-          #해시태그
+          <marquee loop="3" direction="right" behavior="alternate" scrolldelay="800" bgcolor="00FFFF">  
+          #해시태그 #벌써 열시 #푸루팁스 #맛있다 #해시태그 #배경 #이미지 #어떻게 #넣지 #뷰 #너무 #어렵다
+          #여기 #두줄로 #받아오게 #어떻게 #하지 #ㅠㅠ</marquee>
+
           <v-col cols="2" class="mr-auto"></v-col>
         </v-row>
-
+        </v-sheet>
         <!-- 카테고리 -->
         <opinion-category />
 
@@ -64,8 +71,9 @@
         <v-row>
           <v-col cols="auto" class="mr-auto"></v-col>
           <v-col cols="auto">
-                <v-btn class="ma-2 btnLC" outlined large fab color="indigo"  @click="MovePage('write')"> <v-icon>mdi-pencil</v-icon></v-btn>
-            <!-- <v-icon>mdi-pencil</v-icon> <v-btn class="btnLC" color="blue" @click="MovePage('write')"> 글쓰기</v-btn> -->
+                <!-- <v-btn class="ma-2 btnLC" outlined large fab color="indigo"  @click="MovePage('write')"> <v-icon>mdi-pencil</v-icon></v-btn> -->
+           <v-btn class="btnLC" color="blue" rounded @click="MovePage('write')"> <v-icon color="white">mdi-pencil</v-icon>
+           <span style="color: white;"> 글쓰기 </span></v-btn>
           </v-col>
         </v-row>
 
@@ -84,9 +92,10 @@
       </v-col> -->
 
       <v-col cols="1"></v-col>
-      <v-btn class="ma-2 btnLC" outlined large fab color="indigo"  @click="MovePage('write')"> <v-icon>mdi-pencil</v-icon></v-btn>
+      <v-btn class="ma-2 btnLC" outlined large fab color="indigo" @click="MovePage('write')"> <v-icon>mdi-pencil</v-icon></v-btn>
     </v-row>
   </v-container>
+  </v-sheet>
 </template>
 
 <script>
