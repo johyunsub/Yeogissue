@@ -1,33 +1,42 @@
 <template>
-  <v-card class="mx-auto mr-tp" max-width="1000" outlined>
-    <v-card-text>
+<v-list-item>
+  <v-list-item-content>
       <v-row>
         <v-col cols="auto" class="mr-auto">
           <p class="subtitle-1 text--primary choice_cursor" @click="MovePage('opinionDetail', data.id)">
             {{ data.title }}
           </p>
         </v-col>
-        <v-col cols="auto"> <v-icon small>mdi-thumb-up-outline</v-icon> {{ data.like_users_count}} </v-col>
+
+        <v-col cols="auto"> 
+          <v-icon small>mdi-thumb-up</v-icon> {{ data.like_users_count}} </v-col>
+        <v-col cols="auto"> <v-icon small>far fa-eye</v-icon> {{ data.read_count }} <v-icon small color = "red">far fa-heart</v-icon> {{ data.like_users_count}} </v-col>
+
       </v-row>
-      <p>작성자 : {{ data.user }}</p>
+
+      <v-col>
       <div class="text--primary choice_cursor">
         간단한 내용
       </div>
+      </v-col>
 
-      <v-divider class="my-2"></v-divider>
-      <div class="text--primary">
-        #해시태그
+      <!-- 해시태그 -->
+      <div class="text--primary ma-6">
         <v-row class="mr-tp">
-          <v-chip-group mandatory>
-            <v-chip disabled v-for="tag in data.hashtags" :key="tag.name"> 
-              <span style='color:red; font-weight:600'>#{{ tag.name }}</span>
+          <v-chip-group>
+            <v-chip color="gray darken-4" outlined v-for="tag in data.hashtags" :key="tag.name"> 
+              <span style='color:black; font-weight:600'> <v-icon small color = "pink darken-2"  >fab fa-slack-hash</v-icon> {{ tag.name }}</span>
             </v-chip>
           </v-chip-group>
           <v-col cols="4"></v-col>
         </v-row>
       </div>
-    </v-card-text>
-  </v-card>
+      <div class = "ma-6">
+        #{{ data.category }} | 작성자 : {{ data.user }} | 작성일 : {{ data.created_at }} | <v-icon small color="blue darken-2">far fa-comments</v-icon> {{ data.comment_count }} | 댓글종류도 아이콘으로 넣고싶당
+      </div>
+      <v-divider class="my-2"></v-divider>
+    </v-list-item-content>
+    </v-list-item>
 </template>
 
 <script>

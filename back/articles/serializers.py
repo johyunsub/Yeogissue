@@ -87,6 +87,15 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 class ArticleListSerializer(serializers.ModelSerializer):
     hashtags = HashtagNameSerializer(many=True, read_only=True)
+    comment_set = CommentSerializer(
+        many=True,
+        read_only=True,
+    )
+
+    comment_count = serializers.IntegerField(
+        source='comment_set.count',
+        read_only=True,
+    )
     like_users_count = serializers.IntegerField(
         source='like_users.count',
         read_only=True,

@@ -126,7 +126,7 @@ def create_comment(request, article_pk):
 
 @api_view(['GET'])
 def comment_list(request):
-    comments = Comment.objects.all()
+    comments = Comment.objects.all().order_by('-id')
     serializer = CommentSerializer(comments, many=True)
     return Response(serializer.data)
 
@@ -186,7 +186,7 @@ def create_recomment(request, comment_pk):
 
 @api_view(['GET'])
 def recomment_list(request):
-    recomments = ReComment.objects.all()
+    recomments = ReComment.objects.all().order_by('-id')
     serializer = ReCommentSerializer(recomments, many=True)
     return Response(serializer.data)
 
@@ -265,7 +265,7 @@ def scrap(request, article_pk):
 @api_view(['GET'])
 def myscrap(request,user_pk):
     myuser = get_object_or_404(User, pk=user_pk)
-    scrap_list = myuser.scrap_articles.all()
+    scrap_list = myuser.scrap_articles.all().order_by('-id')
     serializer = ArticleListSerializer(scrap_list, many=True) 
     # print(scrap_list)
     return Response(serializer.data)
@@ -273,7 +273,7 @@ def myscrap(request,user_pk):
 
 @api_view(['GET'])
 def club_article(request,club_pk):
-    article = Article.objects.filter(club_pk=club_pk)
+    article = Article.objects.filter(club_pk=club_pk).order_by('-id')
     serializer = ArticleListSerializer(article, many=True) 
     return Response(serializer.data)
 
@@ -295,7 +295,7 @@ def search_bar(request):
     if Hashtag.objects.filter(name=name).exists():
         hash = Hashtag.objects.get(name=name)
         
-        articles = hash.articles.all()
+        articles = hash.articles.all().order_by('-id')
         # .filter(hashtag_id=hash.id)
         # serializer =
         print(articles) 
