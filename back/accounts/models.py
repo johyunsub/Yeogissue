@@ -48,6 +48,7 @@ class MyUser(AbstractBaseUser):
     nickname = models.CharField(max_length = 20)
     name = models.CharField(max_length = 20)
     token = models.CharField(max_length = 10)
+    introduce_text = models.TextField(blank=True)
     
     
     objects = MyUserManager()

@@ -93,11 +93,15 @@ def user_delete(request):
 @api_view(['POST'])
 def user_update(request):
     email = request.data.get('email')
-    nickname = request.data.get('nickname')
     # password = request.data.get('password')
     if User.objects.filter(email=email).exists():
         user = User.objects.get(email=email)
-        user.nickname = nickname
+        if request.data.get('nickname'):
+            nickname = request.data.get('nickname')
+            user.nickname = nickname
+        if request.data.get('introduce'):
+            introduce = request.data.get('introduce')
+            user.introduce_text = introduce
         user.save()
         return Response({'success'})
     return Response({'없는계정'})
