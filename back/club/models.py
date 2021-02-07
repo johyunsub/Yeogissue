@@ -14,7 +14,7 @@ class Club(models.Model):
 class Club_article(models.Model):
     category = models.CharField(max_length=50)
     comment = models.TextField()
-    url = models.CharField(max_length=50)
+    url = models.CharField(max_length=150)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_club_articles')

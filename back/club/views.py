@@ -16,7 +16,7 @@ from bs4 import BeautifulSoup
 # 클럽 리스트 보기
 @api_view(['GET'])
 def club_list(request):
-    club = Club.objects.all()
+    club = Club.objects.all().order_by('-id')
     serializer = ClublistSerializer(club,many=True)
     return Response(serializer.data)
 
@@ -81,35 +81,58 @@ def club_detail(request, club_pk):
 
 @api_view(['GET'])
 def club_article_list(request,club_pk):
-    club_article = Club_article.objects.filter(club_id=club_pk)
+    club_article = Club_article.objects.filter(club_id=club_pk).order_by('-id')
     serializer = ClubArticleSerializer(club_article,many=True)
-    # for i in serializer.data:
-        # print(i['url'])
-        # link = i['url']
-        # link = 'https://blog.naver.com/ppo1127/221691536152'
-        # print(link)
-        # headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'}
-        # html = urllib.request.urlopen(link)
-        # html = requests.get(link,headers=headers).text
-        # print(html)
-        # source = html.read()
-        # soup = BeautifulSoup(source,'html.parser')
-        # print(soup.find('iframe'),'qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq')
-        # print(soup)
-        # break
-        # for meta in soup.find_all('meta'):
-        #     print(meta)
 
-        # print(soup.find_all('meta',{'property':'og:title'}))
-        # print(soup.find_all('meta',{'property':'og:description'}))
-        # print(soup.find_all('meta',{'name':'title'}))
-        # print(soup.find_all('meta',{'name':'description'}))
+    data_list = []
+    for i in serializer.data:
+        link = i['url']
+        
+        # 네이버 블로그
+        if 'blog.naver.com' in link:
+            html = urllib.request.urlopen(link)         
+            source = html.read()
+            soup = BeautifulSoup(source,'html.parser') 
+            src = soup.body.find('iframe')['src']
+            src = src.replace('&directAccess=false','')
+            src = 'https://blog.naver.com' + src
+            link = src
+        # 네이버 뉴스
+        if 'news.naver.com' in link:
+            headers = { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" }
+            html = requests.get(link,headers=headers).text
+            source = html
+        # 이외
+        else:
+            html = urllib.request.urlopen(link)
+            source = html.read()
+        
+        soup = BeautifulSoup(source,'html.parser')
+        data = {}
+        if soup.find_all('meta',{'property' :'og:site_name'}):
+            data['site_name']= soup.find_all('meta',{'property' :'og:site_name'})[0].get('content')
+        if soup.find_all('meta',{'property':'og:title'}):
+            data['title']=soup.find_all('meta',{'property':'og:title'})[0].get('content')
+        if soup.find_all('meta',{'property':'og:description'}):
+            data['description']=soup.find_all('meta',{'property':'og:description'})[0].get('content')
+        if soup.find_all('meta',{'property':'og:image'}):
+            data['image']=soup.find_all('meta',{'property':'og:image'})[0].get('content')
+        if soup.find_all('meta',{'property':'og:video:url'}):
+            data['video']=soup.find_all('meta',{'property':'og:video:url'})[0].get('content')
+        
+        data['id'] = i['id']
+        data['category'] = i['category']
+        data['comment'] = i['comment']
+        data['created_at'] = i['created_at']
+        data['updated_at'] = i['updated_at']
+        data['user'] = i['user']
+        data['club'] = i['club']
+       
+        data_list.append(data)
 
-        # print(soup.body.find('meta',{'property':'og:title'}))
-        # print(soup.body.find('meta',{'property':'og:description'}))
-        # print(soup.head.find('meta',{'name':'title'}))
-        # print(soup.head.find('meta',{'name':'description'}))
-    return Response(serializer.data)
+    send_data={}
+    send_data['data']=data_list
+    return Response(send_data)
 
 @api_view(['POST'])
 def club_article(request):
