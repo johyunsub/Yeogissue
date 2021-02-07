@@ -1,15 +1,17 @@
 <template>
+
   <v-container>
     <v-row class="mr-tp">
       <v-col cols="2"></v-col>
       <v-col>
-        <p class="blue--text mr-bt">{{ opinionData.category }}</p>
-        <p class="display-2">{{ opinionData.title }}</p>
-        <p class="grey--text">
-          {{ opinionData.username }} | 날짜 {{ opinionData.created_at }} | 조회수 {{ opinionData.read_count }} |
+        <p class="blue--text mr-bt text-center"> <v-icon small>fas fa-bars</v-icon> {{ opinionData.category }}</p>
+        <p class="display-2 text-center">{{ opinionData.title }}</p>
+        <p class="grey--text text-center">
+          {{ opinionData.username }} | 날짜 {{ opinionData.created_at }}
           <span class="choice_cursor text-bt" @click="opUpdate">수정</span> |
           <span class="choice_cursor text-bt" @click="opDelete">삭제</span>
         </p>
+        
         <v-divider class="my-4"></v-divider>
 
         <!-- <p class="text-justify">
@@ -50,7 +52,11 @@
               공감
             </v-chip>
             </v-row>
+            <v-sheet height="5vh" lighten-5></v-sheet>
+            <p class="mt-10"><span class="choice_cursor text-bt" @click="opUpdate">수정</span> | <span class="choice_cursor text-bt text-right" @click="opDelete">삭제</span></p>
           </v-col>
+          <v-sheet height="15vh" lighten-5></v-sheet>
+          
 
         </v-row>
 
@@ -90,6 +96,7 @@
       <!-- footer쓸까? -->
     </v-row>
   </v-container>
+  
 </template>
 
 <script>
