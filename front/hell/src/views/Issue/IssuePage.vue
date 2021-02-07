@@ -80,7 +80,7 @@ export default {
   }),
 
   watch: {
-    date: function () {
+    date: function() {
       this.getIssue();
     },
   },
