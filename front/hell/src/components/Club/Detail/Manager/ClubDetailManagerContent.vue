@@ -19,9 +19,9 @@
 
     <!-- 내용 -->
     <v-row class="mr-tp">
-      <v-col v-if="categoryType == 'member'"><manage-join /></v-col>
+      <v-col v-if="categoryType == 'member'"><manage-member /></v-col>
       <v-col v-if="categoryType == 'board'"><manage-article /></v-col>
-      <v-col v-if="categoryType == 'join'"><manage-member /></v-col>
+      <v-col v-if="categoryType == 'join'"><manage-join /></v-col>
     </v-row>
 
     <!-- paging -->
