@@ -49,12 +49,11 @@ export default new Vuex.Store({
   actions: {
     //유저 정보 받아오기
     userData({ commit }, data) {
-      console.log("index userdata "+data)
+      console.log("index usderdata "+data)
       instance
         .post('/accounts/get_user/', { email: data })
         .then((res) => {
           commit('SET_USER_INFO', res.data);
-          console.log("유저 정보는 " + data + " id는 " + res.data.id)
         })
         .catch((err) => console.log(err.response));
     },

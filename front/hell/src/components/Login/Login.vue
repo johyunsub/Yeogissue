@@ -115,6 +115,7 @@ export default {
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('email', this.logindata.email);
           this.OnOffLoign();
+          this.$router.push({ name: 'Home' });
           this.accounts_valid = false;
         })
         .catch((err) => {
@@ -137,7 +138,7 @@ export default {
             }).then(r => {
               console.log(r.value);
               this.$store.commit('CHANGE_DIALOG', false);           
-              this.$router.push({ name: 'MyPage' })
+              this.$router.push(`/mypage/cert?email=${this.logindata.email}`)
             });
           }
         })
