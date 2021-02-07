@@ -8,6 +8,7 @@ const instance = createInstance();
 
 import opinionStore from './modules/opinionStore';
 import clubStore from './modules/clubStore';
+import issueStore from './modules/issueStore';
 
 export default new Vuex.Store({
   state: {
@@ -71,5 +72,6 @@ export default new Vuex.Store({
   modules: {
     opinionStore: opinionStore,
     clubStore: clubStore,
+    issueStore: issueStore,
   },
 });
