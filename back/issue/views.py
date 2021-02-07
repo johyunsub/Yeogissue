@@ -33,8 +33,9 @@ def issuemaker(request):
     result = []
     k = 1
     for i in response['return_object']['topics']:
-        result.append({'date':date,'category':category,'content':i['label']})
-        k += 1
+        if i['label']:
+            result.append({'date':date,'category':category,'content':i['label']})
+            k += 1
     return JsonResponse(result,safe=False,json_dumps_params={'ensure_ascii': False})
 
 
@@ -47,48 +48,60 @@ def remove_tag(content):
    cleantext = re.sub(cleanrn, '', cleantext)
    return cleantext
 
-def naver_search(issue):
+def naver_search(issue,start,sort):
     class NaverNewsURLMaker:
         url = 'https://openapi.naver.com/v1/search'
-        
         header = {
             'X-Naver-Client-Id': 'KoDu00KTEpd323frWLQa',   
             'X-Naver-Client-Secret': 'eN2R3foM2a'   
         }
-
         def get_url(self, category):
             return f'{self.url}/{category}.json?'
-
-
     url_maker = NaverNewsURLMaker()
     url = url_maker.get_url('news')
-    
-    
+
     query = {    
-        'query': issue
+        'query': issue,
+        'start': start,
+        'sort' : sort
     }
     
     r = requests.get(url, params=query, headers=url_maker.header)
-    # print(r,'rrrr')
-    Info_dict = r.json()  
+    Info_dict = r.json()
     # print(Info_dict,'확인')
     news_list = []
+    news_list.append(Info_dict['total'])
     for i in Info_dict['items']:
-        title = remove_tag(i['title'])
-        news_list.append({'title':title,
-        'link':i['originallink'],
-        })
-    # print(news_list)
-    # # link = news_list[1]['link']
-    # link = 'https://gooweon.tistory.com/47'
-    # print(link)
-    # html = urllib.request.urlopen(link)
-    # source = html.read()
-    # soup = BeautifulSoup(source,'html.parser')
-    # print(soup)
+        # link = i['originallink']
+        link = i['link']
+        # print(link)
+        if 'news.naver.com' in link:
+            headers = { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" }
+            html = requests.get(link,headers=headers).text
+            source = html
+        # 이외
+        else:
+            html = urllib.request.urlopen(link)
+            source = html.read()
+        
+        soup = BeautifulSoup(source,'html.parser')
+        # print(soup.find_all('meta'))
+        data = {}
+        data['link']=link
+        if soup.find_all('meta',{'property' :'og:site_name'}):
+            data['site_name']= soup.find_all('meta',{'property' :'og:site_name'})[0].get('content')
+        if soup.find_all('meta',{'property':'og:title'}):
+            data['title']=soup.find_all('meta',{'property':'og:title'})[0].get('content')
+        if soup.find_all('meta',{'property':'og:description'}):
+            data['description']=soup.find_all('meta',{'property':'og:description'})[0].get('content')
+        if soup.find_all('meta',{'property':'og:image'}):
+            data['image']=soup.find_all('meta',{'property':'og:image'})[0].get('content')
+        if soup.find_all('meta',{'property':'og:video:url'}):
+            data['video']=soup.find_all('meta',{'property':'og:video:url'})[0].get('content')
 
-        # print('확인')
-    
+        news_list.append(data)
+        # print(news_list)
+
     return news_list
 
 import requests
@@ -104,10 +117,16 @@ def youtube(issue):
     response = requests.get(url, params)
    
     response_dict = response.json()
+    # print(response_dict)
+
     data = []
+    data.append(response_dict['pageInfo']['totalResults'])
     for i in response_dict['items']:
         news = {}
         news['title']=i['snippet']['title']
+        news['description']=i['snippet']['description']
+        news['thumbnails']=i['snippet']['thumbnails']['default']
+        news['channelTitle']=i['snippet']['channelTitle']
         news['videoId']='http://youtube.com/watch?v='+i['id']['videoId']
         data.append(news)
    
@@ -116,8 +135,10 @@ def youtube(issue):
 @api_view(['POST'])
 def issue_search(request):
     issue = request.data.get('issue')
+    start = request.data.get('start')
+    sort = request.data.get('sort')
     info = {}
-    news = naver_search(issue)
+    news = naver_search(issue,start,sort)
     youtube_info = youtube(issue)
     info['news'] = news
     info['youtube'] = youtube_info
