@@ -1,5 +1,5 @@
 <template>
-    <h1>내가 가입한 클럽</h1>
+    <h1>게시글 관리</h1>
 </template>
 <script>
 export default {

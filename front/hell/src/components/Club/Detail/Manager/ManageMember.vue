@@ -21,10 +21,14 @@
   </v-container>
 </template>
 <script>
-import axios from 'axios';
-import { API_BASE_URL } from "../../../../config";
+import {mapState, mapActions } from 'vuex';
+// import axios from 'axios';
+// import { API_BASE_URL } from "../../../../config";
 
 export default {
+    computed:{
+        ...mapState('clubStore', [ 'clubManageMemberList'])
+    },
     data () {
       return {
         search: '',
@@ -39,6 +43,7 @@ export default {
           { text: '이름', value: 'name' },
           { text: '가입사유', value: 'motive' },
           { text: '가입일', value: 'date' },
+          { text: '게시글수', value: 'articleCnt' },
         ],
         member: [
           {
@@ -54,8 +59,14 @@ export default {
       }
     },
     methods: {
+        ...mapActions( 'clubStore', ['clubMangeList']),
         getList() {
-            axios.get(`${ API_BASE_URL }club/member_check/${this.$route.query.id}/`,)
+            // axios.post(`${ API_BASE_URL }club/member_check/${this.$route.query.id}/`, '')
+            // .then((res) => {
+                // console.log(res.data)
+            // })
+            this.clubMangeList('');
+            
         }
     },
     created() {

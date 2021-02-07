@@ -20,6 +20,10 @@ const clubStore = {
     //클럽 모달 변수
     clubDialog: false,
     clubDetailUrlDialog: false,
+
+    //클럽 멤머 관리 리스트 
+    clubManageMemberList: [],
+
   },
   getters: {},
   mutations: {
@@ -44,6 +48,11 @@ const clubStore = {
     CLUB_DETAIL_URL_DIALOG(state, dialog) {
       state.clubDetailUrlDialog = dialog;
     },
+
+    //클럽멤버 관리
+    SET_MANAGE_MEMBER_LIST(state, data) {
+      state.clubManageMemberList = data;
+    }
   },
   actions: {
     // 조회
@@ -115,6 +124,17 @@ const clubStore = {
         })
         .catch((err) => console.log(err.response));
     },
+
+
+    // 클럽 멤머 관리
+    clubMangeList({ state, commit }, data) {
+      instance
+        .get(`club/member_check/${state.clubData.id}`, data)
+        .then((res) => {
+          commit('SET_MANAGE_MEMBER_LIST', res.data);
+        })
+        .catch((err) => console.log(err.response));
+    }
   },
 };
 
