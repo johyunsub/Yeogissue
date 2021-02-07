@@ -6,13 +6,14 @@
       <v-col cols="auto" class="mr-auto" sm="3">
         <div class="mt-5">
           <v-list flat>
-            <h3 class="ml-1">카테고리 이슈</h3>
+            <h3 class="ml-1">"{{getCategory()}}"에 대한 이슈</h3>
             <v-divider class="my-2"></v-divider>
 
             <v-list-item-group v-model="selectedItem" color="primary">
               <v-list-item v-for="(item, i) in items" :key="i">
                 <v-list-item-content>
                   <v-list-item-title v-text="item.text"></v-list-item-title>
+                  <v-divider class="my-2"></v-divider>
                 </v-list-item-content>
               </v-list-item>
             </v-list-item-group>
@@ -59,7 +60,9 @@ import IssueDetailYoutube from '../../components/Issue/IssueDetailYoutube.vue';
 
 export default {
   components: { IssueDetailNews, IssueDetailYoutube },
-  computed: {},
+  computed: {
+    
+  },
   data: () => ({
     selectedItem: 1,
     categoryType: 'news',
@@ -70,8 +73,37 @@ export default {
     SelectCategory(type) {
       this.categoryType = type;
     },
+    getCategory(check) {
+      let ob = '';
+      switch (check) {
+        case "ENTERTAINMENT":
+          ob = '연예';
+          break;
+        case "IT_SCIENCE":
+          ob = 'IT/과학';
+          break;
+        case "WORLD":
+          ob = '해외';
+          break;
+        case "ECONOMY":
+          ob = '경제';
+          break;
+        case "SPORTS":
+          ob = '스포츠';
+          break;
+        case "POLITICS":
+          ob = '정치';
+          break;
+        case "SOCIETY/LIVING":
+          ob = '사회/생활';
+          break;
+      }
+      return ob;
+    },
+
   },
-  created() {},
+  created() {
+  },
 };
 </script>
 

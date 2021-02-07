@@ -71,6 +71,7 @@ def issuemaker(request):
     for i in response['return_object']['topics']:
         result.append({'date':date,'category':category,'content':i['label']})
         k += 1
+        if k ==11: break
     return JsonResponse(result,safe=False,json_dumps_params={'ensure_ascii': False})
 
 
