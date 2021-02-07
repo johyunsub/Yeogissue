@@ -12,7 +12,6 @@
     <v-text-field
       v-model="name"
       :error-messages="nameErrors"
-      :counter="10"
       label=" 이름 "
       required
       @input="$v.name.$touch()"
@@ -62,8 +61,8 @@
       @blur="$v.checkbox.$touch()"
     ></v-checkbox>
 
-    <v-btn class="mr-4" @click="submit">submit</v-btn>
-    <v-btn @click="clear">clear</v-btn>
+    <v-btn class="mr-4" :disabled="!valid" @click="submit">가입하기</v-btn>
+    <v-btn @click="clear">초기화</v-btn>
   </form>
 </template>
 
@@ -72,6 +71,7 @@
   import { required, minLength, maxLength, email, sameAs } from 'vuelidate/lib/validators'
   import axios from 'axios'
   import { API_BASE_URL } from "../../config";
+  
 
   export default {
     mixins: [validationMixin],
@@ -84,6 +84,7 @@
       passwordCheck: { required, minLength: minLength(8), sameAsPassword: sameAs('password') },
       checkbox: {
         checked (val) {
+          this.valid = val;
           return val
         },
       },
@@ -104,14 +105,18 @@
         email: '',
         checkbox: false,
         show4: false,
-        show5: false
+        show5: false,
+        timer: '',
+        valid: false,
+
+        message: '',
     }),
 
     computed: {
       checkboxErrors () {
         const errors = []
         if (!this.$v.checkbox.$dirty) return errors
-        !this.$v.checkbox.checked && errors.push(' 동의해주세요')
+        !this.$v.checkbox.checked && errors.push('동의해주세요')
         return errors
       },
       nameErrors () {
@@ -152,13 +157,46 @@
     },
 
     methods: {
+      checkForm(){
+        let check = true;
+
+        if(this.password.length>10 || this.password.length ==0){
+          check = false;
+          this.message= "비밀번호를 정확히 입력해주세요"
+        }
+        
+        if(this.nickname.length>10 || this.nickname.length ==0) {
+          check = false;
+          this.message= "닉네임을 정확히 입력해주세요"
+        }
+
+        if(this.password != this.passwordCheck) {
+          check = false;
+          this.message= "비밀번호가 일치하지 않습니다"
+        }
+        return check;
+      },
+      errorDialog(){
+        this.$fire({ //에러창
+            position: 'center',
+            //icon: 'success',
+            title: `${this.message}`,
+            showConfirmButton: false,
+            timer: 1000
+            })
+      },
       submit () {
+        if(!this.checkForm()){
+          this.errorDialog();
+          return;
+        } 
         this.joinData.name = this.name;
         this.joinData.nickname = this.nickname;
         this.joinData.password = this.password;
         this.joinData.passwordConfirmation = this.passwordCheck;
         this.joinData.email = this.email;
         console.log(this.joinData)
+        this.loading();
         this.signup();
         this.$v.$touch()
       },
@@ -179,7 +217,23 @@
           this.$router.push({ name: 'Home' })
         })
         .catch((err) => {
-          console.log(err)
+            console.log(err);
+             this.$fire({ //에러창
+              position: 'center',
+              //icon: 'success',
+              title: '중복된 Email입니다.',
+              showConfirmButton: false,
+              timer: 1000
+            })
+          })
+      },
+      loading(){
+         this.$fire({ //회원가입 로딩창
+          position: 'center',
+          //icon: 'success',
+          title: '회원 가입 중입니다..',
+          showConfirmButton: false,
+          timer: 3200
         })
       }
     },
