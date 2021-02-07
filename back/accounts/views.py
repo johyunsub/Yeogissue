@@ -78,7 +78,7 @@ def email_check(request):
         user.is_active = True
         user.save()
         return Response({'success'})
-    return Response({'토큰이 다름'})
+    return Response({'fail'})
 
 @api_view(['POST'])
 def user_delete(request):

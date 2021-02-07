@@ -6,7 +6,7 @@
         color="grey darken-1"
         size="32"
         @click="MovePage('home')"
-        >로고</v-avatar
+        >로고</v-avatar 
       >
 
       <v-btn text @click="MovePage('opinion')">의견나눔공간</v-btn>
