@@ -105,7 +105,7 @@ def naver_search(issue,start,sort):
     return news_list
 
 import requests
-def youtube(issue):
+def youtube(issue,order,token):
     url = 'https://www.googleapis.com/youtube/v3/search'
     params = {
         'key': 'AIzaSyCUK-7ji58muTsxvtW6TfFwNy4fWgbzkjY',
@@ -113,6 +113,9 @@ def youtube(issue):
         'type': 'video',
         'maxResults': '10',
         'q': issue,
+    # order = ['relevance','date']
+        'order':order,
+        'pageToken': token,
     }
     response = requests.get(url, params)
    
@@ -121,6 +124,10 @@ def youtube(issue):
 
     data = []
     data.append({'total':response_dict['pageInfo']['totalResults']})
+    if response_dict['prevPageToken']:
+        data[0]['prevToken']=response_dict['prevPageToken']
+    if response_dict['nextPageToken']:
+        data[0]['nextToken']=response_dict['nextPageToken']
     for i in response_dict['items']:
         news = {}
         news['title']=i['snippet']['title']
@@ -146,12 +153,14 @@ def issue_news(request):
 def issue_youtube(request):
 
     issue = request.data.get('issue')
-    start = request.data.get('start')
-    sort = request.data.get('sort')
+    order = request.data.get('order')
+    token = ''
+    if request.data.get('token'):
+        token = request.data.get('token')
 
     info = {}
 
-    youtube_info = youtube(issue)
+    youtube_info = youtube(issue,order,token)
     info['youtube'] = youtube_info
 
     return JsonResponse(info,safe=False,json_dumps_params={'ensure_ascii': False})
