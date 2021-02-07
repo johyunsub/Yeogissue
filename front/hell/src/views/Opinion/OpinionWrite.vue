@@ -91,7 +91,7 @@ export default {
         comment_type: true,
         category: null,
         //미정
-        user: 1,
+        user: '',
         name: [],
       },
       initialValue: '',
@@ -119,8 +119,9 @@ export default {
       this.createData.content = this.$refs.toastuiEditor.invoke("getMarkdown");
       this.createData.name = this.tags;
 
-      console.log('들어옴1');
+      console.log('들어옴 ' + this.$store.state.userInfo.id);
 
+      this.createData.user = this.$store.state.userInfo.id;
       if (this.$route.query.type === 'write') {
         this.opinionCreate(this.createData);
         console.log(this.createData.content);

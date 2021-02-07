@@ -304,3 +304,13 @@ def search_bar(request):
         return Response(serializer.data)
     else:
         return Response({'없음'})
+
+
+@api_view(['GET'])
+def top_hashtag(request):
+    top_hashtag = Hashtag.objects.all().order_by('-post_cnt')[:10]
+    serializer = HashtagSerializer(top_hashtag, many=True)
+
+    return Response(serializer.data)
+
+

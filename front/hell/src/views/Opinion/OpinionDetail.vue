@@ -6,7 +6,7 @@
         <p class="blue--text mr-bt">{{ opinionData.category }}</p>
         <p class="display-2">{{ opinionData.title }}</p>
         <p class="grey--text">
-          {{ opinionData.user }} | 날짜 {{ opinionData.created_at }} | 조회수 {{ opinionData.read_count }} |
+          {{ opinionData.username }} | 날짜 {{ opinionData.created_at }} | 조회수 {{ opinionData.read_count }} |
           <span class="choice_cursor text-bt" @click="opUpdate">수정</span> |
           <span class="choice_cursor text-bt" @click="opDelete">삭제</span>
         </p>
