@@ -26,7 +26,7 @@
               white-space: nowrap;
             "
             @mouseover="moveMarquee(item, n)"
-            @click="Movepage(item)"
+            @click="Movepage(item, n)"
           >
             <p>{{ n }}.&nbsp;{{ item.content }}</p>
           </div>
@@ -95,8 +95,8 @@ export default {
       return ob;
     },
 
-    Movepage(){
-      this.$router.push('/issueDetail');
+    Movepage(item, no){
+      this.$router.push(`/issueDetail?category=${item.category}&date=${item.date}&no=${no}`);
     },
 
     moveMarquee(item, number) {
@@ -116,7 +116,7 @@ export default {
       this.flag = false;
       let str = "div." + item.category + number;
       str = str.replace("/", "");
-      console.log("아웃" + str);
+      // console.log("아웃" + str);
       $(str).html(`<p data-v-b8f9535e>${number}. ${item.content}</p>`);
     },
   },

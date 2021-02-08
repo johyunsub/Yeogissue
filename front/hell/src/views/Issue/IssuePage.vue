@@ -113,8 +113,6 @@ export default {
 };
 </script>
 
-<style scoped></style>
-
 <style>
 #carousel .slick-list {
   border-radius: 12px;
