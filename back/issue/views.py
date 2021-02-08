@@ -36,6 +36,7 @@ def issuemaker(request):
         if i['label']:
             result.append({'date':date,'category':category,'content':i['label']})
             k += 1
+            if k==11 : break
     return JsonResponse(result,safe=False,json_dumps_params={'ensure_ascii': False})
 
 

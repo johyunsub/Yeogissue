@@ -14,12 +14,6 @@ const issueStore = {
     issuePolitics: null,
     issueSociety: null,
 
-    // 이슈 디테일 정보
-    issueDetail: {
-      category: '',
-      date: '',
-      search: '',
-    },
   },
   getters: {},
   mutations: {
@@ -45,9 +39,7 @@ const issueStore = {
       state.issueSociety = issue;
     },
 
-    SET_ISSUE_DETAIL(state, issue){
-      state.issueDetail = issue;
-    }
+
   },
   actions: {
     issueCategory({ commit }, data) {
@@ -82,7 +74,6 @@ const issueStore = {
           console.log(err.response);
         });
     },
-
   },
 };
 
