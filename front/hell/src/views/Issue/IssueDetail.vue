@@ -6,9 +6,7 @@
       <v-col cols="auto" class="mr-auto" sm="3">
         <div class="mt-5">
           <v-list flat>
-            <span class="ml-1 text-xl"
-              >"{{ changeNameCategory(category) }}"에 대한 이슈</span
-            >
+            <span class="ml-1 text-xl">"{{ changeNameCategory(category) }}"에 대한 이슈</span>
             <v-menu
               v-model="menu1"
               :close-on-content-click="false"
@@ -23,7 +21,11 @@
                 </v-btn>
               </template>
               <v-list>
-                <v-list-item v-for="(item, index) in categoryKorean" :key="index" @click="changeCategory(index)">
+                <v-list-item
+                  v-for="(item, index) in categoryKorean"
+                  :key="index"
+                  @click="changeCategory(index)"
+                >
                   <v-list-item-title>{{ item }}</v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -32,7 +34,12 @@
             <v-divider class="my-2"></v-divider>
 
             <v-list-item-group v-model="selectedItem" color="primary">
-              <v-list-item elevation="2" v-for="(item, i) in categoryItems" :key="i">
+              <v-list-item
+                elevation="2"
+                v-for="(item, i) in categoryItems"
+                :key="i"
+                @click="search(item.content)"
+              >
                 <v-list-item-title
                   v-text="item.content"
                   class="border-bt pb-3 pl-3"
@@ -46,7 +53,7 @@
       </v-col>
 
       <!-- 본문 -->
-      <v-col id="opinion_main">
+      <v-col>
         <v-row class="ml-1">
           <v-col cols="auto" class="mr-auto">
             <span class="display-1">"{{ issue }}" 검색</span>
@@ -67,7 +74,11 @@
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
               </template>
-              <v-date-picker v-model="datePicker" @input="menu2 = false" :events="changeDate()"></v-date-picker>
+              <v-date-picker
+                v-model="datePicker"
+                @input="menu2 = false"
+                :events="changeDate()"
+              ></v-date-picker>
             </v-menu>
           </v-col>
         </v-row>
@@ -82,15 +93,19 @@
 
         <!-- 카테고리 별로 보여주는 곳 -->
         <!-- 내용 -->
-        <v-row class="mr-tp ml-3">
-          <!-- <select><v-select> -->
-          <div v-if="categoryType == 'news'">
-            <v-col><issue-news-list /></v-col>
-          </div>
-          <div v-if="categoryType == 'youtube'">
+        <div v-if="categoryType == 'news'">
+          <v-row class="mr-tp ml-3">
+            <v-col cols="auto" class="mr-auto"></v-col>
+            <v-col cols="auto">dddd</v-col>
+            <!-- 뉴스 리스트 부분 -->
+            <div>
+              <issue-news-list v-for="(item, index) in newsData" :key="index" :data="item" />
+            </div>
+            <!-- <div v-if="categoryType == 'youtube'">
             <v-col><issue-youtube-list /></v-col>
-          </div>
-        </v-row>
+          </div> -->
+          </v-row>
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -101,10 +116,10 @@ import Axios from "axios";
 import { API_BASE_URL } from "../../config";
 import { mapActions, mapState } from "vuex";
 import IssueNewsList from "../../components/Issue/IssueNewsList.vue";
-import IssueYoutubeList from "../../components/Issue/IssueYoutubeList.vue";
+// import IssueYoutubeList from "../../components/Issue/IssueYoutubeList.vue";
 
 export default {
-  components: { IssueNewsList, IssueYoutubeList },
+  components: { IssueNewsList },
   computed: {
     ...mapState("issueStore", [
       "issueDetail",
@@ -123,10 +138,10 @@ export default {
     ob: "",
 
     category: "",
-    issue:"",
+    issue: "",
     date: "",
 
-    datePicker:"",
+    datePicker: "",
 
     menu1: false,
     menu2: false,
@@ -147,8 +162,8 @@ export default {
     //-----------------------뉴스 태그용
     newsCurPage: 0,
     newsPageCnt: 0,
-    sort: 'sim',
-
+    sort: "sim",
+    newsData: {},
   }),
 
   methods: {
@@ -157,17 +172,22 @@ export default {
       this.categoryType = type;
     },
 
-    changeDate(){
-      if(this.date == this.datePicker) return;
+    changeDate() {
+      if (this.date == this.datePicker) return;
 
       this.date = this.datePicker;
-      this.issueAixos(this.category, this.date)
+      this.issueAixos(this.category, this.date);
     },
 
-    changeCategory(no){
+    changeCategory(no) {
       this.menu1 = false;
       this.category = this.categoryEnglish[no];
-      this.issueAixos(this.category, this.date)
+      this.issueAixos(this.category, this.date);
+    },
+
+    search(issue) {
+      this.issue = issue;
+      this.newsAixos();
     },
 
     changeNameCategory(check) {
@@ -233,39 +253,41 @@ export default {
       return ob;
     },
 
-    issueAixos(category, date){
-       Axios.post(`${API_BASE_URL}issue/`, {category : category, date: date})
-      .then((res) => {
+    async issueAixos(category, date) {
+      await Axios.post(`${API_BASE_URL}issue/`, { category: category, date: date })
+        .then((res) => {
           this.category = res.data[0].category;
           this.date = res.data[0].date;
           this.datePicker = res.data[0].date;
-          this.issue = res.data[0].content;
+          if (this.issue != "") this.issue = res.data[0].content;
+          else this.issue = res.data[this.selectedItem].content;
           this.categoryItems = res.data;
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
+          console.log("하이");
+          this.newsAixos();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
     },
 
-    newsAixos(){
-      Axios.post(`${API_BASE_URL}issue/issue_search/news/`, {sort : this.sort, contnet: this.issue, start: (newsCurPage*10)+1})
-      .then((res) => {
-          this.category = res.data[0].category;
-          this.date = res.data[0].date;
-          this.datePicker = res.data[0].date;
-          this.issue = res.data[0].content;
-          this.categoryItems = res.data;
+    async newsAixos() {
+      await Axios.post(`${API_BASE_URL}issue/issue_search/news/`, {
+        sort: this.sort,
+        content: this.issue,
+        start: this.newsCurPage * 10 + 1,
       })
-      .catch((err) => {
-        console.log(err.response);
-      });
-    }
+        .then((res) => {
+          this.newsData = res.data.news;
+          console.log(res.data.news);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
   },
   created() {
-    this.issueAixos(this.$route.query.category, this.$route.query.date)
     this.selectedItem = Number(this.$route.query.no);
+    this.issueAixos(this.$route.query.category, this.$route.query.date);
   },
 };
 </script>
-
-<style scoped></style>
