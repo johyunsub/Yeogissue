@@ -3,7 +3,7 @@ from .models import Article, Hashtag, Comment,ReComment
 from django.contrib.auth import get_user_model
 
 class HashtagSerializer(serializers.ModelSerializer):
-        
+   
     class Meta:
         model = Hashtag
         fields = '__all__'
@@ -22,6 +22,7 @@ class HashtagSerializer2(serializers.ModelSerializer):
         exclude = ('name',)
         # fields = '__all__'
         # read_only_fields = ('articles',)
+
 class ReCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -45,7 +46,7 @@ class CommentSerializer(serializers.ModelSerializer):
     #     read_only=True,
     # )
 
-
+    username = serializers.ReadOnlyField(source='user.nickname')
     class Meta:
         model = Comment
         fields = '__all__'
@@ -72,6 +73,7 @@ class ArticleSerializer(serializers.ModelSerializer):
         source='scrap_users.count',
         read_only=True,
     )
+    username = serializers.ReadOnlyField(source='user.nickname')
  
     # type_count = serializers.IntegerField(
     #     source='comment_set.data.opinion_type.count',
@@ -86,7 +88,7 @@ class ArticleSerializer(serializers.ModelSerializer):
  
 
 class ArticleListSerializer(serializers.ModelSerializer):
-    hashtags = HashtagNameSerializer(many=True, read_only=True)
+    hashtags = HashtagSerializer(many=True, read_only=True)
     comment_set = CommentSerializer(
         many=True,
         read_only=True,
@@ -101,7 +103,8 @@ class ArticleListSerializer(serializers.ModelSerializer):
         read_only=True,
     )
     username = serializers.ReadOnlyField(source='user.nickname')
-    # hastag = serializers.ReadOnlyField(source='hashtags.name')
+ 
+
     class Meta:
         model = Article
         exclude = ('like_users','scrap_users')

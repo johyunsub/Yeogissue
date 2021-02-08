@@ -71,7 +71,7 @@ def naver_search(issue,start,sort):
     Info_dict = r.json()
     # print(Info_dict,'확인')
     news_list = []
-    news_list.append(Info_dict['total'])
+    news_list.append({'total':Info_dict['total']})
     for i in Info_dict['items']:
         # link = i['originallink']
         link = i['link']
@@ -100,13 +100,13 @@ def naver_search(issue,start,sort):
         if soup.find_all('meta',{'property':'og:video:url'}):
             data['video']=soup.find_all('meta',{'property':'og:video:url'})[0].get('content')
 
-        news_list.append(data)
+        news_list.append(data)                                                        
         # print(news_list)
 
     return news_list
 
 import requests
-def youtube(issue):
+def youtube(issue,order,token):
     url = 'https://www.googleapis.com/youtube/v3/search'
     params = {
         'key': 'AIzaSyCUK-7ji58muTsxvtW6TfFwNy4fWgbzkjY',
@@ -114,6 +114,9 @@ def youtube(issue):
         'type': 'video',
         'maxResults': '10',
         'q': issue,
+    # order = ['relevance','date']
+        'order':order,
+        'pageToken': token,
     }
     response = requests.get(url, params)
    
@@ -121,7 +124,11 @@ def youtube(issue):
     # print(response_dict)
 
     data = []
-    data.append(response_dict['pageInfo']['totalResults'])
+    data.append({'total':response_dict['pageInfo']['totalResults']})
+    if response_dict['prevPageToken']:
+        data[0]['prevToken']=response_dict['prevPageToken']
+    if response_dict['nextPageToken']:
+        data[0]['nextToken']=response_dict['nextPageToken']
     for i in response_dict['items']:
         news = {}
         news['title']=i['snippet']['title']
@@ -134,13 +141,27 @@ def youtube(issue):
     return data
 
 @api_view(['POST'])
-def issue_search(request):
+def issue_news(request):
     issue = request.data.get('issue')
     start = request.data.get('start')
     sort = request.data.get('sort')
     info = {}
     news = naver_search(issue,start,sort)
-    youtube_info = youtube(issue)
     info['news'] = news
+    return JsonResponse(info,safe=False,json_dumps_params={'ensure_ascii': False})
+
+@api_view(['POST'])
+def issue_youtube(request):
+
+    issue = request.data.get('issue')
+    order = request.data.get('order')
+    token = ''
+    if request.data.get('token'):
+        token = request.data.get('token')
+
+    info = {}
+
+    youtube_info = youtube(issue,order,token)
     info['youtube'] = youtube_info
+
     return JsonResponse(info,safe=False,json_dumps_params={'ensure_ascii': False})

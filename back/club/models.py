@@ -26,4 +26,10 @@ class Club_member(models.Model):
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    signdate = models.CharField(blank=True, max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+    visitdate = models.DateTimeField(auto_now=True)
+    visit_cnt = models.IntegerField(default=0)
+    article_cnt = models.IntegerField(default=0)
+    comment = models.TextField(blank=True)
     

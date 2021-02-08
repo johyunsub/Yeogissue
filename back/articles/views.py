@@ -296,11 +296,19 @@ def search_bar(request):
         hash = Hashtag.objects.get(name=name)
         
         articles = hash.articles.all().order_by('-id')
-        # .filter(hashtag_id=hash.id)
-        # serializer =
-        print(articles) 
+        # print(articles) 
         serializer = ArticleListSerializer(articles, many=True) 
         
         return Response(serializer.data)
     else:
         return Response({'없음'})
+
+
+@api_view(['GET'])
+def top_hashtag(request):
+    top_hashtag = Hashtag.objects.all().order_by('-post_cnt')[:10]
+    serializer = HashtagSerializer(top_hashtag, many=True)
+
+    return Response(serializer.data)
+
+

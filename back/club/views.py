@@ -4,11 +4,11 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
 from .models import Club, Club_article, Club_member
-from .serializers import ClubSerializer, ClublistSerializer,ClubUpdateSerializer,ClubArticleCreateSerializer,ClubArticleSerializer,ClubArticleUpdateSerializer
+from .serializers import ClubSerializer, ClublistSerializer,ClubUpdateSerializer,ClubArticleCreateSerializer,ClubArticleSerializer,ClubArticleUpdateSerializer, ClubMemberSerializer
 from django.conf import settings
 from accounts.models import MyUser
 from django.db.models import Q
-
+import datetime
 import requests
 import urllib
 from bs4 import BeautifulSoup
@@ -50,14 +50,21 @@ def club_detail(request, club_pk):
     # club 모델의 인스턴스 생성
     club = get_object_or_404(Club, pk=club_pk)
     
+    # 접속하려는 유저의 인스턴스 모델 생성
+    user_id = request.data.get('user')
+    
     
     if request.method == 'GET':
+        # 방문횟수
+        if Club_member.objects.filter(Q(user_id=user_id)&Q(club_id=club_pk)).exists():
+            member = Club_member.objects.get(Q(user_id=user_id)&Q(club_id=club_pk))
+            if member.is_active == True:
+                member.visit_cnt += 1
+                member.save()
         serializer = ClubSerializer(club)
         return Response(serializer.data)
 
-    # 접속하려는 유저의 인스턴스 모델 생성
    
-    user_id = request.data.get('user')
    
     club_master = club.master.id
     # print(club_master==user_id)
@@ -138,6 +145,9 @@ def club_article_list(request,club_pk):
 def club_article(request):
     serializer = ClubArticleCreateSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
+        member = Club_member.objects.get(Q(user_id=request.data.get('user'))&Q(club_id=request.data.get('club')))
+        member.article_cnt += 1
+        member.save()
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response({'작성실패'})
@@ -147,25 +157,20 @@ def club_article_detail(request, club_article_pk):
     
     club_article = get_object_or_404(Club_article, pk=club_article_pk)
     
-
     if request.method == 'GET':
         serializer = ClubArticleSerializer(club_article)
         return Response(serializer.data)
 
     user = request.data.get('user')
     if request.method == 'PUT':
-        if club_article.user_id == int(user):
-            serializer = ClubArticleUpdateSerializer(club_article, data=request.data)
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response({'권한없음'})
+        serializer = ClubArticleUpdateSerializer(club_article, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     else:
-        if club_article.user_id == int(user):
-            club_article.delete()
-            return Response({ 'id': club_article_pk }, status=status.HTTP_204_NO_CONTENT)
-        return Response({'권한없음'})
+        club_article.delete()
+        return Response({ 'id': club_article_pk }, status=status.HTTP_204_NO_CONTENT)
 
 
 
@@ -178,16 +183,44 @@ def club_signup(request,club_pk):
     if Club_member.objects.filter(Q(club_id=club_pk)&Q(user_id=user)).exists():
         return Response({'이미 가입'})
     
-
     club_member = Club_member()
     club_member.user = user
     club_member.club = club
-    club_member.is_active = True
+    if request.data.get('comment'):
+        club_member.comment = request.data.get('comment')
+    if club.is_private == False:
+        club_member.is_active = True
+        club_member.is_admin = False
+        club_member.save()
+        return response({'가입성공'})
+    club_member.is_active = False
     club_member.is_admin = False
     club_member.save()
+    return Response({'가입보류'})
 
-    return Response({'승인되었습니다.'})
+@api_view(['POST','DELETE'])
+def member_approve(request,club_pk):
+    member = request.data.get('member')
+    club_member = Club_member.objects.get(Q(club_id=club_pk)&Q(user_id=member))
+    if request.method == 'POST':
+        club_member.is_active = True
+        club_member.signdate = datetime.date.today()
+        club_member.save()
+        return Response({'멤버승인됨'})
+    else:
+        club_member.delete()
+        return Response({'멤버삭제됨'})
 
+# 클럽 맴버 확인 및 클럽 가입 승인 대기 확인
+@api_view(['POST'])
+def member_check(request,club_pk):
+    if request.data.get('type')=='승인':
+        club_member = Club_member.objects.filter(Q(club_id=club_pk)&Q(is_active=True))
+        serializer = ClubMemberSerializer(club_member,many=True)
+    else:
+        club_member = Club_member.objects.filter(Q(club_id=club_pk)&Q(is_active=False))
+        serializer = ClubMemberSerializer(club_member,many=True)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 def club_member_delete(request,club_pk):
