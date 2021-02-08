@@ -127,19 +127,19 @@ def login(request):
 
 @api_view(['POST'])
 def passwordChange(request):
-    user_id = request.data.get('user')
+    email = request.data.get('email') 
     PW = request.data.get('currentPW')
     newPW = request.data.get('newPW')
     newPW2 = request.data.get('newPW2')
 
-    user = User.objects.get(id=user_id)
+    user = User.objects.get(email=email)
     
     if check_password(PW,user.password):
         if newPW == newPW2:
             user.set_password(newPW)
             user.save()
-            return Response({'성공'})
+            return Response({'0'}) #성공
         else:
-            return Response({'바꿀비밀번호다름'})
+            return Response({'1'}) #비밀번호불일치
     else:
-        return Response({'현재비밀번호불일치'})
+        return Response({'2'}) #현재비번 틀림

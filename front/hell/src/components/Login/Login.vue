@@ -154,7 +154,7 @@ export default {
     },
     forgotpw() {
       this.$store.commit('CHANGE_DIALOG', false);
-      this.$router.push({ name: 'Home' });
+      this.$router.push({ name: 'FindPW' });
     },
     gojoin() {
       this.$store.commit('CHANGE_DIALOG', false);
