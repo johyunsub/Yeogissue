@@ -146,6 +146,8 @@ export default {
           this.scrap = false;
           this.write = false;
           this.update = false;
+          this.changepw = false;
+
           break;
         case 'feeling':
           this.club = false;
@@ -155,6 +157,8 @@ export default {
           this.scrap = false;
           this.write = false;
           this.update = false;
+          this.changepw = false;
+
           break;
         case 'graph':
           this.club = false;
@@ -164,6 +168,8 @@ export default {
           this.scrap = false;
           this.write = false;
           this.update = false;
+          this.changepw = false;
+
           break;
         case 'recently':
           this.club = false;
@@ -173,6 +179,8 @@ export default {
           this.scrap = false;
           this.write = false;
           this.update = false;
+          this.changepw = false;
+
           break;
         case 'scrap':
           this.club = false;
@@ -182,6 +190,8 @@ export default {
           this.scrap = true;
           this.write = false;
           this.update = false;
+          this.changepw = false;
+
           break;
         case 'write':
           this.club = false;
@@ -191,6 +201,8 @@ export default {
           this.scrap = false;
           this.write = true;
           this.update = false;
+          this.changepw = false;
+
           break;
         case 'update':
           this.club = false;
@@ -200,6 +212,7 @@ export default {
           this.scrap = false;
           this.write = false;
           this.update = true;
+          this.changepw = false;
           break;
         case 'changepw':
           this.club = false;

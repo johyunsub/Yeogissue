@@ -1,14 +1,10 @@
 <template>
-  <v-app-bar app color="white" flat id="navbar">
+  <v-app-bar app color="white" flat id="navbar" height="80vh" >
     <v-col class="ml-16">
-      <v-avatar
-        class="mr-10"
-        color="grey darken-1"
-        size="32"
-        @click="MovePage('home')"
-        >로고</v-avatar 
-      >
-
+      
+      <v-btn dark text height="10vh">
+          <img :src ="require('../../assets/logo2.png')" @click="MovePage('home')" style="height:80px;">
+      </v-btn> 
       <v-btn text @click="MovePage('opinion')">의견나눔공간</v-btn>
       <v-btn text @click="MovePage('club')">클럽</v-btn>
       <v-btn text @click="MovePage('issue')">이슈모음</v-btn>

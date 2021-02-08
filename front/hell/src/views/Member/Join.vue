@@ -288,7 +288,7 @@
         axios.post(`${API_BASE_URL}accounts/signup/`, this.joinData)
         .then(() => {
           this.$store.commit("CHANGE_DRAWER", false);
-          this.$router.push({ name: 'Home' })
+            
         })
         .catch((err) => {
             console.log(err);
