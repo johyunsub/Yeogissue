@@ -14,7 +14,7 @@ class Club(models.Model):
 class Club_article(models.Model):
     category = models.CharField(max_length=50)
     comment = models.TextField()
-    url = models.CharField(max_length=50)
+    url = models.CharField(max_length=150)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_club_articles')
@@ -26,4 +26,10 @@ class Club_member(models.Model):
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    signdate = models.CharField(blank=True, max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+    visitdate = models.DateTimeField(auto_now=True)
+    visit_cnt = models.IntegerField(default=0)
+    article_cnt = models.IntegerField(default=0)
+    comment = models.TextField(blank=True)
     

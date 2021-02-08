@@ -3,7 +3,6 @@ from . import views
 
 urlpatterns = [
     path('',views.issuemaker),
-    path('issue_search/',views.issue_search),
-    # path('youtube/',views.youtube),
-    # path('naver_search/',views.naver_search),
+    path('issue_search/news/',views.issue_news),
+    path('issue_search/youtube/',views.issue_youtube),
 ]

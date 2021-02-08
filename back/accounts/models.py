@@ -43,11 +43,12 @@ class MyUser(AbstractBaseUser):
         unique=True,
     )
     # date_of_birth = models.DateField()
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     nickname = models.CharField(max_length = 20)
     name = models.CharField(max_length = 20)
     token = models.CharField(max_length = 10)
+    introduce_text = models.TextField(blank=True)
     
     
     objects = MyUserManager()

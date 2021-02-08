@@ -80,7 +80,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('clubStore', ['clubUpdate']),
+    ...mapActions('clubStore', ['clubUpdate', 'clubCreate']),
     ClubCreate() {
       if (this.type == 'create') {
         this.clubCreateData.master = this.$store.state.userInfo.id;

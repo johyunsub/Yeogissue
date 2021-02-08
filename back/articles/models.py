@@ -14,12 +14,16 @@ class Article(models.Model):
     category = models.CharField(max_length=100)
     read_count = models.IntegerField(default=0)
     club_pk = models.IntegerField(default=0)
+    agree_count = models.IntegerField(default=0)
+    disagree_count = models.IntegerField(default=0)
 
 class Hashtag(models.Model):
     name = models.CharField(max_length=100)
+    post_cnt = models.IntegerField(default=1)
     articles = models.ManyToManyField(Article,related_name='hashtags')
     user = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='user_hashtags')
-
+    def __str__(self):
+        return self.name
 
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_comment')
@@ -29,6 +33,8 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     badcomment = models.IntegerField(default=0)
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_comments')
+    emotion = models.CharField(max_length = 10)
     
 
 class ReComment(models.Model):
@@ -38,3 +44,4 @@ class ReComment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     badcomment = models.IntegerField(default=0)
+    emotion = models.CharField(max_length = 10)

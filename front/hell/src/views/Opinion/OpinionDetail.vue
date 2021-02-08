@@ -1,30 +1,41 @@
 <template>
+
   <v-container>
     <v-row class="mr-tp">
       <v-col cols="2"></v-col>
       <v-col>
-        <p class="blue--text mr-bt">{{ detailData.category }}</p>
-        <p class="display-2">{{ detailData.title }}</p>
-        <p class="grey--text">
-          {{ detailData.user }} | 날짜 | 조회수 {{ detailData.read_count }} |
+        <p class="blue--text mr-bt text-center"> <v-icon small>fas fa-bars</v-icon> {{ opinionData.category }}</p>
+        <p class="display-2 text-center">{{ opinionData.title }}</p>
+        <p class="grey--text text-center">
+          {{ opinionData.username }} | 날짜 {{ opinionData.created_at }}
           <span class="choice_cursor text-bt" @click="opUpdate">수정</span> |
           <span class="choice_cursor text-bt" @click="opDelete">삭제</span>
         </p>
+        
         <v-divider class="my-4"></v-divider>
 
         <!-- <p class="text-justify">
           {{ opinionData.content }}
         </p> -->
 
-        <Viewer v-if="detailData.content != null" :initialValue="detailData.content" /> 
+        <Viewer v-if="opinionData.content != null" :initialValue="opinionData.content" /> 
 
+        #해시태그
+        <v-row class="mr-tp">
+          <v-chip-group mandatory>
+            <v-chip v-for="tag in opinionData.hashtags" :key="tag.name"> 
+              {{ tag.name }}
+            </v-chip>
+          </v-chip-group>
+          <v-col cols="4"></v-col>
+        </v-row>
 
         <v-row>
           <v-col></v-col>
           <v-col class="mr-auto">
           <v-row>
-            <v-icon v-if="!isLike" large class="choice_cursor" @click="thumbUp">mdi-thumb-up-outline</v-icon>
-            <v-icon v-if="isLike" large class="choice_cursor" @click="thumbUp">mdi-thumb-up</v-icon>
+            <v-icon v-if="!getLike" large class="choice_cursor" @click="isLogin">mdi-thumb-up-outline</v-icon>
+            <v-icon v-if="getLike" large class="choice_cursor" @click="isLogin">mdi-thumb-up</v-icon>
           </v-row>
           <v-row>
             <v-chip
@@ -36,12 +47,16 @@
                 left
                 class="green darken-4"
               >
-                {{ likeCnt }}
+                {{ opinionData.like_users_count }}
               </v-avatar>
               공감
             </v-chip>
             </v-row>
+            <v-sheet height="5vh" lighten-5></v-sheet>
+            <p class="mt-10"><span class="choice_cursor text-bt" @click="opUpdate">수정</span> | <span class="choice_cursor text-bt text-right" @click="opDelete">삭제</span></p>
           </v-col>
+          <v-sheet height="15vh" lighten-5></v-sheet>
+          
 
         </v-row>
 
@@ -58,6 +73,10 @@
               :updated_at="item.updated_at"
               :user="item.user"
               :article="item.article"
+              :emotion="item.emotion"
+              :like_users_count="item.like_users_count"
+              :like_users="item.like_users"
+              @take="take"
           /></v-col>
         </v-row>
 
@@ -77,6 +96,7 @@
       <!-- footer쓸까? -->
     </v-row>
   </v-container>
+  
 </template>
 
 <script>
@@ -96,19 +116,25 @@ export default {
   components: { Comment, CommentCreate, Viewer },
   computed: {
     ...mapState('opinionStore', [
+      'opinionData',
       'opinionComment',
       'opinionCommentPaging',
       'opinionCommentPagingCnt',
-      'likedOpinion',
     ]),
+    getLike: {
+      get: function() {
+        if(this.opinionData.like_users.includes(this.$store.state.userInfo.id)){
+            return true;
+          }
+        return false;
+      },
+      set: function() {},
+    }
   },
   data: function() {
     return {
       page: 1,
       pageCnt: 3,
-      detailData : Object,
-      isLike: false,
-      likeCnt: 0,
     };
   },
   watch: {
@@ -117,47 +143,36 @@ export default {
     },
   },
   methods: {
-    ...mapActions('opinionStore', ['opinionDetail', 'opinionDelete', 'opinionLike']),
+    ...mapActions('opinionStore', ['opinionDetail', 'opinionDelete']),
     opUpdate() {
       this.$router.push(`/opinionWrite?type=update`);
     },
     opDelete() {
-      this.opinionDelete(this.detailData.id);
+      this.opinionDelete(this.opinionData.id);
       this.$router.push({ name: 'Opinion' });
     },
-    thumbUp() {
-      this.isLike = !this.isLike;
-      this.opinionLike(this.detailData);
+    isLogin(){
+      if(localStorage.getItem('token') == null){
+        alert("로그인 후 이용가능합니다.")
+      }else{
+        this.thumbUp();
+      }
     },
-
+    thumbUp() {
+      axios.post(`${API_BASE_URL}articles/${this.$route.query.id}/like/`, {user: this.$store.state.userInfo.id})
+      if(this.getLike) {
+        this.opinionData.like_users_count--;
+      }else{
+        this.opinionData.like_users_count++;
+      }
+      this.opinionDetail(this.opinionData.id);
+    },
+    take(){
+      console.log("받음")
+    }
   },
   created() {
-    axios
-        .get(`${API_BASE_URL}articles/${this.$route.query.id}`)
-        .then((res) => {
-          this.$store.commit('opinionStore/SET_OPINION_DETAIL', res.data);
-          this.$store.commit('opinionStore/SET_OPINION_COMMENT', res.data.comment_set);
-          this.$store.commit('opinionStore/SET_OPINION_COMMENT_PAGING', 0);
-          this.detailData = res.data;
-          this.likeCnt = res.data.like_users.length;
-        if(res.data.like_users.includes(res.data.user)){
-          this.isLike = true;
-        }
-          this.likeCnt = res.data.like_users.length;
-        })
-        .catch((err) => {
-          console.log(err.response);
-        });
-  },
-  updated() {
-    axios.get(`${API_BASE_URL}articles/${this.$route.query.id}`)
-      .then((res) => {
-        this.likeCnt = res.data.like_users.length;
-        if(res.data.like_users.includes(res.data.user)){
-          this.isLike = true;
-        }
-          this.likeCnt = res.data.like_users.length;
-      })
+    this.opinionDetail(this.$route.query.id);
   },
 }
 </script>

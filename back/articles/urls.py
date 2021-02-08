@@ -12,6 +12,8 @@ urlpatterns = [
     path('comments/', views.comment_list),
     path('comments/<int:comment_pk>/', views.comment_detail_update_delete),
     path('badcomments/<int:comment_pk>/', views.badcomment),
+    # path('<int:article_pk>/emotion_comment/',views.emotion_comment),
+    path('emotion_comment/',views.emotion_comment),
 
     path('<int:comment_pk>/recomments/', views.create_recomment),
     path('recomments/', views.recomment_list),
@@ -19,9 +21,18 @@ urlpatterns = [
     path('badrecomments/<int:recomment_pk>/', views.badrecomment),
 
     path('<int:article_pk>/like/', views.like),
+    path('<int:comment_pk>/comment_like/', views.like_comment),
     path('<int:article_pk>/scrap/', views.scrap),
 
     path('myscrap/<int:user_pk>/',views.myscrap),
 
     path('club/<int:club_pk>/',views.club_article),
+
+    path('make_hashtag/',views.hashtag_suggest),
+
+    path('search_bar/',views.search_bar),
+
+    #path('comment_emotion',views.comment_emotion),
+
+    path('top_hashtag/', views.top_hashtag),
 ]

@@ -9,6 +9,9 @@ from .tokens import make_code
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
+from rest_framework_jwt.views import obtain_jwt_token
+
+
 @api_view(['POST'])
 def make_admin(request):
     email = request.data.get('email')
@@ -34,7 +37,7 @@ def nickname_check(request):
 def userid_check(request):
     email = request.data.get('email')
     # print(email)
-
+    
     if email == None or User.objects.filter(email=email).exists():
         return Response({'fail'})
     
@@ -44,12 +47,10 @@ def userid_check(request):
 def signup(request):
     password = request.data.get('password')
     password_confirmation = request.data.get('passwordConfirmation')
-    
     if password != password_confirmation:
         return Response({'error': '비밀번호가 일치하지 않습니다.'},status=status.HTTP_400_BAD_REQUEST)
     
     serializer = UserSerializer(data=request.data)
-    
     if serializer.is_valid(raise_exception=True):
         user = serializer.save()
         # user.is_active = True
@@ -59,7 +60,7 @@ def signup(request):
         user.save()
         print(token)
         message = f'이메일 인증을 위해서 {token} 을 입력해주세요'
-        mail_title = '오토토 이메일 인증'
+        mail_title = '여기이슈 이메일 인증메일입니다.'
         mail_to = request.data.get('email')
         email = EmailMessage(mail_title,message,to=[mail_to])
         email.send()
@@ -77,7 +78,7 @@ def email_check(request):
         user.is_active = True
         user.save()
         return Response({'success'})
-    return Response({'토큰이 다름'})
+    return Response({'fail'})
 
 @api_view(['POST'])
 def user_delete(request):
@@ -92,11 +93,15 @@ def user_delete(request):
 @api_view(['POST'])
 def user_update(request):
     email = request.data.get('email')
-    nickname = request.data.get('nickname')
     # password = request.data.get('password')
     if User.objects.filter(email=email).exists():
         user = User.objects.get(email=email)
-        user.nickname = nickname
+        if request.data.get('nickname'):
+            nickname = request.data.get('nickname')
+            user.nickname = nickname
+        if request.data.get('introduce'):
+            introduce = request.data.get('introduce')
+            user.introduce_text = introduce
         user.save()
         return Response({'success'})
     return Response({'없는계정'})
@@ -108,11 +113,12 @@ def get_user(request):
     serializer = GetUserSerializer(user)
     return Response(serializer.data)
 
-@api_view(['GET'])
-def mypage(request,user_pk):
-    #하나의 유저가 스크랩한 게시물 목록 출력
-    myuser = get_object_or_404(User, pk=user_pk)
-    scrap_list = myuser.scrap_articles.all()
-    print('a')
-    print(scrap_list)
-    
+
+@api_view(['POST'])
+def login(request):
+    email = request.data.get('email')
+    if User.objects.filter(email=email).exists():
+        user = User.objects.get(email=email)
+        if user.is_active == False:
+            return Response({'0'})
+    return Response({'1'})

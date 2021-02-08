@@ -42,15 +42,17 @@
 
         <!-- 해시태그 -->
         <v-row class="mr-tp">#해시태그</v-row>
+        <v-btn color="pink" small @click="hashtag_suggest">해시태그 추천</v-btn>
         <v-row>
-          <v-text-field label="해시태그" hide-details="auto" width=""></v-text-field>
+          <v-text-field v-model="input_tag" @keypress.enter="createHashtags" label="해시태그" hide-details="auto" width=""></v-text-field>
           <v-col cols="3"></v-col>
         </v-row>
         <v-row class="mr-tp">
           <v-chip-group mandatory active-class="primary--text">
-            <v-chip v-for="tag in tags" :key="tag">
+            <v-chip v-for="(tag,index) in tags" :key="tag" close @click:close="hashtag_delete(index)"> 
               {{ tag }}
             </v-chip>
+            <!-- <h1>tags</h1   > -->
           </v-chip-group>
           <v-col cols="4"></v-col>
         </v-row>
@@ -79,7 +81,7 @@ export default {
     Editor
   },
   computed: {
-    ...mapState('opinionStore', ['opinionData']),
+    ...mapState('opinionStore', ['opinionData','hashtags']),
   },
   data: function() {
     return {
@@ -89,8 +91,8 @@ export default {
         comment_type: true,
         category: null,
         //미정
-        user: 1,
-        name: '나에용',
+        user: '',
+        name: [],
       },
       initialValue: '',
       id: '',
@@ -102,28 +104,24 @@ export default {
       commentItems: ['토의', '찬반'],
 
       tags: [
-        'Work',
-        'Home Improvement',
-        'Vacation',
-        'Food',
-        'Drawers',
-        'Shopping',
-        'Art',
-        'Tech',
-        'Creative Writing',
+        'a',
+        'b',
       ],
+      input_tag : '',
     };
   },
   methods: {
-    ...mapActions('opinionStore', ['opinionCreate', 'opinionUpdate']),
+    ...mapActions('opinionStore', ['opinionCreate', 'opinionUpdate','getHashtag']),
     CreateOpinion: function() {
       if (this.comment_type == '토의') this.createData.comment_type = true;
       else this.createData.comment_type = false;
 
-      this.createData.content = this.$refs.toastuiEditor.invoke("getMarkdown");  
+      this.createData.content = this.$refs.toastuiEditor.invoke("getMarkdown");
+      this.createData.name = this.tags;
 
-      console.log('들어옴1');
+      console.log('들어옴 ' + this.$store.state.userInfo.id);
 
+      this.createData.user = this.$store.state.userInfo.id;
       if (this.$route.query.type === 'write') {
         this.opinionCreate(this.createData);
         console.log(this.createData.content);
@@ -164,8 +162,28 @@ export default {
       //입력 값 전송
       this.CreateOpinion(); //유효성 검사의 포인트  
       console.log('폼체크'); 
-    }
+    },
+    hashtag_suggest() {
+      this.createData.content = this.$refs.toastuiEditor.invoke("getMarkdown");
+      this.getHashtag(this.createData);
+      console.log(this.createData.content);
+      this.tags = this.hashtags.keyword;
+      
+      console.log('this.tags');
+      console.log(this.tags);
+    },
+    createHashtags: function () {
+      this.tags.push(this.input_tag);
+      console.log(this.tags);
+      this.input_tag = '';
   },
+    hashtag_delete: function (index) {
+      console.log(index)
+      this.tags.splice(index,1);
+      console.log(this.tags);
+    },
+  },
+ 
 
   created() {
     if (this.$route.query.type === 'update') {
@@ -176,6 +194,7 @@ export default {
       else this.comment_type = '찬반';
     }
   },
+
 };
 </script>
 

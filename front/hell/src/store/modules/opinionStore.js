@@ -21,12 +21,21 @@ const opinionStore = {
     opinionCommentPaging: {},
     opinionCommentPagingCnt: 0,
 
-    //좋아요한 article들의 번호
-    //likedOpinion: [],
+
+    //해시태그
+    top_hashtags : [],
+    hashtags : [],
 
   },
   getters: {},
   mutations: {
+    SET_TOP_HASHTAGS(state,hashtags) {
+      state.top_hashtags = hashtags
+    },
+    SET_HASHTAGS(state, hashtags) {
+      state.hashtags = hashtags;
+    },
+
     SET_OPINIONS(state, opinions) {
       state.opinions = opinions;
     },
@@ -39,7 +48,6 @@ const opinionStore = {
       let index = 0;
       for (let i = start; i < start + 10; i++) {
         if (i == state.opinionCategory.length) break;
-        console.log('넣어부려' + i + ' ' + state.opinionCategory.length);
         state.opinionPaging[index++] = state.opinionCategory[i];
       }
     },
@@ -99,6 +107,26 @@ const opinionStore = {
         })
         .catch((err) => console.log(err.response));
     },
+    //해시태그 조회
+    hashOpinionList({ commit },data) {
+      instance
+        .post('/articles/search_bar/',data)
+        .then((res) => {
+          commit('SET_OPINIONS', res.data);
+          commit('SET_OPINION_CATEGORY', '전체');
+          commit('SET_OPINION_PAGING', 0);
+        })
+        .catch((err) => console.log(err.response));
+    },
+    // 해시태그 탑 10
+    hash_top10({commit}) {
+      instance
+        .get('/articles/top_hashtag/')
+        .then((res)=> {
+          commit('SET_TOP_HASHTAGS',res.data);
+        })
+        .catch((err)=> console.log(err.response))
+    },
     //생성
     opinionCreate({ dispatch }, data) {
       instance
@@ -140,10 +168,20 @@ const opinionStore = {
       instance
         .get(`/articles/${id}`)
         .then((res) => {
-          console.log(res.data);
           commit('SET_OPINION_DETAIL', res.data);
           commit('SET_OPINION_COMMENT', res.data.comment_set);
           commit('SET_OPINION_COMMENT_PAGING', 0);
+        })
+        .catch((err) => console.log(err.response));
+    },
+
+    // 해시태그 추천
+    getHashtag({ commit }, data) {
+      instance
+        .post('/articles/make_hashtag/',data)
+        .then((res) => {
+          console.log(res.data)
+          commit('SET_HASHTAGS',res.data);
         })
         .catch((err) => console.log(err.response));
     },
@@ -156,26 +194,6 @@ const opinionStore = {
           dispatch('opinionDetail', state.opinionData.id);
         })
         .catch((err) => console.log(err.response));
-    },
-
-    //디테일에서 의견 따봉눌렀을 때 좋아요한 목록에 넣어주기; id(게시글번호), 유저id
-    opinionLike({ dispatch, state }, data) {
-      instance
-        .post(`/articles/${state.opinionData.id}/like/`, data)
-        .then((res) => {
-          //article_artilce의 like_users의 user 추가
-          if(res.data[0] == 'like'){
-            state.opinionData.like_users.push(data.user);
-            dispatch('opinionUpdate', state.opinionData);
-          }else{  
-            //article_artilce의 like_users의 user 제거
-            for(var i=0; i<state.opinionData.like_users.length; i++) {
-              if(state.opinionData.like_users[i] == data.user) {
-                state.opinionData.like_users.splice(i, 1);
-              }
-            }
-          }
-        })
     },
   },
 }
