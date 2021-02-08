@@ -5,7 +5,7 @@
       <v-row>
         <v-col>
           <div class="text--primary ">
-            {{ updated_at }}
+            {{ username }} | {{ updated_at }}
           </div>
         </v-col>
         <v-col v-if="!getLike" cols="auto" class="choice_cursor" @click="thumbUp"> 
@@ -19,13 +19,11 @@
 
       <v-row>
         <v-col cols="2">
-          <div>{{emotion}}</div>
-          <v-avatar class="profile ml-10" color="grey" size="80">
+          <div>감정{{emotion}}</div>
+          <!-- <v-avatar class="profile ml-10" color="grey" size="80">
             <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
-          </v-avatar>
-          <div class="title ml-10 mt-1">
-            {{ user }}
-          </div>
+          </v-avatar> -->
+          
         </v-col>
 
         <v-col cols="9">
@@ -65,7 +63,8 @@ export default {
     article: { type: Number },
     emotion: { type: String},
     like_users_count: { type: Number },
-    like_users: { type: Array }
+    like_users: { type: Array },
+    username: {type: String},
   },
   data: () =>{
     return {
