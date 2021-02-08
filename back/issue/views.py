@@ -141,7 +141,7 @@ def youtube(issue,order,token):
 
 @api_view(['POST'])
 def issue_news(request):
-    issue = request.data.get('issue')
+    issue = request.data.get('content')
     start = request.data.get('start')
     sort = request.data.get('sort')
     info = {}
@@ -152,7 +152,7 @@ def issue_news(request):
 @api_view(['POST'])
 def issue_youtube(request):
 
-    issue = request.data.get('issue')
+    issue = request.data.get('content')
     order = request.data.get('order')
     token = ''
     if request.data.get('token'):

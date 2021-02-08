@@ -73,15 +73,7 @@
             </v-row>
             
           </v-col>
-          <v-row>
-            감정
-            // 기쁨 <i class="far fa-grin-squint"></i> //  신뢰 <i class="far fa-grin-stars"></i> //  놀라움 <i class="far fa-surprise"></i> 
-            // 기대 <i class="far fa-kiss-beam"></i> // 공포 <i class="far fa-grimace"></i> // 슬픔 <i class="far fa-sad-tear"></i>
-            // 혐오 <i class="far fa-dizzy"></i> //분노 <i class="far fa-angry"></i>
- 
-
-          </v-row>
-
+     
         </v-row>
 
         <!-- 댓글 -->
@@ -91,6 +83,7 @@
             ><comment
               v-for="item in opinionCommentPaging"
               :key="item.id"
+              :id="item.id"
               :type="item.opinion_type"
               :content="item.content"
               :created_at="item.created_at"
@@ -191,6 +184,8 @@ export default {
         this.opinionData.like_users_count++;
       }
       this.opinionDetail(this.opinionData.id);
+    
+
     },
     take(){
       console.log("받음")
