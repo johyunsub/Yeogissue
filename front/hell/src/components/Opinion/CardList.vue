@@ -28,13 +28,13 @@
         <v-row class="mr-tp">
             <v-chip-group>
               <v-chip
-                color="gray darken-4"
+                
                 outlined
                 v-for="tag in data.hashtags"
                 :key="tag.name"
               >
                 <span style="color: black; font-weight: 600">
-                  <v-icon small color="pink darken-2">fab fa-slack-hash</v-icon>
+                  <v-icon small color="pink ">fas fa-hashtag</v-icon>
                   {{ tag.name }}</span
                 >
               </v-chip>

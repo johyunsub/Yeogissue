@@ -203,8 +203,4 @@ export default {
     margin: 0 0 16px 16px;
     right: 100;
   }
-
-#input-28{
-  color: red;
-}
 </style>
