@@ -36,9 +36,9 @@ export default {
   methods: {
     ...mapActions('opinionStore', ['opinionCommentEmotion']),
     CommentCreate() {
-      this.createData.content = this.content;
+       this.createData.content = this.content;
       this.opinionCommentEmotion(this.createData);
-      this.content = '';
+      
     },
   },
 };
