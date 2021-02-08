@@ -70,13 +70,22 @@
                         <v-expansion-panel-content>
                             <v-list dense>
                             <v-list-item-group>
-                                <v-list-item>
+                                <v-list-item @click="OnOff('update')">
                                 <v-list-item-content>
-                                    <v-list-item-title @click="OnOff('update')">회원정보 수정</v-list-item-title>
+                                    <v-list-item-title>회원정보 수정</v-list-item-title>
                                 </v-list-item-content>
                                 </v-list-item>
                             </v-list-item-group>
                             </v-list>
+                            <v-list dense>
+                            <v-list-item-group>
+                                <v-list-item @click="OnOff('changepw')">
+                                <v-list-item-content>
+                                    <v-list-item-title>비밀번호 변경</v-list-item-title>
+                                </v-list-item-content>
+                                </v-list-item>
+                            </v-list-item-group>
+                            </v-list>                            
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                     </v-expansion-panels>
@@ -92,6 +101,7 @@
                 <my-scrap v-if="scrap" />
                 <my-update v-if="update" />
                 <my-write v-if="write" />
+                <my-changepw v-if="changepw" />
             </v-col>
             
         </v-row>
@@ -106,10 +116,11 @@ import MyRecently from '../../components/Mypage/MyRecently.vue';
 import MyScrap from '../../components/Mypage/MyScrap.vue';
 import MyUpdate from '../../components/Mypage/MyUpdate.vue';
 import MyWrite from '../../components/Mypage/MyWrite.vue';
+import MyChangepw from '../../components/Mypage/MyChangepw.vue';
 
 
 export default {
-  components: { MyClub, MyFeeling, MyGraph, MyRecently, MyScrap, MyUpdate, MyWrite },
+  components: { MyClub, MyFeeling, MyGraph, MyRecently, MyScrap, MyUpdate, MyWrite, MyChangepw },
   data: function() {
       return {
           club: false,
@@ -119,6 +130,8 @@ export default {
           scrap: false,
           update: false,
           write: false,
+          changepw: false,
+
           nickname: '',
       }
   },
@@ -187,6 +200,16 @@ export default {
           this.scrap = false;
           this.write = false;
           this.update = true;
+          break;
+        case 'changepw':
+          this.club = false;
+          this.feeling = false;
+          this.graph = false;
+          this.recently = false;
+          this.scrap = false;
+          this.write = false;
+          this.update = false;
+          this.changepw = true;
           break;
 
       }

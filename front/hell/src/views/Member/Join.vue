@@ -1,5 +1,8 @@
 <template>
-  <form>
+<v-container>
+  <form  style="text-align: center;">
+    <v-row >
+    <v-col cols="8">
     <v-text-field
       v-model="email"
       :error-messages="emailErrors"
@@ -8,6 +11,12 @@
       @input="$v.email.$touch()"
       @blur="$v.email.$touch()"
     ></v-text-field>
+    </v-col>
+    <v-col cols="4">
+      <v-btn @click="emailCheck" v-bind:disabled="email.length<1" >이메일 중복확인</v-btn>
+    </v-col>  
+    </v-row>
+    
 
     <v-text-field
       v-model="name"
@@ -18,6 +27,8 @@
       @blur="$v.name.$touch()"
     ></v-text-field>
 
+    <v-row >
+    <v-col cols="8">
     <v-text-field
       v-model="nickname"
       :error-messages="nicknameErrors"
@@ -27,6 +38,11 @@
       @input="$v.nickname.$touch()"
       @blur="$v.nickname.$touch()"
     ></v-text-field>
+    </v-col>
+    <v-col cols="4">
+    <v-btn @click="nicknameCheck" v-bind:disabled="nickname .length<1">닉네임 중복확인</v-btn>
+    </v-col>
+    </v-row>
 
     <v-text-field
       v-model="password"
@@ -53,6 +69,7 @@
     
     
     <v-checkbox
+      off-icon='$checkboxOff'
       v-model="checkbox"
       :error-messages="checkboxErrors"
       label="여기issue 사이트에 가입하시겠습니까?"
@@ -64,6 +81,7 @@
     <v-btn class="mr-4" :disabled="!valid" @click="submit">가입하기</v-btn>
     <v-btn @click="clear">초기화</v-btn>
   </form>
+</v-container>
 </template>
 
 <script>
@@ -110,6 +128,7 @@
         valid: false,
 
         message: '',
+
     }),
 
     computed: {
@@ -157,6 +176,47 @@
     },
 
     methods: {
+      //이메일중복체크
+      emailCheck(){
+        axios
+          .post(`${API_BASE_URL}accounts/userid_check/`, { email : this.email })
+          .then((res) => {
+            console.log(res.data);
+            if(res.data == 'success'){
+              this.message = '사용할 수 있는 이메일입니다.'
+              this.successPop();
+            }
+            else{
+              this.message = '이미 존재하는 이메일입니다'
+              this.errorPop();
+              this.email = ''
+            }
+          })
+          .catch((err) => 
+          console.log(err.response),
+          );
+      },
+       //닉네임중복체크
+      nicknameCheck(){
+        console.log(this.nickname)
+        axios
+          .post(`${API_BASE_URL}accounts/nickname_check/`, { nickname : this.nickname })
+          .then((res) => {
+            console.log(res.data);
+            if(res.data == 'success'){
+              this.message = '사용할 수 있는 닉네임입니다.'
+              this.successPop();
+            }
+            else{
+              this.message = '이미 존재하는 닉네임입니다'
+              this.errorPop();
+              this.nickname = ''
+            }
+          })
+          .catch((err) => 
+          console.log(err.response),
+          );
+      },
       checkForm(){
         let check = true;
 
@@ -175,6 +235,20 @@
           this.message= "비밀번호가 일치하지 않습니다"
         }
         return check;
+      },
+      successPop(){
+        this.$fire({
+          title: `${this.message}`,
+          type: "success",
+        })
+        this.message='';
+      },
+      errorPop(){
+        this.$fire({
+          title: `${this.message}`,
+          type: "error",
+        })
+        this.message='';
       },
       errorDialog(){
         this.$fire({ //에러창
@@ -221,7 +295,7 @@
              this.$fire({ //에러창
               position: 'center',
               //icon: 'success',
-              title: '중복된 Email입니다.',
+              title: '형식에 맞게 입력해주세요!',
               showConfirmButton: false,
               timer: 1000
             })
@@ -239,3 +313,16 @@
     },
   }
 </script>
+
+<style scoped>
+ .v-text-field{
+      width: 400px;
+}
+form { 
+
+        margin: 0 auto; 
+
+        width:500px;
+
+    }    
+</style>

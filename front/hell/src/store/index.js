@@ -20,7 +20,7 @@ export default new Vuex.Store({
       email : '',
       id : '',
       nickname : '',
-      introduceText: '',
+      introduce_text: '',
     },
 
     //Meun 상태
@@ -59,15 +59,13 @@ export default new Vuex.Store({
         })
         .catch((err) => console.log(err.response));
     },
-    userUpdate({commit,dispatch},data) {
+    userUpdate({dispatch},data) {
       instance
-      .put(`/accounts/user_update/`, data)
+      .post(`/accounts/user_update/`, data)
       .then(() => {
-        commit('SET_USER_INFO', data);
-        dispatch('userData');
+        dispatch('userData', data.email);
       })
       .catch((err) => console.log(err.response));
-
     },
     //로그아웃
     userLogout({ commit }) {
@@ -75,7 +73,6 @@ export default new Vuex.Store({
       commit('SET_USER_INFO', null);
       localStorage.removeItem('token');
       localStorage.removeItem('email');
-                                             
     },
   },
   modules: {
