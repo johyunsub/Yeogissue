@@ -38,4 +38,5 @@ class ClubMemberSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Club_member
-        exclude = ('user',)
+        # exclude = ('user',)
+        fields = '__all__'
