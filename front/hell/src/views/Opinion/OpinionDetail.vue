@@ -8,9 +8,9 @@
         <p class="display-2 text-center">{{ opinionData.title }}</p>
         <p class="grey--text text-center">
           {{ opinionData.username }} | 날짜 {{ opinionData.created_at }}
-          <span class="choice_cursor text-bt" @click="opUpdate">수정</span> |
-          <span class="choice_cursor text-bt" @click="opDelete">삭제</span>
         </p>
+        <p class="grey--text text-right"> <span class="choice_cursor text-bt" @click="opUpdate">수정</span> |
+          <span class="choice_cursor text-bt" @click="opDelete">삭제</span> </p>
         
         <v-divider class="my-4"></v-divider>
 
@@ -55,7 +55,6 @@
             <v-sheet height="5vh" lighten-5></v-sheet>
             <p class="mt-10"><span class="choice_cursor text-bt" @click="opUpdate">수정</span> | <span class="choice_cursor text-bt text-right" @click="opDelete">삭제</span></p>
           </v-col>
-          <v-sheet height="15vh" lighten-5></v-sheet>
           
 
         </v-row>
