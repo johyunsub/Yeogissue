@@ -97,8 +97,9 @@ const clubStore = {
 
     // Url 조회
     clubDetailUrlList({ state, commit }) {
+      console.log(state.clubData.id)
       instance
-        .get(`club/club_article_list/${state.clubData.id}`)
+        .get(`club/club_article_list/${state.clubData.id}/`)
         .then((res) => {
           commit('SET_CLUB_DETAIL_URL', res.data);
         })
@@ -126,15 +127,37 @@ const clubStore = {
     },
 
 
-    // 클럽 멤머 관리
+    // 클럽 멤버 관리
     clubMangeList({ state, commit }, data) {
       instance
-        .get(`club/member_check/${state.clubData.id}`, data)
+        .post(`club/member_check/${state.clubData.id}/`, data)
         .then((res) => {
           commit('SET_MANAGE_MEMBER_LIST', res.data);
+          console.log(res.data[0].username + "<<<<<<")
         })
         .catch((err) => console.log(err.response));
-    }
+    },
+
+    //클럽 가입요청 승인
+    clubManageJoinApprove({ state, dispatch }, data){
+      instance
+        .post(`club/member_approve/${state.clubData.id}/`, data)
+        .then(() => {
+          dispatch('clubMangeList');
+        })
+        .catch((err) => console.log(err.response));
+    },
+
+    //클럽 가입요청 거부
+    clubManageJoinDisApprove({ state, dispatch }, data){
+      console.log(data)
+      instance
+        .delete(`club/member_delete/${state.clubData.id}/${data.member}/`)
+        .then(() => {
+          dispatch('clubMangeList');
+        })
+        .catch((err) => console.log(err.response));
+    },
   },
 };
 
