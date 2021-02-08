@@ -21,12 +21,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.newsSelect {
-  width: 100px;
-  height: 30px;
-  border: 1px solid #999;
-  border-radius: 3px;
-  text-align: center;
-}
-</style>
