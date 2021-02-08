@@ -1,35 +1,56 @@
 <template>
+<v-sheet height="100%"  lighten-5>
+  <v-sheet height="15vh" lighten-5></v-sheet>
   <v-container>
-    <h2 class="text-center mr-tp mr-bt">의견나눔</h2>
     <v-row>
-      <v-col cols="2"></v-col>
+    <v-col cols="1"></v-col>
+    <h2 class="text-left mr-tp mr-bt">의견나눔</h2>
+    </v-row>
+    <v-row>
+    <v-col cols="1"></v-col>
+    <h3 class="text-left mr-tp mr-bt">핫 이슈에대해 의견을 나눠보세요!</h3>
+  
+    </v-row>
+    
+    <v-row>
+      <v-col cols="1"></v-col>
       <v-col id="opinion_main">
         <!-- 검색 -->
         <v-row>
-          <v-col cols="2" class="mr-auto"></v-col>
-          <v-text-field
+          <v-col cols="3" class="mr-auto"></v-col>
+           <v-text-field
             @keypress.enter='search_hashtag'
             v-model="search"
-            label="Search KeyWord"
-            flat
+            label="다른 사람의 의견이 궁금한 주제를 검색해보세요!"
+            prepend-inner-icon="fas fa-hashtag"
+            single-line
+            rounded
+            outlined
             color="purple"
-            solo-inverted
-            hide-details
-            text-field-filled-margin-top="100px"
             clearable
             @click:clear="gotoList"
             clear-icon="mdi-close-circle-outline"
+            flat
+            text-field-filled-margin-top="100px"
           ></v-text-field>
           <v-col cols="2" class="mr-auto"></v-col>
         </v-row>
 
+        <v-sheet lighten-5>
         <!-- 해시태그 -->
         <v-row class="mr-tp">
           <v-col cols="2"></v-col>
-          #해시태그
+          <marquee loop="3" direction="right" behavior="alternate" scrolldelay="800" bgcolor="00FFFF">  
+          <v-chip-group mandatory>
+            <v-chip v-for="tag in top_hashtags" :key="tag.name" @click='hashtagClick(tag.name)'> 
+              #{{ tag.name }}
+            </v-chip>
+          </v-chip-group>
+          </marquee>
+
           <v-col cols="2" class="mr-auto"></v-col>
         </v-row>
-
+        </v-sheet>
         <!-- 카테고리 -->
         <opinion-category />
 
@@ -64,8 +85,9 @@
         <v-row>
           <v-col cols="auto" class="mr-auto"></v-col>
           <v-col cols="auto">
-                <v-btn class="ma-2 btnLC" outlined large fab color="indigo"  @click="MovePage('write')"> <v-icon>mdi-pencil</v-icon></v-btn>
-            <!-- <v-icon>mdi-pencil</v-icon> <v-btn class="btnLC" color="blue" @click="MovePage('write')"> 글쓰기</v-btn> -->
+                <!-- <v-btn class="ma-2 btnLC" outlined large fab color="indigo"  @click="MovePage('write')"> <v-icon>mdi-pencil</v-icon></v-btn> -->
+           <v-btn class="btnLC" color="blue" rounded @click="MovePage('write')"> <v-icon color="white">mdi-pencil</v-icon>
+           <span style="color: white;"> 글쓰기 </span></v-btn>
           </v-col>
         </v-row>
 
@@ -82,11 +104,13 @@
           <side-list name="댓글 많은순"></side-list>
         </v-sheet>
       </v-col> -->
-
+      <div style="float: right;">
       <v-col cols="1"></v-col>
-      <v-btn class="ma-2 btnLC" outlined large fab color="indigo"  @click="MovePage('write')"> <v-icon>mdi-pencil</v-icon></v-btn>
+      <v-btn class="ma-2 btnLC v-btn--example" bottom right outlined large fab color="indigo" @click="MovePage('write')"> <v-icon>mdi-pencil</v-icon></v-btn>
+      </div>
     </v-row>
   </v-container>
+  </v-sheet>
 </template>
 
 <script>
@@ -99,10 +123,11 @@ import OpinionCategory from '../../components/Opinion/OpinionCategory.vue';
 export default {
   components: { OpinionTable, CardList, OpinionCategory },
   computed: {
-    ...mapState('opinionStore', ['opinionPaging', 'pagingCnt']),
+    ...mapState('opinionStore', ['opinionPaging', 'pagingCnt','top_hashtags']),
   },
   data: function() {
     return {
+      checkbox: true,
       cateBtn: 'center',
       search: '',
       viewType: 'card',
@@ -115,7 +140,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('opinionStore', ['opinionList', 'opinionDetail','hashOpinionList']),
+    ...mapActions('opinionStore', ['opinionList', 'opinionDetail','hashOpinionList','hash_top10']),
     ChageType(type) {
       this.viewType = type;
     },
@@ -131,15 +156,20 @@ export default {
     },
     gotoList() {
       this.opinionList();
+    },
+    hashtagClick(hash) {
+      this.hashOpinionList({name:hash})
+      this.search = hash
     }
   },
   created() {
     this.opinionList();
+    this.hash_top10();
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #opinion_main {
   margin-top: 20px;
   margin-right: 10px;
@@ -166,4 +196,11 @@ export default {
 // .scroll-downs {
 //   position: absolute;
 // }
+
+.v-btn--example {
+    bottom: 0;
+    position:fixed;
+    margin: 0 0 16px 16px;
+    right: 100;
+  }
 </style>
