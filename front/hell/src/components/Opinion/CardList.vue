@@ -4,16 +4,14 @@
       <v-row>
         <v-col cols="auto" class="mr-auto">
           <p
-            class="subtitle-1 text--primary choice_cursor"
+            class="text--primary choice_cursor"
             @click="MovePage('opinionDetail', data.id)"
+            style=" fontSize: 25px; font-weight: bold "
           >
             {{ data.title }}
           </p>
         </v-col>
 
-        <v-col cols="auto">
-          <v-icon small>mdi-thumb-up</v-icon> {{ data.like_users_count }}
-        </v-col>
         <v-col cols="auto">
           <v-icon small>far fa-eye</v-icon> {{ data.read_count }}
           <v-icon small color="red">far fa-heart</v-icon>
@@ -22,7 +20,7 @@
       </v-row>
 
       <v-col>
-        <div class="text--primary choice_cursor">간단한 내용</div>
+        <div class="text--primary choice_cursor" style="fontSize: 18px;">간단한 내용</div>
       </v-col>
 
       <!-- 해시태그 -->
@@ -30,13 +28,13 @@
         <v-row class="mr-tp">
             <v-chip-group>
               <v-chip
-                color="gray darken-4"
+                
                 outlined
                 v-for="tag in data.hashtags"
                 :key="tag.name"
               >
                 <span style="color: black; font-weight: 600">
-                  <v-icon small color="pink darken-2">fab fa-slack-hash</v-icon>
+                  <v-icon small color="pink ">fas fa-hashtag</v-icon>
                   {{ tag.name }}</span
                 >
               </v-chip>
@@ -44,7 +42,7 @@
           <v-col cols="4"></v-col>
         </v-row>
       </div>
-      <div class="ma-6">
+      <div class="ma-6" style="fontSize: 14px;">
          <span style="color: purple;"> #{{ data.category }} </span> | 작성자 : {{ data.username }} | 작성일 :
         {{ data.created_at }} |
         <v-icon small color="blue darken-2">far fa-comments</v-icon>
@@ -75,4 +73,6 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

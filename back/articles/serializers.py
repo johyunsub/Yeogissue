@@ -46,7 +46,7 @@ class CommentSerializer(serializers.ModelSerializer):
     #     read_only=True,
     # )
 
-
+    username = serializers.ReadOnlyField(source='user.nickname')
     class Meta:
         model = Comment
         fields = '__all__'

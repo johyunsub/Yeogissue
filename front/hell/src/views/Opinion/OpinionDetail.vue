@@ -5,37 +5,56 @@
       <v-col cols="2"></v-col>
       <v-col>
         <p class="blue--text mr-bt text-center"> <v-icon small>fas fa-bars</v-icon> {{ opinionData.category }}</p>
-        <p class="display-2 text-center">{{ opinionData.title }}</p>
+        <p class="display-2 text-center py-4">{{ opinionData.title }}</p>
         <p class="grey--text text-center">
           {{ opinionData.username }} | 날짜 {{ opinionData.created_at }}
-          <span class="choice_cursor text-bt" @click="opUpdate">수정</span> |
-          <span class="choice_cursor text-bt" @click="opDelete">삭제</span>
+         
         </p>
-        
-        <v-divider class="my-4"></v-divider>
 
+        
+        <v-divider class="my-10"></v-divider>
+
+        <v-row> 
+          <v-spacer></v-spacer>
+        <h4>스크랩 기능 넣어주세용 스크랩한 기사면 채워진 아이콘으로 바뀌게,,,</h4>
+            <v-icon medium color="yellow">far fa-bookmark</v-icon>
+            <v-icon medium color="yellow">fas fa-bookmark</v-icon>
+
+        </v-row>
+        <v-col cols="2"></v-col>
         <!-- <p class="text-justify">
           {{ opinionData.content }}
         </p> -->
 
         <Viewer v-if="opinionData.content != null" :initialValue="opinionData.content" /> 
 
-        #해시태그
-        <v-row class="mr-tp">
-          <v-chip-group mandatory>
-            <v-chip v-for="tag in opinionData.hashtags" :key="tag.name"> 
-              {{ tag.name }}
+        <v-sheet height="10vh" lighten-5></v-sheet>
+       
+        
+<!-- 해시태그 -->
+        <v-row class="mr-tp mb-10">
+          <v-chip-group>
+            <v-chip outlined v-for="tag in opinionData.hashtags" :key="tag.name">
+              <span style="color: black; font-weight: 600">
+                <v-icon small color="pink">fas fa-hashtag</v-icon> 
+                  {{ tag.name }}
+              </span>
             </v-chip>
           </v-chip-group>
           <v-col cols="4"></v-col>
         </v-row>
-
+         <v-divider></v-divider>
+         <v-row class="mt-3">
+            <v-spacer></v-spacer>
+            <p class="text-right"><span class="choice_cursor text-bt" @click="opUpdate">수정</span> | <span class="choice_cursor text-bt" @click="opDelete">삭제</span></p>
+          </v-row>
         <v-row>
           <v-col></v-col>
           <v-col class="mr-auto">
           <v-row>
             <v-icon v-if="!getLike" large class="choice_cursor" @click="isLogin">mdi-thumb-up-outline</v-icon>
             <v-icon v-if="getLike" large class="choice_cursor" @click="isLogin">mdi-thumb-up</v-icon>
+            <v-icon large color="red">far fa-heart</v-icon>
           </v-row>
           <v-row>
             <v-chip
@@ -52,11 +71,16 @@
               공감
             </v-chip>
             </v-row>
-            <v-sheet height="5vh" lighten-5></v-sheet>
-            <p class="mt-10"><span class="choice_cursor text-bt" @click="opUpdate">수정</span> | <span class="choice_cursor text-bt text-right" @click="opDelete">삭제</span></p>
+            
           </v-col>
-          <v-sheet height="15vh" lighten-5></v-sheet>
-          
+          <v-row>
+            감정
+            // 기쁨 <i class="far fa-grin-squint"></i> //  신뢰 <i class="far fa-grin-stars"></i> //  놀라움 <i class="far fa-surprise"></i> 
+            // 기대 <i class="far fa-kiss-beam"></i> // 공포 <i class="far fa-grimace"></i> // 슬픔 <i class="far fa-sad-tear"></i>
+            // 혐오 <i class="far fa-dizzy"></i> //분노 <i class="far fa-angry"></i>
+ 
+
+          </v-row>
 
         </v-row>
 
@@ -76,6 +100,7 @@
               :emotion="item.emotion"
               :like_users_count="item.like_users_count"
               :like_users="item.like_users"
+              :username="item.username"
               @take="take"
           /></v-col>
         </v-row>
