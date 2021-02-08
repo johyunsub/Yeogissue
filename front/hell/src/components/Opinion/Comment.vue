@@ -19,7 +19,33 @@
 
       <v-row>
         <v-col cols="2">
-          <div>감정{{emotion}}</div>
+        
+        <div v-if="emotion=='기쁨'">
+        <i class="far fa-grin-squint"></i></div>
+        
+        <div v-else-if="emotion=='신뢰'">
+        <i class="far fa-grin-stars"></i></div>
+
+        <div v-else-if="emotion=='놀라움'">
+        <i class="far fa-fa-surprise"></i></div>
+
+        <div v-else-if="emotion=='슬픔'">
+        <i class="far fa-fa-sad-tear"></i></div>
+
+        <div v-else-if="emotion=='공포'">
+        <i class="far fa-fa-grimace"></i></div>
+
+        <div v-else-if="emotion=='기대'">
+        <i class="far fa-kiss-beam"></i></div>
+
+        <div v-else-if="emotion=='혐오'">
+        <i class="far fa-dizzy"></i></div>
+
+        <div v-else>
+        <i class="far fa-angry"></i></div>
+
+          
+        
           <!-- <v-avatar class="profile ml-10" color="grey" size="80">
             <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
           </v-avatar> -->
@@ -37,8 +63,8 @@
 <script>
 import CommentMenu from './CommentMenu.vue';
 import { mapState } from 'vuex';
-// import axios from 'axios';
-// import { API_BASE_URL } from "../../config";
+import axios from 'axios';
+import { API_BASE_URL } from "../../config";
 
 export default {
   components: { CommentMenu },
@@ -71,22 +97,29 @@ export default {
       isLike: false,
       // likeCnt: this.like_users_count,
       articleno: '',
+      // article_id: this.article,
+      // like_count: this.like_users_count,
     }
   },
   methods: {
+
     thumbUp() {
-      console.log(this.id +" <<<<<값이 왜 안받아와지냐 진짜;")
-      this.$emit('take')
-      // axios.post(`${API_BASE_URL}articles/${this.id}/comment_like/`, {user: this.$store.state.userInfo.id})
-      if(this.getLike) {
-        // this.opinionData.like_users_count--;
-      }else{
-        // this.opinionData.like_users_count++;
-      }
-      console.log(this.id)
-      this.opinionDetail(this.id);
-      // if(this.like_users.includes(this.$store.state.userInfo.id))
-      
+      axios.post(`${API_BASE_URL}articles/${this.id}/comment_like/`, {user: this.$store.state.userInfo.id})
+        .then((res)=>{
+          console.log(res);
+          if(this.getLike) {
+            this.like_users_count--;
+            console.log(this.like_users_count)
+          }else{
+            this.like_users_count++;
+            console.log(this.like_users_count)
+          }
+          this.$store.dispatch('opinionStore/opinionDetail',this.article)
+        })
+        .catch((err) =>{
+          console.log(err.response);
+        })
+
     }
   },
   created() {
