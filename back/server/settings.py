@@ -69,6 +69,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
     'http://i4d108.p.ssafy.io',
+    'http://i4d108.p.ssafy.io:8080',
 ]
 
 
