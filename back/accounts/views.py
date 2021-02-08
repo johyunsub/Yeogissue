@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework_jwt.views import obtain_jwt_token
 
+from django.contrib.auth.hashers import check_password
 
 @api_view(['POST'])
 def make_admin(request):
@@ -122,3 +123,23 @@ def login(request):
         if user.is_active == False:
             return Response({'0'})
     return Response({'1'})
+
+
+@api_view(['POST'])
+def passwordChange(request):
+    user_id = request.data.get('user')
+    PW = request.data.get('currentPW')
+    newPW = request.data.get('newPW')
+    newPW2 = request.data.get('newPW2')
+
+    user = User.objects.get(id=user_id)
+    
+    if check_password(PW,user.password):
+        if newPW == newPW2:
+            user.set_password(newPW)
+            user.save()
+            return Response({'성공'})
+        else:
+            return Response({'바꿀비밀번호다름'})
+    else:
+        return Response({'현재비밀번호불일치'})
