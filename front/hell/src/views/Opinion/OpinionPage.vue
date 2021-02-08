@@ -40,9 +40,13 @@
         <!-- 해시태그 -->
         <v-row class="mr-tp">
           <v-col cols="2"></v-col>
-          <marquee loop="3" direction="right" behavior="alternate" scrolldelay="800" bgcolor="pink">  
-          #해시태그 #벌써 열시 #푸루팁스 #맛있다 #해시태그 #배경 #이미지 #어떻게 #넣지 #뷰 #너무 #어렵다
-          #여기 #두줄로 #받아오게 #어떻게 #하지 #ㅠㅠ</marquee>
+          <marquee loop="3" direction="right" behavior="alternate" scrolldelay="800" bgcolor="00FFFF">  
+          <v-chip-group mandatory>
+            <v-chip v-for="tag in top_hashtags" :key="tag.name" @click='hashtagClick(tag.name)'> 
+              #{{ tag.name }}
+            </v-chip>
+          </v-chip-group>
+          </marquee>
 
           <v-col cols="2" class="mr-auto"></v-col>
         </v-row>
@@ -119,7 +123,7 @@ import OpinionCategory from '../../components/Opinion/OpinionCategory.vue';
 export default {
   components: { OpinionTable, CardList, OpinionCategory },
   computed: {
-    ...mapState('opinionStore', ['opinionPaging', 'pagingCnt']),
+    ...mapState('opinionStore', ['opinionPaging', 'pagingCnt','top_hashtags']),
   },
   data: function() {
     return {
@@ -136,7 +140,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('opinionStore', ['opinionList', 'opinionDetail','hashOpinionList']),
+    ...mapActions('opinionStore', ['opinionList', 'opinionDetail','hashOpinionList','hash_top10']),
     ChageType(type) {
       this.viewType = type;
     },
@@ -152,10 +156,15 @@ export default {
     },
     gotoList() {
       this.opinionList();
+    },
+    hashtagClick(hash) {
+      this.hashOpinionList({name:hash})
+      this.search = hash
     }
   },
   created() {
     this.opinionList();
+    this.hash_top10();
   },
 };
 </script>
