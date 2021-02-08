@@ -43,7 +43,7 @@
         </v-row>
       </div>
       <div class="ma-6" style="fontSize: 14px;">
-         <span style="color: purple;"> #{{ data.category }} </span> | 작성자 : {{ data.username }} | 작성일 :
+         <span style="color:blueviolet;"> #{{ data.category }} </span> | 작성자 : {{ data.username }} | 작성일 :
         {{ data.created_at }} |
         <v-icon small color="blue darken-2">far fa-comments</v-icon>
         {{ data.comment_count }} | 댓글종류도 아이콘으로 넣고싶당
