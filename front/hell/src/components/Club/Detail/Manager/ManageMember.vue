@@ -14,9 +14,21 @@
       </v-card-title>
       <v-data-table
         :headers="headers"
-        :items="member"
+        :items="clubManageMemberList"
         :search="search"
-      ></v-data-table>
+      >
+      <template v-slot:item.actions="{ item }">
+      <v-icon
+        small
+        @click="deleteItem(item)"
+      >
+        mdi-delete
+      </v-icon>
+    </template>
+    <template v-slot:no-data>
+      <p>가입한 회원이 아직 없어요 ㅠ.ㅠ</p>
+    </template>
+    </v-data-table>
     </v-card>
   </v-container>
 </template>
@@ -33,28 +45,11 @@ export default {
       return {
         search: '',
         headers: [
-          {
-            text: 'No.',
-            align: 'start',
-            sortable: false,
-            value: 'no',
-          },
-          { text: '닉네임', value: 'nickname' },
-          { text: '이름', value: 'name' },
-          { text: '가입사유', value: 'motive' },
-          { text: '가입일', value: 'date' },
-          { text: '게시글수', value: 'articleCnt' },
-        ],
-        member: [
-          {
-            no: 1,
-            nickname: 'Frozen Yogurt',
-            name: 159,
-            fat: 6.0,
-            motive: 24,
-            date: 4.0,
-          },
-          
+          { text: '이름', value: 'username' },
+          { text: '가입동기', value: 'comment' },
+          { text: '가입일', value: 'created_at' },
+          { text: '게시글수', value: 'article_cnt' },
+          { text: '추방', value: 'actions',sortable: false },
         ],
       }
     },
@@ -65,7 +60,7 @@ export default {
             // .then((res) => {
                 // console.log(res.data)
             // })
-            this.clubMangeList('');
+            this.clubMangeList({type: '승인'});
             
         }
     },
