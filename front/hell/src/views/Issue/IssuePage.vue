@@ -4,11 +4,20 @@
     <div class="text-center display-2" style="font-weight: 550">
       <span style="color: red">핫</span>한 트렌드가 궁금할 때
     </div>
-    <div
-      class="text-center display-1 mt-6"
-      style="font-weight: 550; color: #42a5f5"
-    >
+    <div class="text-center display-1 mt-6" style="font-weight: 550; color: #42a5f5">
       하루 검색 이슈 랭킹
+
+      <v-tooltip right>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon color="primary" v-bind="attrs" v-on="on">
+            mdi-alert-circle
+          </v-icon>
+        </template>
+        <span
+          >본 검색은 당일 많이 생성된 이슈를 기반으로 합니다. 만약 검색어가 별로 없다면 그날은 해당
+          카테고리에 이슈가 적다는 걸 의미합니다.</span
+        >
+      </v-tooltip>
     </div>
     <div class="ma-auto mt-5" style="width: 150px">
       <v-menu
@@ -49,11 +58,11 @@
 </template>
 
 <script>
-import VueSlickCarousel from "vue-slick-carousel";
-import "vue-slick-carousel/dist/vue-slick-carousel.css";
+import VueSlickCarousel from 'vue-slick-carousel';
+import 'vue-slick-carousel/dist/vue-slick-carousel.css';
 // optional style for arrows & dots
-import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
-import IssueCategoryCard from "../../components/Issue/IssueCategoryCard.vue";
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css';
+import IssueCategoryCard from '../../components/Issue/IssueCategoryCard.vue';
 
 export default {
   components: { VueSlickCarousel, IssueCategoryCard },
@@ -64,8 +73,8 @@ export default {
     menu2: false,
 
     slickOptions: {
-      slidesToShow: 1,
-      slidesToScroll: 1,
+      slidesToShow: 3,
+      slidesToScroll: 3,
       speed: 400,
       autoplay: true,
       autoplaySpeed: 3000,
@@ -89,17 +98,17 @@ export default {
     getIssue() {
       // ENTERTAINMENT | IT_SCIENCE | WORLD | ECONOMY | SPORTS | POLITICS | SOCIETY/LIVING
       let cate = [
-        "ENTERTAINMENT",
-        "IT_SCIENCE",
-        "WORLD",
-        "ECONOMY",
-        "SPORTS",
-        "POLITICS",
-        "SOCIETY/LIVING",
+        'SPORTS',
+        'ECONOMY',
+        'IT_SCIENCE',
+        'ENTERTAINMENT',
+        'WORLD',
+        'POLITICS',
+        'SOCIETY/LIVING',
       ];
 
       for (let i = 0; i < 7; i++) {
-        this.$store.dispatch("issueStore/issueCategory", {
+        this.$store.dispatch('issueStore/issueCategory', {
           category: cate[i],
           date: this.date,
         });
