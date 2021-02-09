@@ -19,8 +19,11 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 export default {
+  computed: {
+    ...mapState(['isLoginToken']),
+  },
   data() {
     return {
       content: '',
@@ -36,9 +39,12 @@ export default {
   methods: {
     ...mapActions('opinionStore', ['opinionCommentEmotion']),
     CommentCreate() {
-       this.createData.content = this.content;
+      if (this.isLoginToken == '') {
+        this.$store.commit('CHANGE_DIALOG', true);
+        return;
+      }
+      this.createData.content = this.content;
       this.opinionCommentEmotion(this.createData);
-      
     },
   },
 };
