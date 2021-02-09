@@ -11,6 +11,7 @@ import IssueDetail from '../views/Issue/IssueDetail.vue';
 import Join from '../views/Member/Join.vue';
 import Mypage from '../views/Member/Mypage.vue';
 import MyPageCert from '../views/Member/Cert.vue';
+import FindPW from '../views/Member/FindPW';
 
 Vue.use(VueRouter);
 
@@ -78,6 +79,12 @@ const routes = [
     path: '/mypage/cert',
     name: 'MyPageCert',
     component: MyPageCert
+  },
+  //비밀번호찾기
+  {
+    path: '/findPW',
+    name: 'FindPW',
+    component: FindPW
   },
  
 ]

@@ -6,15 +6,46 @@
       <v-col cols="auto" class="mr-auto" sm="3">
         <div class="mt-5">
           <v-list flat>
-            <h3 class="ml-1">"{{getCategory()}}"에 대한 이슈</h3>
+            <span class="ml-1 text-xl">"{{ changeNameCategory(category) }}"에 대한 이슈</span>
+            <v-menu
+              v-model="menu1"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              offset-y
+              transition="scale-transition"
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon x-small color="primary" fab dark v-bind="attrs" v-on="on">
+                  <v-icon>mdi-format-list-bulleted</v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item
+                  v-for="(item, index) in categoryKorean"
+                  :key="index"
+                  @click="changeCategory(index)"
+                >
+                  <v-list-item-title>{{ item }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+
             <v-divider class="my-2"></v-divider>
 
             <v-list-item-group v-model="selectedItem" color="primary">
-              <v-list-item v-for="(item, i) in items" :key="i">
-                <v-list-item-content>
-                  <v-list-item-title v-text="item.text"></v-list-item-title>
-                  <v-divider class="my-2"></v-divider>
-                </v-list-item-content>
+              <v-list-item
+                elevation="2"
+                v-for="(item, i) in categoryItems"
+                :key="i"
+                @click="search(item.content)"
+              >
+                <v-list-item-title
+                  v-text="item.content"
+                  class="border-bt pb-3 pl-3"
+                  style="font-size: 90%;"
+                ></v-list-item-title>
+                <v-divider class="my-2"></v-divider>
               </v-list-item>
             </v-list-item-group>
           </v-list>
@@ -22,89 +53,391 @@
       </v-col>
 
       <!-- 본문 -->
-      <v-col id="opinion_main">
+      <v-col>
         <v-row class="ml-1">
           <v-col cols="auto" class="mr-auto">
-            <span class="display-1">블랙핑크지수 연관 키워드</span>
+            <span class="display-1">"{{ issue }}" 검색</span>
           </v-col>
-          <v-col cols="auto"><span style="color: #BDBDBD">기간: 2020-10-13</span></v-col>
+          <v-col cols="auto"
+            ><span style="color: #bdbdbd; fontSize: 13px;">날짜: {{ date }}</span>
+            <v-menu
+              v-model="menu2"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              offset-y
+              transition="scale-transition"
+              left
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon x-small color="primary" fab dark v-bind="attrs" v-on="on">
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+              </template>
+              <v-date-picker
+                v-model="datePicker"
+                @input="menu2 = false"
+                :events="changeDate()"
+              ></v-date-picker>
+            </v-menu>
+          </v-col>
         </v-row>
         <div class="mt-5">
           <v-tabs background-color="" class="my-2 ml-5">
             <v-tab @click="SelectCategory('news')">뉴스</v-tab>
-            <v-tab @click="SelectCategory('youtube')">유투브</v-tab>
+            <v-tab @click="SelectCategory('youtube')">유튜브</v-tab>
             <v-tab @click="SelectCategory('twitter')">트위터</v-tab>
           </v-tabs>
         </div>
         <v-divider class="ml-5"></v-divider>
 
         <!-- 카테고리 별로 보여주는 곳 -->
-        <!-- 내용 -->
-        <v-row class="mr-tp ml-3">
-          <div v-if="categoryType == 'news'">
-            <v-col><issue-detail-news /></v-col>
+        <!-- 뉴스 내용 -->
+        <div v-if="categoryType == 'news'">
+          <!-- Select 박스 부분 -->
+          <v-row class="mt-5">
+            <v-col cols="auto" class="mr-auto"></v-col>
+            <v-col cols="auto">
+              <div style="width:130px;">
+                <v-select
+                  outlined
+                  :items="selectItem"
+                  label="유사도순"
+                  v-model="selectNews"
+                  dense
+                  solo
+                ></v-select>
+              </div>
+            </v-col>
+          </v-row>
+
+          <div style="clear:both;"></div>
+
+          <!-- 뉴스 리스트 부분 -->
+          <v-list two-line>
+            <issue-news-list v-for="(item, index) in newsData" :key="index" :data="item" />
+          </v-list>
+
+          <!-- paging -->
+          <div class="text-center">
+            <v-pagination
+              v-model="newsCurPage"
+              :length="newsPageCnt"
+              circle
+              :total-visible="7"
+            ></v-pagination>
           </div>
-          <div v-if="categoryType == 'youtube'">
-            <v-col><issue-detail-youtube /></v-col>
+        </div>
+
+        <!-- 유튜브 내용 -->
+        <div v-if="categoryType == 'youtube'">
+          <!-- Select 박스 부분 -->
+          <v-row class="mt-5">
+            <v-col cols="auto" class="mr-auto"></v-col>
+            <v-col cols="auto">
+              <div style="width:130px;">
+                <v-select
+                  outlined
+                  :items="selectItem"
+                  label="유사도순"
+                  v-model="selectYoutu"
+                  dense
+                  solo
+                ></v-select>
+              </div>
+            </v-col>
+          </v-row>
+
+          <div style="clear:both;"></div>
+
+          <!-- 유튜브 리스트 부분 -->
+          <v-list two-line>
+            <issue-youtube-list v-for="(item, index) in youtubeData" :key="index" :data="item" />
+          </v-list>
+
+          <!-- paging -->
+          <div class="text-center">
+            <v-pagination
+              v-model="newsCurPage"
+              :length="newsPageCnt"
+              circle
+              :total-visible="7"
+            ></v-pagination>
           </div>
-        </v-row>
+        </div>
       </v-col>
-      <v-col cols="1"></v-col>
     </v-row>
+    <!-- 로딩 -->
+    <v-overlay :z-index="0" :value="overlay">
+      <div style="text-align: center">
+        <div>
+          불러오는 중...
+          <v-img src="https://i.ibb.co/hRsHwmt/image.gif" />
+        </div>
+        <div>
+          <v-progress-circular class="mt-5" indeterminate size="64"></v-progress-circular>
+        </div>
+        <v-btn class="mt-5" color="orange lighten-2" @click="overlay = false">
+          로딩 나가기
+        </v-btn>
+      </div>
+    </v-overlay>
   </v-container>
+  <!-- <div v-if="categoryType == 'youtube'">
+            <v-col><issue-youtube-list /></v-col>
+          </div> -->
 </template>
 
 <script>
-import IssueDetailNews from '../../components/Issue/IssueDetailNews.vue';
-import IssueDetailYoutube from '../../components/Issue/IssueDetailYoutube.vue';
+import Axios from 'axios';
+import { API_BASE_URL } from '../../config';
+import { mapActions, mapState } from 'vuex';
+import IssueNewsList from '../../components/Issue/IssueNewsList.vue';
+import IssueYoutubeList from '../../components/Issue/IssueYoutubeList.vue';
 
 export default {
-  components: { IssueDetailNews, IssueDetailYoutube },
+  components: { IssueNewsList, IssueYoutubeList },
   computed: {
-    
+    ...mapState('issueStore', [
+      'issueDetail',
+      'issueEntertainment',
+      'issueITScience',
+      'issueWorld',
+      'issueEconomy',
+      'issueSports',
+      'issuePolitics',
+      'issueSociety',
+    ]),
   },
   data: () => ({
     selectedItem: 1,
     categoryType: 'news',
-    items: [{ text: 'Real-Time' }, { text: 'Audience' }, { text: 'Conversions' }],
+    ob: '',
+
+    category: '',
+    issue: '',
+    date: '',
+
+    datePicker: '',
+
+    menu1: false,
+    menu2: false,
+
+    categoryItems: {},
+
+    categoryKorean: ['연예', '스포츠', '해외', 'IT/과학', '경제', '정치', '사회/생활'],
+    categoryEnglish: [
+      'ENTERTAINMENT',
+      'SPORTS',
+      'WORLD',
+      'IT_SCIENCE',
+      'ECONOMY',
+      'POLITICS',
+      'SOCIETY/LIVING',
+    ],
+    // 로딩창
+    overlay: false,
+    //-----------------------뉴스 태그용
+    newsCurPage: 0,
+    newsPageCnt: 0,
+    sort: 'sim',
+    newsData: {},
+    selectItem: ['유사도순', '최신순'],
+    selectNews: '',
+
+    //-----------------------뉴스 태그용
+    token: '',
+    youtuPrev: '',
+    youtuNext: '',
+    order: 'relevance',
+    youtuData: {},
+    selectYoutu: '',
   }),
-  watch: {},
+
+  watch: {
+    selectNews: function() {
+      this.changeSelect();
+    },
+    newsCurPage: function() {
+      this.newsAixos();
+    },
+
+    // 유튜브 태그
+    selectYoutu: function() {
+      this.changeSelect();
+    },
+  },
+
   methods: {
+    ...mapActions('issueStore', ['issueCategory']),
     SelectCategory(type) {
+      if (type == 'news') this.newsAixos();
+      else if (type == 'youtube') this.youtubeAixos();
+
       this.categoryType = type;
     },
-    getCategory(check) {
-      let ob = '';
+
+    changeDate() {
+      if (this.date == this.datePicker) return;
+
+      this.date = this.datePicker;
+      this.issueAixos(this.category, this.date);
+    },
+
+    changeCategory(no) {
+      this.menu1 = false;
+      this.category = this.categoryEnglish[no];
+      this.issueAixos(this.category, this.date);
+    },
+
+    search(issue) {
+      this.issue = issue;
+      this.newsAixos();
+    },
+
+    changeSelect() {
+      if (this.categoryType == 'news' && this.selectNews == '유사도순') this.sort = 'sim';
+      else if (this.categoryType == 'youtube' && this.selectNews == '유사도순')
+        this.order = 'relevance';
+      else this.sort = 'date';
+
+      if (this.categoryType == 'news') this.newsAixos();
+      else if (this.categoryType == 'youtube') this.youtubeAixos();
+    },
+
+    changeNameCategory(check) {
+      let ob = null;
       switch (check) {
-        case "ENTERTAINMENT":
+        case 'ENTERTAINMENT':
           ob = '연예';
           break;
-        case "IT_SCIENCE":
+        case 'IT_SCIENCE':
           ob = 'IT/과학';
           break;
-        case "WORLD":
+        case 'WORLD':
           ob = '해외';
           break;
-        case "ECONOMY":
+        case 'ECONOMY':
           ob = '경제';
           break;
-        case "SPORTS":
+        case 'SPORTS':
           ob = '스포츠';
           break;
-        case "POLITICS":
+        case 'POLITICS':
           ob = '정치';
           break;
-        case "SOCIETY/LIVING":
+        case 'SOCIETY/LIVING':
           ob = '사회/생활';
           break;
       }
       return ob;
     },
 
+    getObject(check) {
+      let ob = null;
+      switch (check) {
+        case '연예':
+        case 'ENTERTAINMENT':
+          ob = this.issueEntertainment;
+          break;
+        case 'IT/과학':
+        case 'IT_SCIENCE':
+          ob = this.issueITScience;
+          break;
+        case '해외':
+        case 'WORLD':
+          ob = this.issueWorld;
+          break;
+        case '경제':
+        case 'ECONOMY':
+          ob = this.issueEconomy;
+          break;
+        case '스포츠':
+        case 'SPORTS':
+          ob = this.issueSports;
+          break;
+        case '정치':
+        case 'POLITICS':
+          ob = this.issuePolitics;
+          break;
+        case '사회/생활':
+        case 'SOCIETY/LIVING':
+          ob = this.issueSociety;
+          break;
+      }
+      return ob;
+    },
+
+    async issueAixos(category, date) {
+      await Axios.post(`${API_BASE_URL}issue/`, { category: category, date: date })
+        .then((res) => {
+          this.category = res.data[0].category;
+          this.date = res.data[0].date;
+          this.datePicker = res.data[0].date;
+          if (this.issue != '') this.issue = res.data[0].content;
+          else this.issue = res.data[this.selectedItem].content;
+          this.categoryItems = res.data;
+          this.newsAixos();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
+
+    async newsAixos() {
+      this.overlay = true;
+      await Axios.post(`${API_BASE_URL}issue/issue_search/news/`, {
+        sort: this.sort,
+        content: this.issue,
+        start: this.newsCurPage * 10 + 1,
+      })
+        .then((res) => {
+          this.overlay = false;
+          this.newsData = res.data.news;
+          //페이징 값
+          if (this.newsData[0].total > 200) this.newsPageCnt = 20;
+          else this.newsPageCnt = Math.floor(this.newsData[0].total / 10);
+
+          console.log(this.newsPageCnt);
+          delete this.newsData[0];
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
+
+    async youtubeAixos() {
+      this.overlay = true;
+      await Axios.post(`${API_BASE_URL}issue/issue_search/youtube/`, {
+        order: this.order,
+        content: this.issue,
+        token: this.token,
+      })
+        .then((res) => {
+          this.overlay = false;
+          this.youtubeData = res.data.youtube;
+          //페이징 값
+          this.youtuPrev = this.youtubeData[0].prevToken;
+          this.youtuNext = this.youtubeData[0].nextToken;
+
+          delete this.youtubeData[0];
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
   },
   created() {
+    this.selectedItem = Number(this.$route.query.no);
+    this.issueAixos(this.$route.query.category, this.$route.query.date);
   },
 };
 </script>
 
-<style scoped></style>
+<style>
+.cate-select {
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 1px 1px 1px 1px gray;
+}
+</style>

@@ -198,18 +198,22 @@ def club_signup(request,club_pk):
     club_member.save()
     return Response({'가입보류'})
 
-@api_view(['POST','DELETE'])
+@api_view(['POST'])
 def member_approve(request,club_pk):
     member = request.data.get('member')
+    print(member)
     club_member = Club_member.objects.get(Q(club_id=club_pk)&Q(user_id=member))
     if request.method == 'POST':
         club_member.is_active = True
         club_member.signdate = datetime.date.today()
         club_member.save()
         return Response({'멤버승인됨'})
-    else:
-        club_member.delete()
-        return Response({'멤버삭제됨'})
+    
+@api_view(['DELETE'])
+def member_delete(request,club_pk,member_id):
+    club_member = Club_member.objects.get(Q(club_id=club_pk)&Q(user_id=member_id))
+    club_member.delete()
+    return Response({'멤버삭제됨'})
 
 # 클럽 맴버 확인 및 클럽 가입 승인 대기 확인
 @api_view(['POST'])
