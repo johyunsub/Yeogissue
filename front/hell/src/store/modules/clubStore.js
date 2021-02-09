@@ -140,8 +140,12 @@ const clubStore = {
     
     //클럽 가입신청
     clubJoin({ state }, data) {
+      console.log("신청: " + data.user)
       instance
         .post(`club/club_signup/${state.clubData.id}/`, data )
+        .then((res) => {
+          console.log(res)
+        })
     },
 
     //클럽 가입요청 승인
