@@ -1,7 +1,7 @@
 <template>
 <div>
   <!-- <v-container> -->
-    <h2 class="text-center mr-tp mr-bt display-1">Club</h2>
+    <!-- <h2 class="text-center mr-tp mr-bt display-1">Club</h2> -->
     <v-row>
 
       <v-col id="">
