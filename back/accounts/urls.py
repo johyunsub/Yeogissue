@@ -15,6 +15,7 @@ urlpatterns = [
     path('make_admin/', views.make_admin),
     path('get_user/', views.get_user),
     path('passwordChange/', views.passwordChange),
+    path('sendPassword/', views.sendPassword),
 
     # path('<int:user_pk>/mypage/',views.mypage),
 ]
