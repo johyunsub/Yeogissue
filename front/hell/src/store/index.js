@@ -17,9 +17,9 @@ export default new Vuex.Store({
 
     // 유저 정보
     userInfo: {
-      email : '',
-      id : '',
-      nickname : '',
+      email: '',
+      id: 0,
+      nickname: '',
       introduce_text: '',
     },
 
@@ -51,7 +51,7 @@ export default new Vuex.Store({
   actions: {
     //유저 정보 받아오기
     userData({ commit }, data) {
-      console.log("index usderdata "+data)
+      console.log('index usderdata ' + data);
       instance
         .post('/accounts/get_user/', { email: data })
         .then((res) => {
@@ -59,13 +59,13 @@ export default new Vuex.Store({
         })
         .catch((err) => console.log(err.response));
     },
-    userUpdate({dispatch},data) {
+    userUpdate({ dispatch }, data) {
       instance
-      .post(`/accounts/user_update/`, data)
-      .then(() => {
-        dispatch('userData', data.email);
-      })
-      .catch((err) => console.log(err.response));
+        .post(`/accounts/user_update/`, data)
+        .then(() => {
+          dispatch('userData', data.email);
+        })
+        .catch((err) => console.log(err.response));
     },
     //로그아웃
     userLogout({ commit }) {

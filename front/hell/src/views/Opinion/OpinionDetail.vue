@@ -9,8 +9,8 @@
         <p class="display-2 text-center py-4">{{ opinionData.title }}</p>
 
         <div class="grey--text text-center">
-          {{ opinionData.username }} | 날짜 {{ opinionData.created_at.substr(0, 10) }}
-          <span>
+          by {{ opinionData.username }} | 날짜 {{ opinionData.created_at.substr(0, 10) }}
+          <span v-if="opinionData.user == userInfo.id">
             <span>| </span><span class="choice_cursor text-bt" @click="opUpdate">수정</span> |
             <span class="choice_cursor text-bt" @click="opDelete">삭제</span>
           </span>
@@ -110,26 +110,27 @@
 </template>
 
 <script>
-import Comment from "../../components/Opinion/Comment.vue";
-import CommentCreate from "../../components/Opinion/CommentCreate.vue";
-import { mapState, mapActions } from "vuex";
+import Comment from '../../components/Opinion/Comment.vue';
+import CommentCreate from '../../components/Opinion/CommentCreate.vue';
+import { mapState, mapActions } from 'vuex';
 
-import "codemirror/lib/codemirror.css";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import { Viewer } from "@toast-ui/vue-editor";
+import 'codemirror/lib/codemirror.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Viewer } from '@toast-ui/vue-editor';
 
-import axios from "axios";
-import { API_BASE_URL } from "../../config";
+import axios from 'axios';
+import { API_BASE_URL } from '../../config';
 
 export default {
   components: { Comment, CommentCreate, Viewer },
   computed: {
-    ...mapState("opinionStore", [
-      "opinionData",
-      "opinionComment",
-      "opinionCommentPaging",
-      "opinionCommentPagingCnt",
+    ...mapState('opinionStore', [
+      'opinionData',
+      'opinionComment',
+      'opinionCommentPaging',
+      'opinionCommentPagingCnt',
     ]),
+    ...mapState(['userInfo']),
     getLike: {
       get: function() {
         if (this.opinionData.like_users.includes(this.$store.state.userInfo.id)) {
@@ -148,21 +149,21 @@ export default {
   },
   watch: {
     page: function(newVal) {
-      this.$store.commit("opinionStore/SET_OPINION_COMMENT_PAGING", (newVal - 1) * 10);
+      this.$store.commit('opinionStore/SET_OPINION_COMMENT_PAGING', (newVal - 1) * 10);
     },
   },
   methods: {
-    ...mapActions("opinionStore", ["opinionDetail", "opinionDelete"]),
+    ...mapActions('opinionStore', ['opinionDetail', 'opinionDelete']),
     opUpdate() {
       this.$router.push(`/opinionWrite?type=update`);
     },
     opDelete() {
       this.opinionDelete(this.opinionData.id);
-      this.$router.push({ name: "Opinion" });
+      this.$router.push({ name: 'Opinion' });
     },
     isLogin() {
-      if (localStorage.getItem("token") == null) {
-        alert("로그인 후 이용가능합니다.");
+      if (localStorage.getItem('token') == null) {
+        alert('로그인 후 이용가능합니다.');
       } else {
         this.thumbUp();
       }
@@ -180,7 +181,7 @@ export default {
     },
 
     take() {
-      console.log("받음");
+      console.log('받음');
     },
   },
   created() {
