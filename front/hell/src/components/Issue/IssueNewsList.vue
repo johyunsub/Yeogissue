@@ -24,6 +24,9 @@
         </div>
       </div>
       <v-divider class="my-4"></v-divider>
+      <v-dialog v-model="dialog" max-width="700">
+        <iframe src="https://www.youtube.com/embed/JzgDmU_Y9gA" height="400"></iframe>
+      </v-dialog>
     </v-list-item-content>
   </v-list-item>
 </template>
@@ -33,9 +36,12 @@ export default {
   props: {
     data: { type: Object },
   },
-  data: () => ({}),
+  data: () => ({
+    dialog: false,
+  }),
   methods: {
     MovePage() {
+      // this.dialog = true;
       window.open(`${this.data.link}`);
     },
   },
