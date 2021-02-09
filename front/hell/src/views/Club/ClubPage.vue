@@ -1,25 +1,35 @@
 <template>
-  <v-container>
+  <!-- <v-container> -->
+    <div>
+      <v-banner class="pl-16" style="text-align : center" width='1200'>
+    <h2 class="text-left font-weight-bold display-1 mr-tp">클럽</h2>
+      <h5 class="text-left font-weight-bold display-1 mr-tp">클럽 소개글</h5>
+      </v-banner>
+        <v-sheet
+      color="grey darken-2"
+      height="500"
+      width="100%"
+    ></v-sheet>
     <v-row class="mr-tp"></v-row>
-    <h2 class="text-center font-weight-bold display-1 mr-tp">클럽</h2>
     <v-row>
       <v-col cols="2"></v-col>
+
       <v-col>
         <!-- 카테고리 -->
         <v-row class="mr-tp text-center">
-          <v-tabs background-color="light-blue accent-4" center-active dark>
-            <v-tab>전체</v-tab>
-            <v-tab>정치</v-tab>
-            <v-tab>경제</v-tab>
-            <v-tab>IT/과학</v-tab>
-            <v-tab>스포츠</v-tab>
-            <v-tab>연예</v-tab>
-            <v-tab>유머</v-tab>
-            <v-tab>여행</v-tab>
-            <v-tab>건강</v-tab>
-            <v-tab>쇼핑</v-tab>
-            <v-tab>교육</v-tab>
-            <v-tab>게임</v-tab>
+          <v-tabs color="deep-purple accent-3" center-active>
+            <v-tab outlined>전체</v-tab>
+            <v-tab outlined>정치</v-tab>
+            <v-tab outlined>경제</v-tab>
+            <v-tab outlined>IT/과학</v-tab>
+            <v-tab outlined>스포츠</v-tab>
+            <v-tab outlined>연예</v-tab>
+            <v-tab outlined>유머</v-tab>
+            <v-tab outlined>여행</v-tab>
+            <v-tab outlined>건강</v-tab>
+            <v-tab outlined>쇼핑</v-tab>
+            <v-tab outlined>교육</v-tab>
+            <v-tab outlined>게임</v-tab>
           </v-tabs>
         </v-row>
 
@@ -40,7 +50,8 @@
         <v-row>
           <v-col cols="auto" class="mr-auto"></v-col>
           <v-col cols="auto">
-            <v-btn class="btnLC" color="blue" @click="OnOff">클럽 생성</v-btn>
+            <v-btn class="btnLC" color="blue" rounded @click="OnOff">
+              <span style="color: white;"> 클럽 생성 </span></v-btn>
           </v-col>
         </v-row>
 
@@ -52,7 +63,8 @@
       <v-col cols="2"></v-col>
     </v-row>
     <club-create :type="'create'" />
-  </v-container>
+    </div>
+  <!-- </v-container> -->
 </template>
 
 <script>
