@@ -240,6 +240,16 @@ const opinionStore = {
         })
         .catch((err) => console.log(err.response));
     },
+
+    //북마크 버튼
+    bookmarkUpdate({ state, dispatch }, user) {
+      instance
+        .post(`/articles/${state.opinionData.id}/scrap/`, { user: user })
+        .then(() => {
+          dispatch('opinionDetail', state.opinionData.id);
+        })
+        .catch((err) => console.log(err.response));
+    },
   },
 };
 

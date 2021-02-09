@@ -70,7 +70,7 @@ export default new Vuex.Store({
     //로그아웃
     userLogout({ commit }) {
       commit('SET_LOGIN_TOKEN', '');
-      commit('SET_USER_INFO', null);
+      commit('SET_USER_INFO', {});
       localStorage.removeItem('token');
       localStorage.removeItem('email');
     },

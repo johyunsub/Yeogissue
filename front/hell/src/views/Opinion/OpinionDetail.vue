@@ -5,8 +5,27 @@
       <v-col>
         <p class="blue--text mr-bt text-center">
           <v-icon small>fas fa-bars</v-icon> {{ opinionData.category }}
+          <v-icon
+            medium
+            color="yellow"
+            style="float:right; cursor: pointer"
+            v-if="!opinionData.scrap_users.includes(opinionData.user)"
+            @click="bookmarkChange('far')"
+            >far fa-bookmark</v-icon
+          >
+          <v-icon
+            medium
+            color="yellow"
+            style="float:right; cursor: pointer"
+            v-if="opinionData.scrap_users.includes(opinionData.user)"
+            @click="bookmarkChange('fas')"
+            >fas fa-bookmark</v-icon
+          >
         </p>
         <p class="display-2 text-center py-4">{{ opinionData.title }}</p>
+
+        <!-- 밑으로 float 적용 안되게 -->
+        <div style="clear:both;"></div>
 
         <div class="grey--text text-center">
           by {{ opinionData.username }} | 날짜 {{ opinionData.created_at.substr(0, 10) }}
@@ -17,17 +36,6 @@
         </div>
 
         <v-divider class="my-10"></v-divider>
-
-        <v-row>
-          <v-spacer></v-spacer>
-          <h4>스크랩 기능 넣어주세용 스크랩한 기사면 채워진 아이콘으로 바뀌게,,,</h4>
-          <v-icon medium color="yellow">far fa-bookmark</v-icon>
-          <v-icon medium color="yellow">fas fa-bookmark</v-icon>
-        </v-row>
-        <v-col cols="2"></v-col>
-        <!-- <p class="text-justify">
-          {{ opinionData.content }}
-        </p> -->
 
         <Viewer v-if="opinionData.content != null" :initialValue="opinionData.content" />
 
@@ -130,7 +138,7 @@ export default {
       'opinionCommentPaging',
       'opinionCommentPagingCnt',
     ]),
-    ...mapState(['userInfo']),
+    ...mapState(['userInfo', 'isLoginToken']),
     getLike: {
       get: function() {
         if (this.opinionData.like_users.includes(this.$store.state.userInfo.id)) {
@@ -153,7 +161,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('opinionStore', ['opinionDetail', 'opinionDelete']),
+    ...mapActions('opinionStore', ['opinionDetail', 'opinionDelete', 'bookmarkUpdate']),
     opUpdate() {
       this.$router.push(`/opinionWrite?type=update`);
     },
@@ -162,11 +170,11 @@ export default {
       this.$router.push({ name: 'Opinion' });
     },
     isLogin() {
-      if (localStorage.getItem('token') == null) {
-        alert('로그인 후 이용가능합니다.');
-      } else {
-        this.thumbUp();
+      if (this.isLoginToken == '') {
+        this.$store.commit('CHANGE_DIALOG', true);
+        return;
       }
+      this.thumbUp();
     },
     thumbUp() {
       axios.post(`${API_BASE_URL}articles/${this.$route.query.id}/like/`, {
@@ -182,6 +190,24 @@ export default {
 
     take() {
       console.log('받음');
+    },
+
+    bookmarkChange(check) {
+      let message = '';
+      if (check == 'far') {
+        if (this.isLoginToken == '') {
+          this.$store.commit('CHANGE_DIALOG', true);
+          return;
+        }
+        message = '저장 되었습니다.';
+      } else message = '취소 되었습니다.';
+
+      this.bookmarkUpdate(this.userInfo.id);
+      this.$toasted.show(message, {
+        theme: 'outline',
+        position: 'bottom-center',
+        duration: 500,
+      });
     },
   },
   created() {
