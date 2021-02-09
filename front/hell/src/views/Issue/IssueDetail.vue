@@ -155,15 +155,6 @@
             <issue-youtube-list v-for="(item, index) in youtubeData" :key="index" :data="item" />
           </v-list>
 
-          <!-- paging -->
-          <div class="text-center">
-            <v-pagination
-              v-model="newsCurPage"
-              :length="newsPageCnt"
-              circle
-              :total-visible="7"
-            ></v-pagination>
-          </div>
         </div>
       </v-col>
     </v-row>
@@ -245,10 +236,7 @@ export default {
     selectItem: ['유사도순', '최신순'],
     selectNews: '',
 
-    //-----------------------뉴스 태그용
-    token: '',
-    youtuPrev: '',
-    youtuNext: '',
+    //-----------------------유튜브 태그용
     order: 'relevance',
     youtuData: {},
     selectYoutu: '',
@@ -411,15 +399,11 @@ export default {
       await Axios.post(`${API_BASE_URL}issue/issue_search/youtube/`, {
         order: this.order,
         content: this.issue,
-        token: this.token,
       })
         .then((res) => {
           this.overlay = false;
           this.youtubeData = res.data.youtube;
           //페이징 값
-          this.youtuPrev = this.youtubeData[0].prevToken;
-          this.youtuNext = this.youtubeData[0].nextToken;
-
           delete this.youtubeData[0];
         })
         .catch((err) => {
