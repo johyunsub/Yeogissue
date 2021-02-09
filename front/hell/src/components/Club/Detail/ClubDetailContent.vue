@@ -42,7 +42,6 @@ import ClubDetailYoutube from './ClubDetailYoutube';
 import ClubDetailEtc from './ClubDetailEtc';
 import ClubDetailOpinion from './ClubDetailOpinion';
 import ClubDetailUrlCreate from './ClubDetailUrlCreate.vue';
-// import ClubDetailCardJoin from '.ClubDetailCardJoin.vue';
 
 export default {
   components: {

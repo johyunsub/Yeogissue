@@ -67,7 +67,6 @@ export default {
       },
       disapprove(item) {
         this.clubManageJoinDisApprove({ member: item.user })
-        console.log("ok")
       }
     },
     created() {

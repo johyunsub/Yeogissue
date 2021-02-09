@@ -137,6 +137,12 @@ const clubStore = {
         })
         .catch((err) => console.log(err.response));
     },
+    
+    //클럽 가입신청
+    clubJoin({ state }, data) {
+      instance
+        .post(`club/club_signup/${state.clubData.id}/`, data )
+    },
 
     //클럽 가입요청 승인
     clubManageJoinApprove({ state, dispatch }, data){

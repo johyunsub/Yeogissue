@@ -33,7 +33,7 @@
               <v-col cols="auto">
                 <div class="mr-3" v-if="clubDetailManegerBtn === false">
                   <v-btn color="blue darken-1" text @click="managerOnOff(true)">관리</v-btn>
-                  <v-btn color="blue darken-1" text @click="OnOff()">가입하기</v-btn>
+                  <v-btn color="blue darken-1" text @click="clubJoin()">가입하기</v-btn>
                 </div>
                 <div class="mr-3" v-if="clubDetailManegerBtn === true">
                   <v-btn color="blue darken-1" text @click="managerOnOff(false)">홈으로</v-btn>
@@ -48,8 +48,12 @@
 </template>
 
 <script>
+import ClubDetailCardJoin from '.ClubDetailCardJoin.vue';
 import { mapState } from 'vuex';
 export default {
+  components: {
+    ClubDetailCardJoin
+  },
   computed: {
     ...mapState('clubStore', ['clubData', 'clubDetailManegerBtn']),
   },
@@ -57,6 +61,9 @@ export default {
     managerOnOff(check) {
       this.$store.commit('clubStore/SET_CLUB_MANAGER_BTN', check);
     },
+    clubJoin() {
+      
+    }
   },
 };
 </script>
