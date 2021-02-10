@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-row class="justify-center">
     <v-sheet height="500" width="100%" color="">
         <v-row class="mt-16">
       <v-col cols="1"></v-col>
@@ -10,20 +10,44 @@
       <h3 class="text-left mr-tp mr-bt">다양한 이슈와 생각이 가득한 곳! 여러분만의 의견을 공유하고, 다른 사람의 의견을 검색해보세요! </h3>
       </v-row>
        <v-sheet height="250" width="100%" color="deep-purple lighten-5">
-        <!-- 해시태그 -->
-        <v-row class="mr-tp">
-          <v-col cols="2"></v-col>
-          <marquee loop="3" direction="right" behavior="alternate" scrolldelay="800" bgcolor=""> 
-            <!-- 가나다 -->
-          <v-chip-group column>
-            <v-chip large v-for="tag in top_hashtags" :key="tag.name" @click='hashtagClick(tag.name)'> 
-              #{{ tag.name }}
-            </v-chip>
-          </v-chip-group>
-          </marquee>
 
-          <v-col cols="2" class="mr-auto"></v-col>
-        </v-row>
+    <!-- <marquee behavior=alternate bgcolor="" class="mt-16"> -->
+      <v-slide-group
+      multiple
+      show-arrows
+    >
+      <v-slide-item v-for="tag in top_hashtags" :key="tag.name" @click='hashtagClick(tag.name)'>
+      <v-chip large outlined > 
+              <span style="color: black; font-weight: 600">
+                  <v-icon small color="pink ">fas fa-hashtag</v-icon>
+                  {{ tag.name }}</span
+                >
+            </v-chip>
+            </v-slide-item>
+            </v-slide-group>
+
+            <!-- </marquee> -->
+
+    <!-- <v-chip-group column class="mx-auto" max-width="1500">
+            <v-chip large outlined v-for="tag in top_hashtags" :key="tag.name" @click='hashtagClick(tag.name)'> 
+              <span style="color: black; font-weight: 600">
+                  <v-icon small color="pink ">fas fa-hashtag</v-icon>
+                  {{ tag.name }}</span
+                >
+            </v-chip>
+          </v-chip-group> -->
+
+     <!-- <v-list rounded>
+      <v-subheader>실시간 검색어</v-subheader>
+        <v-list-item-group
+        v-model="selectedItem"
+        color="primary"
+      >
+       <v-list-item v-for="tag in top_hashtags" :key="tag.name" @click='hashtagClick(tag.name)'>
+        {{ tag.name }}
+
+         </v-list-item>
+      </v-list-item-group> -->
        </v-sheet>
     </v-sheet>
 
@@ -114,7 +138,7 @@
       </div>
     <!-- </v-row> -->
   </div>
-  </div>
+  </v-row>
 </template>
 
 <script>
@@ -136,6 +160,7 @@ export default {
       search: '',
       viewType: 'card',
       page: 1,
+      selectedItem: 1,
     };
   },
   watch: {

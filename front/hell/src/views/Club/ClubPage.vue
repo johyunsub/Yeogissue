@@ -1,9 +1,8 @@
 <template>
   <!-- <v-container> -->
-    <div>
-
-      <v-sheet height="250" width="100%" color="">
-        <v-row class="mt-16">
+    <v-row class="justify-center">
+      <v-sheet height="250" width="100%" color="indigo lighten-5">
+        <v-row class="mt-5">
       <v-col cols="1"></v-col>
       <h2 class="text-left mr-tp mr-bt">모여이슈</h2> 
       </v-row>
@@ -13,11 +12,11 @@
       </v-row>
       </v-sheet>
 
-        <v-sheet
+        <!-- <v-sheet
       color="indigo lighten-5"
       height="500"
       width="100%"
-    ></v-sheet>
+    ></v-sheet> -->
 
     <v-row class="mr-tp"></v-row>
     <!-- <v-row>
@@ -73,7 +72,7 @@
     <!-- </v-row> -->
     <club-create :type="'create'" />
     </div>
-    </div>
+    </v-row>
   <!-- </v-container> -->
 </template>
 
