@@ -21,28 +21,32 @@
         <v-col cols="2">
         
         <div v-if="emotion=='기쁨'">
-        <i class="far fa-grin-squint"></i></div>
+        <i class="far fa-grin-squint">{{emotion}}</i></div>
         
         <div v-else-if="emotion=='신뢰'">
-        <i class="far fa-grin-stars"></i></div>
+        <i class="far fa-grin-stars">{{emotion}}</i></div>
 
         <div v-else-if="emotion=='놀라움'">
-        <i class="far fa-fa-surprise"></i></div>
+        <i class="far fa-fa-surprise">{{emotion}}</i></div>
 
         <div v-else-if="emotion=='슬픔'">
-        <i class="far fa-fa-sad-tear"></i></div>
+        <i class="far fa-fa-sad-tear">{{emotion}}</i></div>
 
         <div v-else-if="emotion=='공포'">
-        <i class="far fa-fa-grimace"></i></div>
+        <i class="far fa-fa-grimace">{{emotion}}</i></div>
 
         <div v-else-if="emotion=='기대'">
-        <i class="far fa-kiss-beam"></i></div>
+        <i class="far fa-kiss-beam">{{emotion}}</i></div>
 
         <div v-else-if="emotion=='혐오'">
-        <i class="far fa-dizzy"></i></div>
+        <i class="far fa-dizzy">{{emotion}}</i></div>
+
+        <div v-else-if="emotion=='분노'">
+        <i class="far fa-angry">{{emotion}}</i></div>
 
         <div v-else>
-        <i class="far fa-angry"></i></div>
+          감정없음
+        </div>
 
           
         
