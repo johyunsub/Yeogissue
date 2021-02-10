@@ -48,7 +48,7 @@ export default {
     items2: [{ title: '신고' }],
   }),
   methods: {
-    ...mapActions('opinionStore', ['opinionCommentDelete']),
+    ...mapActions('opinionStore', ['opinionCommentDelete', 'opinionBadComment']),
     updateComment(content, id) {
       if (this.isLoginToken == '') {
         this.$store.commit('CHANGE_DIALOG', true);
@@ -59,8 +59,19 @@ export default {
         this.$emit('CommentUp');
       } else if (content == '삭제') {
         this.opinionCommentDelete(id);
+        this.$toasted.show('댓글이 삭제되었습니다.', {
+          theme: 'outline',
+          position: 'bottom-center',
+          duration: 1000,
+        });
+      } else if (content == '신고') {
+        this.opinionBadComment(id);
+        this.$toasted.show('신고 되었습니다. 감사합니다.', {
+          theme: 'outline',
+          position: 'bottom-center',
+          duration: 1000,
+        });
       }
-      // else if (content == '신고')
     },
   },
 };
