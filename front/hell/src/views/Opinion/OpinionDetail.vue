@@ -37,14 +37,28 @@
 
         <v-divider class="my-10"></v-divider>
 
-        <Viewer v-if="opinionData.content != null" :initialValue="opinionData.content" />
+        <Viewer v-if="content != ''" :initialValue="content" />
 
         <v-sheet height="10vh" lighten-5></v-sheet>
 
+        <!-- 그래프 -->
+        <v-row v-if="!opinionData.comment_type">
+          <v-col></v-col>
+          <v-card>
+            <pros-and-cons-chart :id="parseInt(this.$route.query.id)" />
+          </v-card>
+          <v-col></v-col>
+        </v-row>
+
         <!-- 해시태그 -->
-        <v-row class="mr-tp mb-10">
+        <v-row class="mr-tp mb-5">
           <v-chip-group>
-            <v-chip outlined v-for="tag in opinionData.hashtags" :key="tag.name">
+            <v-chip
+              outlined
+              v-for="tag in opinionData.hashtags"
+              :key="tag.name"
+              @click="search(tag.name)"
+            >
               <span style="color: black; font-weight: 600">
                 <v-icon small color="pink">fas fa-hashtag</v-icon>
                 {{ tag.name }}
@@ -53,7 +67,9 @@
           </v-chip-group>
           <v-col cols="4"></v-col>
         </v-row>
-        <v-divider></v-divider>
+
+        <v-divider class="mt-5"></v-divider>
+
         <v-row class="mt-3">
           <v-col></v-col>
           <v-col class="mr-auto">
@@ -119,6 +135,7 @@
 
 <script>
 import Comment from '../../components/Opinion/Comment.vue';
+import ProsAndConsChart from '../../components/Opinion/ProsAndConsChart.vue';
 import CommentCreate from '../../components/Opinion/CommentCreate.vue';
 import { mapState, mapActions } from 'vuex';
 
@@ -130,7 +147,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '../../config';
 
 export default {
-  components: { Comment, CommentCreate, Viewer },
+  components: { Comment, CommentCreate, Viewer, ProsAndConsChart },
   computed: {
     ...mapState('opinionStore', [
       'opinionData',
@@ -153,6 +170,7 @@ export default {
     return {
       page: 1,
       pageCnt: 3,
+      content: '',
     };
   },
   watch: {
@@ -210,9 +228,27 @@ export default {
         duration: 500,
       });
     },
+
+    search(search) {
+      this.$router.push(`/opinion?search=${search}`);
+    },
   },
   created() {
-    this.opinionDetail(this.$route.query.id);
+    // this.opinionDetail(this.$route.query.id);
+
+    axios
+      .get(`${API_BASE_URL}articles/${this.$route.query.id}/`)
+      .then((res) => {
+        console.log(res.data.content);
+        this.content = res.data.content;
+        this.$store.commit('opinionStore/SET_OPINION_DETAIL', res.data);
+        this.$store.commit('opinionStore/SET_OPINION_COMMENT', res.data.comment_set);
+        this.$store.commit(
+          'opinionStore/SET_OPINION_COMMENT_PAGING',
+          this.$store.state.opinionCommentSelect
+        );
+      })
+      .catch((err) => console.log(err.response));
   },
 };
 </script>
