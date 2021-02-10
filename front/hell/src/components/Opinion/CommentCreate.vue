@@ -1,24 +1,36 @@
 <template>
-  <v-card class="mr-tp" max-width="1000" outlined>
-    <v-card-title class="ml-2 subtitle-1">{{ userInfo.nickname }}님!</v-card-title>
-    <v-card-text>
-      <!-- 등록 -->
-      <v-textarea
-        v-model="content"
-        append-icon="mdi-comment"
-        class="mx-2"
-        :label="massage"
-        rows="3"
-        auto-grow
-      ></v-textarea>
-      <v-row>
-        <v-col cols="auto" class="mr-auto"> </v-col>
-        <v-col cols="auto" class="mr-2">
-          <v-btn @click="CommentCreate"> 등록</v-btn>
-          <v-btn class="ml-2" v-if="type == 'update'" @click="change"> 취소</v-btn></v-col
-        >
-      </v-row>
-    </v-card-text>
+  <v-card class="mr-tp mb-5" max-width="1000" outlined>
+    <v-row>
+      <v-col cols="auto" class="mr-auto"
+        ><v-card-title class="ml-2 subtitle-1">{{ userInfo.nickname }}님!</v-card-title>
+      </v-col>
+      <v-col cols="auto" class="mr-2"
+        ><v-radio-group row mandatory>
+          <v-radio label="찬성" selected @click="private_ra(0)"></v-radio>
+          <v-radio label="반대" @click="private_ra(1)"></v-radio> </v-radio-group
+      ></v-col>
+    </v-row>
+
+    <div class="mt-plus">
+      <v-card-text>
+        <!-- 등록 -->
+        <v-textarea
+          v-model="content"
+          append-icon="mdi-comment"
+          class="mx-2"
+          :label="massage"
+          rows="3"
+          auto-grow
+        ></v-textarea>
+        <v-row>
+          <v-col cols="auto" class="mr-auto"> </v-col>
+          <v-col cols="auto" class="mr-2">
+            <v-btn @click="CommentCreate"> 등록</v-btn>
+            <v-btn class="ml-2" v-if="type == 'update'" @click="change"> 취소</v-btn></v-col
+          >
+        </v-row>
+      </v-card-text>
+    </div>
   </v-card>
 </template>
 
@@ -42,7 +54,7 @@ export default {
       content: this.propContent,
       massage: '댓글을 입력하세요', // 로그인에 따라 내용 바꿔주고 disabled
       createData: {
-        opinion_type: false, // 찬반 추후 수정
+        opinion_type: 0, // 찬반 추후 수정
         content: '',
         user: 0, // 찬한 추후 수정
         emotion: '',
@@ -101,8 +113,18 @@ export default {
     change() {
       this.$emit('CommentDown');
     },
+
+    private_ra(check) {
+      this.createData.opinion_type = check;
+    },
   },
 
   created() {},
 };
 </script>
+
+<style>
+.mt-plus {
+  margin-top: -40px;
+}
+</style>
