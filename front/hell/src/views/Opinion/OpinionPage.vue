@@ -40,7 +40,7 @@
         <!-- 해시태그 -->
         <v-row class="mr-tp">
           <v-col cols="2"></v-col>
-          <marquee loop="3" direction="right" behavior="alternate" scrolldelay="800">  
+          <marquee loop="3" direction="right" behavior="alternate" scrolldelay="800" bgcolor="00FFFF">  
           <v-chip-group mandatory>
             <v-chip v-for="tag in top_hashtags" :key="tag.name" @click='hashtagClick(tag.name)'> 
               #{{ tag.name }}
