@@ -19,8 +19,8 @@
                   <!-- 클럽정보 (맴버수, 카테고리, 개설일, 마스터) -->
                   <div class="headline">{{ clubData.title }}</div>
                   <div class="mt-3">카테고리 - {{ clubData.category }}</div>
-                  <div class="mt-3">멤버수 - {{}}</div>
-                  <div class="mt-3">매니저 - {{ clubData.master }}</div>
+                  <div class="mt-3">멤버수 - {{ clubData.member_cnt }}</div>
+                  <div class="mt-3">매니저 - {{ clubData.mastername }}</div>
                   <div class="mt-3">개설일 - {{ clubData.created_at }}</div>
                 <!-- </v-sheet> -->
               </v-col>

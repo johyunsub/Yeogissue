@@ -15,6 +15,8 @@
 
         <!-- 클럽 관리자 -->
         <club-detail-manager-content v-if="clubDetailManegerBtn === true" />
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+      
       </v-col>
 
     </v-row>
@@ -32,6 +34,7 @@ export default {
   components: { ClubDetailContent, ClubDetailCard, ClubDetailManagerContent },
   computed: {
     ...mapState('clubStore', ['clubDetailManegerBtn']),
+    ...mapState(['userInfo']),
   },
   data: function() {
     return {};
@@ -40,6 +43,8 @@ export default {
     ...mapActions('clubStore', ['clubDetail']),
   },
   created() {
+    console.log(this.$route.query.id);
+    console.log(this.userInfo.id);
     this.clubDetail(this.$route.query.id);
   },
 };
