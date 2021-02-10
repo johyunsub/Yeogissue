@@ -15,7 +15,7 @@ export default {
   components: { NavBar },
   created() {
     if (localStorage.getItem('token') != null) {
-      console.log(localStorage.getItem('token') + '<<<adfdddd')
+      console.log(localStorage.getItem('token') + '<<<adfdddd');
       this.$store.commit('SET_LOGIN_TOKEN', localStorage.getItem('token'));
       this.$store.dispatch('userData', localStorage.getItem('email'));
     }
@@ -25,10 +25,11 @@ export default {
 
 <style lang="scss">
 @font-face {
-     font-family: 'S-CoreDream-4Regular';
-     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff') format('woff');
-     font-weight: normal;
-     font-style: normal;
+  font-family: 'S-CoreDream-4Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 #app {
   font-family: 'S-CoreDream-4Regular', Avenir, Helvetica, Arial, sans-serif;
@@ -80,5 +81,13 @@ export default {
 
 .back-gray:hover {
   background-color: rgb(204, 200, 200);
+}
+
+.text-ellipsis {
+  text-align: left;
+  text-overflow: ellipsis;
+  width: 90%;
+  overflow: hidden;
+  white-space: nowrap;
 }
 </style>

@@ -1,13 +1,14 @@
 <template>
-  <v-container>
-    <h2 class="text-center mr-tp mr-bt display-1">Club</h2>
+<div>
+  <!-- <v-container> -->
+    <!-- <h2 class="text-center mr-tp mr-bt display-1">Club</h2> -->
     <v-row>
-      <v-col cols="2"></v-col>
-      <v-col id="opinion_main">
+
+      <v-col id="">
         <!-- 클럽 정보 -->
         <club-detail-card />
 
-        <v-divider class="my-10"></v-divider>
+        <!-- <v-divider class="my-10"></v-divider> -->
 
         <!-- 가입해야지만 보이게-->
         <club-detail-content v-if="clubDetailManegerBtn === false" />
@@ -15,9 +16,10 @@
         <!-- 클럽 관리자 -->
         <club-detail-manager-content v-if="clubDetailManegerBtn === true" />
       </v-col>
-      <v-col cols="2"></v-col>
+
     </v-row>
-  </v-container>
+  <!-- </v-container> -->
+  </div>
 </template>
 
 <script>

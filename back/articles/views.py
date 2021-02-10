@@ -220,11 +220,10 @@ def badrecomment(request,recomment_pk):
 @api_view(['POST'])
 def like(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
-    print('a')
+    print(request)
     # user가 article을 좋아요 누른 전체유저에 존재하는지.
     if article.like_users.filter(pk=request.data.get('user')).exists():
         # 좋아요 취소
-        print('a')
         article.like_users.remove(request.data.get('user'))
         return Response({'success', 'dislike'},status=status.HTTP_201_CREATED)
     else:
@@ -237,7 +236,7 @@ def like(request, article_pk):
 @api_view(['POST'])
 def like_comment(request, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
-    print('a')
+    # print('a')
     # user가 article을 좋아요 누른 전체유저에 존재하는지.
     if comment.like_users.filter(pk=request.data.get('user')).exists():
         # 좋아요 취소
