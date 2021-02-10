@@ -1,7 +1,8 @@
 <template>
   <v-card class="mr-tp" max-width="1000" outlined>
-    <v-card-title class="ml-2 subtitle-1">아이디</v-card-title>
+    <v-card-title class="ml-2 subtitle-1">{{ userInfo.nickname }}님!</v-card-title>
     <v-card-text>
+      <!-- 등록 -->
       <v-textarea
         v-model="content"
         append-icon="mdi-comment"
@@ -12,40 +13,96 @@
       ></v-textarea>
       <v-row>
         <v-col cols="auto" class="mr-auto"> </v-col>
-        <v-col cols="auto" class="mr-2"> <v-btn @click="CommentCreate"> 등록</v-btn> </v-col>
+        <v-col cols="auto" class="mr-2">
+          <v-btn @click="CommentCreate"> 등록</v-btn>
+          <v-btn class="ml-2" v-if="type == 'update'" @click="change"> 취소</v-btn></v-col
+        >
       </v-row>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
+import axios from 'axios';
 import { mapState, mapActions } from 'vuex';
+import { API_BASE_URL } from '../../config';
+import Swal from 'sweetalert2';
+
 export default {
+  props: {
+    type: { Type: String },
+    propContent: { Type: String },
+    no: { Type: Number },
+  },
   computed: {
-    ...mapState(['isLoginToken']),
+    ...mapState(['isLoginToken', 'userInfo']),
   },
   data() {
     return {
-      content: '',
+      content: this.propContent,
       massage: '댓글을 입력하세요', // 로그인에 따라 내용 바꿔주고 disabled
       createData: {
         opinion_type: false, // 찬반 추후 수정
         content: '',
-        user: 1, // 찬한 추후 수정
+        user: 0, // 찬한 추후 수정
         emotion: '',
       },
     };
   },
   methods: {
-    ...mapActions('opinionStore', ['opinionCommentEmotion']),
+    ...mapActions('opinionStore', ['opinionCommentEmotion', 'opinionCommentUpdate']),
     CommentCreate() {
       if (this.isLoginToken == '') {
         this.$store.commit('CHANGE_DIALOG', true);
         return;
       }
+
+      this.opinion_type = false;
       this.createData.content = this.content;
-      this.opinionCommentEmotion(this.createData);
+      this.createData.user = this.$store.state.userInfo.id;
+
+      if (this.type == 'create') {
+        this.opinionCommentEmotion(this.createData);
+        this.content = '';
+      }
+
+      if (this.type == 'update') {
+        axios
+          .post(`${API_BASE_URL}articles/emotion_comment/`, this.createData)
+          .then((res) => {
+            if (res.data.emotion == '분노' || res.data.emotion == '혐오') {
+              Swal.fire({
+                title: '화가 많아보이는 댓글입니다. 그대로 저장하시겠습니까?',
+                showCancelButton: true,
+                confirmButtonText: `Save`,
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  Swal.fire('Saved!', '', 'success');
+                  this.opinionCommentUpdate({
+                    data: res.data,
+                    no: this.no,
+                  });
+                  this.change();
+                }
+              });
+            } else {
+              console.log(res.data);
+              this.opinionCommentUpdate({
+                data: res.data,
+                no: this.no,
+              });
+              this.change();
+            }
+          })
+          .catch((err) => console.log(err.response));
+      }
+    },
+
+    change() {
+      this.$emit('CommentDown');
     },
   },
+
+  created() {},
 };
 </script>
