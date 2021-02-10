@@ -42,6 +42,7 @@ const opinionStore = {
     opinionComment: null,
     opinionCommentPaging: {},
     opinionCommentPagingCnt: 0,
+    opinionCommentSelect: 0,
 
     //해시태그
     top_hashtags: [],
@@ -107,6 +108,10 @@ const opinionStore = {
         if (i == state.opinionComment.length) break;
         state.opinionCommentPaging[index++] = state.opinionComment[i];
       }
+    },
+
+    SET_OPINION_COMMENT_SELECT(state, cur) {
+      state.opinionCommentSelect = cur;
     },
 
     //의견 LIKED 상태로 변경 <<
@@ -183,13 +188,13 @@ const opinionStore = {
     },
 
     // 디테일
-    opinionDetail({ commit }, id) {
+    opinionDetail({ commit, state }, id) {
       instance
         .get(`/articles/${id}`)
         .then((res) => {
           commit('SET_OPINION_DETAIL', res.data);
           commit('SET_OPINION_COMMENT', res.data.comment_set);
-          commit('SET_OPINION_COMMENT_PAGING', 0);
+          commit('SET_OPINION_COMMENT_PAGING', state.opinionCommentSelect);
         })
         .catch((err) => console.log(err.response));
     },
@@ -209,6 +214,26 @@ const opinionStore = {
     opinionCommentCreate({ dispatch, state }, data) {
       instance
         .post(`/articles/${state.opinionData.id}/comments/`, data)
+        .then(() => {
+          dispatch('opinionDetail', state.opinionData.id);
+        })
+        .catch((err) => console.log(err.response));
+    },
+
+    // 댓글 수정
+    opinionCommentUpdate({ dispatch, state }, updateData) {
+      instance
+        .put(`/articles/comments/${updateData.no}/`, updateData.data)
+        .then(() => {
+          dispatch('opinionDetail', state.opinionData.id);
+        })
+        .catch((err) => console.log(err.response));
+    },
+
+    // 댓글 삭제
+    opinionCommentDelete({ dispatch, state }, commentid) {
+      instance
+        .delete(`/articles/comments/${commentid}/`)
         .then(() => {
           dispatch('opinionDetail', state.opinionData.id);
         })
