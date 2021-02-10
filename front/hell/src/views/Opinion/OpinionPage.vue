@@ -178,8 +178,13 @@ export default {
     },
   },
   created() {
-    this.opinionList();
     this.hash_top10();
+    if (this.$route.query.search != undefined) {
+      this.search = this.$route.query.search;
+      this.hashOpinionList({ name: this.search });
+    } else {
+      this.opinionList();
+    }
   },
 };
 </script>
