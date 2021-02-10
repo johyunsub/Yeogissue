@@ -1,104 +1,100 @@
 <template>
   <div>
     <v-sheet height="500" width="100%" color="">
-        <v-row class="mt-16">
-      <v-col cols="1"></v-col>
-      <h2 class="text-left mr-tp mr-bt">의견이슈</h2> 
+      <v-row class="mt-16">
+        <v-col cols="1"></v-col>
+        <h2 class="text-left mr-tp mr-bt">의견이슈</h2>
       </v-row>
-        <v-row class="mb-16">
-      <v-col cols="1"></v-col>
-      <h3 class="text-left mr-tp mr-bt">다양한 이슈와 생각이 가득한 곳! 여러분만의 의견을 공유하고, 다른 사람의 의견을 검색해보세요! </h3>
+      <v-row class="mb-16">
+        <v-col cols="1"></v-col>
+        <h3 class="text-left mr-tp mr-bt">
+          다양한 이슈와 생각이 가득한 곳! 여러분만의 의견을 공유하고, 다른 사람의 의견을
+          검색해보세요!
+        </h3>
       </v-row>
-       <v-sheet height="250" width="100%" color="deep-purple lighten-5">
+      <v-sheet height="250" width="100%" color="deep-purple lighten-5">
         <!-- 해시태그 -->
         <v-row class="mr-tp">
           <v-col cols="2"></v-col>
-          <marquee loop="3" direction="right" behavior="alternate" scrolldelay="800" bgcolor=""> 
+          <marquee loop="3" direction="right" behavior="alternate" scrolldelay="800" bgcolor="">
             <!-- 가나다 -->
-          <v-chip-group column>
-            <v-chip large v-for="tag in top_hashtags" :key="tag.name" @click='hashtagClick(tag.name)'> 
-              #{{ tag.name }}
-            </v-chip>
-          </v-chip-group>
+            <v-chip-group column>
+              <v-chip
+                large
+                v-for="tag in top_hashtags"
+                :key="tag.name"
+                @click="hashtagClick(tag.name)"
+              >
+                #{{ tag.name }}
+              </v-chip>
+            </v-chip-group>
           </marquee>
 
           <v-col cols="2" class="mr-auto"></v-col>
         </v-row>
-       </v-sheet>
+      </v-sheet>
     </v-sheet>
 
-    
-
     <div class="ma-auto mt-10" style="width: 80%">
-    <!-- <v-row>
+      <!-- <v-row>
       <v-col cols="1"></v-col>
       <v-col id="opinion_main"> -->
-        <!-- 검색 -->
-        <v-row>
-          <v-col cols="3" class="mr-auto"></v-col>
-           <v-text-field
-            @keypress.enter='search_hashtag'
-            v-model="search"
-            label="다른 사람의 의견이 궁금한 주제를 검색해보세요!"
-            prepend-inner-icon="fas fa-hashtag"
-            single-line
-            rounded
-            outlined
-            color="purple"
-            clearable
-            @click:clear="gotoList"
-            clear-icon="mdi-close-circle-outline"
-            flat
-            text-field-filled-margin-top="100px"
-          ></v-text-field>
-          <v-col cols="2" class="mr-auto"></v-col>
-        </v-row>
+      <!-- 검색 -->
+      <v-row>
+        <v-col cols="3" class="mr-auto"></v-col>
+        <v-text-field
+          @keypress.enter="search_hashtag"
+          v-model="search"
+          label="다른 사람의 의견이 궁금한 주제를 검색해보세요!"
+          prepend-inner-icon="fas fa-hashtag"
+          single-line
+          rounded
+          outlined
+          color="purple"
+          clearable
+          @click:clear="gotoList"
+          clear-icon="mdi-close-circle-outline"
+          flat
+          text-field-filled-margin-top="100px"
+        ></v-text-field>
+        <v-col cols="2" class="mr-auto"></v-col>
+      </v-row>
 
-       
-        <!-- 카테고리 -->
-        <opinion-category />
+      <!-- 카테고리 -->
+      <opinion-category />
 
-        <!-- 보여주기 형태 -->
-        <v-row class="mr-tp">
-          <v-col cols="auto" class="mr-auto"></v-col>
-          <v-col cols="auto">
-            <v-btn class="btnLC" icon @click="ChageType('list')"
-              ><v-icon>mdi-format-list-bulleted</v-icon></v-btn
-            >
-            <v-btn class="btnLC" icon @click="ChageType('card')"
-              ><v-icon>mdi-view-grid</v-icon></v-btn
-            >
-          </v-col>
-        </v-row>
+      <!-- 보여주기 형태 -->
+      <v-row class="mt-15"> </v-row>
+      <v-row class="mt-15"> </v-row>
 
-        <!-- 내용 -->
-        <v-row class="mr-tp">
-          <v-col v-if="viewType == 'list'"><opinion-table /></v-col>
-          <v-col v-if="viewType == 'card'"
-            >
-            <v-list two-line>
+      <!-- 내용 -->
+      <v-row class="mr-tp">
+        <v-col v-if="viewType == 'card'">
+          <v-list two-line>
             <card-list
               v-for="(item, index) in opinionPaging"
               :key="`${index}_items`"
               :data="item"
             />
-            </v-list>
-          </v-col>
-        </v-row>
+          </v-list>
+        </v-col>
+      </v-row>
 
-        <v-row>
-          <v-col cols="auto" class="mr-auto"></v-col>
-          <v-col cols="auto">
-                <!-- <v-btn class="ma-2 btnLC" outlined large fab color="indigo"  @click="MovePage('write')"> <v-icon>mdi-pencil</v-icon></v-btn> -->
-           <v-btn class="btnLC" color="blue" rounded @click="MovePage('write')"> <v-icon color="white">mdi-pencil</v-icon>
-           <span style="color: white;"> 글쓰기 </span></v-btn>
-          </v-col>
-        </v-row>
+      <v-row>
+        <v-col cols="auto" class="mr-auto"></v-col>
+        <v-col cols="auto">
+          <!-- <v-btn class="ma-2 btnLC" outlined large fab color="indigo"  @click="MovePage('write')"> <v-icon>mdi-pencil</v-icon></v-btn> -->
+          <v-btn class="btnLC" color="blue" rounded @click="MovePage('write')">
+            <v-icon color="white">mdi-pencil</v-icon>
+            <span style="color: white;"> 글쓰기 </span></v-btn
+          >
+        </v-col>
+      </v-row>
 
-        <!-- paging -->
-        <div class="text-center">
-          <v-pagination v-model="page" :length="pagingCnt" circle></v-pagination>
-        </div>
+      <!-- paging -->
+      <div class="text-center">
+        <v-pagination v-model="page" :length="pagingCnt" circle></v-pagination>
+      </div>
       <!-- </v-col> -->
 
       <!-- <v-col cols="2">
@@ -109,25 +105,35 @@
         </v-sheet>
       </v-col> -->
       <div style="float: right;">
-      <v-col cols="1"></v-col>
-      <v-btn class="ma-2 btnLC v-btn--example" bottom right outlined large fab color="indigo" @click="MovePage('write')"> <v-icon>mdi-pencil</v-icon></v-btn>
+        <v-col cols="1"></v-col>
+        <v-btn
+          class="ma-2 ml-10 btnLC v-btn--example"
+          bottom
+          right
+          outlined
+          large
+          fab
+          color="indigo"
+          @click="MovePage('write')"
+        >
+          <v-icon>mdi-pencil</v-icon></v-btn
+        >
       </div>
-    <!-- </v-row> -->
-  </div>
+      <!-- </v-row> -->
+    </div>
   </div>
 </template>
 
 <script>
 import CardList from '../../components/Opinion/CardList.vue';
-import OpinionTable from '../../components/Opinion/OpinionTable.vue';
 // import SideList from '../../components/Opinion/SideList.vue';
 import { mapState, mapActions } from 'vuex';
 import OpinionCategory from '../../components/Opinion/OpinionCategory.vue';
 
 export default {
-  components: { OpinionTable, CardList, OpinionCategory },
+  components: { CardList, OpinionCategory },
   computed: {
-    ...mapState('opinionStore', ['opinionPaging', 'pagingCnt','top_hashtags']),
+    ...mapState('opinionStore', ['opinionPaging', 'pagingCnt', 'top_hashtags']),
   },
   data: function() {
     return {
@@ -144,7 +150,12 @@ export default {
     },
   },
   methods: {
-    ...mapActions('opinionStore', ['opinionList', 'opinionDetail','hashOpinionList','hash_top10']),
+    ...mapActions('opinionStore', [
+      'opinionList',
+      'opinionDetail',
+      'hashOpinionList',
+      'hash_top10',
+    ]),
     ChageType(type) {
       this.viewType = type;
     },
@@ -156,15 +167,15 @@ export default {
       }
     },
     search_hashtag() {
-      this.hashOpinionList({name:this.search});
+      this.hashOpinionList({ name: this.search });
     },
     gotoList() {
       this.opinionList();
     },
     hashtagClick(hash) {
-      this.hashOpinionList({name:hash})
-      this.search = hash
-    }
+      this.hashOpinionList({ name: hash });
+      this.search = hash;
+    },
   },
   created() {
     this.opinionList();
@@ -202,9 +213,9 @@ export default {
 // }
 
 .v-btn--example {
-    bottom: 0;
-    position:fixed;
-    margin: 0 0 16px 16px;
-    right: 100;
-  }
+  bottom: 0;
+  position: fixed;
+  margin: 0 0 16px 16px;
+  right: 100;
+}
 </style>
