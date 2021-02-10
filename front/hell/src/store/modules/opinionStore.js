@@ -240,6 +240,16 @@ const opinionStore = {
         .catch((err) => console.log(err.response));
     },
 
+    // 댓글 신고
+    opinionBadComment({ dispatch, state }, commentid) {
+      instance
+        .put(`/articles/badcomments/${commentid}/`)
+        .then(() => {
+          dispatch('opinionDetail', state.opinionData.id);
+        })
+        .catch((err) => console.log(err.response));
+    },
+
     // 댓글 감정
     opinionCommentEmotion({ dispatch }, data) {
       instance
