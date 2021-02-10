@@ -10,13 +10,18 @@
 
     <!-- 카테고리 if문 처리-->
     <v-row class="category">
-      <v-tabs>
-        <v-tab @click="SelectCategory('intro')">소개</v-tab>
-        <v-tab @click="SelectCategory('news')">뉴스</v-tab>
-        <v-tab @click="SelectCategory('youtube')">유튜브</v-tab>
-        <v-tab @click="SelectCategory('etc')">기타</v-tab>
-        <v-tab @click="SelectCategory('opinion')">의견나눔</v-tab>
-      </v-tabs>
+      <v-col cols='4'></v-col>
+      <v-col>
+
+        <v-tabs>
+          <v-tab @click="SelectCategory('intro')">소개</v-tab>
+          <v-tab @click="SelectCategory('news')">뉴스</v-tab>
+          <v-tab @click="SelectCategory('youtube')">유튜브</v-tab>
+          <v-tab @click="SelectCategory('etc')">기타</v-tab>
+          <v-tab @click="SelectCategory('opinion')">의견나눔</v-tab>
+        </v-tabs>
+      </v-col>
+      <v-col cols='3'></v-col>
     </v-row>
 
     <!-- 내용 -->
@@ -67,8 +72,8 @@ export default {
       this.$store.commit('clubStore/CLUB_DETAIL_URL_DIALOG', true);
     },
   },
-  created() {
-    this.$store.dispatch('clubStore/clubDetailUrlList');
-  },
+  // {% comment %} created() {
+  //   this.$store.dispatch('clubStore/clubDetailUrlList');
+  // }, {% endcomment %}
 };
 </script>

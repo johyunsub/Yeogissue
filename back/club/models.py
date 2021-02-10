@@ -19,7 +19,13 @@ class Club_article(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_club_articles')
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
-
+    
+    site_name = models.CharField(max_length=50,blank=True)
+    title = models.CharField(max_length=50,blank=True)
+    decription = models.CharField(max_length=150,blank=True)
+    image = models.CharField(max_length=150,blank=True)
+    video = models.CharField(max_length=150,blank=True)
+    
 
 class Club_member(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_club_member_articles')

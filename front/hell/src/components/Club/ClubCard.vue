@@ -90,6 +90,7 @@ export default {
     MovePage: function(check) {
       switch (check) {
         case 'detail':
+          console.log(this.clubInfo,'clubinfo')
           this.$router.push(`/clubDetail?id=${this.clubInfo.id}`);
           break;
       }
