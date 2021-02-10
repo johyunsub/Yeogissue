@@ -9,7 +9,7 @@
             medium
             color="yellow"
             style="float:right; cursor: pointer"
-            v-if="!opinionData.scrap_users.includes(opinionData.user)"
+            v-if="!opinionData.scrap_users.includes(userInfo.id) || isLoginToken == ''"
             @click="bookmarkChange('far')"
             >far fa-bookmark</v-icon
           >
@@ -17,7 +17,7 @@
             medium
             color="yellow"
             style="float:right; cursor: pointer"
-            v-if="opinionData.scrap_users.includes(opinionData.user)"
+            v-if="opinionData.scrap_users.includes(userInfo.id)"
             @click="bookmarkChange('fas')"
             >fas fa-bookmark</v-icon
           >
@@ -107,7 +107,7 @@
         <!-- 댓글 등록 -->
         <v-row class="mt-10 mb-10">
           <v-col cols="1"></v-col>
-          <v-col class="mr-auto"> <comment-create /></v-col>
+          <v-col class="mr-auto"> <comment-create :type="'create'" :propContent="''"/></v-col>
         </v-row>
       </v-col>
       <v-col cols="2"></v-col>
@@ -157,6 +157,7 @@ export default {
   },
   watch: {
     page: function(newVal) {
+      this.$store.commit('opinionStore/SET_OPINION_COMMENT_SELECT', (newVal - 1) * 10);
       this.$store.commit('opinionStore/SET_OPINION_COMMENT_PAGING', (newVal - 1) * 10);
     },
   },
