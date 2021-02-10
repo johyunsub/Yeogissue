@@ -2,69 +2,73 @@
 <template>
   <div>
     <div v-if="isUpdate == false">
-      <v-card class="mt-2" max-width="1000" outlined>
-        <v-card-text>
-          <v-row>
-            <v-col>
-              <div class="text--primary ">
-                {{ username }} | {{ updated_at.replace('T', ' ').substr(0, 16) }}
-              </div>
-            </v-col>
-            <v-col v-if="!getLike" cols="auto" class="choice_cursor" @click="thumbUp">
-              <v-icon small>mdi-thumb-up-outline</v-icon> {{ like_users_count }}
-            </v-col>
-            <v-col v-if="getLike" cols="auto" class="choice_cursor" @click="thumbUp">
-              <v-icon small>mdi-thumb-up</v-icon> {{ like_users_count }}
-            </v-col>
-            <v-col cols="auto"> <comment-menu :id="id" v-on:CommentUp="changeUpdate(true)"/></v-col>
-          </v-row>
+      <v-alert
+        class="border-line"
+        :border="getBorder(opinion_type)"
+        colored-border
+        :color="borderColor"
+      >
+        <v-row>
+          <v-col>
+            <div class="text--primary ">
+              {{ username }} | {{ updated_at.replace('T', ' ').substr(0, 16) }}
+            </div>
+          </v-col>
+          <v-col v-if="!getLike" cols="auto" class="choice_cursor" @click="thumbUp">
+            <v-icon small>mdi-thumb-up-outline</v-icon> {{ like_users_count }}
+          </v-col>
+          <v-col v-if="getLike" cols="auto" class="choice_cursor" @click="thumbUp">
+            <v-icon small>mdi-thumb-up</v-icon> {{ like_users_count }}
+          </v-col>
+          <v-col cols="auto"> <comment-menu :id="id" v-on:CommentUp="changeUpdate(true)"/></v-col>
+        </v-row>
 
-          <v-row>
-            <v-col cols="2">
-              <div v-if="emotion == '기쁨'">
-                <i class="far fa-grin-squint"></i>
-              </div>
+        <v-row>
+          <v-col cols="2">
+            <div v-if="emotion == '기쁨'">
+              <i class="far fa-grin-squint"></i>
+            </div>
 
-              <div v-else-if="emotion == '신뢰'">
-                <i class="far fa-grin-stars"></i>
-              </div>
+            <div v-else-if="emotion == '신뢰'">
+              <i class="far fa-grin-stars"></i>
+            </div>
 
-              <div v-else-if="emotion == '놀라움'">
-                <i class="far fa-fa-surprise"></i>
-              </div>
+            <div v-else-if="emotion == '놀라움'">
+              <i class="far fa-fa-surprise"></i>
+            </div>
 
-              <div v-else-if="emotion == '슬픔'">
-                <i class="far fa-fa-sad-tear"></i>
-              </div>
+            <div v-else-if="emotion == '슬픔'">
+              <i class="far fa-fa-sad-tear"></i>
+            </div>
 
-              <div v-else-if="emotion == '공포'">
-                <i class="far fa-fa-grimace"></i>
-              </div>
+            <div v-else-if="emotion == '공포'">
+              <i class="far fa-fa-grimace"></i>
+            </div>
 
-              <div v-else-if="emotion == '기대'">
-                <i class="far fa-kiss-beam"></i>
-              </div>
+            <div v-else-if="emotion == '기대'">
+              <i class="far fa-kiss-beam"></i>
+            </div>
 
-              <div v-else-if="emotion == '혐오'">
-                <i class="far fa-dizzy"></i>
-              </div>
+            <div v-else-if="emotion == '혐오'">
+              <i class="far fa-dizzy"></i>
+            </div>
 
-              <div v-else>
-                <i class="far fa-angry"></i>
-              </div>
+            <div v-else>
+              <i class="far fa-angry"></i>
+            </div>
 
-              <!-- <v-avatar class="profile ml-10" color="grey" size="80">
+            <!-- <v-avatar class="profile ml-10" color="grey" size="80">
             <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
           </v-avatar> -->
-            </v-col>
+          </v-col>
 
-            <v-col cols="9">
-              <span class="ml-5">{{ content }}</span>
-            </v-col>
-          </v-row>
-        </v-card-text>
-      </v-card>
+          <v-col cols="9">
+            <span class="ml-5">{{ content }}</span>
+          </v-col>
+        </v-row>
+      </v-alert>
     </div>
+
     <div v-if="isUpdate == true">
       <comment-create
         :type="'update'"
@@ -116,6 +120,7 @@ export default {
       // likeCnt: this.like_users_count,
       articleno: '',
       isUpdate: false,
+      borderColor: '#2962FF',
     };
   },
   methods: {
@@ -147,6 +152,17 @@ export default {
     changeUpdate(check) {
       this.isUpdate = check;
     },
+
+    getBorder(type) {
+      let choice = 'left';
+      this.borderColor = '#2962FF';
+      if (type == true) {
+        choice = 'right';
+        this.borderColor = '#D50000';
+      }
+
+      return choice;
+    },
   },
   created() {},
 };
@@ -155,5 +171,10 @@ export default {
 <style scoped>
 .mr-le {
   margin-left: 15px;
+}
+
+.border-line {
+  border: 1px solid #cfd8dc;
+  margin-bottom: 7px;
 }
 </style>
