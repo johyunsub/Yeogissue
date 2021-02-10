@@ -1,3 +1,7 @@
 {
+<<<<<<< HEAD
+=======
+    "python.pythonPath": "venv\\Scripts\\python.exe",
+>>>>>>> bc52bf90718d31c41dfd5cb43beb56bbc0b9569f
     "vetur.validation.template": false
 }
