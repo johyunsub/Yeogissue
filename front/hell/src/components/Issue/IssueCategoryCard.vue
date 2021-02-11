@@ -7,15 +7,16 @@
       </v-card-title>
 
       <v-card-text class="mt-4">
-        <div v-for="(item, n) in getCategory(category)" :key="item.id" @mouseout="stp(item, n)">
+        <div v-for="(item, n) in getCategory(category)" :key="item.id" @mouseout="stp(item, n + 1)">
           <div
             :class="
-              'text-ellipsis issue-span mt-5 choice_cursor ' + (item.category + n).replace('/', '')
+              'text-ellipsis issue-span mt-5 choice_cursor ' +
+                (item.category + (n + 1)).replace('/', '')
             "
-            @mouseover="moveMarquee(item, n)"
-            @click="Movepage(item, n)"
+            @mouseover="moveMarquee(item, n + 1)"
+            @click="Movepage(item, n + 1)"
           >
-            <span class="issue-number">{{ n }}</span>
+            <span class="issue-number">{{ n + 1 }}</span>
             <span class="ml-4">{{ item.content }}</span>
           </div>
         </div>

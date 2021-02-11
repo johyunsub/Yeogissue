@@ -154,7 +154,6 @@
           <v-list two-line>
             <issue-youtube-list v-for="(item, index) in youtubeData" :key="index" :data="item" />
           </v-list>
-
         </div>
       </v-col>
     </v-row>

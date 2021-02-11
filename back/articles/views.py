@@ -160,11 +160,13 @@ def comment_detail_update_delete(request, comment_pk):
         return Response({ 'id': comment_pk }, status=status.HTTP_204_NO_CONTENT)
 
 # 댓글 신고
-@api_view(['GET'])
+@api_view(['PUT'])
 def badcomment(request,comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
     comment.badcomment += 1
     comment.save()
+
+    return Response({ 'id': comment_pk }, status=status.HTTP_204_NO_CONTENT)
 
 # 의견나눔 게시글 대댓글
 @api_view(['POST'])
