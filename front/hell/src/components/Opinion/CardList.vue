@@ -1,5 +1,6 @@
 <template>
   <v-list-item>
+
     <v-list-item-content>
       <v-row>
         <v-col cols="auto" class="mr-auto">
@@ -69,6 +70,9 @@ export default {
           break;
       }
     },
+  },
+  created() {
+    console.log('asfdadfafs');
   },
 };
 </script>

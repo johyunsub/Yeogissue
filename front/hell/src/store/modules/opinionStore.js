@@ -108,6 +108,17 @@ const opinionStore = {
         })
         .catch((err) => console.log(err.response));
     },
+    //클럽 조회
+    opinionListClub({ commit },id) {
+      instance
+        .get(`/articles/club/${id}/`)
+        .then((res) => {
+          commit("SET_OPINIONS", res.data);
+          commit("SET_OPINION_CATEGORY", "전체");
+          commit("SET_OPINION_PAGING", 0);
+        })
+        .catch((err) => console.log(err.response));
+    },
     //해시태그 조회
     hashOpinionList({ commit }, data) {
       instance

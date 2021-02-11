@@ -2,14 +2,28 @@
   <v-hover v-slot="{ hover }" open-delay="200">
     <v-card
       class="mx-auto my-5 elevation-5 choice_cursor { 'on-hover': hover }"
-      max-width="250"
+      max-width="600"
       :elevation="hover ? 16 : 2"
       
     >
-      <v-img height="150" src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
+      <v-img height="150" src="https://cdn.vuetifyjs.com/images/cards/cooking.png">
+          <v-expand-transition>
+          <div
+            v-if="hover"
+            class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
+            style="height: 100%;"
+          >
+            소개글 여기 적을까? 투명하게 해서
+          </div>
+        </v-expand-transition>
+      
+      </v-img>
+
+      
 
       <!-- 글짜 ... 해주는거 text-truncate -->
-      <v-card-title @click="MovePage('detail')" class="headline mb-0 h6">{{ clubInfo.title }}</v-card-title>
+      <v-card-title @click="MovePage('detail')" class="headline mb-0 h6">{{ clubInfo.title }}
+      </v-card-title>
 
       <v-card-text>
         <v-row align="center" class="mx-0"> </v-row>
@@ -50,7 +64,6 @@
 
         <v-card-text>
           <div class="body-1 text-truncate">{{ clubInfo.content }}</div>
-          I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
         </v-card-text>
       </div>
     </v-expand-transition>
@@ -77,6 +90,7 @@ export default {
     MovePage: function(check) {
       switch (check) {
         case 'detail':
+          console.log(this.clubInfo,'clubinfo')
           this.$router.push(`/clubDetail?id=${this.clubInfo.id}`);
           break;
       }

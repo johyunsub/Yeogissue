@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+from django.conf import settings
 
 
 class MyUserManager(BaseUserManager):
@@ -82,3 +83,12 @@ class MyUser(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+
+class Alarm(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    message_type = models.CharField(max_length = 50)
+    check = models.BooleanField(default=False)
+    object_id = models.CharField(max_length=10)
+    object_content = models.CharField(max_length = 150)
+    
