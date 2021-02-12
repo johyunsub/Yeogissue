@@ -1,7 +1,7 @@
 <template>
 <div>
   <!-- <v-container> -->
-    <h2 class="text-center mr-tp mr-bt display-1">Club</h2>
+    <!-- <h2 class="text-center mr-tp mr-bt display-1">Club</h2> -->
     <v-row>
 
       <v-col id="">
@@ -22,6 +22,13 @@
         <club-detail-content v-if=" clubDetailIsMember  && !clubData.is_private"/>
         <!-- 클럽멤버o && 관리자x && 비공개게시판 => 클럽소개페이지 보이게-->
         <club-detail-content-Intro v-if="!clubDetailIsMember && clubData.master != userInfo.id && clubData.is_private" />
+        <!-- 가입해야지만 보이게-->
+        <club-detail-content v-if="clubDetailManegerBtn === false" />
+
+        <!-- 클럽 관리자 -->
+        <club-detail-manager-content v-if="clubDetailManegerBtn === true" />
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+      
       </v-col>
 
     </v-row>
@@ -42,6 +49,8 @@ export default {
   computed: {
     ...mapState('clubStore', ['clubData', 'clubDetailManegerBtn', 'clubDetailIsMember']),
     ...mapState( ['userInfo' ]),
+    ...mapState('clubStore', ['clubDetailManegerBtn']),
+    ...mapState(['userInfo']),
   },
   data: function() {
     return {};
@@ -50,6 +59,8 @@ export default {
     ...mapActions('clubStore', ['clubDetail']),
   },
   created() {
+    console.log(this.$route.query.id);
+    console.log(this.userInfo.id);
     this.clubDetail(this.$route.query.id);
   },
 };

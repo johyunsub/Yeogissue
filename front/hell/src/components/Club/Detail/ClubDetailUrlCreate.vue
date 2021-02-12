@@ -9,7 +9,7 @@
             <v-card-text>
               <v-row>
                 <v-col cols="12">
-                  <v-select :items="items" label="카테고리*"> </v-select>
+                  <v-select :items="items" label="카테고리*" v-model='DetailUrlData.category'> </v-select>
                 </v-col>
                 <v-col cols="12">
                   <v-text-field v-model="DetailUrlData.comment" label="코멘트*"></v-text-field>
@@ -48,6 +48,7 @@ export default {
       url: '',
       user: '',
       club: '',
+      category:'',
     },
   }),
   computed: {
@@ -64,9 +65,11 @@ export default {
     ...mapActions('clubStore', ['clubDetailUrlCreate', 'clubDetailUrlUpdate']),
     CreateOption(check) {
       if (check === 'create') {
+        
         this.DetailUrlData.user = this.$store.state.userInfo.id;
         console.log(this.$store.state.clubData);
         this.DetailUrlData.club = this.clubData.id;
+        console.log(this.DetailUrlData)
         this.clubDetailUrlCreate(this.DetailUrlData);
       } else if (this.check === 'update') {
         this.clubDetailUrlUpdate(this.DetailUrlData);

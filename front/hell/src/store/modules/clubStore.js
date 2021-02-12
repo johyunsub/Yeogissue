@@ -108,19 +108,42 @@ const clubStore = {
     },
 
     // 디테일
-    clubDetail({ commit }, id) {
+    clubDetail({ commit },id) {
+      console.log(id,'club_id')
       instance
-        .get(`club/club_detail/${id}`)
+        .get(`club/club_detail/${id}/`)
         .then((res) => {
+          console.log(res)
           commit('SET_CLUB_DETAIL', res.data);
+          
         })
         .catch((err) => console.log(err.response));
     },
 
     // Url 조회
     clubDetailUrlList({ state, commit }) {
+    clubDetailUrlListNews({ state, commit }) {
+      console.log(state.clubData.id)
       instance
-        .get(`club/club_article_list/${state.clubData.id}/`)
+        .get(`club/club_article_list/${state.clubData.id}/news/`)
+        .then((res) => {
+          commit('SET_CLUB_DETAIL_URL', res.data);
+        })
+        .catch((err) => console.log(err.response));
+    },
+    clubDetailUrlListYoutube({ state, commit }) {
+      console.log(state.clubData.id)
+      instance
+        .get(`club/club_article_list/${state.clubData.id}/youtube/`)
+        .then((res) => {
+          commit('SET_CLUB_DETAIL_URL', res.data);
+        })
+        .catch((err) => console.log(err.response));
+    },
+    clubDetailUrlListetc({ state, commit }) {
+      console.log(state.clubData.id)
+      instance
+        .get(`club/club_article_list/${state.clubData.id}/etc/`)
         .then((res) => {
           commit('SET_CLUB_DETAIL_URL', res.data);
         })

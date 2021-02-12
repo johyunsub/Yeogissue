@@ -2,15 +2,28 @@
   <v-hover v-slot="{ hover }" open-delay="200" >
     <v-card
       class="mx-auto my-5 elevation-5 choice_cursor { 'on-hover': hover }"
-      max-width="250"
+      max-width="600"
       :elevation="hover ? 16 : 2"
       
     >
       <div @click="MovePage('detail')" >
-        <v-img height="150" src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
 
-        <!-- 글짜 ... 해주는거 text-truncate -->
-        <v-card-title class="headline mb-0 h6">{{ clubInfo.title }}</v-card-title>
+      <v-img height="150" src="https://cdn.vuetifyjs.com/images/cards/cooking.png">
+          <v-expand-transition>
+          <div
+            v-if="hover"
+            class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
+            style="height: 100%;"
+          >
+            소개글 여기 적을까? 투명하게 해서
+          </div>
+        </v-expand-transition>
+      
+      </v-img>
+
+      <!-- 글짜 ... 해주는거 text-truncate -->
+      <v-card-title  class="headline mb-0 h6">{{ clubInfo.title }}
+      </v-card-title>
 
         <v-card-text>
           <v-row align="center" class="mx-0"> </v-row>

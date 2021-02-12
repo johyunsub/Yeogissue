@@ -11,6 +11,7 @@ from .models import Article, Hashtag, Comment, ReComment
 from .use_ai import keyword_mining, emotion
 
 from accounts.models import MyUser as User
+from accounts.models import Alarm
 
 # 의견나눔 게시글
 @api_view(['GET'])
@@ -121,6 +122,12 @@ def create_comment(request, article_pk):
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save(article=article)
+        alarm = Alarm()
+        alarm.message_type = '댓글'
+        alarm.user_id = article.user.id
+        alarm.object_id = article_pk
+        alarm.object_content = article.title
+        alarm.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -220,16 +227,21 @@ def badrecomment(request,recomment_pk):
 @api_view(['POST'])
 def like(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
-    print('a')
+    print(request)
     # user가 article을 좋아요 누른 전체유저에 존재하는지.
     if article.like_users.filter(pk=request.data.get('user')).exists():
         # 좋아요 취소
-        print('a')
         article.like_users.remove(request.data.get('user'))
         return Response({'success', 'dislike'},status=status.HTTP_201_CREATED)
     else:
         # 좋아요
         article.like_users.add(request.data.get('user'))
+        alarm = Alarm()
+        alarm.message_type = '좋아요'
+        alarm.user_id = article.user.id
+        alarm.object_id = article_pk
+        alarm.object_content = article.title
+        alarm.save()
         return Response({'success', 'like'},status=status.HTTP_201_CREATED)
 
 
@@ -237,7 +249,7 @@ def like(request, article_pk):
 @api_view(['POST'])
 def like_comment(request, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
-    print('a')
+    # print('a')
     # user가 article을 좋아요 누른 전체유저에 존재하는지.
     if comment.like_users.filter(pk=request.data.get('user')).exists():
         # 좋아요 취소
@@ -247,6 +259,12 @@ def like_comment(request, comment_pk):
     else:
         # 좋아요
         comment.like_users.add(request.data.get('user'))
+        alarm = Alarm()
+        alarm.message_type = '댓글좋아요'
+        alarm.user_id = comment.user.id
+        alarm.object_id = comment_pk
+        alarm.object_content = comment.content
+        alarm.save()
         return Response({'success', 'like'},status=status.HTTP_201_CREATED)
 
 

@@ -1,20 +1,38 @@
 <template>
-<v-sheet height="100%"  lighten-5>
-  <v-sheet height="15vh" lighten-5></v-sheet>
-  <v-container>
-    <v-row>
-    <v-col cols="1"></v-col>
-    <h2 class="text-left mr-tp mr-bt">의견나눔</h2>
-    </v-row>
-    <v-row>
-    <v-col cols="1"></v-col>
-    <h3 class="text-left mr-tp mr-bt">핫 이슈에대해 의견을 나눠보세요!</h3>
-  
-    </v-row>
-    
-    <v-row>
+  <div>
+    <v-sheet height="500" width="100%" color="">
+        <v-row class="mt-16">
       <v-col cols="1"></v-col>
-      <v-col id="opinion_main">
+      <h2 class="text-left mr-tp mr-bt">의견이슈</h2> 
+      </v-row>
+        <v-row class="mb-16">
+      <v-col cols="1"></v-col>
+      <h3 class="text-left mr-tp mr-bt">다양한 이슈와 생각이 가득한 곳! 여러분만의 의견을 공유하고, 다른 사람의 의견을 검색해보세요! </h3>
+      </v-row>
+       <v-sheet height="250" width="100%" color="deep-purple lighten-5">
+        <!-- 해시태그 -->
+        <v-row class="mr-tp">
+          <v-col cols="2"></v-col>
+          <marquee loop="3" direction="right" behavior="alternate" scrolldelay="800" bgcolor=""> 
+            <!-- 가나다 -->
+          <v-chip-group column>
+            <v-chip large v-for="tag in top_hashtags" :key="tag.name" @click='hashtagClick(tag.name)'> 
+              #{{ tag.name }}
+            </v-chip>
+          </v-chip-group>
+          </marquee>
+
+          <v-col cols="2" class="mr-auto"></v-col>
+        </v-row>
+       </v-sheet>
+    </v-sheet>
+
+    
+
+    <div class="ma-auto mt-10" style="width: 80%">
+    <!-- <v-row>
+      <v-col cols="1"></v-col>
+      <v-col id="opinion_main"> -->
         <!-- 검색 -->
         <v-row>
           <v-col cols="3" class="mr-auto"></v-col>
@@ -36,21 +54,7 @@
           <v-col cols="2" class="mr-auto"></v-col>
         </v-row>
 
-        <v-sheet lighten-5>
-        <!-- 해시태그 -->
-        <v-row class="mr-tp">
-          <v-col cols="2"></v-col>
-          <marquee loop="3" direction="right" behavior="alternate" scrolldelay="800" bgcolor="00FFFF">  
-          <v-chip-group mandatory>
-            <v-chip v-for="tag in top_hashtags" :key="tag.name" @click='hashtagClick(tag.name)'> 
-              #{{ tag.name }}
-            </v-chip>
-          </v-chip-group>
-          </marquee>
-
-          <v-col cols="2" class="mr-auto"></v-col>
-        </v-row>
-        </v-sheet>
+       
         <!-- 카테고리 -->
         <opinion-category />
 
@@ -95,7 +99,7 @@
         <div class="text-center">
           <v-pagination v-model="page" :length="pagingCnt" circle></v-pagination>
         </div>
-      </v-col>
+      <!-- </v-col> -->
 
       <!-- <v-col cols="2">
         <v-sheet rounded="lg" id="opinion_side" class="sticky">
@@ -108,9 +112,9 @@
       <v-col cols="1"></v-col>
       <v-btn class="ma-2 btnLC v-btn--example" bottom right outlined large fab color="indigo" @click="MovePage('write')"> <v-icon>mdi-pencil</v-icon></v-btn>
       </div>
-    </v-row>
-  </v-container>
-  </v-sheet>
+    <!-- </v-row> -->
+  </div>
+  </div>
 </template>
 
 <script>

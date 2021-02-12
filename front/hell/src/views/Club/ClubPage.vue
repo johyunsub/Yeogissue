@@ -1,20 +1,29 @@
 <template>
   <!-- <v-container> -->
     <div>
-      <v-banner class="pl-16" style="text-align : center" width='1200'>
-    <h2 class="text-left font-weight-bold display-1 mr-tp">클럽</h2>
-      <h5 class="text-left font-weight-bold display-1 mr-tp">클럽 소개글</h5>
-      </v-banner>
+
+      <v-sheet height="250" width="100%" color="">
+        <v-row class="mt-16">
+      <v-col cols="1"></v-col>
+      <h2 class="text-left mr-tp mr-bt">모여이슈</h2> 
+      </v-row>
+        <v-row class="mb-16">
+      <v-col cols="1"></v-col>
+      <h3 class="text-left mr-tp mr-bt">비슷한 주제에 관심있는 사람들과 모여 각종 정보와 의견을 공유해보세요!</h3>
+      </v-row>
+      </v-sheet>
+
         <v-sheet
-      color="grey darken-2"
+      color="indigo lighten-5"
       height="500"
       width="100%"
     ></v-sheet>
-    <v-row class="mr-tp"></v-row>
-    <v-row>
-      <v-col cols="2"></v-col>
 
-      <v-col>
+    <v-row class="mr-tp"></v-row>
+    <!-- <v-row>
+      <v-col cols="2"></v-col>
+      <v-col> -->
+      <div class="ma-auto mt-10" style="width: 80%">
         <!-- 카테고리 -->
         <v-row class="mr-tp text-center">
           <v-tabs color="deep-purple accent-3" center-active>
@@ -57,10 +66,11 @@
         <div class="text-center mr-tp">
           <v-pagination v-model="page" :length="pageCnt" circle></v-pagination>
         </div>
-      </v-col>
+      <!-- </v-col> -->
       <v-col cols="2"></v-col>
-    </v-row>
+    <!-- </v-row> -->
     <club-create :type="'create'" />
+    </div>
     </div>
   <!-- </v-container> -->
 </template>
