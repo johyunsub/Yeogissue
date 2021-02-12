@@ -14,7 +14,7 @@
       </v-card-title>
       <v-data-table
         :headers="headers"
-        :items="clubManageMemberList"
+        :items="clubManageJoinList"
         :search="search"
       >
       <template v-slot:item.actions="{ item }">
@@ -44,7 +44,7 @@ import {mapState, mapActions } from 'vuex';
 
 export default {
     computed:{
-        ...mapState('clubStore', [ 'clubManageMemberList' ])
+        ...mapState('clubStore', [ 'clubManageJoinList' ])
     },
     data () {
       return {

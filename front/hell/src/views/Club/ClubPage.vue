@@ -24,12 +24,9 @@
             <v-tab outlined>IT/과학</v-tab>
             <v-tab outlined>스포츠</v-tab>
             <v-tab outlined>연예</v-tab>
-            <v-tab outlined>유머</v-tab>
-            <v-tab outlined>여행</v-tab>
-            <v-tab outlined>건강</v-tab>
-            <v-tab outlined>쇼핑</v-tab>
-            <v-tab outlined>교육</v-tab>
-            <v-tab outlined>게임</v-tab>
+            <v-tab outlined>생활</v-tab>
+            <v-tab outlined>사회</v-tab>
+            <v-tab outlined>해외</v-tab>
           </v-tabs>
         </v-row>
 
@@ -51,7 +48,8 @@
           <v-col cols="auto" class="mr-auto"></v-col>
           <v-col cols="auto">
             <v-btn class="btnLC" color="blue" rounded @click="OnOff">
-              <span style="color: white;"> 클럽 생성 </span></v-btn>
+              <span style="color: white;"> 클럽 생성 </span>
+            </v-btn>
           </v-col>
         </v-row>
 
