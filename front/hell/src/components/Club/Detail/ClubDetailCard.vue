@@ -35,12 +35,9 @@
             <div>
               <v-col cols="auto" >
                 <div class="mr-3" v-if="clubDetailManegerBtn === false">
-                  <v-btn v-if="clubData.master == userInfo.id" color="blue darken-1" text @click="managerOnOff(true)">관리</v-btn>
-                  <v-btn color="blue darken-1" text @click="managerOnOff(true)"> <v-icon color="blue">fas fa-user-cog</v-icon>
-                    <span style="color: blue;">관리 </span></v-btn>
-                  <v-btn color="blue darken-1" text @click="OnOff()"> <v-icon color="blue">fas fa-user-friends</v-icon>
-                    <span style="color: blue;">가입하기</span>
-                    </v-btn>
+                  <v-btn v-if="clubData.master == userInfo.id" color="blue darken-1" text @click="managerOnOff(true)"> <v-icon color="blue">fas fa-user-cog</v-icon>
+                    <span style="color: blue;">관리 </span>
+                  </v-btn>
                 </div>
                 <v-btn v-if="clubData.master != userInfo.id && clubDetailIsMember" color="blue darken-1" text @click="doLeave()">클럽탈퇴</v-btn>
                 <v-btn v-if="clubData.master != userInfo.id && !clubDetailIsMember &&  clubDetailIsWaiting" color="blue darken-1" text>가입대기중</v-btn>
@@ -55,7 +52,10 @@
                       text
                       v-bind="attrs"
                       v-on="on"
-                    >가입하기</v-btn>
+                    >
+                    <v-icon color="blue">fas fa-user-friends</v-icon>
+                    <span style="color: blue;">가입하기</span>
+                    </v-btn>
                   </template>
                   <template v-slot:default="dialog">
                     <v-card>

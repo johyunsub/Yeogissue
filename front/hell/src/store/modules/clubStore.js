@@ -121,7 +121,7 @@ const clubStore = {
     },
 
     // Url 조회
-    clubDetailUrlList({ state, commit }) {
+    // clubDetailUrlList({ state, commit }) {
     clubDetailUrlListNews({ state, commit }) {
       console.log(state.clubData.id)
       instance
