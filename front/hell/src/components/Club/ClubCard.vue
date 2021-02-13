@@ -17,7 +17,7 @@
         <v-row align="center" class="mx-0"> </v-row>
 
         <div class="my-2 subtitle-4 text-truncate">
-          {{ clubInfo.category }} | 클럽 멤버 수
+        <span style="color:blueviolet">{{ clubInfo.category }} </span> <v-icon class="ml-3" small color="blue">fas fa-user-friends</v-icon> 클럽 멤버 수
         </div>
 
       </v-card-text>

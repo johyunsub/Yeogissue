@@ -1,9 +1,11 @@
 <template>
   <div>
-    <v-card class="mx-auto my-5 ml-5 elevation-5" max-width="400" :elevation="2">
+    <v-card class="mx-auto my-5 ml-5 elevation-5" style="border-radius: 15px;" max-width="400" :elevation="2">
       <!-- 글짜 ... 해주는거 text-truncate -->
-      <v-card-title class="headline pl-6 h6" style="background-color: #5845ea">
-        {{ category }}
+      <v-card-title class="headline pl-6 h6" style="background-color: #4A148C">
+        <span style="color: white;">
+           {{ category }}
+          </span>
       </v-card-title>
 
       <v-card-text class="mt-4">
@@ -95,7 +97,7 @@ export default {
       // console.log(str);
       // <marquee direction="right" scrolldelay="100">${number}.&nbsp;${item.content}</marquee>
       $(str).html(
-        `<marquee direction="left" scrolldelay="10" scrollamount="15">${item.content}</marquee>`
+        `<marquee direction="left" scrolldelay="100" scrollamount="15">${item.content}</marquee>`
       );
       this.flag = true;
     },
