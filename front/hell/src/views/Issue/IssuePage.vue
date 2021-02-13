@@ -1,5 +1,5 @@
 <template>
-  <v-sheet height="100%" color="#EEEEEE" lighten-5>
+  <v-sheet height="140vh" color="#EEEEEE" lighten-5>
     <v-sheet height="15vh" color="#EEEEEE" lighten-5></v-sheet>
     <div class="text-center display-2" style="font-weight: 550">
       <span style="color: red">핫</span>한 트렌드가 궁금할 때
