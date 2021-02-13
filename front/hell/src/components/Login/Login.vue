@@ -1,11 +1,10 @@
 <template>
-  <div class="text-center">
-    <v-dialog v-model="getDialog" max-width="600px" persistent>
+    <v-dialog v-model="getDialog" max-width="450px" persistent>
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-card>
-          <v-card-title>
-            <span class="headline">로그인</span>
-          </v-card-title>
+            <div class="headline text-center pt-10">
+              로그인
+            </div>
           <v-card-text>
             <v-container>
               <v-row>
@@ -34,39 +33,40 @@
                 </v-col>
 
                 <v-col cols="12" sm="12">
-                  <v-btn tile x-large color="info" :disabled="!valid" @click="certCheck"
+                  <v-btn tile block large color="info" :disabled="!valid" @click="certCheck"
                     >로그인</v-btn
                   >
                 </v-col>
 
-                <v-divider></v-divider>
                 <v-col cols="12" sm="12">
-                  <v-btn tile x-large color="yellow darken-2" @click="loginWithKakao">카카오</v-btn>
+                  <v-btn tile block large color="green accent-4" @click="loginWithKakao">네이버</v-btn>
                 </v-col>
 
-                <v-col cols="12" sm="6">
-                  비밀번호를 잊으셨습니까?
+                <v-col cols="12" sm="12">
+                  <v-btn tile block large color="green accent-4" @click="loginWithKakao">구글</v-btn>
                 </v-col>
-                <v-col cols="12" sm="6">
-                  <v-btn text color="info" @click="forgotpw">비밀번호 찾기</v-btn>
+
+                <v-col cols="12" sm="6" class="mt-3 ml-2">
+                  <span>비밀번호를 잊으셨습니까?</span>
                 </v-col>
-                <v-col cols="12" sm="6">
-                  회원가입을 하시겠습니까
+                <v-col cols="12" sm="5" class="mt-3">
+                  <span class="choice_cursor" style="color:#2196f3" @click="forgotpw">비밀번호 찾기</span>
                 </v-col>
-                <v-col cols="12" sm="6">
-                  <v-btn text color="info" @click="gojoin">회원가입</v-btn>
+                <v-col cols="12" sm="6" class="ml-2">
+                  <span> 회원가입을 하시겠습니까</span>
                 </v-col>
+                <v-col cols="12" sm="5" >
+                  <span class="choice_cursor" style="color:#2196f3" @click="gojoin">회원가입</span>
+                </v-col>
+
+                <v-col cols="12" sm="9" ></v-col>
+                <v-col cols="12" sm="3"><v-btn color="blue darken-1" text @click="OnOffLoign()">Close</v-btn></v-col>
               </v-row>
             </v-container>
           </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="OnOffLoign()">Close</v-btn>
-          </v-card-actions>
         </v-card>
       </v-form>
     </v-dialog>
-  </div>
 </template>
 
 <script>
