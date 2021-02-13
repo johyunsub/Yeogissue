@@ -8,6 +8,35 @@
             {{ username }} | {{ updated_at }}
           </div>
         </v-col>
+
+        <v-col cols="auto">
+          <div v-if="emotion=='기쁨'">
+            <v-icon large>far fa-grin-squint</v-icon>
+        <i medium class=""></i></div>
+        
+        <div v-else-if="emotion=='신뢰'">
+        <i class="far fa-grin-stars"></i></div>
+
+        <div v-else-if="emotion=='놀라움'">
+        <i class="far fa-fa-surprise"></i></div>
+
+        <div v-else-if="emotion=='슬픔'">
+        <i class="far fa-fa-sad-tear"></i></div>
+
+        <div v-else-if="emotion=='공포'">
+        <i class="far fa-fa-grimace"></i></div>
+
+        <div v-else-if="emotion=='기대'">
+        <i class="far fa-kiss-beam"></i></div>
+
+        <div v-else-if="emotion=='혐오'">
+        <i class="far fa-dizzy"></i></div>
+
+        <div v-else>
+        <i class="far fa-angry"></i></div>
+        </v-col>
+
+
         <v-col v-if="!getLike" cols="auto" class="choice_cursor" @click="thumbUp"> 
           <v-icon small>mdi-thumb-up-outline</v-icon> {{ like_users_count }} 
         </v-col>
