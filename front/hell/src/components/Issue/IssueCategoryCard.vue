@@ -2,9 +2,17 @@
   <div>
     <v-card class="mx-auto my-5 ml-5 elevation-5" style="border-radius: 15px;" max-width="400" :elevation="2">
       <!-- 글짜 ... 해주는거 text-truncate -->
-      <v-card-title class="headline pl-6 h6" style="background-color: #4A148C">
-        <span style="color: white;">
-           {{ category }}
+      <v-card-title class="headline pl-6 h6" style="background-color: #4A148C;">
+        <span class="ma-auto" style="color: white;">
+          <i v-if="category=='정치'" class="fas fa-landmark"></i>
+          <i v-else-if="category=='해외'" class="fas fa-globe"></i>
+          <i v-else-if="category=='사회/생활'" class="fas fa-users"></i>
+          <i v-else-if="category=='스포츠'" class="fas fa-running"></i>
+          <i v-else-if="category=='경제'" class="fas fa-comment-dollar"></i>
+          <i v-else-if="category=='IT/과학'" class="fas fa-flask"></i>
+          <i v-else-if="category=='연예'" class="fas fa-crown"></i>
+           <span class="ml-3">{{ category }}</span>
+           
           </span>
       </v-card-title>
 
