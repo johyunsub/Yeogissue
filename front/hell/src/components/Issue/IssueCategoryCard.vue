@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-card class="mx-auto my-5 ml-5 elevation-5" max-width="400" :elevation="2">
+    <v-card class="mx-auto my-5 ml-5 elevation-5" max-width="400" :elevation="2" rounded>
       <!-- 글짜 ... 해주는거 text-truncate -->
-      <v-card-title class="headline pl-6 h6" style="background-color: #5845ea">
+      <v-card-title class="headline pl-6 h6" style="background-color: #5845EA; color: #fff">
         {{ category }}
       </v-card-title>
 
