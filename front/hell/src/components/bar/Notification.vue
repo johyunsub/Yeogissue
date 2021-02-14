@@ -15,30 +15,38 @@
       </v-btn>
     </template>
     <v-list>
-      <v-list-item class="alarm" v-for="(item, index) in items" :key="index">
-        <v-list-item-title class="alarm choice_cursor" @click="alarm()">{{ item.title }}</v-list-item-title>
+      <v-list-item class="alarm" v-for="(item, index) in alarms" :key="index">
+        <v-list-item-title v-if="item.message_type=='댓글'" class="alarm choice_cursor" @click="alarm()">내가 쓴 '{{ item.object_content }}'글에 댓글이 추가됨</v-list-item-title>
+        <v-list-item-title v-else-if="item.message_type=='좋아요'" class="alarm choice_cursor" @click="alarm()">내가 쓴 '{{ item.object_content }}'글에 좋아요 눌림</v-list-item-title>
+        <v-list-item-title v-else-if="item.message_type=='댓글좋아요'" class="alarm choice_cursor" @click="alarm()">내가 쓴 '{{ item.object_content }}'댓글에 좋아요 눌림</v-list-item-title>
+        <v-list-item-title v-else-if="item.message_type=='클럽승인'" class="alarm choice_cursor" @click="alarm()">'{{ item.object_content }}'클럽에 클럽승인 요청</v-list-item-title>
+        <v-list-item-title v-else-if="item.message_type=='클럽승인완료'" class="alarm choice_cursor" @click="alarm()">'{{ item.object_content }}'클럽에 클럽 승인됨</v-list-item-title>
+        
       </v-list-item>
     </v-list>
   </v-menu>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
+  ...mapState(['alarms']),
   data: () => ({
     notiMenu: false,
     messages: 0,
-    items: [
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me 2" },
-    ],
+    items: [],
   }),
-  methods:{
-    alarm(){
-      console.log("찍힘");
-    }
-  }
+  methods: {
+    // alarm(){
+    //   console.log("찍힘");
+      
+    // }
+  },
+  computed: {
+    ...mapState(['alarms']),
+    // this.items = alarms
+  },
 };
 </script>
 

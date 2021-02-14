@@ -17,11 +17,11 @@ export default {
     categoryType: { Type: String },
   },
   methods: {
-    ...mapActions('clubStore', ['clubDetailUrlList']),
+    ...mapActions('clubStore', ['clubDetailUrlListNews']),
   },
   created() {
     console.log('되나?');
-    this.clubDetailUrlList();
+    this.clubDetailUrlListNews();
   },
 };
 </script>
