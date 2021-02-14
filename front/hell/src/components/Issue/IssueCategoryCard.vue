@@ -14,7 +14,7 @@
                 (item.category + (n + 1)).replace('/', '')
             "
             @mouseover="moveMarquee(item, n + 1)"
-            @click="Movepage(item, n + 1)"
+            @click="Movepage(item, n)"
           >
             <span class="issue-number">{{ n + 1 }}</span>
             <span class="ml-4">{{ item.content }}</span>
