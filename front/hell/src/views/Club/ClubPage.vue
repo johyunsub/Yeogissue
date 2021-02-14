@@ -1,23 +1,29 @@
 <template>
-  <!-- <v-container> -->
-    <div>
-
-      <v-sheet height="250" width="100%" color="">
-        <v-row class="mt-16">
-      <v-col cols="1"></v-col>
-      <h2 class="text-left mr-tp mr-bt">모여이슈</h2> 
-      </v-row>
+  <v-container>
+    <v-row class="justify-center">
+      <v-sheet height="250" width="100%" color="indigo lighten-5">
+        <v-row class="mt-5">
+          <v-col cols="1"></v-col>
+          <h1 class="text-left mr-tp mr-bt">모여이슈</h1> 
+        </v-row>
         <v-row class="mb-16">
-      <v-col cols="1"></v-col>
-      <h3 class="text-left mr-tp mr-bt">비슷한 주제에 관심있는 사람들과 모여 각종 정보와 의견을 공유해보세요!</h3>
-      </v-row>
+          <v-col cols="1"></v-col>
+          <h3 class="text-left mr-tp mr-bt">비슷한 주제에 관심있는 사람들과 모여 각종 정보와 의견을 공유해보세요!</h3>
+          <v-col cols="1"></v-col>
+          <v-row class="mb-16">
+            <v-col cols="auto">
+              <v-btn class="btnLC" color="blue" rounded @click="OnOff">
+              <span style="color: white;" class="mr-tp mr-bt"> 클럽 생성 </span></v-btn>
+            </v-col>
+         </v-row>
+        </v-row>
       </v-sheet>
 
-        <v-sheet
+        <!-- <v-sheet
       color="indigo lighten-5"
       height="500"
       width="100%"
-    ></v-sheet>
+    ></v-sheet> -->
 
     <v-row class="mr-tp"></v-row>
     <!-- <v-row>
@@ -53,14 +59,7 @@
           </v-col>
         </v-row>
 
-        <v-row>
-          <v-col cols="auto" class="mr-auto"></v-col>
-          <v-col cols="auto">
-            <v-btn class="btnLC" color="blue" rounded @click="OnOff">
-              <span style="color: white;"> 클럽 생성 </span>
-            </v-btn>
-          </v-col>
-        </v-row>
+
 
         <!-- paging -->
         <div class="text-center mr-tp">
@@ -71,8 +70,8 @@
     <!-- </v-row> -->
     <club-create :type="'create'" />
     </div>
-    </div>
-  <!-- </v-container> -->
+    </v-row>
+  </v-container>
 </template>
 
 <script>

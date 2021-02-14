@@ -9,16 +9,6 @@
       <div @click="MovePage('detail')" >
 
       <v-img height="150" src="https://cdn.vuetifyjs.com/images/cards/cooking.png">
-          <v-expand-transition>
-          <div
-            v-if="hover"
-            class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
-            style="height: 100%;"
-          >
-            소개글 여기 적을까? 투명하게 해서
-          </div>
-        </v-expand-transition>
-      
       </v-img>
 
       <!-- 글짜 ... 해주는거 text-truncate -->
@@ -28,48 +18,21 @@
         <v-card-text>
           <v-row align="center" class="mx-0"> </v-row>
 
-          <div class="my-2 subtitle-4 text-truncate">
-            카테고리: {{ clubInfo.category }} 
-          </div>
+        <div class="my-2 subtitle-4 text-truncate">
+        <span style="color:blueviolet">{{ clubInfo.category }} </span> 
+        <!-- <v-icon class="ml-3" small color="blue">fas fa-user-friends</v-icon> 클럽 멤버 수 -->
+        </div>
 
         </v-card-text>
 
         <v-divider class="mx-4"></v-divider>
 
-        <v-card-text>
-          <v-chip>모집중 | 게시글 n 개 넘으면 활발/보통/저조 표시</v-chip>
-        </v-card-text>
+      <v-card-text>
+        <v-chip>공개/비공개 표시</v-chip>
+         <v-chip>활발/보통/저조</v-chip>
+      </v-card-text>
       </div>
-
-      <v-card-actions>
-      <v-btn
-        color="orange lighten-2"
-        text
-        @click="show = !show"
-      >
-        소개글 보기
-      </v-btn>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        icon
-        @click="show = !show"
-      >
-        <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-      </v-btn>
-    </v-card-actions>
-
-    <v-expand-transition>
-      <div v-show="show">
-        <v-divider></v-divider>
-
-        <v-card-text>
-          <div class="body-1 text-truncate">{{ clubInfo.content }}</div>
-        </v-card-text>
-      </div>
-    </v-expand-transition>
-
+     
     </v-card>
   </v-hover>
 </template>
