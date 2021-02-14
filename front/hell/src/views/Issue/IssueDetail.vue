@@ -117,16 +117,6 @@
           <v-list two-line>
             <issue-news-list v-for="(item, index) in newsData" :key="index" :data="item" />
           </v-list>
-
-          <!-- paging -->
-          <div class="text-center">
-            <v-pagination
-              v-model="newsCurPage"
-              :length="newsPageCnt"
-              circle
-              :total-visible="7"
-            ></v-pagination>
-          </div>
         </div>
 
         <!-- 유튜브 내용 -->
@@ -154,7 +144,6 @@
           <v-list two-line>
             <issue-youtube-list v-for="(item, index) in youtubeData" :key="index" :data="item" />
           </v-list>
-
         </div>
       </v-col>
     </v-row>
@@ -232,9 +221,10 @@ export default {
     newsCurPage: 0,
     newsPageCnt: 0,
     sort: 'sim',
-    newsData: {},
+    newsData: [],
     selectItem: ['유사도순', '최신순'],
     selectNews: '',
+    firstScroll: false,
 
     //-----------------------유튜브 태그용
     order: 'relevance',
@@ -245,9 +235,6 @@ export default {
   watch: {
     selectNews: function() {
       this.changeSelect();
-    },
-    newsCurPage: function() {
-      this.newsAixos();
     },
 
     // 유튜브 태그
@@ -268,6 +255,8 @@ export default {
     changeDate() {
       if (this.date == this.datePicker) return;
 
+      this.newsData = [];
+      this.newsCurPage = 0;
       this.date = this.datePicker;
       this.issueAixos(this.category, this.date);
     },
@@ -275,15 +264,22 @@ export default {
     changeCategory(no) {
       this.menu1 = false;
       this.category = this.categoryEnglish[no];
+      this.newsData = [];
+      this.newsCurPage = 0;
       this.issueAixos(this.category, this.date);
     },
 
     search(issue) {
+      this.newsData = [];
+      this.newsCurPage = 0;
       this.issue = issue;
       this.newsAixos();
     },
 
     changeSelect() {
+      this.newsData = [];
+      this.newsCurPage = 0;
+
       if (this.categoryType == 'news' && this.selectNews == '유사도순') this.sort = 'sim';
       else if (this.categoryType == 'youtube' && this.selectNews == '유사도순')
         this.order = 'relevance';
@@ -356,6 +352,19 @@ export default {
       return ob;
     },
 
+    onScroll() {
+      console.log('하이');
+      if (
+        window.scrollY + document.documentElement.clientHeight >
+          document.documentElement.scrollHeight - 50 &&
+        this.overlay == false
+      ) {
+        console.log('하이2');
+        window.scrollTo(0, document.documentElement.scrollHeight - 70);
+        this.newsAixos();
+      }
+    },
+
     async issueAixos(category, date) {
       await Axios.post(`${API_BASE_URL}issue/`, { category: category, date: date })
         .then((res) => {
@@ -380,14 +389,19 @@ export default {
         start: this.newsCurPage * 10 + 1,
       })
         .then((res) => {
-          this.overlay = false;
-          this.newsData = res.data.news;
+          for (let i = 1; i < res.data.news.length; i++) {
+            this.newsData[this.newsData.length] = res.data.news[i];
+          }
+          console.log(res.data.news);
           //페이징 값
-          if (this.newsData[0].total > 200) this.newsPageCnt = 20;
-          else this.newsPageCnt = Math.floor(this.newsData[0].total / 10);
+          this.newsPageCnt = Math.floor(res.data.news[0].total / 10);
 
-          console.log(this.newsPageCnt);
-          delete this.newsData[0];
+          if (this.newsPageCnt == this.newsCurPage) {
+            console.log('완료');
+          }
+          this.newsCurPage = this.newsCurPage + 1;
+
+          this.overlay = false;
         })
         .catch((err) => {
           console.log(err.response);
@@ -411,6 +425,15 @@ export default {
         });
     },
   },
+  // 무한스크롤
+  mounted() {
+    window.addEventListener('scroll', this.onScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.onScroll);
+  },
+  //---- 무한스크롤
+
   created() {
     this.selectedItem = Number(this.$route.query.no);
     this.issueAixos(this.$route.query.category, this.$route.query.date);

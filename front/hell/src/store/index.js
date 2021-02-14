@@ -17,9 +17,9 @@ export default new Vuex.Store({
 
     // 유저 정보
     userInfo: {
-      email : '',
-      id : '',
-      nickname : '',
+      email: '',
+      id: 0,
+      nickname: '',
       introduce_text: '',
     },
 
@@ -54,27 +54,22 @@ export default new Vuex.Store({
     //d알람
     SET_USER_ALARM(state, data) {
       state.alarms = data;
-    }
+    },
   },
   actions: {
     // 알림
-    alarm({state,commit}) {
+    alarm({ state, commit }) {
       instance
-      .post(`/accounts/alarm/`,{user:state.userInfo.id})
-      .then((res) => {
-        console.log(res.data,'12211212');
-        commit('SET_USER_ALARM',res.data);
-
-      })
-      .catch((err)=>
-      console.log(err.response),
-      );
-
-
+        .post(`/accounts/alarm/`, { user: state.userInfo.id })
+        .then((res) => {
+          console.log(res.data, '12211212');
+          commit('SET_USER_ALARM', res.data);
+        })
+        .catch((err) => console.log(err.response));
     },
     //유저 정보 받아오기
     userData({ dispatch, commit }, data) {
-      console.log("index usderdata "+data)
+      console.log('index usderdata ' + data);
       instance
         .post('/accounts/get_user/', { email: data })
         .then((res) => {
@@ -83,18 +78,18 @@ export default new Vuex.Store({
         })
         .catch((err) => console.log(err.response));
     },
-    userUpdate({dispatch},data) {
+    userUpdate({ dispatch }, data) {
       instance
-      .post(`/accounts/user_update/`, data)
-      .then(() => {
-        dispatch('userData', data.email);
-      })
-      .catch((err) => console.log(err.response));
+        .post(`/accounts/user_update/`, data)
+        .then(() => {
+          dispatch('userData', data.email);
+        })
+        .catch((err) => console.log(err.response));
     },
     //로그아웃
     userLogout({ commit }) {
       commit('SET_LOGIN_TOKEN', '');
-      commit('SET_USER_INFO', null);
+      commit('SET_USER_INFO', {});
       localStorage.removeItem('token');
       localStorage.removeItem('email');
     },
