@@ -4,7 +4,7 @@
     <v-row class="mr-tp">
       <v-col cols="2"></v-col>
       <v-col>
-        <p class="blue--text mr-bt text-center"> <v-icon small>fas fa-bars</v-icon> {{ opinionData.category }}</p>
+       <p class="blue--text mr-bt text-center"> <v-icon small>fas fa-bars</v-icon> {{ opinionData.category }}</p>
         <p class="display-2 text-center py-4">{{ opinionData.title }}</p>
         <p class="grey--text text-center">
           {{ opinionData.username }} | 날짜 {{ opinionData.created_at }}
@@ -12,7 +12,7 @@
         </p>
 
         
-        <v-divider class="my-10"></v-divider>
+<v-divider class="my-10"></v-divider>
 
         <v-row> 
           <v-spacer></v-spacer>
@@ -40,10 +40,10 @@
                   {{ tag.name }}
               </span>
             </v-chip>
-          </v-chip-group>
+         </v-chip-group>
           <v-col cols="4"></v-col>
         </v-row>
-         <v-divider></v-divider>
+ <v-divider></v-divider>
          <v-row class="mt-3">
             <v-icon v-if="!getLike" medium color="red" class="choice_cursor" @click="isLogin">far fa-heart</v-icon>
             <v-icon v-if="getLike" medium color="red" class="choice_cursor" @click="isLogin">fas fa-heart</v-icon>
@@ -81,7 +81,7 @@
               :emotion="item.emotion"
               :like_users_count="item.like_users_count"
               :like_users="item.like_users"
-              :username="item.username"
+                :username="item.username"
               @take="take"
           /></v-col>
         </v-row>
@@ -101,7 +101,7 @@
       <!-- footer쓸까? -->
     </v-row>
   </v-container>
-  
+
 </template>
 
 <script>
@@ -171,7 +171,7 @@ export default {
         this.opinionData.like_users_count++;
       }
       this.opinionDetail(this.opinionData.id);
-    
+
 
     },
     take(){

@@ -1,24 +1,22 @@
 <template>
-  <!-- <v-container> -->
+  <v-container>
     <v-row class="justify-center">
       <v-sheet height="250" width="100%" color="indigo lighten-5">
         <v-row class="mt-5">
-      <v-col cols="1"></v-col>
-      <h1 class="text-left mr-tp mr-bt">모여이슈</h1> 
-      </v-row>
+          <v-col cols="1"></v-col>
+          <h1 class="text-left mr-tp mr-bt">모여이슈</h1> 
+        </v-row>
         <v-row class="mb-16">
-      <v-col cols="1"></v-col>
-      <h3 class="text-left mr-tp mr-bt">비슷한 주제에 관심있는 사람들과 모여 각종 정보와 의견을 공유해보세요!</h3>
-      <v-col cols="1"></v-col>
-      <v-row>
-         <v-row class="mb-16">
-          <v-col cols="auto">
-            <v-btn class="btnLC" color="blue" rounded @click="OnOff">
+          <v-col cols="1"></v-col>
+          <h3 class="text-left mr-tp mr-bt">비슷한 주제에 관심있는 사람들과 모여 각종 정보와 의견을 공유해보세요!</h3>
+          <v-col cols="1"></v-col>
+          <v-row class="mb-16">
+            <v-col cols="auto">
+              <v-btn class="btnLC" color="blue" rounded @click="OnOff">
               <span style="color: white;" class="mr-tp mr-bt"> 클럽 생성 </span></v-btn>
-          </v-col>
+            </v-col>
          </v-row>
         </v-row>
-      </v-row>
       </v-sheet>
 
         <!-- <v-sheet
@@ -41,12 +39,9 @@
             <v-tab outlined>IT/과학</v-tab>
             <v-tab outlined>스포츠</v-tab>
             <v-tab outlined>연예</v-tab>
-            <v-tab outlined>유머</v-tab>
-            <v-tab outlined>여행</v-tab>
-            <v-tab outlined>건강</v-tab>
-            <v-tab outlined>쇼핑</v-tab>
-            <v-tab outlined>교육</v-tab>
-            <v-tab outlined>게임</v-tab>
+            <v-tab outlined>생활</v-tab>
+            <v-tab outlined>사회</v-tab>
+            <v-tab outlined>해외</v-tab>
           </v-tabs>
         </v-row>
 
@@ -64,7 +59,7 @@
           </v-col>
         </v-row>
 
-        
+
 
         <!-- paging -->
         <div class="text-center mr-tp">
@@ -76,7 +71,7 @@
     <club-create :type="'create'" />
     </div>
     </v-row>
-  <!-- </v-container> -->
+  </v-container>
 </template>
 
 <script>
