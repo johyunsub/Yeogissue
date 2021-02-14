@@ -7,6 +7,9 @@ const clubStore = {
   state: {
     //클럽 전체
     clubs: '',
+    clubsPaging: {},
+    clubsPaginCnt: 0,
+    clubsCategory: null,
 
     //클럽 디테일 정보
     clubData: '',
@@ -21,15 +24,42 @@ const clubStore = {
     clubDialog: false,
     clubDetailUrlDialog: false,
 
-    //클럽 멤머 관리 리스트 
+    //클럽 멤머 관리 리스트
     clubManageMemberList: [],
-
   },
   getters: {},
   mutations: {
     SET_CLUBS(state, club) {
       state.clubs = club;
     },
+    SET_CLUBS_PAGING(state, start) {
+      state.clubsPaging = {};
+      state.clubsPaginCnt = Math.floor(state.clubsCategory.length / 10);
+      if (state.clubsCategory.length % 10 != 0) state.clubsPaginCnt++;
+
+      let index = 0;
+      for (let i = start; i < start + 10; i++) {
+        if (i == state.clubsCategory.length) break;
+        state.clubsPaging[index++] = state.clubsCategory[i];
+      }
+    },
+    SET_CLUBS_CATEGORY(state, category) {
+      state.clubsCategory = [];
+      let index = 0;
+      //전체 보기이면 그대로 저장
+      if (category == '전체') {
+        state.clubsCategory = state.clubs;
+        return;
+      }
+
+      //카테고리 분류
+      for (let i = 0; i < state.clubs.length; i++) {
+        if (state.clubs[i].category == category) {
+          state.clubsCategory[index++] = state.clubs[i];
+        }
+      }
+    },
+
     SET_CLUB_DETAIL(state, club) {
       state.clubData = club;
     },
@@ -52,7 +82,7 @@ const clubStore = {
     //클럽멤버 관리
     SET_MANAGE_MEMBER_LIST(state, data) {
       state.clubManageMemberList = data;
-    }
+    },
   },
   actions: {
     // 조회
@@ -61,6 +91,8 @@ const clubStore = {
         .get('/club/')
         .then((res) => {
           commit('SET_CLUBS', res.data);
+          commit('SET_CLUBS_CATEGORY', '전체');
+          commit('SET_CLUBS_PAGING', 0);
         })
         .catch((err) => console.log(err.response));
     },
@@ -97,7 +129,7 @@ const clubStore = {
 
     // Url 조회
     clubDetailUrlList({ state, commit }) {
-      console.log(state.clubData.id)
+      console.log(state.clubData.id);
       instance
         .get(`club/club_article_list/${state.clubData.id}/`)
         .then((res) => {
@@ -126,20 +158,19 @@ const clubStore = {
         .catch((err) => console.log(err.response));
     },
 
-
     // 클럽 멤버 관리
     clubMangeList({ state, commit }, data) {
       instance
         .post(`club/member_check/${state.clubData.id}/`, data)
         .then((res) => {
           commit('SET_MANAGE_MEMBER_LIST', res.data);
-          console.log(res.data[0].username + "<<<<<<")
+          console.log(res.data[0].username + '<<<<<<');
         })
         .catch((err) => console.log(err.response));
     },
 
     //클럽 가입요청 승인
-    clubManageJoinApprove({ state, dispatch }, data){
+    clubManageJoinApprove({ state, dispatch }, data) {
       instance
         .post(`club/member_approve/${state.clubData.id}/`, data)
         .then(() => {
@@ -149,8 +180,8 @@ const clubStore = {
     },
 
     //클럽 가입요청 거부
-    clubManageJoinDisApprove({ state, dispatch }, data){
-      console.log(data)
+    clubManageJoinDisApprove({ state, dispatch }, data) {
+      console.log(data);
       instance
         .delete(`club/member_delete/${state.clubData.id}/${data.member}/`)
         .then(() => {
