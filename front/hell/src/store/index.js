@@ -29,6 +29,8 @@ export default new Vuex.Store({
     //Meun 상태
     drawer: false,
     dialog: false,
+
+    profile: false,
   },
   getters: {},
   mutations: {
@@ -49,6 +51,10 @@ export default new Vuex.Store({
     },
     CHANGE_DIALOG(state, dialog) {
       state.dialog = dialog;
+    },
+
+    CHANGE_PROFILE(state, profile) {
+      state.profile = profile;
     },
 
     //d알람
