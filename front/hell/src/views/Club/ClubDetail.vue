@@ -10,11 +10,25 @@
 
         <!-- <v-divider class="my-10"></v-divider> -->
 
-        <!-- 가입해야지만 보이게-->
-        <club-detail-content v-if="clubDetailManegerBtn === false" />
+        <!-- 관리자창x && 관리자o && 비공개 게시판=> 클럽게시판 보이게 -->
+        <club-detail-content v-if="!clubDetailManegerBtn && clubData.master == userInfo.id && clubData.is_private"/>
+        <!-- 관리자창o && 관리자o && 비공개 게시판=> 관리자창 보이게 -->
+        <club-detail-manager-content v-if="clubDetailManegerBtn && clubData.master == userInfo.id && clubData.is_private" />
+        <!-- 관리자창x && 관리자o && 공개 게시판=> 클럽게시판 보이게 -->
+        <club-detail-content v-if="!clubDetailManegerBtn && clubData.master == userInfo.id && !clubData.is_private"/>
+        <!-- 관리자창o && 관리자o && 공개 게시판=> 관리자창 보이게 -->
+        <club-detail-manager-content v-if="clubDetailManegerBtn && clubData.master == userInfo.id && !clubData.is_private" />
+        <!-- 클럽멤버o && 관리자x  => 클럽게시판 보이게 -->
+        <club-detail-content v-if="clubDetailIsMember  && clubData.master != userInfo.id && clubData.is_private"/>
+        <!-- 클럽멤버x && 공개게시판  => 클럽게시판 보이게 -->
+        <club-detail-content v-if=" !clubDetailIsMember  && !clubData.is_private"/>
+        <!-- 클럽멤버o && 공개게시판  => 클럽게시판 보이게 -->
+        <club-detail-content v-if=" clubDetailIsMember  && !clubData.is_private && clubData.master != userInfo.id"/>
+        <!-- 클럽멤버o && 관리자x && 비공개게시판 => 클럽소개페이지 보이게-->
+        <club-detail-content-Intro v-if="!clubDetailIsMember && clubData.master != userInfo.id && clubData.is_private" />
 
-        <!-- 클럽 관리자 -->
-        <club-detail-manager-content v-if="clubDetailManegerBtn === true" />
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+      
       </v-col>
 
     </v-row>
@@ -24,14 +38,19 @@
 
 <script>
 import ClubDetailContent from '../../components/Club/Detail/ClubDetailContent.vue';
+import ClubDetailContentIntro from '../../components/Club/Detail/ClubDetailContentIntro.vue';
 import ClubDetailManagerContent from '../../components/Club/Detail/Manager/ClubDetailManagerContent.vue';
 import ClubDetailCard from '../../components/Club/Detail/ClubDetailCard.vue';
+
 import { mapState, mapActions } from 'vuex';
 
 export default {
-  components: { ClubDetailContent, ClubDetailCard, ClubDetailManagerContent },
+  components: { ClubDetailContent, ClubDetailCard, ClubDetailManagerContent, ClubDetailContentIntro },
   computed: {
+    ...mapState('clubStore', ['clubData', 'clubDetailManegerBtn', 'clubDetailIsMember']),
+    ...mapState( ['userInfo' ]),
     ...mapState('clubStore', ['clubDetailManegerBtn']),
+    ...mapState(['userInfo']),
   },
   data: function() {
     return {};
@@ -40,6 +59,8 @@ export default {
     ...mapActions('clubStore', ['clubDetail']),
   },
   created() {
+    console.log(this.$route.query.id);
+    console.log(this.userInfo.id);
     this.clubDetail(this.$route.query.id);
   },
 };

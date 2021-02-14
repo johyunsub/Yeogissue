@@ -6,6 +6,13 @@ class ClubSerializer(serializers.ModelSerializer):
         model = Club
         fields = '__all__'
 
+class ClubInfoSerializer(serializers.ModelSerializer):
+    mastername = serializers.CharField(source='master.nickname')
+    member_cnt = serializers.IntegerField(source='club_member_set.count')
+    class Meta:
+        model = Club
+        fields = '__all__'
+
 class ClublistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club
@@ -20,8 +27,12 @@ class ClubUpdateSerializer(serializers.ModelSerializer):
 class ClubArticleCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club_article
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ('site_name', 'title','decription','image','video',)
+
+
 class ClubArticleSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.nickname')
     class Meta:
         model = Club_article
         fields = '__all__'

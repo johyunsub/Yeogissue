@@ -11,6 +11,7 @@ from .models import Article, Hashtag, Comment, ReComment
 from .use_ai import keyword_mining, emotion
 
 from accounts.models import MyUser as User
+from accounts.models import Alarm
 
 # 의견나눔 게시글
 @api_view(['GET'])
@@ -121,6 +122,12 @@ def create_comment(request, article_pk):
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save(article=article)
+        alarm = Alarm()
+        alarm.message_type = '댓글'
+        alarm.user_id = article.user.id
+        alarm.object_id = article_pk
+        alarm.object_content = article.title
+        alarm.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -231,6 +238,12 @@ def like(request, article_pk):
     else:
         # 좋아요
         article.like_users.add(request.data.get('user'))
+        alarm = Alarm()
+        alarm.message_type = '좋아요'
+        alarm.user_id = article.user.id
+        alarm.object_id = article_pk
+        alarm.object_content = article.title
+        alarm.save()
         return Response({'success', 'like'},status=status.HTTP_201_CREATED)
 
 
@@ -248,6 +261,12 @@ def like_comment(request, comment_pk):
     else:
         # 좋아요
         comment.like_users.add(request.data.get('user'))
+        alarm = Alarm()
+        alarm.message_type = '댓글좋아요'
+        alarm.user_id = comment.user.id
+        alarm.object_id = comment_pk
+        alarm.object_content = comment.content
+        alarm.save()
         return Response({'success', 'like'},status=status.HTTP_201_CREATED)
 
 
