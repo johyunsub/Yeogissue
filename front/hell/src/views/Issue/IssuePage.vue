@@ -1,7 +1,7 @@
 <template>
   <v-sheet height="140vh" color="#EEEEEE" lighten-5>
     <v-sheet height="15vh" color="#EEEEEE" lighten-5></v-sheet>
-    <div class="text-center display-2" style="font-weight: 550">
+    <div class="text-center display-2 fo" style="font-weight: 550">
       <span style="color: red">핫</span>한 트렌드가 궁금할 때
     </div>
     <div class="text-center display-1 mt-6" style="font-weight: 550; color: #42a5f5">
@@ -126,5 +126,20 @@ export default {
 #carousel .slick-list {
   border-radius: 12px;
   overflow: hidden;
+}
+
+@font-face {
+  font-family: 'S-CoreDream-4Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.fo {
+  font-family: 'S-CoreDream-4Regular', Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: left;
 }
 </style>
