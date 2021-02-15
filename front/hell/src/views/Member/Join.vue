@@ -316,7 +316,7 @@ export default {
             showConfirmButton: false,
             timer: 500,
           });
-          this.$router.push({ name: "MyPageCert" });
+          this.$router.push(`/mypage/cert?email=${this.email}`);
         })
         .catch((err) => {
           console.log(err);
