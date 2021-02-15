@@ -30,6 +30,8 @@ const clubStore = {
     //클럽 멤버 관리 리스트
     clubManageMemberList: [],
     clubManageJoinList: [],
+    clubManageArticleList: [],
+
   },
   getters: {},
   mutations: {
@@ -275,6 +277,52 @@ const clubStore = {
         })
         .catch((err) => console.log(err.response));
     },
+
+    //클럽 게시판 관리 조회
+    clubManageArticle( {state }) {
+      state.clubManageArticleList = []
+      instance
+        .get(`club/club_article_list/${state.clubData.id}/news/`)
+        .then((res) => {
+          for(var i=0; i<res.data.length; i++){
+            if(res.data[i] == ''){
+              break;
+            }
+            state.clubManageArticleList.push(res.data[i]); 
+          }
+          instance
+          .get(`club/club_article_list/${state.clubData.id}/youtube/`)
+          .then((res1) => {
+            for(var i=0; i<res.data.length; i++){
+              if(res1.data[i] == ''){
+                break;
+              }
+              state.clubManageArticleList.push(res1.data[i]); 
+              console.log(res1.data[i] + " " + i)
+            }
+            instance
+            .get(`club/club_article_list/${state.clubData.id}/etc/`)
+            .then((res2) => {
+              for(var i=0; i<res.data.length; i++){
+                if(res2.data[i] == ''){
+                  break;
+                }
+                state.clubManageArticleList.push(res2.data[i]); 
+                console.log(res2.data[i] + " " + i)
+              }
+            })
+          })
+        })
+    },
+
+    //클럽추방
+    clubMemberRemove({state, dispatch}, data){
+      instance
+        .post(`club/club_member_delete/${state.clubData.id}/`, data)
+        .then(()=>{
+          dispatch('clubMangeList', {type: '승인'} )
+        })
+    }
   },
 };
 

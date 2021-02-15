@@ -23,7 +23,7 @@
         class="mr-2"
         @click="approve(item)"
       >
-        mdi-pencil
+       fas fa-check
       </v-icon>
       <v-icon
         small
