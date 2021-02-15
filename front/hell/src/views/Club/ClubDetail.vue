@@ -6,7 +6,7 @@
 
       <v-col id="">
         <!-- 클럽 정보 -->
-        <club-detail-card />
+        <club-detail-card class="mb-10"/>
 
         <!-- <v-divider class="my-10"></v-divider> -->
 

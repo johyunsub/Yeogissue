@@ -4,29 +4,33 @@
 
     <v-sheet height="200" width="100%" color="#F1D883">
       
-      <v-card-title class="justify-center mt-10">
-      <h1 class="font-weight-bold display-3 basil--text">
+      <v-card-title class="justify-center mt-7">
+        <h1 class="font-weight-bold display-3 basil--text mb-3">
           {{ clubData.title }}
-      </h1>
-    </v-card-title>
+        </h1>
+      </v-card-title>
 
-        <v-row class="d-flex justify-center mb-6">
-          <v-img
-            src="../../../assets/logo.png"
-            max-height="370"
-            aspect-ratio="1.5"
-            contain
-            alt="이미지 넣어줘"
-            class="club-pr"
-          />
-        </v-row>
-      <v-row class="mt-1">
-        <v-col>
-          <v-row class="mt-4 my-1 mr-l">
-            <v-col cols="auto" class="mr-auto"></v-col>
-            <div>
-              <v-col cols="auto" >
-                <div class="mr-3" v-if="clubDetailManegerBtn === false">
+        <v-row class="mx-auto mb-6">
+          <v-col cols="5"></v-col>
+          <v-col cols="4">
+            <div class="mx-4">
+              <v-img
+                src="../../../assets/logo.png"
+                max-height="370"
+                aspect-ratio="1.5"
+                contain
+                alt="이미지 넣어줘"
+                class="club-pr"
+              />
+            </div>
+          </v-col>
+          <v-col cols="auto">
+          <v-btn class="btnLC" color="blue" @click="isClubJoin">
+            <i class="fas fa-chevron-circle-up">
+              </i>URL 등록</v-btn>
+          </v-col>
+          <v-col cols="auto" >
+                <div v-if="clubDetailManegerBtn === false">
                   <v-btn v-if="clubData.master == userInfo.id" color="blue darken-1" text @click="managerOnOff(true)"> <v-icon color="blue">fas fa-user-cog</v-icon>
                     <span style="color: blue;">관리 </span>
                   </v-btn>
@@ -85,14 +89,13 @@
                     </v-card>
                   </template>
                 </v-dialog>
-                <div class="mr-3" v-if="clubDetailManegerBtn === true && clubData.master == userInfo.id">
+                <div v-if="clubDetailManegerBtn === true && clubData.master == userInfo.id">
                   <v-btn color="blue darken-1" text @click="managerOnOff(false)">홈으로</v-btn>
                 </div>
               </v-col>
-            </div>
-          </v-row>
-        </v-col>
-      </v-row>
+        </v-row>
+        
+ 
       
     </v-sheet>
   </v-row>
@@ -136,7 +139,21 @@ export default {
         text: "클럽 탈퇴되었습니다",
         type: "success" ,
         }); 
-    }
+    },
+    isClubJoin(){
+      if(this.clubDetailIsMember || this.userInfo.id == this.clubData.master ){
+        this.OnOff()
+      }
+      else{
+        this.$fire({
+        title: "이용하시려면 클럽가입 먼저 해주세요",
+        type: "error" ,
+        }); 
+      }
+    },
+    OnOff: function() {
+      this.$store.commit('clubStore/CLUB_DETAIL_URL_DIALOG', true);
+    },
   },
   created(){
     this.isClubMember( {user: this.userInfo.id})
