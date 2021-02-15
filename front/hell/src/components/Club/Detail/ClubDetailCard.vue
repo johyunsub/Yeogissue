@@ -1,6 +1,14 @@
 <template>
   <v-row class="justify-center">
-    <v-sheet height="500" width="100%" color="lime lighten-4">
+
+
+    <v-sheet height="200" width="100%" color="#F1D883">
+      <v-card-title class="text-center justify-center py-6 mt-10">
+      <h1 class="font-weight-bold display-3 basil--text">
+          {{ clubData.title }}
+      </h1>
+    </v-card-title>
+
       <v-row class="mt-1">
          <v-col
           ><v-img
@@ -9,6 +17,7 @@
             aspect-ratio="1.5"
             contain
             alt="이미지 넣어줘"
+            class="club-pr"
           />
         </v-col>
         <v-col>
@@ -101,6 +110,7 @@
           </v-row>
         </v-col>
       </v-row>
+      
     </v-sheet>
   </v-row>
 </template>
@@ -150,3 +160,13 @@ export default {
   }
 };
 </script>
+
+<style>
+.club-pr {
+    width: 150px;
+    height: 150px; 
+    border-radius: 30%;
+    overflow: hidden;
+}
+
+</style>
