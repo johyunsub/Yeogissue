@@ -54,7 +54,7 @@ export default {
       }
     },
     methods: {
-        ...mapActions( 'clubStore', ['clubMangeList']),
+        ...mapActions( 'clubStore', ['clubMangeList', 'clubMemberRemove']),
         getList() {
             // axios.post(`${ API_BASE_URL }club/member_check/${this.$route.query.id}/`, '')
             // .then((res) => {
@@ -62,6 +62,10 @@ export default {
             // })
             this.clubMangeList({type: '승인'});
             
+        },
+        deleteItem(item){
+          console.log(item)
+          this.clubMemberRemove({ user: item.user })
         }
     },
     created() {

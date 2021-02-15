@@ -4,7 +4,7 @@
      
         <v-card>
           <v-card-title>
-            <span class="headline"> {{userInfo.nickname}} 님의 프로필</span>
+            <span class="headline"> {{profileData.nickname}} 님의 프로필</span>
           </v-card-title>
 
          <v-container class="grey lighten-5">
@@ -12,7 +12,7 @@
                 <figure class="profile_area" id="preview">
                     <img src="https://static.some.co.kr/sometrend/images/mypage/profile/w_01.png" id="picture" class="profileImg">
                 </figure>
-                <Viewer v-if="userInfo.introduce_text != null" :initialValue="userInfo.introduce_text" /> 
+                <Viewer v-if="profileData.introduce_text != null" :initialValue="profileData.introduce_text" /> 
             <v-col
                 cols="12"
                 sm="4"
@@ -29,7 +29,7 @@
             </v-row>
 
             <v-row rows="4" >
-                {{userInfo.email}} 
+                {{profileData.email}} 
             </v-row>
             
 
@@ -55,10 +55,14 @@ export default {
   components: { Viewer },
   data: () => ({
     profile: false,
+    //image: '',
+    nickname: '',
+    introduce_text: '',
+    email:'',
    
   }),
   computed: {
-    ...mapState(['userInfo']),
+    ...mapState(['profileData']),
     getDialog: {
       get: function() {
         return this.$store.state.profile;

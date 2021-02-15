@@ -1,6 +1,11 @@
 <template>
   <v-row class="justify-center">
-    <img :src="require('../../assets/의견 이슈.png')" style="height:250; width:100%; position: relative;" alt="">
+    <div class="opinion-image">
+        <div style="height:450px"></div>
+        <div style="width:65%; float:right">
+      </div>
+      </div>
+<div style="clear:both;"></div>
 
     
     <v-sheet class="px-12" height="100" width="100%" color="white"></v-sheet>
@@ -47,19 +52,8 @@
         <!-- 카테고리 -->
         <opinion-category />
 
-        <!-- 보여주기 형태 -->
-        <v-row class="mr-tp">
-          <v-col cols="auto" class="mr-auto"></v-col>
-          <v-col cols="auto">
-            <v-btn class="btnLC" icon @click="ChageType('list')"
-              ><v-icon>mdi-format-list-bulleted</v-icon></v-btn
-            >
-            <v-btn class="btnLC" icon @click="ChageType('card')"
-              ><v-icon>mdi-view-grid</v-icon></v-btn
-            >
-          </v-col>
-        </v-row>
-
+        <div class="mt-15"></div>
+ 
         <!-- 내용 -->
         <v-row class="mr-tp">
           <v-col v-if="viewType == 'list'"><opinion-table /></v-col>
@@ -218,5 +212,11 @@ export default {
   position: fixed;
   margin: 0 0 16px 16px;
   right: 100;
+}
+.opinion-image{
+  width:100%;
+  height: 600px;
+  background-image: url("../../assets/의견 이슈.png");
+  background-size: 100% 600px;
 }
 </style>

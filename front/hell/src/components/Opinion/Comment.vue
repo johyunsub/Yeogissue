@@ -11,8 +11,13 @@
         <v-row>
           <v-col>
             <div class="text--primary ">
-              {{ username }} | {{ updated_at.replace("T", " ").substr(0, 16) }}
+                    <v-avatar class="profile ml-3 mr-2" color="grey" size="50">
+            <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+          </v-avatar>
+              <a text @click="ProfileOn('profile')">{{ username }}</a> | {{ updated_at.replace("T", " ").substr(0, 16) }}
             </div>
+        
+
           </v-col>
           <v-col
             v-if="!getLike"
@@ -38,43 +43,44 @@
         <v-row>
           <v-col cols="2">
             <div v-if="emotion == '기쁨'">
-              <i class="far fa-grin-squint"></i>기쁨
+              <i class="far fa-grin-squint positive fa-2x" ></i>기쁨
             </div>
 
             <div v-else-if="emotion == '감정불가'">
-              <i class="far fa-grin-stars"></i>감정불가
+              감정불가
             </div>
+
             <div v-else-if="emotion == '신뢰'">
-              <i class="far fa-grin-stars">신뢰</i>
+              <i class="far fa-grin-stars positive fa-2x"></i>
+              <br>
+              신뢰
             </div>
 
             <div v-else-if="emotion == '놀라움'">
-              <i class="far fa-surprise">놀라움</i>
+              <i class="far fa-surprise positive fa-2x">놀라움</i>
             </div>
 
             <div v-else-if="emotion == '슬픔'">
-              <i class="far fa-sad-tear">슬픔</i>
+              <i class="far fa-sad-tear positive fa-2x">슬픔</i>
             </div>
 
             <div v-else-if="emotion == '공포'">
-              <i class="far fa-grimace">공포</i>
+              <i class="far fa-grimace bad fa-2x">공포</i>
             </div>
 
             <div v-else-if="emotion == '기대'">
-              <i class="far fa-kiss-beam">기대</i>
+              <i class="far fa-kiss-beam positive fa-2x">기대</i>
             </div>
 
             <div v-else-if="emotion == '혐오'">
-              <i class="far fa-dizzy">혐오</i>
+              <i class="far fa-dizzy bad fa-2x">혐오</i>
             </div>
 
             <div v-else>
               <i class="far fa-angry">분노</i>
             </div>
 
-            <!-- <v-avatar class="profile ml-10" color="grey" size="80">
-            <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
-          </v-avatar> -->
+      
           </v-col>
 
           <v-col cols="9">
@@ -98,7 +104,8 @@
 <script>
 import CommentCreate from "../../components/Opinion/CommentCreate.vue";
 import CommentMenu from "./CommentMenu.vue";
-import { mapState } from "vuex";
+
+import { mapState,mapActions } from "vuex";
 import axios from "axios";
 import { API_BASE_URL } from "../../config";
 
@@ -107,6 +114,7 @@ export default {
   computed: {
     ...mapState("opinionStore", ["opinionComment"]),
     ...mapState(["isLoginToken", "userInfo"]),
+    
     getLike: {
       get: function() {
         if (this.like_users.includes(this.$store.state.userInfo.id)) {
@@ -139,6 +147,17 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['getProfile']),
+
+    ProfileOn: function(message) {
+      switch (message) {
+          case "profile":
+          console.log("ADfadf"+this.user);
+          this.getProfile(this.user);
+          this.$store.commit("CHANGE_PROFILE", true);
+          break;
+      }
+    },
     thumbUp() {
       if (this.isLoginToken == "") {
         this.$store.commit("CHANGE_DIALOG", true);
@@ -169,11 +188,11 @@ export default {
     },
 
     getBorder(type) {
-      let choice = "left";
-      this.borderColor = "#2962FF";
+      let choice = 'right';
+      this.borderColor = '#D50000';
       if (type == true) {
-        choice = "right";
-        this.borderColor = "#D50000";
+        choice = 'left';
+        this.borderColor = '#2962FF';
       }
 
       return choice;
@@ -191,5 +210,11 @@ export default {
 .border-line {
   border: 1px solid #cfd8dc;
   margin-bottom: 7px;
+}
+.bad {
+  color:#D4473B;
+}
+.positive {
+  color:#5D9783;
 }
 </style>

@@ -26,7 +26,10 @@
         </template>
         <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
       </v-menu>
-              <v-tooltip right>
+    </div>
+
+    <div class="text-center">
+    <v-tooltip right>
         <template v-slot:activator="{ on, attrs }">
           <v-icon color="primary" v-bind="attrs" v-on="on">
             fas fa-exclamation-circle
@@ -40,9 +43,7 @@
           카테고리에 이슈가 적다는 걸 의미합니다.</span
         >
       </v-tooltip>
-      
     </div>
-
     <div class="ma-auto mt-10" style="width: 60%">
       <VueSlickCarousel ref="slick" v-bind="slickOptions">
         <issue-category-card :category="'스포츠'" :date="date" />

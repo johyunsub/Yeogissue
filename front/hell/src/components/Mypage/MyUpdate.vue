@@ -158,33 +158,86 @@ export default {
         })
         .catch((err) => console.log(err.response));
     },
-    successPop() {
-      this.$fire({
-        title: `${this.message}`,
-        type: "success",
-      });
-      this.message = "";
+    data: function() {
+        return {
+            modData: {
+                email: null,
+                nickname: null,
+                introduce: null,
+            },            
+            initialValue: '',
+            message: '',
+            valid: '',
+            imageUrl: null,
+        };
     },
-    errorPop() {
-      this.$fire({
-        title: `${this.message}`,
-        type: "error",
-      });
-      this.message = "";
+    created() {
+         console.log(this.userInfo.email);
+        this.modData.email = this.userInfo.email;
+        this.modData.nickname = this.userInfo.nickname;
+        this.initialValue = this.userInfo.introduce_text;//
+        //this.imageUrl = "../../assets/basicprofile.jpg";
     },
-    onClickImageUpload() {
-      this.$refs.imageInput.click();
-    },
-    onChangeImages(e) {
-      console.log(e,'eeeeeeeeeeeeeee');
-    //   console.log(e.target.files);
-      const file = e.target.files[0];
-      this.modData.imageUrl = URL.createObjectURL(file);
-    //   this.modData.imageUrl = btoa(file);
-    //   this.modData.imageUrl = e.target.value;
-    },
-  },
-};
+    methods: {
+        modify() {
+            this.modData.introduce = this.$refs.toastuiEditor.invoke("getMarkdown");
+            this.$store.dispatch('userUpdate', this.modData);
+            console.log("지금"+this.modData);
+            this.$fire({
+              title: "회원 정보가 수정되었습니다.",
+              type: "success",
+            }).then(r => {
+              console.log(r.value);      
+              this.$router.push({ name: 'Home' });
+            });
+                   
+        },
+        nicknameCheck(){
+            console.log(this.nickname)
+            axios
+            .post(`${API_BASE_URL}accounts/nickname_check/`, { nickname : this.modData.nickname })
+            .then((res) => {
+                console.log(res.data);
+                if(res.data == 'success'){
+                this.message = '사용할 수 있는 닉네임입니다.'
+                this.valid = true;
+                this.successPop();
+                }
+                else{
+                this.message = '이미 존재하는 닉네임입니다'
+                this.errorPop();
+                this.nickname = ''
+                }
+            })
+            .catch((err) => 
+            console.log(err.response),
+            );
+        },
+        successPop(){
+            this.$fire({
+            title: `${this.message}`,
+            type: "success",
+            })
+            this.message='';
+        },
+        errorPop(){
+            this.$fire({
+            title: `${this.message}`,
+            type: "error",
+            })
+            this.message='';
+        },
+        onClickImageUpload() {
+            this.$refs.imageInput.click();
+        },
+        onChangeImages(e) {
+            console.log(e.target.files)
+            const file = e.target.files[0];
+            this.imageUrl = URL.createObjectURL(file);
+        }
+    }
+}
+}
 </script>
 
 <style>
@@ -252,4 +305,5 @@ body {
   border: 1px solid #cdd4db;
   position: relative;
 }
+
 </style>

@@ -400,4 +400,12 @@ def hash_emotion(request):
     # print(data)
     
     return Response(data)
+
+@api_view(['GET'])
+def hash_all(request):
+    hashtag = Hashtag.objects.all()
+    serializer = HashtagSerializer(hashtag, many=True)
+
+    return Response(serializer.data)
+
     
