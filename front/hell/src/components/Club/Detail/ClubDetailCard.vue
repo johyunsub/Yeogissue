@@ -25,7 +25,7 @@
             </div>
           </v-col>
           <v-col cols="auto">
-          <v-btn class="btnLC" color="blue" @click="isClubJoin">
+          <v-btn class="btnLC" text color="blue darken-1" @click="isClubJoin">
             <i class="fas fa-chevron-circle-up">
               </i>URL 등록</v-btn>
           </v-col>
