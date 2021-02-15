@@ -63,7 +63,6 @@ export default {
     },
   },
   created() {
-    console.log('asfdadfafs');
   },
 };
 </script>

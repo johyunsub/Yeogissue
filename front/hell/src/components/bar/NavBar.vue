@@ -25,16 +25,18 @@
       <v-btn text color="red" @click="Out">로그아웃</v-btn>
     </v-col>
     <login />
+    <my-profile-modal />
   </v-app-bar>
 </template>
 
 <script>
 import Login from "../Login/Login.vue";
+import MyProfileModal from '../../components/Mypage/MyProfileModal.vue';
 import Notification from "./Notification.vue";
 import { mapState } from "vuex";
 
 export default {
-  components: { Notification, Login },
+  components: { Notification, Login, MyProfileModal},
   computed: {
     ...mapState(["userInfo", "isLoginToken"]),
   },
