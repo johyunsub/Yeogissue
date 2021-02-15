@@ -1,63 +1,87 @@
 //type에 따라 찬반, 의견으로 버튼이 보이고 안보이고 성질에 따라
 <template>
-  <div>
-    <div v-if="isUpdate == false">
-      <v-alert
-        class="border-line"
-        :border="getBorder(opinion_type)"
-        colored-border
-        :color="borderColor"
-      >
-        <v-row>
-          <v-col>
-            <div class="text--primary ">
-              {{ username }} | {{ updated_at.replace('T', ' ').substr(0, 16) }}
-            </div>
-          </v-col>
-          <v-col v-if="!getLike" cols="auto" class="choice_cursor" @click="thumbUp">
-            <v-icon small>mdi-thumb-up-outline</v-icon> {{ like_users_count }}
-          </v-col>
-          <v-col v-if="getLike" cols="auto" class="choice_cursor" @click="thumbUp">
-            <v-icon small>mdi-thumb-up</v-icon> {{ like_users_count }}
-          </v-col>
-          <v-col cols="auto"> <comment-menu :id="id" v-on:CommentUp="changeUpdate(true)"/></v-col>
-        </v-row>
+  <v-card class="mt-2" max-width="1000" outlined>
+    <v-card-text>
+      <v-row>
+        <v-col>
+          <div class="text--primary ">
+            {{ username }} | {{ updated_at }}
+          </div>
+        </v-col>
 
-        <v-row>
-          <v-col cols="2">
-            <div v-if="emotion == '기쁨'">
-              <i class="far fa-grin-squint"></i>
-            </div>
+        <v-col cols="auto">
+          <div v-if="emotion=='기쁨'">
+        <i class="far fa-grin-squint"></i></div>
+        
 
-            <div v-else-if="emotion == '신뢰'">
-              <i class="far fa-grin-stars"></i>
-            </div>
+        <div v-else-if="emotion=='감정불가'">
+        <i class="far fa-grin-stars"></i></div>
 
-            <div v-else-if="emotion == '놀라움'">
-              <i class="far fa-fa-surprise"></i>
-            </div>
+        <div v-else-if="emotion=='신뢰'">
+        <i class="far fa-grin-stars"></i></div>
 
-            <div v-else-if="emotion == '슬픔'">
-              <i class="far fa-fa-sad-tear"></i>
-            </div>
+        <div v-else-if="emotion=='놀라움'">
+        <i class="far fa-surprise"></i></div>
 
-            <div v-else-if="emotion == '공포'">
-              <i class="far fa-fa-grimace"></i>
-            </div>
+        <div v-else-if="emotion=='슬픔'">
+        <i class="far fa-sad-tear"></i></div>
 
-            <div v-else-if="emotion == '기대'">
-              <i class="far fa-kiss-beam"></i>
-            </div>
+        <div v-else-if="emotion=='공포'">
+        <i class="far fa-grimace"></i></div>
 
-            <div v-else-if="emotion == '혐오'">
-              <i class="far fa-dizzy"></i>
-            </div>
+        <div v-else-if="emotion=='기대'">
+        <i class="far fa-kiss-beam"></i></div>
 
-            <div v-else>
-              <i class="far fa-angry"></i>
-            </div>
+        <div v-else-if="emotion=='혐오'">
+        <i class="far fa-dizzy"></i></div>
 
-            <!-- <v-avatar class="profile ml-10" color="grey" size="80">
+        <div v-else>
+        <i class="far fa-angry"></i></div>
+        </v-col>
+
+
+        <v-col v-if="!getLike" cols="auto" class="choice_cursor" @click="thumbUp"> 
+          <v-icon small>mdi-thumb-up-outline</v-icon> {{ like_users_count }} 
+        </v-col>
+        <v-col v-if="getLike" cols="auto" class="choice_cursor" @click="thumbUp"> 
+          <v-icon small>mdi-thumb-up</v-icon> {{ like_users_count }} 
+        </v-col>
+        <v-col cols="auto"> <comment-menu /></v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="2">
+        
+        <div v-if="emotion=='기쁨'">
+        <i class="far fa-grin-squint"></i>기쁨</div>
+        
+        <div v-else-if="emotion=='감정불가'">
+        <i class="far fa-grin-stars"></i>감정불가</div>
+        <div v-else-if="emotion=='신뢰'">
+
+        <i class="far fa-grin-stars"></i>신뢰</div>
+
+        <div v-else-if="emotion=='놀라움'">
+        <i class="far fa-surprise"></i>놀라움</div>
+
+        <div v-else-if="emotion=='슬픔'">
+        <i class="far fa-sad-tear"></i>놀라움</div>
+
+        <div v-else-if="emotion=='공포'">
+        <i class="far fa-grimace"></i>공포</div>
+
+        <div v-else-if="emotion=='기대'">
+        <i class="far fa-kiss-beam"></i>기대</div>
+
+        <div v-else-if="emotion=='혐오'">
+        <i class="far fa-dizzy"></i>혐오</div>
+
+        <div v-else>
+        <i class="far fa-angry"></i>화남</div>
+
+          
+        
+          <!-- <v-avatar class="profile ml-10" color="grey" size="80">
             <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
           </v-avatar> -->
           </v-col>

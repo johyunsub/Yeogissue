@@ -50,6 +50,7 @@ class MyUser(AbstractBaseUser):
     name = models.CharField(max_length = 20)
     token = models.CharField(max_length = 10)
     introduce_text = models.TextField(blank=True)
+    image = models.ImageField(upload_to='images/', blank=True,null=True)
     
     
     objects = MyUserManager()
