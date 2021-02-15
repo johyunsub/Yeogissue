@@ -118,16 +118,7 @@
         <div class="text-center mr-tp">
           <v-pagination v-model="page" :length="opinionCommentPagingCnt" circle></v-pagination>
         </div>
-<<<<<<< HEAD
-
-        <!-- 댓글 등록 -->
-        <v-row class="mt-10 mb-10">
-          <v-col cols="1"></v-col>
-          <v-col class="mr-auto"> <comment-create :type="'create'" :propContent="''"/></v-col>
-        </v-row>
-=======
         
->>>>>>> 340db38a25b22fe079df7a3b1d4410089bbaee7e
       </v-col>
       <v-col cols="2"></v-col>
 
