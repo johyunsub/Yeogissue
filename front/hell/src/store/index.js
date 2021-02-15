@@ -118,6 +118,7 @@ export default new Vuex.Store({
       localStorage.removeItem('token');
       localStorage.removeItem('email');
     },
+    
   },
   modules: {
     opinionStore: opinionStore,

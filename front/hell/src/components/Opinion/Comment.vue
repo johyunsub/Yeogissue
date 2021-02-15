@@ -152,7 +152,6 @@ export default {
     ProfileOn: function(message) {
       switch (message) {
           case "profile":
-          console.log("ADfadf"+this.user);
           this.getProfile(this.user);
           this.$store.commit("CHANGE_PROFILE", true);
           break;
@@ -188,11 +187,11 @@ export default {
     },
 
     getBorder(type) {
-      let choice = 'right';
-      this.borderColor = '#D50000';
+      let choice = "left";
+      this.borderColor = "#2962FF";
       if (type == true) {
-        choice = 'left';
-        this.borderColor = '#2962FF';
+        choice = "right";
+        this.borderColor = "#D50000";
       }
 
       return choice;

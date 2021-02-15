@@ -4,9 +4,16 @@
     <v-row>
       <v-col cols="1"></v-col>
       <v-col id="opinion_main">
-        <v-sheet lighten-5>
-       
-        </v-sheet>
+        <v-row>
+          <v-col cols="7">
+            <p class="text-h4 font-weight-black mt-2">나의 스크랩 보관함
+              <i class="fas fa-book mx-3"></i>
+            </p>
+            
+          </v-col>
+          </v-row>
+          <hr width = "100%" color = "purple">
+        <div class="mt-10"></div>
         <!-- 카테고리 -->
         <!-- <opinion-category /> -->
 
@@ -17,7 +24,7 @@
             >
             <v-list two-line>
             <card-list
-              v-for="(item, index) in opinionPaging"
+              v-for="(item, index) in opinionData"
               :key="`${index}_items`"
               :data="item"
             />
@@ -29,8 +36,8 @@
           <v-col cols="auto" class="mr-auto"></v-col>
           <v-col cols="auto">
                 <!-- <v-btn class="ma-2 btnLC" outlined large fab color="indigo"  @click="MovePage('write')"> <v-icon>mdi-pencil</v-icon></v-btn> -->
-           <v-btn class="btnLC" color="blue" rounded @click="MovePage('write')"> <v-icon color="white">mdi-pencil</v-icon>
-           <span style="color: white;"> 글쓰기 </span></v-btn>
+           <!-- <v-btn class="btnLC" color="blue" rounded @click="MovePage('write')"> <v-icon color="white">mdi-pencil</v-icon> -->
+           <!-- <span style="color: white;"> 글쓰기 </span></v-btn> -->
           </v-col>
         </v-row>
 
@@ -49,7 +56,6 @@
       </v-col> -->
       <div style="float: right;">
       <v-col cols="1"></v-col>
-      <v-btn class="ma-2 btnLC v-btn--example" bottom right outlined large fab color="indigo" @click="MovePage('write')"> <v-icon>mdi-pencil</v-icon></v-btn>
       </div>
     </v-row>
   </v-container>
@@ -60,12 +66,15 @@ import CardList from '../../components/Opinion/CardList.vue';
 import OpinionTable from '../../components/Opinion/OpinionTable.vue';
 // import SideList from '../../components/Opinion/SideList.vue';
 import { mapState, mapActions } from 'vuex';
+import axios from "axios";
+import { API_BASE_URL } from "../../config";
 // import OpinionCategory from '../../components/Opinion/OpinionCategory.vue';
 
 export default {
-  components: { OpinionTable, CardList },
+  components: { OpinionTable, CardList, },
   computed: {
     ...mapState('opinionStore', ['opinionPaging', 'pagingCnt','top_hashtags']),
+    ...mapState(['userInfo']),
   },
   data: function() {
     return {
@@ -74,6 +83,8 @@ export default {
       search: '',
       viewType: 'card',
       page: 1,
+      id: '',
+      opinionData:[],
     };
   },
   watch: {
@@ -83,29 +94,31 @@ export default {
   },
   methods: {
     ...mapActions('opinionStore', ['opinionList', 'opinionDetail','hashOpinionList','hash_top10']),
+    
+
     ChageType(type) {
       this.viewType = type;
     },
-    MovePage: function(check) {
-      switch (check) {
-        case 'write':
-          this.$router.push(`/opinionWrite?type=write`);
-          break;
-      }
-    },
-    search_hashtag() {
-      this.hashOpinionList({name:this.search});
-    },
+  
     gotoList() {
       this.opinionList();
     },
-    hashtagClick(hash) {
-      this.hashOpinionList({name:hash})
-      this.search = hash
+
+    myscrapList() {
+      console.log(this.userInfo.id);
+      
+      axios
+        .get(`${API_BASE_URL}articles/myscrap/${this.userInfo.id}`)
+        .then((res) => {
+          console.log(res.data);
+          this.opinionData = res.data;
+        })
+        .catch((err) => console.log(err.response));
     }
+    
   },
   created() {
-    this.opinionList();
+    this.myscrapList();
     this.hash_top10();
   },
 };
