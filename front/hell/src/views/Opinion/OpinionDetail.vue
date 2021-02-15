@@ -70,6 +70,7 @@
           <v-col cols="4"></v-col>
         </v-row>
         <v-divider></v-divider>
+       
         <v-row class="mt-3">
           <v-icon v-if="!getLike" medium color="red" class="choice_cursor" @click="isLogin"
             >far fa-heart</v-icon
@@ -86,6 +87,27 @@
         <v-row>
           <v-col></v-col>
         </v-row>
+ <v-row style="height:100px"></v-row>
+
+        <div>
+           <v-col cols="1"></v-col>
+    <v-alert
+
+      color="cyan"
+      border="left"
+      elevation="2"
+      colored-border
+      icon="fas fa-volume-up"
+    >
+      <span>
+      올바른 댓글 문화를 양성하기 위해 작성한 댓글의 감정을 AI로 분석하여 나타냅니다.</span>
+      <br>
+      <span>
+      댓글의 감정이 '혐오' 또는 '분노'로 나타날 경우 한 번 더 검토해보실 것을 권장합니다. </span>
+    </v-alert>
+
+  </div>
+
 
         <!-- 댓글 -->
         <v-row class="mt-10 mb-10">
@@ -165,6 +187,7 @@ export default {
       page: 1,
       pageCnt: 3,
       content: "",
+      alert: true,
     };
   },
   watch: {

@@ -11,50 +11,65 @@
         <v-row>
           <v-col>
             <div class="text--primary ">
-              {{ username }} | {{ updated_at.replace('T', ' ').substr(0, 16) }}
+              {{ username }} | {{ updated_at.replace("T", " ").substr(0, 16) }}
             </div>
           </v-col>
-          <v-col v-if="!getLike" cols="auto" class="choice_cursor" @click="thumbUp">
+          <v-col
+            v-if="!getLike"
+            cols="auto"
+            class="choice_cursor"
+            @click="thumbUp"
+          >
             <v-icon small>mdi-thumb-up-outline</v-icon> {{ like_users_count }}
           </v-col>
-          <v-col v-if="getLike" cols="auto" class="choice_cursor" @click="thumbUp">
+          <v-col
+            v-if="getLike"
+            cols="auto"
+            class="choice_cursor"
+            @click="thumbUp"
+          >
             <v-icon small>mdi-thumb-up</v-icon> {{ like_users_count }}
           </v-col>
-          <v-col cols="auto"> <comment-menu :id="id" v-on:CommentUp="changeUpdate(true)"/></v-col>
+          <v-col cols="auto">
+            <comment-menu :id="id" v-on:CommentUp="changeUpdate(true)"
+          /></v-col>
         </v-row>
 
         <v-row>
           <v-col cols="2">
             <div v-if="emotion == '기쁨'">
-              <i class="far fa-grin-squint"></i>
+              <i class="far fa-grin-squint"></i>기쁨
             </div>
 
+            <div v-else-if="emotion == '감정불가'">
+              <i class="far fa-grin-stars"></i>감정불가
+            </div>
             <div v-else-if="emotion == '신뢰'">
-              <i class="far fa-grin-stars"></i>
+              <i class="far fa-grin-stars">신뢰</i>
             </div>
 
             <div v-else-if="emotion == '놀라움'">
-              <i class="far fa-fa-surprise"></i>
+              <i class="far fa-surprise">놀라움</i>
             </div>
 
             <div v-else-if="emotion == '슬픔'">
-              <i class="far fa-fa-sad-tear"></i>
+              <i class="far fa-sad-tear">슬픔</i>
             </div>
 
             <div v-else-if="emotion == '공포'">
-              <i class="far fa-fa-grimace"></i>
+              <i class="far fa-grimace">공포</i>
             </div>
 
             <div v-else-if="emotion == '기대'">
-              <i class="far fa-kiss-beam"></i>
+              <i class="far fa-kiss-beam">기대</i>
             </div>
 
             <div v-else-if="emotion == '혐오'">
-              <i class="far fa-dizzy"></i>
+              <i class="far fa-dizzy">혐오</i>
             </div>
 
             <div v-else>
-              <i class="far fa-angry"></i>
+              <i class="far fa-angry">분노</i>
             </div>
 
             <!-- <v-avatar class="profile ml-10" color="grey" size="80">
@@ -81,17 +96,17 @@
 </template>
 
 <script>
-import CommentCreate from '../../components/Opinion/CommentCreate.vue';
-import CommentMenu from './CommentMenu.vue';
-import { mapState } from 'vuex';
-import axios from 'axios';
-import { API_BASE_URL } from '../../config';
+import CommentCreate from "../../components/Opinion/CommentCreate.vue";
+import CommentMenu from "./CommentMenu.vue";
+import { mapState } from "vuex";
+import axios from "axios";
+import { API_BASE_URL } from "../../config";
 
 export default {
   components: { CommentMenu, CommentCreate },
   computed: {
-    ...mapState('opinionStore', ['opinionComment']),
-    ...mapState(['isLoginToken', 'userInfo']),
+    ...mapState("opinionStore", ["opinionComment"]),
+    ...mapState(["isLoginToken", "userInfo"]),
     getLike: {
       get: function() {
         if (this.like_users.includes(this.$store.state.userInfo.id)) {
@@ -118,15 +133,15 @@ export default {
     return {
       isLike: false,
       // likeCnt: this.like_users_count,
-      articleno: '',
+      articleno: "",
       isUpdate: false,
-      borderColor: '#2962FF',
+      borderColor: "#2962FF",
     };
   },
   methods: {
     thumbUp() {
-      if (this.isLoginToken == '') {
-        this.$store.commit('CHANGE_DIALOG', true);
+      if (this.isLoginToken == "") {
+        this.$store.commit("CHANGE_DIALOG", true);
         return;
       }
       axios
@@ -142,7 +157,7 @@ export default {
             this.like_users_count++;
             console.log(this.like_users_count);
           }
-          this.$store.dispatch('opinionStore/opinionDetail', this.article);
+          this.$store.dispatch("opinionStore/opinionDetail", this.article);
         })
         .catch((err) => {
           console.log(err.response);
@@ -154,11 +169,11 @@ export default {
     },
 
     getBorder(type) {
-      let choice = 'left';
-      this.borderColor = '#2962FF';
+      let choice = 'right';
+      this.borderColor = '#D50000';
       if (type == true) {
-        choice = 'right';
-        this.borderColor = '#D50000';
+        choice = 'left';
+        this.borderColor = '#2962FF';
       }
 
       return choice;
