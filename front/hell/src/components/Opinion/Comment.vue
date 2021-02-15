@@ -11,6 +11,9 @@
         <v-row>
           <v-col>
             <div class="text--primary ">
+                    <v-avatar class="profile ml-3 mr-2" color="grey" size="50">
+            <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+          </v-avatar>
               <a text @click="ProfileOn('profile')">{{ username }}</a> | {{ updated_at.replace("T", " ").substr(0, 16) }}
             </div>
         
@@ -40,43 +43,44 @@
         <v-row>
           <v-col cols="2">
             <div v-if="emotion == '기쁨'">
-              <i class="far fa-grin-squint"></i>기쁨
+              <i class="far fa-grin-squint positive fa-2x" ></i>기쁨
             </div>
 
             <div v-else-if="emotion == '감정불가'">
-              <i class="far fa-grin-stars"></i>감정불가
+              감정불가
             </div>
+
             <div v-else-if="emotion == '신뢰'">
-              <i class="far fa-grin-stars">신뢰</i>
+              <i class="far fa-grin-stars positive fa-2x"></i>
+              <br>
+              신뢰
             </div>
 
             <div v-else-if="emotion == '놀라움'">
-              <i class="far fa-surprise">놀라움</i>
+              <i class="far fa-surprise positive fa-2x">놀라움</i>
             </div>
 
             <div v-else-if="emotion == '슬픔'">
-              <i class="far fa-sad-tear">슬픔</i>
+              <i class="far fa-sad-tear positive fa-2x">슬픔</i>
             </div>
 
             <div v-else-if="emotion == '공포'">
-              <i class="far fa-grimace">공포</i>
+              <i class="far fa-grimace bad fa-2x">공포</i>
             </div>
 
             <div v-else-if="emotion == '기대'">
-              <i class="far fa-kiss-beam">기대</i>
+              <i class="far fa-kiss-beam positive fa-2x">기대</i>
             </div>
 
             <div v-else-if="emotion == '혐오'">
-              <i class="far fa-dizzy">혐오</i>
+              <i class="far fa-dizzy bad fa-2x">혐오</i>
             </div>
 
             <div v-else>
               <i class="far fa-angry">분노</i>
             </div>
 
-            <!-- <v-avatar class="profile ml-10" color="grey" size="80">
-            <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
-          </v-avatar> -->
+      
           </v-col>
 
           <v-col cols="9">
@@ -205,5 +209,11 @@ export default {
 .border-line {
   border: 1px solid #cfd8dc;
   margin-bottom: 7px;
+}
+.bad {
+  color:#D4473B;
+}
+.positive {
+  color:#5D9783;
 }
 </style>

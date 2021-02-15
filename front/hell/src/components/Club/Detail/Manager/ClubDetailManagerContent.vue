@@ -45,7 +45,7 @@ export default {
 
   data() {
     return {
-      categoryType: 'intro',
+      categoryType: 'member',
     };
   },
   methods: {

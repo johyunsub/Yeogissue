@@ -91,8 +91,8 @@ def naver_search(issue,start,sort):
         # print(soup.find_all('meta'))
         data = {}
         data['link']=link
-        if soup.find_all('meta',{'property' :'og:site_name'}):
-            data['site_name']= soup.find_all('meta',{'property' :'og:site_name'})[0].get('content')[:50]
+        if soup.find_all('meta',{'name' :'twitter:creator'}):
+            data['site_name']= soup.find_all('meta',{'name' :'twitter:creator'})[0].get('content')[:50]
         if soup.find_all('meta',{'property':'og:title'}):
             data['title']=soup.find_all('meta',{'property':'og:title'})[0].get('content')[:50]
         if soup.find_all('meta',{'property':'og:description'}):
@@ -117,7 +117,7 @@ def naver_search(issue,start,sort):
 def youtube(issue,order,token):
     url = 'https://www.googleapis.com/youtube/v3/search'
     params = {
-        'key': 'AIzaSyCUK-7ji58muTsxvtW6TfFwNy4fWgbzkjY',
+        'key': 'AIzaSyB7GhJqvpHemgECyjSuGQfdsgcizl_Tb90',
         'part': 'snippet',
         'type': 'video',
         'maxResults': '10',
@@ -142,7 +142,7 @@ def youtube(issue,order,token):
         news = {}
         news['title']=i['snippet']['title']
         news['description']=i['snippet']['description']
-        news['thumbnails']=i['snippet']['thumbnails']['default']
+        news['thumbnails']=i['snippet']['thumbnails']['medium']
         news['channelTitle']=i['snippet']['channelTitle']
         news['videoId']='http://youtube.com/watch?v='+i['id']['videoId']
         data.append(news)

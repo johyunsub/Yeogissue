@@ -19,14 +19,11 @@
             {{ data.title }}
           </p>
           <div class="text--primary mt-5 choice_cursor" style="fontSize: 13px;" @click="MovePage">
-            <p>{{ data.description }}</p>
+            <p style="color: #666">{{ data.description }}</p>
           </div>
         </div>
       </div>
       <v-divider class="my-4"></v-divider>
-      <v-dialog v-model="dialog" max-width="700">
-        <iframe src="https://www.youtube.com/embed/JzgDmU_Y9gA" height="400"></iframe>
-      </v-dialog>
     </v-list-item-content>
   </v-list-item>
 </template>
@@ -48,7 +45,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .cover {
   display: inline-block;
   margin-top: -10px;

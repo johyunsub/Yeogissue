@@ -25,7 +25,7 @@
                 <!-- 공개 비공개 -->
                 <div class="ml-3">
                   <!--  v-model="clubCreateData.check" -->
-                  <v-radio-group row>
+                  <v-radio-group row mandatory>
                     <v-radio label="공개" value="공개" @click="private_ra(false)"></v-radio>
                     <v-radio label="비공개" value="비공개" @click="private_ra(true)"></v-radio>
                   </v-radio-group>
@@ -124,3 +124,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.bo-ra{
+  border: 1px solid b
+}
+</style>
