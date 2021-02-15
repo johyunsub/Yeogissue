@@ -3,7 +3,8 @@
 
 
     <v-sheet height="200" width="100%" color="#F1D883">
-      <v-card-title class="text-center justify-center py-6 mt-10">
+      
+      <v-card-title class="justify-center mt-10">
       <h1 class="font-weight-bold display-3 basil--text">
           {{ clubData.title }}
       </h1>
@@ -21,22 +22,6 @@
         </v-row>
       <v-row class="mt-1">
         <v-col>
-          <div>
-            <v-row class="mt-1 mr-auto mb-2">
-              <v-col cols="2" class="mr-auto" md="10">
-                <!-- <v-sheet width="90%"> -->
-                  <!-- 클럽정보 (맴버수, 카테고리, 개설일, 마스터) -->
-                  <div class="headline">{{ clubData.title }}</div>
-                  <div class="mt-3">카테고리 - {{ clubData.category }}</div>
-                  <div class="mt-3">멤버수 - {{ clubData.member_cnt }}</div>
-                  <div class="mt-3">클럽장 - {{ clubData.mastername }}</div>
-                  <div class="mt-3">개설일 - {{ clubData.created_at }}</div>
-                <!-- </v-sheet> -->
-              </v-col>
-             
-              <v-col cols="auto"></v-col>
-            </v-row>
-          </div>
           <v-row class="mt-4 my-1 mr-l">
             <v-col cols="auto" class="mr-auto"></v-col>
             <div>
@@ -163,7 +148,7 @@ export default {
 .club-pr {
     width: 150px;
     height: 150px; 
-    border-radius: 30%;
+    border-radius: 70%;
     overflow: hidden;
 }
 
