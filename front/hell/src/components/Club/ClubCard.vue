@@ -23,11 +23,12 @@
                 <span style="color: blueviolet">{{ clubInfo.category }} </span>
               </div>
               <div>
-                <v-icon small color="">fas fa-lock</v-icon>
+                <v-icon v-if="clubInfo.is_private" small color="">fas fa-lock</v-icon>
+                <v-icon v-if="!clubInfo.is_private" small color="">fas fa-lock-open</v-icon>
                 <v-icon class="ml-3" small color="blue"
                   >fas fa-user-friends</v-icon
                 >
-                클럽 멤버 수
+                클럽 멤버 수  {{ clubInfo.member_cnt }} 
               </div>
             </v-card-text>
           </div>
