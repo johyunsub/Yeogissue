@@ -1,8 +1,10 @@
 <template>
     <v-container>
         <h1>My 이슈</h1>
-        <h1>안녕하세요, {{nickname}} 님</h1>
+
+        <h1>안녕하세요, <a text @click="ProfileOn('profile')">{{ userInfo.nickname }}</a>님</h1>
         
+        <my-profile-modal />
         <v-row class="py-5">
             <v-col cols="3">
                 <v-row class="py-4" justify="center">
@@ -12,7 +14,7 @@
                         size="164"
                         rounded
                     >
-                        <v-img :src='image'></v-img>
+                        <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
                     </v-avatar>
                 </v-row>
                 <v-row justify="center" class="py-4">
@@ -99,7 +101,7 @@
                 <my-graph v-if="graph" />
                 <my-recently v-if="recently" />
                 <my-scrap v-if="scrap" />
-                <my-update v-if="update" :image='image'/>
+                <my-update v-if="update" />
                 <my-write v-if="write" />
                 <my-changepw v-if="changepw" />
             </v-col>
@@ -117,15 +119,14 @@ import MyScrap from '../../components/Mypage/MyScrap.vue';
 import MyUpdate from '../../components/Mypage/MyUpdate.vue';
 import MyWrite from '../../components/Mypage/MyWrite.vue';
 import MyChangepw from '../../components/Mypage/MyChangepw.vue';
+import MyProfileModal from '../../components/Mypage/MyProfileModal.vue';
 
 import { mapState } from "vuex";
-// import { API_BASE_URL } from '../../config';
 
 export default {
-
-  components: { MyClub, MyFeeling, MyGraph, MyRecently, MyScrap, MyUpdate, MyWrite, MyChangepw },
+  components: { MyClub, MyFeeling, MyGraph, MyRecently, MyScrap, MyUpdate, MyWrite, MyChangepw, MyProfileModal },
   computed: {
-    ...mapState(["userInfo",]),
+    ...mapState(["userInfo"]),
   },
   data: function() {
       return {
@@ -140,17 +141,19 @@ export default {
 
           nickname: '',
           image : '',
+          link:"https://medium.com",
       }
   },
-  created() {
-    this.setImage();
-      
-
-  },
-  
   methods: {
       setImage: function() {
           this.image = 'http://127.0.0.1:8000' + this.userInfo.image;
+      },
+      ProfileOn: function(message) {
+        switch (message) {
+            case "profile":
+            this.$store.commit("CHANGE_PROFILE", true);
+            break;
+        }
       },
       OnOff: function(message) {
       switch (message) {
@@ -243,7 +246,6 @@ export default {
 
       }
     },
-  },
-
+  }
 }
 </script>

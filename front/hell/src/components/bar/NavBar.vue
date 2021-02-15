@@ -68,7 +68,7 @@ export default {
           this.$router.push({ name: "Issue" });
           break;
         case "data":
-          this.$router.push({ name: "data" });
+          this.$router.push({ name: "Magazine" });
           break;
         case "join":
           this.$router.push({ name: "Join" });
@@ -89,6 +89,6 @@ export default {
 
 <style lang="scss">
 #navbar {
-  border-bottom: 2px ridge black;
+  outline: 1px solid  rgb(225, 225, 225);
 }
 </style>
