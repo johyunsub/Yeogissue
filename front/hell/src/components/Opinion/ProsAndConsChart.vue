@@ -1,3 +1,5 @@
+
+
 <script>
 import { Doughnut } from 'vue-chartjs';
 import { mapState } from 'vuex';
@@ -24,7 +26,7 @@ export default {
       ],
     },
     options: {
-      responsive: true,
+      responsive: false,
       maintainAspectRatio: false,
     },
   }),
