@@ -3,7 +3,7 @@
     <!-- <h1>게시글 관리 - 게시물 번호,  코멘트, 게시물 url, 작성자</h1> -->
     <v-card>
       <v-card-title>
-        게시글 관리
+        가입요청 관리
         <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
@@ -15,7 +15,7 @@
       </v-card-title>
       <v-data-table
         :headers="headers"
-        :items="clubManageArticleList"
+        :items="clubManageMemberList"
         :search="search"
       >
         <template v-slot:item.actions="{ item }">
