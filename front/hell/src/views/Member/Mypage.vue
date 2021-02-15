@@ -23,17 +23,17 @@
                         <v-expansion-panel-content>
                         <v-list dense>
                             <v-list-item-group>
-                                <v-list-item>
+                                <v-list-item @click="OnOff('scrap')">
                                 <v-list-item-content>
-                                    <v-list-item-title @click="OnOff('scrap')">내가 스크랩한 의견 목록</v-list-item-title>
+                                    <v-list-item-title>나의 스크랩 보관함</v-list-item-title>
                                 </v-list-item-content>
                                 </v-list-item>
-                                <v-list-item>
+                                <v-list-item @click="OnOff('write')">
                                 <v-list-item-content>
-                                    <v-list-item-title @click="OnOff('write')">내가 작성한 의견</v-list-item-title>
+                                    <v-list-item-title>내가 작성한 의견</v-list-item-title>
                                 </v-list-item-content>
                                 </v-list-item>
-                                <v-list-item>
+                                <v-list-item @click="OnOff('club')">
                                 <v-list-item-content>
                                     <v-list-item-title @click="OnOff('club')">내가 가입한 클럽</v-list-item-title>
                                 </v-list-item-content>
@@ -47,19 +47,19 @@
                         <v-expansion-panel-content>
                             <v-list dense>
                             <v-list-item-group>
-                                <v-list-item>
+                                <v-list-item @click="OnOff('feeling')">
                                 <v-list-item-content>
-                                    <v-list-item-title @click="OnOff('feeling')">내가 쓴 글 감정분석</v-list-item-title>
+                                    <v-list-item-title >내가 쓴 글 감정분석</v-list-item-title>
                                 </v-list-item-content>
                                 </v-list-item>
-                                <v-list-item>
+                                <v-list-item @click="OnOff('recently')">
                                 <v-list-item-content>
-                                    <v-list-item-title @click="OnOff('recently')">최근에 본 게시물</v-list-item-title>
+                                    <v-list-item-title>최근에 본 게시물</v-list-item-title>
                                 </v-list-item-content>
                                 </v-list-item>
-                                <v-list-item>
+                                <v-list-item  @click="OnOff('graph')">
                                 <v-list-item-content>
-                                    <v-list-item-title @click="OnOff('graph')">자주 보는 카테고리 그래프</v-list-item-title>
+                                    <v-list-item-title>자주 보는 카테고리 그래프</v-list-item-title>
                                 </v-list-item-content>
                                 </v-list-item>
                             </v-list-item-group>

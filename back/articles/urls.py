@@ -25,6 +25,7 @@ urlpatterns = [
     path('<int:article_pk>/scrap/', views.scrap),
 
     path('myscrap/<int:user_pk>/',views.myscrap),
+    path('my_articles/',views.my_articles),
 
     path('club/<int:club_pk>/',views.club_article),
 

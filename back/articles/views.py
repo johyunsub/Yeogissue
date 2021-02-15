@@ -293,6 +293,15 @@ def myscrap(request,user_pk):
     # print(scrap_list)
     return Response(serializer.data)
 
+#내가쓴글
+@api_view(['POST'])
+def my_articles(request):
+    user = request.data.get('user')
+    articles = Article.objects.filter(user_id=user).order_by('-id')
+    serializer = ArticleListSerializer(articles,many=True)
+
+    return Response(serializer.data)
+
 
 @api_view(['GET'])
 def club_article(request,club_pk):
