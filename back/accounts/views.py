@@ -148,6 +148,24 @@ def passwordChange(request):
     else:
         return Response({'2'}) #현재비번 틀림
 
+@api_view(['POST'])
+def sendPassword(request):
+    email = request.data.get('email')
+    if User.objects.filter(email=email).exists():
+        user = User.objects.get(email=email)
+        token = make_code()
+        print(token)
+        # user.token = token
+        user.set_password(token)
+        user.save()
+        message = f'임시비밀번호는 {token} 입니다.'
+        mail_title = '여기이슈 임시비밀번호 메일입니다.'
+        mail_to = request.data.get('email')
+        email = EmailMessage(mail_title,message,to=[mail_to])
+        email.send()
+        return Response({'0'})
+    return Response({'없음'})
+    
 @api_view(['POST']) 
 def alarm(request):
     user_id = request.data.get('user')
