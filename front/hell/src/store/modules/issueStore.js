@@ -14,9 +14,18 @@ const issueStore = {
     issuePolitics: null,
     issueSociety: null,
 
+    issueDetailYoutubeDialog: false,
+    issueDetailVideoUrl: '',
+
   },
   getters: {},
   mutations: {
+    SET_ISSUE_DETAIL_YOUTUBE_DIALOG(state, dialog){
+      state.issueDetailYoutubeDialog= dialog;
+    },
+    SET_ISSUE_DETAIL_VIDEO_URL(state, url){
+      state.issueDetailVideoUrl= url;
+    },
     SET_ISSUE_ENTERTAINMENT(state, issue) {
       state.issueEntertainment = issue;
     },
