@@ -46,10 +46,13 @@
         <v-row align="center" class="mx-0"> </v-row>
 
         <div class="my-2 subtitle-4 text-truncate">
-        <span style="color:blueviolet">{{ clubInfo.category }} </span> <v-icon class="ml-3" small color="blue">fas fa-user-friends</v-icon> 클럽 멤버 수
-        </div>
+        <span style="color:blueviolet">{{ clubInfo.category }} </span> 
+        <!-- <v-icon class="ml-3" small color="blue">fas fa-user-friends</v-icon> 클럽 멤버 수 -->
+        <!-- </div> -->
 
-      </v-card-text> -->
+        <!-- </v-card-text> -->
+
+        <!-- <v-divider class="mx-4"></v-divider> -->
 
       <!-- <v-divider class="mx-4"></v-divider> -->
 <!-- 
@@ -66,9 +69,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   name: 'clubCard',
-  computed: {},
+  computed: {
+    ...mapState('clubStore', ['clubManageMemberList']),
+    ...mapState(['userInfo']),
+  },
   data() {
     return {
       show: false,
@@ -83,11 +90,21 @@ export default {
     MovePage: function(check) {
       switch (check) {
         case 'detail':
-          console.log(this.clubInfo,'clubinfo')
-          this.$router.push(`/clubDetail?id=${this.clubInfo.id}`);
+          this.isLogin();
           break;
       }
     },
+    isLogin(){
+      if(this.userInfo != null){
+        this.$router.push(`/clubDetail?id=${this.clubInfo.id}`);
+      }
+      else{
+        this.$fire({
+        title: "로그인후 이용하실 수 있습니다.",
+        type: "error" ,
+        }); 
+      }
+    }
   },
 };
 </script>
