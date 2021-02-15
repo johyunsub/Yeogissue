@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import requests, json
-from .models import Dailyissue,News
+from .models import Dailyissue
 # Create your views here.
 from django.http import JsonResponse
 from rest_framework.response import Response
@@ -8,8 +8,7 @@ from rest_framework.decorators import api_view
 from django.db.models import Q
 import urllib
 from bs4 import BeautifulSoup
-from .serializers import NewsSerializer,NewsSerializer2
-import requests
+
 
 @api_view(['POST'])
 def issuemaker(request):
@@ -51,8 +50,6 @@ def remove_tag(content):
    return cleantext
 
 def naver_search(issue,start,sort):
-    
-    print('없ㅇ므')
     class NaverNewsURLMaker:
         url = 'https://openapi.naver.com/v1/search'
         header = {
@@ -93,27 +90,22 @@ def naver_search(issue,start,sort):
         data = {}
         data['link']=link
         if soup.find_all('meta',{'property' :'og:site_name'}):
-            data['site_name']= soup.find_all('meta',{'property' :'og:site_name'})[0].get('content')[:50]
+            data['site_name']= soup.find_all('meta',{'property' :'og:site_name'})[0].get('content')
         if soup.find_all('meta',{'property':'og:title'}):
-            data['title']=soup.find_all('meta',{'property':'og:title'})[0].get('content')[:50]
+            data['title']=soup.find_all('meta',{'property':'og:title'})[0].get('content')
         if soup.find_all('meta',{'property':'og:description'}):
-            data['description']=soup.find_all('meta',{'property':'og:description'})[0].get('content')[:300]
+            data['description']=soup.find_all('meta',{'property':'og:description'})[0].get('content')
         if soup.find_all('meta',{'property':'og:image'}):
-            data['image']=soup.find_all('meta',{'property':'og:image'})[0].get('content')[:150]
-        # if soup.find_all('meta',{'property':'og:video:url'}):
-        #     data['video']=soup.find_all('meta',{'property':'og:video:url'})[0].get('content')
+            data['image']=soup.find_all('meta',{'property':'og:image'})[0].get('content')
+        if soup.find_all('meta',{'property':'og:video:url'}):
+            data['video']=soup.find_all('meta',{'property':'og:video:url'})[0].get('content')
 
-        news_list.append(data)
-        data['content'] = issue
-        data['sort'] = sort
-        data['start'] = start
-        serializer = NewsSerializer2(data=data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
+        news_list.append(data)                                                        
         # print(news_list)
 
     return news_list
 
+import requests
 def youtube(issue,order,token):
     url = 'https://www.googleapis.com/youtube/v3/search'
     params = {
@@ -154,17 +146,8 @@ def issue_news(request):
     issue = request.data.get('content')
     start = request.data.get('start')
     sort = request.data.get('sort')
-    # news = News.objects.all()
-    # news.delete()
-    if News.objects.filter(Q(content=issue)&Q(sort=sort)&Q(start=start)).exists():
-        print('잇음')
-        news_data = News.objects.filter(Q(content=issue)&Q(sort=sort)&Q(start=start))
-        serializer = NewsSerializer(news_data, many=True)
-        return Response({'news':serializer.data})
     info = {}
-    print(111)
     news = naver_search(issue,start,sort)
-
     info['news'] = news
     return JsonResponse(info,safe=False,json_dumps_params={'ensure_ascii': False})
 

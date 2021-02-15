@@ -35,9 +35,4 @@ urlpatterns = [
     #path('comment_emotion',views.comment_emotion),
 
     path('top_hashtag/', views.top_hashtag),
-
-    path('comment_rank/', views.comment_rank),
-    path('like_rank/', views.like_rank),
-
-    path('hash_emotion/', views.hash_emotion),
 ]
