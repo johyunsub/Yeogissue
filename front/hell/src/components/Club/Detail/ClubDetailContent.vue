@@ -59,7 +59,8 @@ export default {
     ClubDetailUrlCreate,
   },
     computed:{
-        ...mapState('clubStore', [ 'clubDetailIsMember' ])
+        ...mapState('clubStore', [ 'clubDetailIsMember', 'clubData' ]),
+        ...mapState(['userInfo'])
     },
   data() {
     return {
@@ -72,7 +73,7 @@ export default {
       this.categoryType = category;
     },
     isClubJoin(){
-      if(this.clubDetailIsMember){
+      if(this.clubDetailIsMember || this.userInfo.id == this.clubData.master ){
         this.OnOff()
       }
       else{
