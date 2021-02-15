@@ -140,10 +140,14 @@ export default {
           changepw: false,
 
           nickname: '',
+          image : '',
           link:"https://medium.com",
       }
   },
   methods: {
+      setImage: function() {
+          this.image = 'http://127.0.0.1:8000' + this.userInfo.image;
+      },
       ProfileOn: function(message) {
         switch (message) {
             case "profile":
