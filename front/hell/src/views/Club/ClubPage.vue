@@ -1,10 +1,13 @@
 <template>
     <v-row class="justify-center">
-      
-      <img :src="require('../../assets/모여 이슈.png')" style="height:250; width:100%; position: relative;" alt="">
-       <v-btn class="btnLC" style="position: absolute; top:450px; left:500px" color="blue" x-large rounded @click="OnOff">
+      <div class="club-image">
+        <div style="height:450px"></div>
+        <div style="width:65%; float:right">
+       <v-btn class="btnLC"  color="blue" x-large rounded @click="OnOff">
       <span style="color: white;" class="mr-tp mr-bt"> 클럽 생성 </span></v-btn>
-
+      </div>
+      </div>
+<div style="clear:both;"></div>
 
       <v-row class="mr-tp"></v-row>
       <!-- <v-row>
@@ -84,3 +87,12 @@ export default {
   },
 };
 </script>
+
+<style>
+.club-image{
+  width:100%;
+  height: 600px;
+  background-image: url("../../assets/모여 이슈.png");
+  background-size: 100% 600px;
+}
+</style>
