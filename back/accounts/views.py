@@ -118,6 +118,11 @@ def get_user(request):
     serializer = GetUserSerializer(user)
     return Response(serializer.data)
 
+@api_view(['POST'])
+def get_user_id(request):
+    user = get_object_or_404(get_user_model(), id=request.data.get('id'))
+    serializer = GetUserSerializer(user)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 def login(request):

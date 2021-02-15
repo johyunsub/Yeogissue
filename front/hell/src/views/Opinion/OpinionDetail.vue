@@ -28,13 +28,12 @@
         <div style="clear:both;"></div>
 
         <div class="grey--text text-center">
-          by {{ opinionData.username }} | 날짜 {{ opinionData.created_at.substr(0, 10) }}
+          by <a text @click="ProfileOn('profile')">{{ opinionData.username }}</a>  | 날짜 {{ opinionData.created_at.substr(0, 10) }}
           <span v-if="opinionData.user == userInfo.id">
             <span>| </span><span class="choice_cursor text-bt" @click="opUpdate">수정</span> |
             <span class="choice_cursor text-bt" @click="opDelete">삭제</span>
           </span>
         </div>
-
         <v-divider class="my-10"></v-divider>
 
         <Viewer v-if="content != ''" :initialValue="content" />
@@ -153,6 +152,7 @@
 import Comment from "../../components/Opinion/Comment.vue";
 import ProsAndConsChart from "../../components/Opinion/ProsAndConsChart.vue";
 import CommentCreate from "../../components/Opinion/CommentCreate.vue";
+
 import { mapState, mapActions } from "vuex";
 
 import "codemirror/lib/codemirror.css";
@@ -163,7 +163,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../../config";
 
 export default {
-  components: { Comment, CommentCreate, Viewer, ProsAndConsChart },
+  components: { Comment, CommentCreate, Viewer, ProsAndConsChart  },
   computed: {
     ...mapState("opinionStore", [
       "opinionData",
@@ -198,6 +198,15 @@ export default {
   },
   methods: {
     ...mapActions("opinionStore", ["opinionDetail", "opinionDelete", "bookmarkUpdate"]),
+    ...mapActions(['getProfile']),
+    ProfileOn: function(message) {
+      switch (message) {
+          case "profile":
+          this.getProfile(this.opinionData.user);
+          this.$store.commit("CHANGE_PROFILE", true);
+          break;
+      }
+    },
     opUpdate() {
       this.$router.push(`/opinionWrite?type=update`);
     },
