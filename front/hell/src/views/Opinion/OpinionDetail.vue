@@ -44,17 +44,6 @@
 
         <v-sheet height="10vh" lighten-5></v-sheet>
 
-        <!-- 그래프 -->
-        <v-row v-if="!opinionData.comment_type">
-          <v-col></v-col>
-          <v-card>
-            <div>
-              <pros-and-cons-chart :id="parseInt(this.$route.query.id)" />
-            </div>
-          </v-card>
-          <v-col></v-col>
-        </v-row>
-
         <!-- 해시태그 -->
         <v-row class="mr-tp mb-5">
           <v-chip-group>
@@ -122,6 +111,18 @@
             </span>
           </v-alert>
         </div>
+
+        
+        <!-- 그래프 -->
+        <v-row v-if="!opinionData.comment_type">
+          <v-col></v-col>
+          <v-card>
+            <div >
+            <pros-and-cons-chart :id="parseInt(this.$route.query.id)" />
+            </div>
+          </v-card>
+          <v-col></v-col>
+        </v-row>
 
         <!-- 댓글 -->
         <v-row class="mt-10 mb-10">

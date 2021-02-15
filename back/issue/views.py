@@ -92,7 +92,7 @@ def naver_search(issue,start,sort):
         data = {}
         data['link']=link
         if soup.find_all('meta',{'name' :'twitter:creator'}):
-            print(soup.find_all('meta',{'name' :'twitter:creator'}))
+            # print(soup.find_all('meta',{'name' :'twitter:creator'}))
             data['site_name']= soup.find_all('meta',{'name' :'twitter:creator'})[0].get('content')[:50]
         if soup.find_all('meta',{'property':'og:title'}):
             data['title']=soup.find_all('meta',{'property':'og:title'})[0].get('content')[:50]
@@ -122,11 +122,15 @@ def youtube(issue,order,token):
 
     url = 'https://www.googleapis.com/youtube/v3/search'
     params = {
+<<<<<<< HEAD
         # 'key': 'AIzaSyCUK-7ji58muTsxvtW6TfFwNy4fWgbzkjY',
         # 'key':'AIzaSyCTZdjxX59zdDtaw_YTqCh0BSzuRlwEdng',
         # 'key':'AIzaSyD-fcxs_jqy3p-vAoglofC3XaAKOv2oI-s                   ',
         'key':'AIzaSyB7GhJqvpHemgECyjSuGQfdsgcizl_Tb90',
 
+=======
+        'key': 'AIzaSyB7GhJqvpHemgECyjSuGQfdsgcizl_Tb90',
+>>>>>>> f8de154751a24f8fa53b152fb78f8827997fcac6
         'part': 'snippet',
         'type': 'video',
         'maxResults': '30',
@@ -151,10 +155,17 @@ def youtube(issue,order,token):
     j=0
     for i in response_dict['items']:
         news = {}
+<<<<<<< HEAD
         news['title']=i['snippet']['title'][:50]
         news['description']=i['snippet']['description'][:150]
         news['thumbnails']=i['snippet']['thumbnails']['medium']['url']
         news['channelTitle']=i['snippet']['channelTitle'][:50]
+=======
+        news['title']=i['snippet']['title']
+        news['description']=i['snippet']['description']
+        news['thumbnails']=i['snippet']['thumbnails']['medium']
+        news['channelTitle']=i['snippet']['channelTitle']
+>>>>>>> f8de154751a24f8fa53b152fb78f8827997fcac6
         news['videoId']='http://youtube.com/watch?v='+i['id']['videoId']
         # data.append(news)
         news['content'] = issue
