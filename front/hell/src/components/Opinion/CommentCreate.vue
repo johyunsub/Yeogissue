@@ -4,11 +4,13 @@
       <v-col cols="auto" class="mr-auto"
         ><v-card-title class="ml-2 subtitle-1">{{ userInfo.nickname }}님!</v-card-title>
       </v-col>
+      <div v-if="opinionData.comment_type == false">
       <v-col cols="auto" class="mr-2"
         ><v-radio-group row mandatory>
           <v-radio label="찬성" selected @click="private_ra(0)"></v-radio>
           <v-radio label="반대" @click="private_ra(1)"></v-radio> </v-radio-group
       ></v-col>
+      </div>
     </v-row>
 
     <div class="mt-plus">
@@ -48,6 +50,7 @@ export default {
   },
   computed: {
     ...mapState(['isLoginToken', 'userInfo']),
+    ...mapState('opinionStore',['opinionData'])
   },
   data() {
     return {

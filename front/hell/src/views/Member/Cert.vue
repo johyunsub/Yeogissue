@@ -44,6 +44,7 @@ export default {
               type: "success",
             }).then(r => {
               console.log(r.value);
+              this.$store.commit("CHANGE_DIALOG", true);
               this.$router.push({ name: 'Home' });
             });
           }
