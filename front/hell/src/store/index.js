@@ -21,7 +21,6 @@ export default new Vuex.Store({
       id: 0,
       nickname: '',
       introduce_text: '',
-      image: '',
     },
 
     // 알림
