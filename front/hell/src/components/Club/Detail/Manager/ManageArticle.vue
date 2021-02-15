@@ -19,7 +19,7 @@
         :search="search"
       >
         <template v-slot:item.actions="{ item }">
-          <v-icon small @click="disapprove(item)">
+          <v-icon small @click="deleteItem(item)">
             mdi-delete
           </v-icon>
         </template>
@@ -50,7 +50,12 @@ export default {
     };
   },
   methods: {
-    ...mapActions("clubStore", ["clubManageArticle"]),
+    ...mapActions("clubStore", ["clubManageArticle", "clubDetailUrlDelete"]),
+    
+    deleteItem(item){
+      console.log(item.id)
+      this.clubDetailUrlDelete(item.id)
+    }
   },
   created() {
     this.clubManageArticle();

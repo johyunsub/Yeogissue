@@ -201,6 +201,21 @@ const clubStore = {
         .catch((err) => console.log(err.response));
     },
 
+    //url삭제
+    clubDetailUrlDelete({state}, data){
+      instance
+        .delete(`club/club_article_detail/${data}/`)
+        .then(() => {
+          for(var i=0; i<state.clubManageArticleList.length; i++){
+            if(state.clubManageArticleList[i].id == data) {
+              state.clubManageArticleList.splice(i, 1);
+              break;
+            }
+          }
+          // dispatch('clubManageArticle');
+        })
+    },
+
     // 클럽 멤버 관리
     clubMangeList({ state, commit }, data) {
       instance
