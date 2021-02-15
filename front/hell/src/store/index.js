@@ -24,6 +24,9 @@ export default new Vuex.Store({
       image: '',
     },
 
+    //프로필 유저 정보
+    profileData:{},
+
     // 알림
     alarms: [],
 
@@ -58,6 +61,10 @@ export default new Vuex.Store({
       state.profile = profile;
     },
 
+    SET_PROFILE_DATA(state, data){
+      state.profileData = data;
+    },
+
     //d알람
     SET_USER_ALARM(state, data) {
       state.alarms = data;
@@ -85,6 +92,17 @@ export default new Vuex.Store({
         })
         .catch((err) => console.log(err.response));
     },
+ //유저 프로필 정보
+    getProfile({ commit }, id) {
+      console.log('index profile ' + id);
+      instance
+        .post('/accounts/get_user_id/', { id: id })
+        .then((res) => {
+          commit('SET_PROFILE_DATA', res.data);
+        })
+        .catch((err) => console.log(err.response));
+    },
+
     userUpdate({ dispatch }, data) {
       instance
         .post(`/accounts/user_update/`, data)
