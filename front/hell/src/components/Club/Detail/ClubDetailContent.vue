@@ -1,13 +1,6 @@
 <template>
   <div>
-    <!-- 등록 -->
-    <v-row>
-      <v-col cols="auto" class="mr-auto"></v-col>
-      <v-col cols="auto">
-        <v-btn class="btnLC" color="blue" @click="isClubJoin">URL 등록</v-btn>
-      </v-col>
-    </v-row>
-
+    <v-row class="my-8"></v-row>
     <!-- 카테고리 if문 처리-->
     <v-row class="category">
       <v-col cols='4'></v-col>
@@ -47,7 +40,6 @@ import ClubDetailYoutube from './ClubDetailYoutube';
 import ClubDetailEtc from './ClubDetailEtc';
 import ClubDetailOpinion from './ClubDetailOpinion';
 import ClubDetailUrlCreate from './ClubDetailUrlCreate.vue';
-import {mapState, mapActions } from 'vuex';
 
 export default {
   components: {
@@ -58,34 +50,18 @@ export default {
     ClubDetailOpinion,
     ClubDetailUrlCreate,
   },
-    computed:{
-        ...mapState('clubStore', [ 'clubDetailIsMember', 'clubData' ]),
-        ...mapState(['userInfo'])
-    },
+
   data() {
     return {
       categoryType: 'intro',
     };
   },
   methods: {
-    ...mapActions( 'clubStore', ['isClubMember']),
+
     SelectCategory: function(category) {
       this.categoryType = category;
     },
-    isClubJoin(){
-      if(this.clubDetailIsMember || this.userInfo.id == this.clubData.master ){
-        this.OnOff()
-      }
-      else{
-        this.$fire({
-        title: "이용하시려면 클럽가입 먼저 해주세요",
-        type: "error" ,
-        }); 
-      }
-    },
-    OnOff: function() {
-      this.$store.commit('clubStore/CLUB_DETAIL_URL_DIALOG', true);
-    },
+    
   },
   // {% comment %} created() {
   //   this.$store.dispatch('clubStore/clubDetailUrlList');
