@@ -10,9 +10,8 @@
       </h1>
     </v-card-title>
 
-      <v-row class="mt-1">
-         <v-col
-          ><v-img
+        <v-row class="d-flex justify-center mb-6">
+          <v-img
             src="../../../assets/logo.png"
             max-height="370"
             aspect-ratio="1.5"
@@ -20,7 +19,8 @@
             alt="이미지 넣어줘"
             class="club-pr"
           />
-        </v-col>
+        </v-row>
+      <v-row class="mt-1">
         <v-col>
           <v-row class="mt-4 my-1 mr-l">
             <v-col cols="auto" class="mr-auto"></v-col>
