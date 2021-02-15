@@ -3,17 +3,15 @@
     <v-col cols="12">
       <v-card
         class="mx-auto my-5 elevation-5 choice_cursor { 'on-hover': hover }"
-        max-width="600"
+        max-width="500"
+        min-width="500"
         :elevation="hover ? 16 : 2"
       >
-        <div class="d-flex flex-no-wrap justify-space-between">
-          <v-avatar class="ma-3" size="125" tile>
-            <v-img
-              height="150"
+        <div class="d-flex flex-no-wrap">
+            <img
+            style="width: 150px; height:150px"
               src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
             >
-            </v-img>
-          </v-avatar>
           <div>
             <v-card-title @click="MovePage('detail')" class="headline mb-0 h6"
               >{{ clubInfo.title }}
