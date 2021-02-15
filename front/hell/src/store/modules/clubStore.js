@@ -296,7 +296,7 @@ const clubStore = {
           instance
             .get(`club/club_article_list/${state.clubData.id}/youtube/`)
             .then((res1) => {
-              for (var i = 0; i < res.data.length; i++) {
+              for (var i = 0; i < res1.data.length; i++) {
                 if (res1.data[i] == "") {
                   break;
                 }
@@ -306,7 +306,7 @@ const clubStore = {
               instance
                 .get(`club/club_article_list/${state.clubData.id}/etc/`)
                 .then((res2) => {
-                  for (var i = 0; i < res.data.length; i++) {
+                  for (var i = 0; i < res2.data.length; i++) {
                     if (res2.data[i] == "") {
                       break;
                     }
