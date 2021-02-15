@@ -45,7 +45,14 @@
         <!-- 해시태그 -->
         <v-sheet height="7vh" lighten-5></v-sheet>
         <v-row>
-        <v-btn color="pink" rounded outlined medium @click="hashtag_suggest">해시태그 추천</v-btn> # 입력된 문서(다수의 문장)를 분석하여, 해당 문서에 중요하게 작용하는 키워드를 추출해드립니다.(수정예정)
+        <v-tooltip right>
+        <template v-slot:activator="{ on, attrs }">
+           <v-btn color="pink" rounded outlined medium @click="hashtag_suggest" v-bind="attrs" v-on="on">해시태그 추천</v-btn>
+        </template>
+        <span
+          >입력된 글을 분석하여, 해당 문서에 중요하게 작용하는 키워드를 추출해드립니다.</span>
+      </v-tooltip>
+        
         </v-row>
         <v-row>
           <v-text-field v-model="input_tag" @keypress.enter="createHashtags" label="해시태그 입력 후 엔터로 등록해주세요 :) (최대 10개)" hide-details="auto" width=""></v-text-field>
