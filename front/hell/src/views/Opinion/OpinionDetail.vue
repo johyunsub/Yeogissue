@@ -45,7 +45,9 @@
         <v-row v-if="!opinionData.comment_type">
           <v-col></v-col>
           <v-card>
+            <div >
             <pros-and-cons-chart :id="parseInt(this.$route.query.id)" />
+            </div>
           </v-card>
           <v-col></v-col>
         </v-row>
@@ -88,7 +90,7 @@
         <!-- 댓글 -->
         <v-row class="mt-10 mb-10">
           <v-col cols="1"></v-col>
-          <v-col class="mr-auto"> <comment-create /></v-col>
+          <v-col class="mr-auto"> <comment-create :type="'create'" :propContent="''"/></v-col>
         </v-row>
 
         <v-row>
@@ -98,7 +100,7 @@
               v-for="item in opinionCommentPaging"
               :key="item.id"
               :id="item.id"
-              :type="item.opinion_type"
+              :opinion_type="item.opinion_type"
               :content="item.content"
               :created_at="item.created_at"
               :updated_at="item.updated_at"
@@ -116,12 +118,16 @@
         <div class="text-center mr-tp">
           <v-pagination v-model="page" :length="opinionCommentPagingCnt" circle></v-pagination>
         </div>
+<<<<<<< HEAD
 
         <!-- 댓글 등록 -->
         <v-row class="mt-10 mb-10">
           <v-col cols="1"></v-col>
           <v-col class="mr-auto"> <comment-create :type="'create'" :propContent="''"/></v-col>
         </v-row>
+=======
+        
+>>>>>>> 340db38a25b22fe079df7a3b1d4410089bbaee7e
       </v-col>
       <v-col cols="2"></v-col>
 
@@ -131,28 +137,28 @@
 </template>
 
 <script>
-import Comment from '../../components/Opinion/Comment.vue';
-import ProsAndConsChart from '../../components/Opinion/ProsAndConsChart.vue';
-import CommentCreate from '../../components/Opinion/CommentCreate.vue';
-import { mapState, mapActions } from 'vuex';
+import Comment from "../../components/Opinion/Comment.vue";
+import ProsAndConsChart from "../../components/Opinion/ProsAndConsChart.vue";
+import CommentCreate from "../../components/Opinion/CommentCreate.vue";
+import { mapState, mapActions } from "vuex";
 
-import 'codemirror/lib/codemirror.css';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import { Viewer } from '@toast-ui/vue-editor';
+import "codemirror/lib/codemirror.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import { Viewer } from "@toast-ui/vue-editor";
 
-import axios from 'axios';
-import { API_BASE_URL } from '../../config';
+import axios from "axios";
+import { API_BASE_URL } from "../../config";
 
 export default {
   components: { Comment, CommentCreate, Viewer, ProsAndConsChart },
   computed: {
-    ...mapState('opinionStore', [
-      'opinionData',
-      'opinionComment',
-      'opinionCommentPaging',
-      'opinionCommentPagingCnt',
+    ...mapState("opinionStore", [
+      "opinionData",
+      "opinionComment",
+      "opinionCommentPaging",
+      "opinionCommentPagingCnt",
     ]),
-    ...mapState(['userInfo', 'isLoginToken']),
+    ...mapState(["userInfo", "isLoginToken"]),
     getLike: {
       get: function() {
         if (this.opinionData.like_users.includes(this.$store.state.userInfo.id)) {
@@ -167,27 +173,27 @@ export default {
     return {
       page: 1,
       pageCnt: 3,
-      content: '',
+      content: "",
     };
   },
   watch: {
     page: function(newVal) {
-      this.$store.commit('opinionStore/SET_OPINION_COMMENT_SELECT', (newVal - 1) * 10);
-      this.$store.commit('opinionStore/SET_OPINION_COMMENT_PAGING', (newVal - 1) * 10);
+      this.$store.commit("opinionStore/SET_OPINION_COMMENT_SELECT", (newVal - 1) * 10);
+      this.$store.commit("opinionStore/SET_OPINION_COMMENT_PAGING", (newVal - 1) * 10);
     },
   },
   methods: {
-    ...mapActions('opinionStore', ['opinionDetail', 'opinionDelete', 'bookmarkUpdate']),
+    ...mapActions("opinionStore", ["opinionDetail", "opinionDelete", "bookmarkUpdate"]),
     opUpdate() {
       this.$router.push(`/opinionWrite?type=update`);
     },
     opDelete() {
       this.opinionDelete(this.opinionData.id);
-      this.$router.push({ name: 'Opinion' });
+      this.$router.push({ name: "Opinion" });
     },
     isLogin() {
-      if (this.isLoginToken == '') {
-        this.$store.commit('CHANGE_DIALOG', true);
+      if (this.isLoginToken == "") {
+        this.$store.commit("CHANGE_DIALOG", true);
         return;
       }
       this.thumbUp();
@@ -205,23 +211,23 @@ export default {
     },
 
     take() {
-      console.log('받음');
+      console.log("받음");
     },
 
     bookmarkChange(check) {
-      let message = '';
-      if (check == 'far') {
-        if (this.isLoginToken == '') {
-          this.$store.commit('CHANGE_DIALOG', true);
+      let message = "";
+      if (check == "far") {
+        if (this.isLoginToken == "") {
+          this.$store.commit("CHANGE_DIALOG", true);
           return;
         }
-        message = '저장 되었습니다.';
-      } else message = '취소 되었습니다.';
+        message = "저장 되었습니다.";
+      } else message = "취소 되었습니다.";
 
       this.bookmarkUpdate(this.userInfo.id);
       this.$toasted.show(message, {
-        theme: 'outline',
-        position: 'bottom-center',
+        theme: "outline",
+        position: "bottom-center",
         duration: 500,
       });
     },
@@ -238,12 +244,9 @@ export default {
       .then((res) => {
         console.log(res.data.content);
         this.content = res.data.content;
-        this.$store.commit('opinionStore/SET_OPINION_DETAIL', res.data);
-        this.$store.commit('opinionStore/SET_OPINION_COMMENT', res.data.comment_set);
-        this.$store.commit(
-          'opinionStore/SET_OPINION_COMMENT_PAGING',
-          this.$store.state.opinionCommentSelect
-        );
+        this.$store.commit("opinionStore/SET_OPINION_DETAIL", res.data);
+        this.$store.commit("opinionStore/SET_OPINION_COMMENT", res.data.comment_set);
+        this.$store.commit("opinionStore/SET_OPINION_COMMENT_PAGING", 0);
       })
       .catch((err) => console.log(err.response));
   },

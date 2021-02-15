@@ -15,11 +15,11 @@
                         <div class="" align=center>
                             <div class="mypage_profileBox">
                                 <figure class="profile_area" id="preview">
-                                    <img :src="image" id="picture" class="profileImg">
+                                    <img src="https://static.some.co.kr/sometrend/images/mypage/profile/w_01.png" id="picture" class="profileImg">
                                 </figure>
                                 <div class="filebox">
-                                    <label for="ex">프로필 사진 변경</label>
-                                    <input type="file" id="ex" class="inp-img profileChage_btn" accept=".gif, .jpg, .png" onchange="test()">
+                                    <label for="ex_file">프로필 사진 변경</label>
+                                    <input type="file" id="ex_file" class="inp-img profileChage_btn" accept=".gif, .jpg, .png" onchange="test(this);">
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                                 <tr>
                                     <td></td>
                                     <td align=center>
-                                        <v-btn class="mr-4" @click="modify" :disabled="!valid">정보 수정</v-btn>
+                                        <v-btn class="mr-4" @click="modify" >정보 수정</v-btn>
                                     </td>
                                     <td></td>
                                 </tr>
@@ -80,9 +80,6 @@ export default {
     computed: {
         ...mapState(['userInfo']),
     },
-    props: {
-        image:  { type: String },
-    },
     data: function() {
         return {
             modData: {
@@ -102,7 +99,6 @@ export default {
         this.initialValue = this.userInfo.introduce_text;//
     },
     methods: {
-        
         modify() {
             this.modData.introduce = this.$refs.toastuiEditor.invoke("getMarkdown");
             this.$store.dispatch('userUpdate', this.modData);
