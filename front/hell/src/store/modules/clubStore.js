@@ -1,4 +1,4 @@
-import { createInstance } from '../../api/index.js';
+import { createInstance } from "../../api/index.js";
 
 const instance = createInstance();
 
@@ -6,13 +6,13 @@ const clubStore = {
   namespaced: true,
   state: {
     //클럽 전체
-    clubs: '',
+    clubs: "",
     clubsPaging: {},
     clubsPaginCnt: 0,
     clubsCategory: null,
 
     //클럽 디테일 정보
-    clubData: '',
+    clubData: "",
 
     //Url 정보
     clubDetailUrl: null,
@@ -30,6 +30,7 @@ const clubStore = {
     //클럽 멤버 관리 리스트
     clubManageMemberList: [],
     clubManageJoinList: [],
+    clubManageArticleList: [],
   },
   getters: {},
   mutations: {
@@ -51,7 +52,7 @@ const clubStore = {
       state.clubsCategory = [];
       let index = 0;
       //전체 보기이면 그대로 저장
-      if (category == '전체') {
+      if (category == "전체") {
         state.clubsCategory = state.clubs;
         return;
       }
@@ -101,7 +102,7 @@ const clubStore = {
 
     //클럽가입신청대기 중인지
     SET_IS_WAITING(state, data) {
-      console.log('데이터 변경 ' + data);
+      console.log("데이터 변경 " + data);
       state.clubDetailIsWaiting = data;
     },
   },
@@ -109,11 +110,11 @@ const clubStore = {
     // 조회
     clubList({ commit }) {
       instance
-        .get('/club/')
+        .get("/club/")
         .then((res) => {
-          commit('SET_CLUBS', res.data);
-          commit('SET_CLUBS_CATEGORY', '전체');
-          commit('SET_CLUBS_PAGING', 0);
+          commit("SET_CLUBS", res.data);
+          commit("SET_CLUBS_CATEGORY", "전체");
+          commit("SET_CLUBS_PAGING", 0);
         })
         .catch((err) => console.log(err.response));
     },
@@ -121,9 +122,9 @@ const clubStore = {
     // 생성
     clubCreate({ dispatch }, data) {
       instance
-        .post('/club/create/', data)
+        .post("/club/create/", data)
         .then(() => {
-          dispatch('clubList');
+          dispatch("clubList");
         })
         .catch((err) => console.log(err.response));
     },
@@ -133,19 +134,19 @@ const clubStore = {
       instance
         .put(`/club/club_detail/${state.clubData.id}/`, data)
         .then(() => {
-          dispatch('clubDetail', state.clubData.id);
+          dispatch("clubDetail", state.clubData.id);
         })
         .catch((err) => console.log(err.response));
     },
 
     // 디테일
     clubDetail({ commit }, id) {
-      console.log(id, 'club_id');
+      console.log(id, "club_id");
       instance
         .get(`club/club_detail/${id}/`)
         .then((res) => {
           console.log(res);
-          commit('SET_CLUB_DETAIL', res.data);
+          commit("SET_CLUB_DETAIL", res.data);
         })
         .catch((err) => console.log(err.response));
     },
@@ -157,7 +158,7 @@ const clubStore = {
       instance
         .get(`club/club_article_list/${state.clubData.id}/news/`)
         .then((res) => {
-          commit('SET_CLUB_DETAIL_URL', res.data);
+          commit("SET_CLUB_DETAIL_URL", res.data);
         })
         .catch((err) => console.log(err.response));
     },
@@ -166,7 +167,7 @@ const clubStore = {
       instance
         .get(`club/club_article_list/${state.clubData.id}/youtube/`)
         .then((res) => {
-          commit('SET_CLUB_DETAIL_URL', res.data);
+          commit("SET_CLUB_DETAIL_URL", res.data);
         })
         .catch((err) => console.log(err.response));
     },
@@ -175,7 +176,7 @@ const clubStore = {
       instance
         .get(`club/club_article_list/${state.clubData.id}/etc/`)
         .then((res) => {
-          commit('SET_CLUB_DETAIL_URL', res.data);
+          commit("SET_CLUB_DETAIL_URL", res.data);
         })
         .catch((err) => console.log(err.response));
     },
@@ -185,7 +186,7 @@ const clubStore = {
       instance
         .post(`club/club_article/`, data)
         .then(() => {
-          dispatch('clubDetailUrlList');
+          dispatch("clubDetailUrlList");
         })
         .catch((err) => console.log(err.response));
     },
@@ -195,7 +196,7 @@ const clubStore = {
       instance
         .put(`club/club_article_detail/2/`, data)
         .then(() => {
-          dispatch('clubDetailUrlList');
+          dispatch("clubDetailUrlList");
         })
         .catch((err) => console.log(err.response));
     },
@@ -205,10 +206,10 @@ const clubStore = {
       instance
         .post(`club/member_check/${state.clubData.id}/`, data)
         .then((res) => {
-          if (data.type == '') {
-            commit('SET_MANAGE_JOIN_LIST', res.data);
+          if (data.type == "") {
+            commit("SET_MANAGE_JOIN_LIST", res.data);
           } else {
-            commit('SET_MANAGE_MEMBER_LIST', res.data);
+            commit("SET_MANAGE_MEMBER_LIST", res.data);
           }
         })
         .catch((err) => console.log(err.response));
@@ -217,7 +218,7 @@ const clubStore = {
     //클럽 가입신청
     clubJoin({ state, commit }, data) {
       instance.post(`club/club_signup/${state.clubData.id}/`, data).then(() => {
-        commit('SET_IS_WAITING', true);
+        commit("SET_IS_WAITING", true);
       });
     },
 
@@ -226,7 +227,7 @@ const clubStore = {
       instance
         .post(`club/member_approve/${state.clubData.id}/`, data)
         .then(() => {
-          dispatch('clubMangeList', { type: '' });
+          dispatch("clubMangeList", { type: "" });
         })
         .catch((err) => console.log(err.response));
     },
@@ -237,43 +238,93 @@ const clubStore = {
       instance
         .delete(`club/member_delete/${state.clubData.id}/${data.member}/`)
         .then(() => {
-          dispatch('clubMangeList', { type: '' });
+          dispatch("clubMangeList", { type: "" });
         })
         .catch((err) => console.log(err.response));
     },
 
     //클럽 탈퇴
     clubLeave({ state, dispatch }, data) {
-      instance.post(`club/club_member_delete/${state.clubData.id}/`, data).then(() => {
-        dispatch('isClubMember', { type: '승인' });
-      });
+      instance
+        .post(`club/club_member_delete/${state.clubData.id}/`, data)
+        .then(() => {
+          dispatch("isClubMember", { type: "승인" });
+        });
     },
 
     //클럽멤버인지
     isClubMember({ state, commit }, data) {
       instance
-        .post(`club/member_check/${state.clubData.id}/`, { type: '승인' })
+        .post(`club/member_check/${state.clubData.id}/`, { type: "승인" })
         .then((res) => {
-          commit('SET_MANAGE_MEMBER_LIST', res.data);
+          commit("SET_MANAGE_MEMBER_LIST", res.data);
           for (var i = 0; i < res.data.length; i++) {
             if (res.data[i].user === data.user) {
-              commit('SET_IS_MEMBER', true);
+              commit("SET_IS_MEMBER", true);
               return;
             }
           }
-          commit('SET_IS_MEMBER', false);
-          instance.post(`club/member_check/${state.clubData.id}/`, { type: '' }).then((res1) => {
-            for (var j = 0; j < res1.data.length; j++) {
-              if (res1.data[j].user === data.user) {
-                commit('SET_IS_WAITING', true);
-                return;
+          commit("SET_IS_MEMBER", false);
+          instance
+            .post(`club/member_check/${state.clubData.id}/`, { type: "" })
+            .then((res1) => {
+              for (var j = 0; j < res1.data.length; j++) {
+                if (res1.data[j].user === data.user) {
+                  commit("SET_IS_WAITING", true);
+                  return;
+                }
               }
-            }
-            commit('SET_IS_WAITING', false);
-            return;
-          });
+              commit("SET_IS_WAITING", false);
+              return;
+            });
         })
         .catch((err) => console.log(err.response));
+    },
+
+    //클럽 게시판 관리 조회
+    clubManageArticle({ state }) {
+      state.clubManageArticleList = [];
+      instance
+        .get(`club/club_article_list/${state.clubData.id}/news/`)
+        .then((res) => {
+          for (var i = 0; i < res.data.length; i++) {
+            if (res.data[i] == "") {
+              break;
+            }
+            state.clubManageArticleList.push(res.data[i]);
+          }
+          instance
+            .get(`club/club_article_list/${state.clubData.id}/youtube/`)
+            .then((res1) => {
+              for (var i = 0; i < res.data.length; i++) {
+                if (res1.data[i] == "") {
+                  break;
+                }
+                state.clubManageArticleList.push(res1.data[i]);
+                console.log(res1.data[i] + " " + i);
+              }
+              instance
+                .get(`club/club_article_list/${state.clubData.id}/etc/`)
+                .then((res2) => {
+                  for (var i = 0; i < res.data.length; i++) {
+                    if (res2.data[i] == "") {
+                      break;
+                    }
+                    state.clubManageArticleList.push(res2.data[i]);
+                    console.log(res2.data[i] + " " + i);
+                  }
+                });
+            });
+        });
+    },
+
+    //클럽추방
+    clubMemberRemove({ state, dispatch }, data) {
+      instance
+        .post(`club/club_member_delete/${state.clubData.id}/`, data)
+        .then(() => {
+          dispatch("clubMangeList", { type: "승인" });
+        });
     },
   },
 };
