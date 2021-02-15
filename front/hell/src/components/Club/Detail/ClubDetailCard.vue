@@ -19,10 +19,8 @@
                   <!-- 클럽정보 (맴버수, 카테고리, 개설일, 마스터) -->
                   <div class="headline">{{ clubData.title }}</div>
                   <div class="mt-3">카테고리 - {{ clubData.category }}</div>
-                  <div class="mt-3">멤버수 - {{clubManageMemberList.length}}</div>
-                  <div class="mt-3">매니저 - {{ clubData.master }}</div>
                   <div class="mt-3">멤버수 - {{ clubData.member_cnt }}</div>
-                  <div class="mt-3">매니저 - {{ clubData.mastername }}</div>
+                  <div class="mt-3">클럽장 - {{ clubData.mastername }}</div>
                   <div class="mt-3">개설일 - {{ clubData.created_at }}</div>
                 <!-- </v-sheet> -->
               </v-col>
@@ -42,7 +40,7 @@
                 <v-btn v-if="clubData.master != userInfo.id && clubDetailIsMember" color="blue darken-1" text @click="doLeave()">클럽탈퇴</v-btn>
                 <v-btn v-if="clubData.master != userInfo.id && !clubDetailIsMember &&  clubDetailIsWaiting" color="blue darken-1" text>가입대기중</v-btn>
                 <v-dialog  
-                  v-if="clubData.master != userInfo.id && !clubDetailIsMember && !clubDetailIsWaiting && clubData.is_private"
+                  v-if="clubData.master != userInfo.id && !clubDetailIsMember && !clubDetailIsWaiting"
                   transition="dialog-bottom-transition"
                   max-width="600"
                 >
