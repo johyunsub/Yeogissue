@@ -40,7 +40,7 @@
                 <v-btn v-if="clubData.master != userInfo.id && clubDetailIsMember" color="blue darken-1" text @click="doLeave()">클럽탈퇴</v-btn>
                 <v-btn v-if="clubData.master != userInfo.id && !clubDetailIsMember &&  clubDetailIsWaiting" color="blue darken-1" text>가입대기중</v-btn>
                 <v-dialog  
-                  v-if="clubData.master != userInfo.id && !clubDetailIsMember && !clubDetailIsWaiting && clubData.is_private"
+                  v-if="clubData.master != userInfo.id && !clubDetailIsMember && !clubDetailIsWaiting"
                   transition="dialog-bottom-transition"
                   max-width="600"
                 >
