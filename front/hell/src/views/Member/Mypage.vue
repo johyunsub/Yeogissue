@@ -1,8 +1,10 @@
 <template>
     <v-container>
         <h1>My 이슈</h1>
-        <h1>안녕하세요, {{nickname}} 님</h1>
+
+        <h1>안녕하세요, <a text @click="ProfileOn('profile')">{{ userInfo.nickname }}</a>님</h1>
         
+        <my-profile-modal />
         <v-row class="py-5">
             <v-col cols="3">
                 <v-row class="py-4" justify="center">
@@ -117,10 +119,15 @@ import MyScrap from '../../components/Mypage/MyScrap.vue';
 import MyUpdate from '../../components/Mypage/MyUpdate.vue';
 import MyWrite from '../../components/Mypage/MyWrite.vue';
 import MyChangepw from '../../components/Mypage/MyChangepw.vue';
+import MyProfileModal from '../../components/Mypage/MyProfileModal.vue';
 
+import { mapState } from "vuex";
 
 export default {
-  components: { MyClub, MyFeeling, MyGraph, MyRecently, MyScrap, MyUpdate, MyWrite, MyChangepw },
+  components: { MyClub, MyFeeling, MyGraph, MyRecently, MyScrap, MyUpdate, MyWrite, MyChangepw, MyProfileModal },
+  computed: {
+    ...mapState(["userInfo"]),
+  },
   data: function() {
       return {
           club: false,
@@ -133,9 +140,17 @@ export default {
           changepw: false,
 
           nickname: '',
+          link:"https://medium.com",
       }
   },
   methods: {
+      ProfileOn: function(message) {
+        switch (message) {
+            case "profile":
+            this.$store.commit("CHANGE_PROFILE", true);
+            break;
+        }
+      },
       OnOff: function(message) {
       switch (message) {
         case 'club':

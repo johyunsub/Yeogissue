@@ -51,7 +51,7 @@
                                 <tr>
                                     <td></td>
                                     <td align=center>
-                                        <v-btn class="mr-4" @click="modify" :disabled="!valid">정보 수정</v-btn>
+                                        <v-btn class="mr-4" @click="modify" >정보 수정</v-btn>
                                     </td>
                                     <td></td>
                                 </tr>

@@ -72,7 +72,7 @@
 <script>
 import { mapActions } from 'vuex';
 import axios from 'axios';
-import { API_BASE_URL } from "../../config";
+import { API_BASE_URL } from '../../config';
 
 export default {
   data: () => ({
@@ -83,7 +83,7 @@ export default {
       email: '',
       password: '',
     },
-    certdata:'',
+    certdata: '',
     emailRules: [
       (v) => !!v || 'E-mail is required',
       (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
@@ -94,8 +94,7 @@ export default {
       get: function() {
         return this.$store.state.dialog;
       },
-      set: function() {
-      },
+      set: function() {},
     },
   },
 
@@ -108,43 +107,46 @@ export default {
       axios
         .post(`${API_BASE_URL}accounts/api-token-auth/`, this.logindata)
         .then((res) => {
-          console.log(res.data)
+          console.log(res.data);
           this.$store.commit('SET_LOGIN_TOKEN', res.data.token);
-          this.$store.commit("SET_USER_INFO", this.logindata);
+          this.$store.commit('SET_USER_INFO', this.logindata);
           this.$store.dispatch('userData', this.logindata.email);
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('email', this.logindata.email);
           this.OnOffLoign();
-          this.$router.push({ name: 'Home' });
+          // this.$router.push({ name: 'Home' });
           this.accounts_valid = false;
         })
         .catch((err) => {
           console.log(err.response);
-          this.accounts_valid = true; //에러일때 노출 
+          this.accounts_valid = true; //에러일때 노출
         });
     },
     certCheck() {
       axios
-        .post(`${API_BASE_URL}accounts/login/`,{email:this.logindata.email,password:this.logindata.password} )   
+        .post(`${API_BASE_URL}accounts/login/`, {
+          email: this.logindata.email,
+          password: this.logindata.password,
+        })
         .then((res) => {
-          console.log("인증값"+res.data);
+          console.log('인증값' + res.data);
 
-          if(res.data == '1') {//인증되있으면
-            console.log("인증값 : "+res.data);
+          if (res.data == '1') {
+            //인증되있으면
+            console.log('인증값 : ' + res.data);
             this.validate();
-          }
-          else{
+          } else {
             this.$fire({
-              title: "이메일인증이 필요합니다",
-              text: "인증페이지로 이동합니다",
-              type: "error",
-            }).then(r => {
+              title: '이메일인증이 필요합니다',
+              text: '인증페이지로 이동합니다',
+              type: 'error',
+            }).then((r) => {
               console.log(r.value);
-              this.$store.commit('CHANGE_DIALOG', false);           
-              this.$router.push(`/mypage/cert?email=${this.logindata.email}`)
+              this.$store.commit('CHANGE_DIALOG', false);
+              this.$router.push(`/mypage/cert?email=${this.logindata.email}`);
             });
           }
-        })
+        });
     },
     loginWithKakao() {
       const params = {
