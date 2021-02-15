@@ -38,6 +38,7 @@ export default {
     CommentCreate() {
        this.createData.content = this.content;
       this.opinionCommentEmotion(this.createData);
+      this.createData.content = ''
       
     },
   },

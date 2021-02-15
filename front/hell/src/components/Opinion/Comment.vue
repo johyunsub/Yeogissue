@@ -11,20 +11,23 @@
 
         <v-col cols="auto">
           <div v-if="emotion=='기쁨'">
-            <v-icon large>far fa-grin-squint</v-icon>
-        <i medium class=""></i></div>
+        <i class="far fa-grin-squint"></i></div>
         
+
+        <div v-else-if="emotion=='감정불가'">
+        <i class="far fa-grin-stars"></i></div>
+
         <div v-else-if="emotion=='신뢰'">
         <i class="far fa-grin-stars"></i></div>
 
         <div v-else-if="emotion=='놀라움'">
-        <i class="far fa-fa-surprise"></i></div>
+        <i class="far fa-surprise"></i></div>
 
         <div v-else-if="emotion=='슬픔'">
-        <i class="far fa-fa-sad-tear"></i></div>
+        <i class="far fa-sad-tear"></i></div>
 
         <div v-else-if="emotion=='공포'">
-        <i class="far fa-fa-grimace"></i></div>
+        <i class="far fa-grimace"></i></div>
 
         <div v-else-if="emotion=='기대'">
         <i class="far fa-kiss-beam"></i></div>
@@ -50,28 +53,31 @@
         <v-col cols="2">
         
         <div v-if="emotion=='기쁨'">
-        <i class="far fa-grin-squint"></i></div>
+        <i class="far fa-grin-squint"></i>기쁨</div>
         
+        <div v-else-if="emotion=='감정불가'">
+        <i class="far fa-grin-stars"></i>감정불가</div>
         <div v-else-if="emotion=='신뢰'">
-        <i class="far fa-grin-stars"></i></div>
+
+        <i class="far fa-grin-stars"></i>신뢰</div>
 
         <div v-else-if="emotion=='놀라움'">
-        <i class="far fa-fa-surprise"></i></div>
+        <i class="far fa-surprise"></i>놀라움</div>
 
         <div v-else-if="emotion=='슬픔'">
-        <i class="far fa-fa-sad-tear"></i></div>
+        <i class="far fa-sad-tear"></i>놀라움</div>
 
         <div v-else-if="emotion=='공포'">
-        <i class="far fa-fa-grimace"></i></div>
+        <i class="far fa-grimace"></i>공포</div>
 
         <div v-else-if="emotion=='기대'">
-        <i class="far fa-kiss-beam"></i></div>
+        <i class="far fa-kiss-beam"></i>기대</div>
 
         <div v-else-if="emotion=='혐오'">
-        <i class="far fa-dizzy"></i></div>
+        <i class="far fa-dizzy"></i>혐오</div>
 
         <div v-else>
-        <i class="far fa-angry"></i></div>
+        <i class="far fa-angry"></i>화남</div>
 
           
         

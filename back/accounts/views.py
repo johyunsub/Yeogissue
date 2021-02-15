@@ -169,3 +169,14 @@ def alarm_check(request):
     alarm.check = True
     alarm.save()
     return Response({'success'})
+
+@api_view(['POST']) 
+def profile_image(request):
+    image = request.data.get('image')
+    user_id = requset.data.get('user')
+    user = User.objects.get(id=user_id)
+    user.image = image
+    user.save()
+    return Response({'success'})
+    
+

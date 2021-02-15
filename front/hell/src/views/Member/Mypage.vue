@@ -12,7 +12,7 @@
                         size="164"
                         rounded
                     >
-                        <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+                        <v-img :src='image'></v-img>
                     </v-avatar>
                 </v-row>
                 <v-row justify="center" class="py-4">
@@ -99,7 +99,7 @@
                 <my-graph v-if="graph" />
                 <my-recently v-if="recently" />
                 <my-scrap v-if="scrap" />
-                <my-update v-if="update" />
+                <my-update v-if="update" :image='image'/>
                 <my-write v-if="write" />
                 <my-changepw v-if="changepw" />
             </v-col>
@@ -118,9 +118,15 @@ import MyUpdate from '../../components/Mypage/MyUpdate.vue';
 import MyWrite from '../../components/Mypage/MyWrite.vue';
 import MyChangepw from '../../components/Mypage/MyChangepw.vue';
 
+import { mapState } from "vuex";
+// import { API_BASE_URL } from '../../config';
 
 export default {
+
   components: { MyClub, MyFeeling, MyGraph, MyRecently, MyScrap, MyUpdate, MyWrite, MyChangepw },
+  computed: {
+    ...mapState(["userInfo",]),
+  },
   data: function() {
       return {
           club: false,
@@ -133,9 +139,19 @@ export default {
           changepw: false,
 
           nickname: '',
+          image : '',
       }
   },
+  created() {
+    this.setImage();
+      
+
+  },
+  
   methods: {
+      setImage: function() {
+          this.image = 'http://127.0.0.1:8000' + this.userInfo.image;
+      },
       OnOff: function(message) {
       switch (message) {
         case 'club':
@@ -227,6 +243,7 @@ export default {
 
       }
     },
-  }
+  },
+
 }
 </script>
