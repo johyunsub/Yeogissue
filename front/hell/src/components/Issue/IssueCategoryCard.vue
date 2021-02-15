@@ -2,8 +2,8 @@
   <div>
     <v-card class="mx-auto my-5 ml-5 elevation-5" style="border-radius: 15px;" max-width="400" :elevation="2">
       <!-- 글짜 ... 해주는거 text-truncate -->
-      <v-card-title class="headline pl-6 h6" style="background-color: #4A148C;">
-        <span class="ma-auto" style="color: white;">
+      <v-card-title class="headline pl-6 h6" style="background-color: #765D5D;">
+        <span class="ma-auto" style="color: #FAEAD4;">
           <i v-if="category=='정치'" class="fas fa-landmark"></i>
           <i v-else-if="category=='해외'" class="fas fa-globe"></i>
           <i v-else-if="category=='사회/생활'" class="fas fa-users"></i>
@@ -17,15 +17,16 @@
       </v-card-title>
 
       <v-card-text class="mt-4">
-        <div v-for="(item, n) in getCategory(category)" :key="item.id" @mouseout="stp(item, n)">
+        <div v-for="(item, n) in getCategory(category)" :key="item.id" @mouseout="stp(item, n + 1)">
           <div
             :class="
-              'text-ellipsis issue-span mt-5 choice_cursor ' + (item.category + n).replace('/', '')
+              'text-ellipsis issue-span mt-5 choice_cursor ' +
+                (item.category + (n + 1)).replace('/', '')
             "
-            @mouseover="moveMarquee(item, n)"
+            @mouseover="moveMarquee(item, n + 1)"
             @click="Movepage(item, n)"
           >
-            <span class="issue-number">{{ n }}</span>
+            <span class="issue-number">{{ n + 1 }}</span>
             <span class="ml-4">{{ item.content }}</span>
           </div>
         </div>
@@ -127,12 +128,12 @@ export default {
 
 <style>
 .issue-span:hover {
-  background-color: grey;
+  background-color: #FAEAD4;
   border-radius: 20px 20px 20px 20px;
   padding: 4px;
 }
 
 .issue-number {
-  color: #2196f3;
+  color: #6B5A4F;
 }
 </style>
