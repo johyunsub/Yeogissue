@@ -107,6 +107,10 @@ def user_update(request):
         if request.data.get('introduce'):
             introduce = request.data.get('introduce')
             user.introduce_text = introduce
+        if request.data.get('imageUrl'):
+            image = request.data.get('imageUrl')
+            print(image)
+            user.image = image
         user.save()
         return Response({'success'})
     return Response({'없는계정'})
@@ -174,7 +178,9 @@ def alarm_check(request):
 @api_view(['POST']) 
 def profile_image(request):
     image = request.data.get('image')
-    user_id = requset.data.get('user')
+    print(image)
+    print(type(image))
+    user_id = request.data.get('user')
     user = User.objects.get(id=user_id)
     user.image = image
     user.save()

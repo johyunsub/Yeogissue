@@ -100,6 +100,7 @@ export default {
         //미정
         user: '',
         name: [],
+        club_pk:'',
       },
       initialValue: '',
       id: '',
@@ -110,8 +111,7 @@ export default {
       categoryItems: ['연예', 'IT/과학', '해외', '경제', '스포츠', '정치', '사회', '생활'],
       commentItems: ['토의', '찬반'],
 
-      tags: [
-      ],
+      tags: [],
       input_tag : '',
     };
   },
@@ -120,7 +120,7 @@ export default {
     CreateOpinion: function() {
       if (this.comment_type == '토의') this.createData.comment_type = true;
       else this.createData.comment_type = false;
-
+      this.createData.club_pk = this.$route.query.club_pk;
       this.createData.content = this.$refs.toastuiEditor.invoke("getMarkdown");
       this.createData.name = this.tags;
 
@@ -129,8 +129,15 @@ export default {
       this.createData.user = this.$store.state.userInfo.id;
       if (this.$route.query.type === 'write') {
         this.opinionCreate(this.createData);
-        console.log(this.createData.content);
-        this.$router.push({ name: 'Opinion' });
+        console.log(this.createData.content, this.club_pk);
+        if (this.createData.club_pk == '0') {
+          console.log(this.$route.query.club_pk,'2121212121212');
+          this.$router.push({ name: 'Opinion' });
+        }
+        else {
+          console.log(this.$route.query.club_pk,'121221121212');
+          this.$router.push(`/clubDetail?id=${this.createData.club_pk}`);
+        }
       } else if (this.$route.query.type === 'update') {
         this.opinionUpdate(this.createData);
         this.$router.push(`/opinionDetail?id=${this.id}`);
