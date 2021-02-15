@@ -2,8 +2,8 @@
   <div>
     <v-card class="mx-auto my-5 ml-5 elevation-5" style="border-radius: 15px;" max-width="400" :elevation="2">
       <!-- 글짜 ... 해주는거 text-truncate -->
-      <v-card-title class="headline pl-6 h6" style="background-color: #4A148C;">
-        <span class="ma-auto" style="color: white;">
+      <v-card-title class="headline pl-6 h6" style="background-color: #765D5D;">
+        <span class="ma-auto" style="color: #FAEAD4;">
           <i v-if="category=='정치'" class="fas fa-landmark"></i>
           <i v-else-if="category=='해외'" class="fas fa-globe"></i>
           <i v-else-if="category=='사회/생활'" class="fas fa-users"></i>
@@ -128,12 +128,12 @@ export default {
 
 <style>
 .issue-span:hover {
-  background-color: grey;
+  background-color: #FAEAD4;
   border-radius: 20px 20px 20px 20px;
   padding: 4px;
 }
 
 .issue-number {
-  color: #2196f3;
+  color: #6B5A4F;
 }
 </style>

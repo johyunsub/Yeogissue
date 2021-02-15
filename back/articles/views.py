@@ -326,7 +326,7 @@ def search_bar(request):
 
 @api_view(['GET'])
 def top_hashtag(request):
-    top_hashtag = Hashtag.objects.all().order_by('-post_cnt')[:10]
+    top_hashtag = Hashtag.objects.all().order_by('-post_cnt')[:5]
     serializer = HashtagSerializer(top_hashtag, many=True)
 
     return Response(serializer.data)

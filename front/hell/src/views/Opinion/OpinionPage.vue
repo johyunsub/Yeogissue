@@ -1,91 +1,71 @@
 <template>
   <v-row class="justify-center">
-    <v-sheet height="500" width="100%" color="">
-      <v-row class="mt-16">
-        <v-col cols="1"></v-col>
-        <h2 class="text-left mr-tp mr-bt">의견이슈</h2>
-      </v-row>
-      <v-row class="mb-16">
-        <v-col cols="1"></v-col>
-        <h3 class="text-left mr-tp mr-bt">
-          다양한 이슈와 생각이 가득한 곳! 여러분만의 의견을 공유하고, 다른 사람의 의견을
-          검색해보세요!
-        </h3>
-      </v-row>
-      <v-sheet height="250" width="100%" color="deep-purple lighten-5">
-        <!-- <marquee behavior=alternate bgcolor="" class="mt-16"> -->
-        <v-slide-group multiple show-arrows>
-          <v-slide-item v-for="tag in top_hashtags" :key="tag.name" @click="hashtagClick(tag.name)">
-            <v-chip large outlined>
-              <span style="color: black; font-weight: 600">
-                <v-icon small color="pink ">fas fa-hashtag</v-icon>
-                {{ tag.name }}</span
-              >
-            </v-chip>
-          </v-slide-item>
-        </v-slide-group>
+    <img :src="require('../../assets/의견 이슈.png')" style="height:250; width:100%; position: relative;" alt="">
 
-        <!-- </marquee> -->
-
-        <!-- <v-chip-group column class="mx-auto" max-width="1500">
-            <v-chip large outlined v-for="tag in top_hashtags" :key="tag.name" @click='hashtagClick(tag.name)'> 
-              <span style="color: black; font-weight: 600">
-                  <v-icon small color="pink ">fas fa-hashtag</v-icon>
-                  {{ tag.name }}</span
-                >
-            </v-chip>
-          </v-chip-group> -->
-
-        <!-- <v-list rounded>
-      <v-subheader>실시간 검색어</v-subheader>
-        <v-list-item-group
-        v-model="selectedItem"
-        color="primary"
-      >
-       <v-list-item v-for="tag in top_hashtags" :key="tag.name" @click='hashtagClick(tag.name)'>
-        {{ tag.name }}
-
-         </v-list-item>
-      </v-list-item-group> -->
-      </v-sheet>
-    </v-sheet>
+    
+    <v-sheet class="px-12" height="100" width="100%" color="white"></v-sheet>
 
     <div class="ma-auto mt-10" style="width: 80%">
       <!-- <v-row>
       <v-col cols="1"></v-col>
       <v-col id="opinion_main"> -->
-      <!-- 검색 -->
-      <v-row>
-        <v-col cols="3" class="mr-auto"></v-col>
-        <v-text-field
-          @keypress.enter="search_hashtag"
-          v-model="search"
-          label="다른 사람의 의견이 궁금한 주제를 검색해보세요!"
-          prepend-inner-icon="fas fa-hashtag"
-          single-line
-          rounded
-          outlined
-          color="purple"
-          clearable
-          @click:clear="gotoList"
-          clear-icon="mdi-close-circle-outline"
-          flat
-          text-field-filled-margin-top="100px"
-        ></v-text-field>
-        <v-col cols="2" class="mr-auto"></v-col>
-      </v-row>
+        <!-- 검색 -->
+        <v-row>
+          <v-col cols="3" class="mr-auto"></v-col>
+           <v-text-field
+            @keypress.enter='search_hashtag'
+            v-model="search"
+            label="다른 사람의 의견이 궁금한 주제를 검색해보세요!"
+            prepend-inner-icon="fas fa-hashtag"
+            single-line
+            rounded
+            outlined
+            color="purple"
+            clearable
+            @click:clear="gotoList"
+            clear-icon="mdi-close-circle-outline"
+            flat
+            text-field-filled-margin-top="100px"
+          ></v-text-field>
+          <v-col cols="2" class="mr-auto"></v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="3" class="mr-auto"></v-col>
+          <span class="mr-2 mt-1">인기 검색어 :</span>
+        <v-chip v-for="tag in top_hashtags" :key="tag.name" @click='hashtagClick(tag.name)' medium outlined class="justify-center mr-3"> 
+          <span  style="color: black; font-weight: 600">
+              <v-icon small color="pink">fas fa-hashtag</v-icon>
+              {{ tag.name }}</span
+            >
+        </v-chip>
+      <v-col cols="2" class="mr-auto"></v-col>
+        </v-row>
 
-      <!-- 카테고리 -->
-      <opinion-category />
+        <v-sheet class="px-12" height="100" width="100%" color="white"></v-sheet>
 
-      <!-- 보여주기 형태 -->
-      <v-row class="mt-15"> </v-row>
-      <v-row class="mt-15"> </v-row>
+       
+        <!-- 카테고리 -->
+        <opinion-category />
 
-      <!-- 내용 -->
-      <v-row class="mr-tp">
-        <v-col v-if="viewType == 'card'">
-          <v-list two-line>
+        <!-- 보여주기 형태 -->
+        <v-row class="mr-tp">
+          <v-col cols="auto" class="mr-auto"></v-col>
+          <v-col cols="auto">
+            <v-btn class="btnLC" icon @click="ChageType('list')"
+              ><v-icon>mdi-format-list-bulleted</v-icon></v-btn
+            >
+            <v-btn class="btnLC" icon @click="ChageType('card')"
+              ><v-icon>mdi-view-grid</v-icon></v-btn
+            >
+          </v-col>
+        </v-row>
+
+        <!-- 내용 -->
+        <v-row class="mr-tp">
+          <v-col v-if="viewType == 'list'"><opinion-table /></v-col>
+          <v-col v-if="viewType == 'card'"
+            >
+            <v-list two-line>
             <card-list
               v-for="(item, index) in opinionPaging"
               :key="`${index}_items`"
