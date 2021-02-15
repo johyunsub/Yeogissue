@@ -35,10 +35,12 @@
         </v-row>
       </div>
       <div class="ma-6" style="fontSize: 14px;">
-        <span style="color:blueviolet;"> #{{ data.category }} </span> | 작성자 :
-        {{ data.username }} | 작성일 : {{ data.created_at.substr(0, 10) }} |
-        <v-icon small color="blue darken-2">far fa-comments</v-icon>
-        {{ data.comment_count }} | <span v-if="!data.comment_type">찬반</span> <span v-if="data.comment_type">토의</span>
+        <span style="color:blueviolet;"> #{{ data.category }} </span>  | by
+        {{ data.username }} | {{ data.created_at.substr(0, 10) }} |
+        <span v-if="!data.comment_type"><v-icon small class="mr-1" color="pink">far fa-comments</v-icon>찬반 토론 중</span>
+        <span v-if="data.comment_type"><v-icon small class="mr-1" color="green">far fa-comment</v-icon>토의 중</span> |
+        <v-icon small color="blue darken-2">far fa-comment-alt</v-icon>
+        댓글 수:{{ data.comment_count }} 
       </div>
       <v-divider class="my-2"></v-divider>
     </v-list-item-content>
