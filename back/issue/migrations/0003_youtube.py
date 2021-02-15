@@ -6,22 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('issue', '0001_initial'),
+        ('issue', '0002_news'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='News',
+            name='Youtube',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('content', models.CharField(max_length=50)),
                 ('sort', models.CharField(max_length=10)),
                 ('start', models.CharField(max_length=10)),
-                ('link', models.CharField(max_length=150)),
-                ('site_name', models.CharField(blank=True, max_length=50)),
+                ('videoId', models.CharField(max_length=150)),
+                ('channelTitle', models.CharField(blank=True, max_length=50)),
                 ('title', models.CharField(blank=True, max_length=50)),
-                ('description', models.CharField(blank=True, max_length=300)),
-                ('image', models.CharField(blank=True, max_length=150)),
+                ('description', models.CharField(blank=True, max_length=150)),
+                ('thumbnails', models.CharField(blank=True, max_length=150)),
             ],
         ),
     ]

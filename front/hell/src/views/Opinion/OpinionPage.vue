@@ -152,7 +152,7 @@ export default {
     MovePage: function(check) {
       switch (check) {
         case 'write':
-          this.$router.push(`/opinionWrite?type=write`);
+          this.$router.push(`/opinionWrite?type=write&club_pk=0`);
           break;
       }
     },

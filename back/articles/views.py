@@ -324,14 +324,30 @@ def hashtag_suggest(request):
 @api_view(['POST'])
 def search_bar(request):
     name = request.data.get('name')
-    if Hashtag.objects.filter(name=name).exists():
-        hash = Hashtag.objects.get(name=name)
+    articles = 0
+    articles_title = 0
+    if Hashtag.objects.filter(name__contains=name).exists():
+        hash = Hashtag.objects.get(name__contains=name)
+        articles = hash.articles.all()
+
+    if Article.objects.filter(title__contains=name).exists():
+        articles_title = Article.objects.filter(title__contains=name)
+        # print(articles,'해시태그') 
+        # print(articles_title,'제목')
+    if articles and articles_title:    
+        articles = articles.union(articles_title,all=True).order_by('-id')
+        # print(articles,'최종') 
         
-        articles = hash.articles.all().order_by('-id')
-        # print(articles) 
         serializer = ArticleListSerializer(articles, many=True) 
-        
         return Response(serializer.data)
+    elif articles:
+        serializer = ArticleListSerializer(articles, many=True) 
+        return Response(serializer.data)
+    elif articles_title:
+        serializer = ArticleListSerializer(articles_title, many=True)
+        return Response(serializer.data)
+    
+        
     else:
         return Response({'없음'})
 
@@ -360,6 +376,7 @@ def like_rank(request):
     serializer = ArticleListSerializer(articles,many=True)
 
     return Response(serializer.data)
+
 
 # 해시태그-> 게시물 -> 댓글 -> 감정 개수
 @api_view(['POST'])
