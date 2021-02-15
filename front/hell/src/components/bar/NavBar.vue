@@ -25,16 +25,19 @@
       <v-btn text color="red" @click="Out">로그아웃</v-btn>
     </v-col>
     <login />
+    
+    <youtube-dialog/>
   </v-app-bar>
 </template>
 
 <script>
 import Login from "../Login/Login.vue";
+import youtubeDialog from "../Issue/IssueYoutubeDialog.vue"
 import Notification from "./Notification.vue";
 import { mapState } from "vuex";
 
 export default {
-  components: { Notification, Login },
+  components: { Notification, Login, youtubeDialog },
   computed: {
     ...mapState(["userInfo", "isLoginToken"]),
   },
