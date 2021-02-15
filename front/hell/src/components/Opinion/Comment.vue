@@ -11,6 +11,9 @@
         <v-row>
           <v-col>
             <div class="text--primary ">
+                    <v-avatar class="profile ml-3 mr-2" color="grey" size="50">
+            <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+          </v-avatar>
               <a text @click="ProfileOn('profile')">{{ username }}</a> | {{ updated_at.replace("T", " ").substr(0, 16) }}
             </div>
         
@@ -40,11 +43,11 @@
         <v-row>
           <v-col cols="2">
             <div v-if="emotion == '기쁨'">
-              <i class="far fa-grin-squint"></i>기쁨
+              <i class="far fa-grin-squint" ></i>기쁨
             </div>
 
             <div v-else-if="emotion == '감정불가'">
-              <i class="far fa-grin-stars"></i>감정불가
+              감정불가
             </div>
             <div v-else-if="emotion == '신뢰'">
               <i class="far fa-grin-stars">신뢰</i>
@@ -74,9 +77,7 @@
               <i class="far fa-angry">분노</i>
             </div>
 
-            <!-- <v-avatar class="profile ml-10" color="grey" size="80">
-            <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
-          </v-avatar> -->
+      
           </v-col>
 
           <v-col cols="9">
