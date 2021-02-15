@@ -1,5 +1,4 @@
 <template>
-  <v-container>
     <v-row class="justify-center">
       
       <img :src="require('../../assets/모여 이슈.png')" style="height:250; width:100%; position: relative;" alt="">
@@ -39,7 +38,6 @@
         <club-create :type="'create'" />
       </div>
     </v-row>
-  </v-container>
 </template>
 
 <script>
