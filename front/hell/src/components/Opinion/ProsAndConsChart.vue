@@ -1,5 +1,8 @@
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> 340db38a25b22fe079df7a3b1d4410089bbaee7e
 <script>
 import { Doughnut } from 'vue-chartjs';
 import { mapState } from 'vuex';
@@ -26,7 +29,11 @@ export default {
       ],
     },
     options: {
+<<<<<<< HEAD
+      responsive: true,
+=======
       responsive: false,
+>>>>>>> 340db38a25b22fe079df7a3b1d4410089bbaee7e
       maintainAspectRatio: false,
     },
   }),

@@ -140,6 +140,7 @@ export default {
           changepw: false,
 
           nickname: '',
+          image : '',
           link:"https://medium.com",
       }
   },
