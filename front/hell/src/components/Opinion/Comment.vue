@@ -212,9 +212,9 @@ export default {
   margin-bottom: 7px;
 }
 .bad {
-  color:red;
+  color:#D4473B;
 }
 .positive {
-  color: goldenrod;
+  color:#5D9783;
 }
 </style>
