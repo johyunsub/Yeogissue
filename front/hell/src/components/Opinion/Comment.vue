@@ -169,11 +169,11 @@ export default {
     },
 
     getBorder(type) {
-      let choice = "left";
-      this.borderColor = "#2962FF";
+      let choice = 'right';
+      this.borderColor = '#D50000';
       if (type == true) {
-        choice = "right";
-        this.borderColor = "#D50000";
+        choice = 'left';
+        this.borderColor = '#2962FF';
       }
 
       return choice;

@@ -38,7 +38,7 @@
         <span style="color:blueviolet;"> #{{ data.category }} </span> | 작성자 :
         {{ data.username }} | 작성일 : {{ data.created_at.substr(0, 10) }} |
         <v-icon small color="blue darken-2">far fa-comments</v-icon>
-        {{ data.comment_count }} | 댓글종류도 아이콘으로 넣고싶당
+        {{ data.comment_count }} | <span v-if="!data.comment_type">찬반</span> <span v-if="data.comment_type">토의</span>
       </div>
       <v-divider class="my-2"></v-divider>
     </v-list-item-content>
