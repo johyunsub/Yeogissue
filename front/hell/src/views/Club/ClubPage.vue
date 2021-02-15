@@ -66,6 +66,8 @@ export default {
           content: '',
           master: '',
           created_at: '',
+          is_private: '',
+          member_cnt: '',
         },
       ],
     };
@@ -81,8 +83,6 @@ export default {
   methods: {
     ...mapActions('clubStore', ['clubList']),
     OnOff() {
-      console.log('클럽생성');
-      console.log('하이');
       this.$store.commit('clubStore/CLUB_CREATE_DIALOG', true);
     },
   },
