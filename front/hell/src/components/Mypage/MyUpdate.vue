@@ -15,11 +15,11 @@
                         <div class="" align=center>
                             <div class="mypage_profileBox">
                                 <figure class="profile_area" id="preview">
-                                    <img src="https://static.some.co.kr/sometrend/images/mypage/profile/w_01.png" id="picture" class="profileImg">
+                                    <img v-if="imageUrl" :src="imageUrl" id="picture" class="profileImg">
                                 </figure>
                                 <div class="filebox">
                                     <label for="ex_file">프로필 사진 변경</label>
-                                    <input type="file" id="ex_file" class="inp-img profileChage_btn" accept=".gif, .jpg, .png" onchange="test(this);">
+                                    <input type="file" ref="imageInput" id="ex_file" class="inp-img profileChage_btn" accept=".gif, .jpg, .png"  @change="onChangeImages">
                                 </div>
                             </div>
                         </div>
@@ -90,6 +90,7 @@ export default {
             initialValue: '',
             message: '',
             valid: '',
+            imageUrl: null,
         };
     },
     created() {
@@ -97,6 +98,7 @@ export default {
         this.modData.email = this.userInfo.email;
         this.modData.nickname = this.userInfo.nickname;
         this.initialValue = this.userInfo.introduce_text;//
+        //this.imageUrl = "../../assets/basicprofile.jpg";
     },
     methods: {
         modify() {
@@ -147,6 +149,14 @@ export default {
             })
             this.message='';
         },
+        onClickImageUpload() {
+            this.$refs.imageInput.click();
+        },
+        onChangeImages(e) {
+            console.log(e.target.files)
+            const file = e.target.files[0];
+            this.imageUrl = URL.createObjectURL(file);
+        }
     }
 }
 </script>
@@ -201,4 +211,14 @@ export default {
     background-color: #5cb85c;
     border-color: #4cae4c;
     }
+
+    .profile_area {
+    width: 158px;
+    height: 158px;
+    border-radius: 50%;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid #cdd4db;
+    position: relative;
+}
 </style>
