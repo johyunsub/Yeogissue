@@ -2,8 +2,9 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import UserSerializer,GetUserSerializer
+from .serializers import UserSerializer,GetUserSerializer, AlarmSerializer
 from .models import MyUser as User
+from .models import Alarm
 from django.core.mail import EmailMessage
 from .tokens import make_code
 from django.contrib.auth import get_user_model
@@ -12,6 +13,9 @@ from django.shortcuts import get_object_or_404
 from rest_framework_jwt.views import obtain_jwt_token
 
 from django.contrib.auth.hashers import check_password
+
+from django.db.models import Q
+
 
 @api_view(['POST'])
 def make_admin(request):
@@ -161,3 +165,36 @@ def sendPassword(request):
         email.send()
         return Response({'0'})
     return Response({'없음'})
+    
+@api_view(['POST']) 
+def alarm(request):
+    user_id = request.data.get('user')
+    alarm = Alarm.objects.filter(Q(user_id=user_id)&Q(check=False)).order_by('-id')
+    serializer = AlarmSerializer(alarm, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST']) 
+def alarm_total(request):
+    user_id = request.data.get('user')
+    alarm = Alarm.objects.filter(user_id=user_id).order_by('-id')
+    serializer = AlarmSerializer(alarm, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST']) 
+def alarm_check(request):
+    alarm_id = request.data.get('alarm_id')
+    alarm = Alarm.objects.get(id=alarm_id)
+    alarm.check = True
+    alarm.save()
+    return Response({'success'})
+
+
+@api_view(['POST']) 
+def profile_image(request):
+    image = request.data.get('image')
+    user_id = requset.data.get('user')
+    user = User.objects.get(id=user_id)
+    user.image = image
+    user.save()
+    return Response({'success'})
+    

@@ -1,8 +1,9 @@
 <template>
   <v-list-item>
+
     <v-list-item-content>
       <v-row>
-        <v-col cols="auto" class="mr-auto">
+        <v-col cols="auto" class="mr-auto ml-6">
           <p
             class="text--primary choice_cursor"
             @click="MovePage('opinionDetail', data.id)"
@@ -19,32 +20,23 @@
         </v-col>
       </v-row>
 
-      <v-col>
-        <div class="text--primary choice_cursor" style="fontSize: 18px;">간단한 내용</div>
-      </v-col>
-
       <!-- 해시태그 -->
-      <div class="text--primary ma-6" v-if="data.hashtags.length!=0">
-        <v-row class="mr-tp">
-            <v-chip-group>
-              <v-chip
-                
-                outlined
-                v-for="tag in data.hashtags"
-                :key="tag.name"
+      <div class="text--primary ml-8 mb-2 mt-5" v-if="data.hashtags.length != 0">
+        <v-row>
+          <v-chip-group>
+            <v-chip outlined v-for="tag in data.hashtags" :key="tag.name">
+              <span style="color: black; font-weight: 600">
+                <v-icon small color="pink ">fas fa-hashtag</v-icon>
+                {{ tag.name }}</span
               >
-                <span style="color: black; font-weight: 600">
-                  <v-icon small color="pink ">fas fa-hashtag</v-icon>
-                  {{ tag.name }}</span
-                >
-              </v-chip>
-            </v-chip-group>
+            </v-chip>
+          </v-chip-group>
           <v-col cols="4"></v-col>
         </v-row>
       </div>
       <div class="ma-6" style="fontSize: 14px;">
-         <span style="color:blueviolet;"> #{{ data.category }} </span> | 작성자 : {{ data.username }} | 작성일 :
-        {{ data.created_at }} |
+        <span style="color:blueviolet;"> #{{ data.category }} </span> | 작성자 :
+        {{ data.username }} | 작성일 : {{ data.created_at.substr(0, 10) }} |
         <v-icon small color="blue darken-2">far fa-comments</v-icon>
         {{ data.comment_count }} | 댓글종류도 아이콘으로 넣고싶당
       </div>
@@ -54,25 +46,26 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
 
 export default {
   props: {
     data: { type: Object },
   },
   methods: {
-    ...mapActions("opinionStore", ["opinionDetail"]),
-    MovePage: function (check, value) {
+    ...mapActions('opinionStore', ['opinionDetail']),
+    MovePage: function(check, value) {
       switch (check) {
-        case "opinionDetail":
+        case 'opinionDetail':
           this.$router.push(`/opinionDetail?id=${value}`);
           break;
       }
     },
   },
+  created() {
+    console.log('asfdadfafs');
+  },
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

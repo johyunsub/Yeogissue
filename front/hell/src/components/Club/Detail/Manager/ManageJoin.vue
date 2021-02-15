@@ -14,7 +14,7 @@
       </v-card-title>
       <v-data-table
         :headers="headers"
-        :items="clubManageMemberList"
+        :items="clubManageJoinList"
         :search="search"
       >
       <template v-slot:item.actions="{ item }">
@@ -23,7 +23,7 @@
         class="mr-2"
         @click="approve(item)"
       >
-        mdi-pencil
+        fas fa-check
       </v-icon>
       <v-icon
         small
@@ -44,7 +44,7 @@ import {mapState, mapActions } from 'vuex';
 
 export default {
     computed:{
-        ...mapState('clubStore', [ 'clubManageMemberList' ])
+        ...mapState('clubStore', [ 'clubManageJoinList' ])
     },
     data () {
       return {
@@ -67,7 +67,6 @@ export default {
       },
       disapprove(item) {
         this.clubManageJoinDisApprove({ member: item.user })
-        console.log("ok")
       }
     },
     created() {

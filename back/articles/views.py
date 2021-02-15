@@ -11,7 +11,9 @@ from .models import Article, Hashtag, Comment, ReComment
 from .use_ai import keyword_mining, emotion
 
 from accounts.models import MyUser as User
+from accounts.models import Alarm
 
+from django.db.models import Count
 # 의견나눔 게시글
 @api_view(['GET'])
 def article_list(request):
@@ -78,11 +80,13 @@ def emotion_comment(request):
     emotion_co = emotion(request.data.get('content'))
 
     data = request.GET.copy()
-    print(data)
+    # print(data)
     data['content'] = request.data.get('content')
     data['user'] = request.data.get('user')
     data['opinion_type'] = request.data.get('opinion_type')
     
+    print(emotion_co)
+
     if emotion_co[0][0] > 0.5:
         data['emotion']= emotion_co[0][1]
     else:
@@ -121,6 +125,12 @@ def create_comment(request, article_pk):
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save(article=article)
+        alarm = Alarm()
+        alarm.message_type = '댓글'
+        alarm.user_id = article.user.id
+        alarm.object_id = article_pk
+        alarm.object_content = article.title
+        alarm.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -153,11 +163,13 @@ def comment_detail_update_delete(request, comment_pk):
         return Response({ 'id': comment_pk }, status=status.HTTP_204_NO_CONTENT)
 
 # 댓글 신고
-@api_view(['GET'])
+@api_view(['PUT'])
 def badcomment(request,comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
     comment.badcomment += 1
     comment.save()
+
+    return Response({ 'id': comment_pk }, status=status.HTTP_204_NO_CONTENT)
 
 # 의견나눔 게시글 대댓글
 @api_view(['POST'])
@@ -220,16 +232,21 @@ def badrecomment(request,recomment_pk):
 @api_view(['POST'])
 def like(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
-    print('a')
+    print(request)
     # user가 article을 좋아요 누른 전체유저에 존재하는지.
     if article.like_users.filter(pk=request.data.get('user')).exists():
         # 좋아요 취소
-        print('a')
         article.like_users.remove(request.data.get('user'))
         return Response({'success', 'dislike'},status=status.HTTP_201_CREATED)
     else:
         # 좋아요
         article.like_users.add(request.data.get('user'))
+        alarm = Alarm()
+        alarm.message_type = '좋아요'
+        alarm.user_id = article.user.id
+        alarm.object_id = article_pk
+        alarm.object_content = article.title
+        alarm.save()
         return Response({'success', 'like'},status=status.HTTP_201_CREATED)
 
 
@@ -237,7 +254,7 @@ def like(request, article_pk):
 @api_view(['POST'])
 def like_comment(request, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
-    print('a')
+    # print('a')
     # user가 article을 좋아요 누른 전체유저에 존재하는지.
     if comment.like_users.filter(pk=request.data.get('user')).exists():
         # 좋아요 취소
@@ -247,6 +264,12 @@ def like_comment(request, comment_pk):
     else:
         # 좋아요
         comment.like_users.add(request.data.get('user'))
+        alarm = Alarm()
+        alarm.message_type = '댓글좋아요'
+        alarm.user_id = comment.user.id
+        alarm.object_id = comment_pk
+        alarm.object_content = comment.content
+        alarm.save()
         return Response({'success', 'like'},status=status.HTTP_201_CREATED)
 
 
@@ -303,12 +326,61 @@ def search_bar(request):
     else:
         return Response({'없음'})
 
-
+# 해시태그 랭킹
 @api_view(['GET'])
 def top_hashtag(request):
-    top_hashtag = Hashtag.objects.all().order_by('-post_cnt')[:10]
+    top_hashtag = Hashtag.objects.all().order_by('-post_cnt')[:5]
     serializer = HashtagSerializer(top_hashtag, many=True)
 
     return Response(serializer.data)
 
+# 댓글 랭킹
+@api_view(['GET'])
+def comment_rank(request):
+    articles = Article.objects.all().annotate(num_comment=Count('comment')).order_by('-num_comment')[:5]
+    # print(articles)
+    serializer = ArticleListSerializer(articles,many=True)
 
+    return Response(serializer.data)
+
+# 좋아요 랭킹
+@api_view(['GET'])
+def like_rank(request):
+    articles = Article.objects.all().annotate(num_like=Count('like_users')).order_by('-num_like')[:5]
+    # print(articles)
+    serializer = ArticleListSerializer(articles,many=True)
+
+    return Response(serializer.data)
+
+# 해시태그-> 게시물 -> 댓글 -> 감정 개수
+@api_view(['POST'])
+def hash_emotion(request):
+    hash_tag = request.data.get('hashtag')
+    hashtag = Hashtag.objects.get(name=hash_tag)
+    articles = hashtag.articles.all()
+    data = {'기쁨':0,'신뢰':0,'공포':0,'놀라움':0,'슬픔':0,'혐오':0,'분노':0,'기대':0}
+    for article in articles:
+        comments = article.comment_set.all()
+        # print(comments)
+        for comment in comments:
+            # print(comment.emotion)
+            if comment.emotion == '기쁨':
+                data['기쁨'] += 1
+            elif comment.emotion == '신뢰':
+                data['신뢰'] += 1
+            elif comment.emotion == '공포':
+                data['공포'] += 1
+            elif comment.emotion == '놀라움':
+                data['놀라움'] += 1
+            elif comment.emotion == '슬픔':
+                data['슬픔'] += 1
+            elif comment.emotion == '혐오':
+                data['혐오'] += 1
+            elif comment.emotion == '분노':
+                data['분노'] += 1
+            elif comment.emotion == '기대':
+                data['기대'] += 1
+    # print(data)
+    
+    return Response(data)
+    

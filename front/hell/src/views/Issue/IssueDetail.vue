@@ -59,7 +59,7 @@
             <span class="display-1">"{{ issue }}" 검색</span>
           </v-col>
           <v-col cols="auto"
-            ><span style="color: #bdbdbd">날짜: {{ date }}</span>
+            ><span style="color: #bdbdbd; fontSize: 13px;">날짜: {{ date }}</span>
             <v-menu
               v-model="menu2"
               :close-on-content-click="false"
@@ -85,96 +85,178 @@
         <div class="mt-5">
           <v-tabs background-color="" class="my-2 ml-5">
             <v-tab @click="SelectCategory('news')">뉴스</v-tab>
-            <v-tab @click="SelectCategory('youtube')">유투브</v-tab>
+            <v-tab @click="SelectCategory('youtube')">유튜브</v-tab>
             <v-tab @click="SelectCategory('twitter')">트위터</v-tab>
           </v-tabs>
         </div>
         <v-divider class="ml-5"></v-divider>
 
         <!-- 카테고리 별로 보여주는 곳 -->
-        <!-- 내용 -->
+        <!-- 뉴스 내용 -->
         <div v-if="categoryType == 'news'">
-          <v-row class="mr-tp ml-3">
+          <!-- Select 박스 부분 -->
+          <v-row class="mt-5">
             <v-col cols="auto" class="mr-auto"></v-col>
-            <v-col cols="auto">dddd</v-col>
-            <!-- 뉴스 리스트 부분 -->
-            <div>
-              <issue-news-list v-for="(item, index) in newsData" :key="index" :data="item" />
-            </div>
-            <!-- <div v-if="categoryType == 'youtube'">
-            <v-col><issue-youtube-list /></v-col>
-          </div> -->
+            <v-col cols="auto">
+              <div style="width:130px;">
+                <v-select
+                  outlined
+                  :items="selectItem"
+                  label="유사도순"
+                  v-model="selectNews"
+                  dense
+                  solo
+                ></v-select>
+              </div>
+            </v-col>
           </v-row>
+
+          <div style="clear:both;"></div>
+
+          <!-- 뉴스 리스트 부분 -->
+          <v-list two-line>
+            <issue-news-list v-for="(item, index) in newsData" :key="index" :data="item" />
+          </v-list>
+        </div>
+
+        <!-- 유튜브 내용 -->
+        <div v-if="categoryType == 'youtube'">
+          <!-- Select 박스 부분 -->
+          <v-row class="mt-5">
+            <v-col cols="auto" class="mr-auto"></v-col>
+            <v-col cols="auto">
+              <div style="width:130px;">
+                <v-select
+                  outlined
+                  :items="selectItem"
+                  label="유사도순"
+                  v-model="selectYoutu"
+                  dense
+                  solo
+                ></v-select>
+              </div>
+            </v-col>
+          </v-row>
+
+          <div style="clear:both;"></div>
+
+          <!-- 유튜브 리스트 부분 -->
+          <v-list two-line>
+            <issue-youtube-list v-for="(item, index) in youtubeData" :key="index" :data="item" />
+          </v-list>
         </div>
       </v-col>
     </v-row>
+    <!-- 로딩 -->
+    <v-overlay :z-index="0" :value="overlay">
+      <div style="text-align: center">
+        <div>
+          불러오는 중...
+          <v-img src="https://i.ibb.co/hRsHwmt/image.gif" />
+        </div>
+        <div>
+          <v-progress-circular class="mt-5" indeterminate size="64"></v-progress-circular>
+        </div>
+        <v-btn class="mt-5" color="orange lighten-2" @click="overlay = false">
+          로딩 나가기
+        </v-btn>
+      </div>
+    </v-overlay>
   </v-container>
+  <!-- <div v-if="categoryType == 'youtube'">
+            <v-col><issue-youtube-list /></v-col>
+          </div> -->
 </template>
 
 <script>
-import Axios from "axios";
-import { API_BASE_URL } from "../../config";
-import { mapActions, mapState } from "vuex";
-import IssueNewsList from "../../components/Issue/IssueNewsList.vue";
-// import IssueYoutubeList from "../../components/Issue/IssueYoutubeList.vue";
+import Axios from 'axios';
+import { API_BASE_URL } from '../../config';
+import { mapActions, mapState } from 'vuex';
+import IssueNewsList from '../../components/Issue/IssueNewsList.vue';
+import IssueYoutubeList from '../../components/Issue/IssueYoutubeList.vue';
 
 export default {
-  components: { IssueNewsList },
+  components: { IssueNewsList, IssueYoutubeList },
   computed: {
-    ...mapState("issueStore", [
-      "issueDetail",
-      "issueEntertainment",
-      "issueITScience",
-      "issueWorld",
-      "issueEconomy",
-      "issueSports",
-      "issuePolitics",
-      "issueSociety",
+    ...mapState('issueStore', [
+      'issueDetail',
+      'issueEntertainment',
+      'issueITScience',
+      'issueWorld',
+      'issueEconomy',
+      'issueSports',
+      'issuePolitics',
+      'issueSociety',
     ]),
   },
   data: () => ({
     selectedItem: 1,
-    categoryType: "news",
-    ob: "",
+    categoryType: 'news',
+    ob: '',
 
-    category: "",
-    issue: "",
-    date: "",
+    category: '',
+    issue: '',
+    date: '',
 
-    datePicker: "",
+    datePicker: '',
 
     menu1: false,
     menu2: false,
 
     categoryItems: {},
 
-    categoryKorean: ["연예", "스포츠", "해외", "IT/과학", "경제", "정치", "사회/생활"],
+    categoryKorean: ['연예', '스포츠', '해외', 'IT/과학', '경제', '정치', '사회/생활'],
     categoryEnglish: [
-      "ENTERTAINMENT",
-      "SPORTS",
-      "WORLD",
-      "IT_SCIENCE",
-      "ECONOMY",
-      "POLITICS",
-      "SOCIETY/LIVING",
+      'ENTERTAINMENT',
+      'SPORTS',
+      'WORLD',
+      'IT_SCIENCE',
+      'ECONOMY',
+      'POLITICS',
+      'SOCIETY/LIVING',
     ],
-
+    // 로딩창
+    overlay: false,
     //-----------------------뉴스 태그용
     newsCurPage: 0,
     newsPageCnt: 0,
-    sort: "sim",
-    newsData: {},
+    sort: 'sim',
+    newsData: [],
+    selectItem: ['유사도순', '최신순'],
+    selectNews: '',
+    firstScroll: false,
+
+    //-----------------------유튜브 태그용
+    order: 'relevance',
+    youtuData: {},
+    selectYoutu: '',
   }),
 
+  watch: {
+    selectNews: function() {
+      this.changeSelect();
+    },
+
+    // 유튜브 태그
+    selectYoutu: function() {
+      this.changeSelect();
+    },
+  },
+
   methods: {
-    ...mapActions("issueStore", ["issueCategory"]),
+    ...mapActions('issueStore', ['issueCategory']),
     SelectCategory(type) {
+      if (type == 'news') this.newsAixos();
+      else if (type == 'youtube') this.youtubeAixos();
+
       this.categoryType = type;
     },
 
     changeDate() {
       if (this.date == this.datePicker) return;
 
+      this.newsData = [];
+      this.newsCurPage = 0;
       this.date = this.datePicker;
       this.issueAixos(this.category, this.date);
     },
@@ -182,37 +264,54 @@ export default {
     changeCategory(no) {
       this.menu1 = false;
       this.category = this.categoryEnglish[no];
+      this.newsData = [];
+      this.newsCurPage = 0;
       this.issueAixos(this.category, this.date);
     },
 
     search(issue) {
+      this.newsData = [];
+      this.newsCurPage = 0;
       this.issue = issue;
       this.newsAixos();
+    },
+
+    changeSelect() {
+      this.newsData = [];
+      this.newsCurPage = 0;
+
+      if (this.categoryType == 'news' && this.selectNews == '유사도순') this.sort = 'sim';
+      else if (this.categoryType == 'youtube' && this.selectNews == '유사도순')
+        this.order = 'relevance';
+      else this.sort = 'date';
+
+      if (this.categoryType == 'news') this.newsAixos();
+      else if (this.categoryType == 'youtube') this.youtubeAixos();
     },
 
     changeNameCategory(check) {
       let ob = null;
       switch (check) {
-        case "ENTERTAINMENT":
-          ob = "연예";
+        case 'ENTERTAINMENT':
+          ob = '연예';
           break;
-        case "IT_SCIENCE":
-          ob = "IT/과학";
+        case 'IT_SCIENCE':
+          ob = 'IT/과학';
           break;
-        case "WORLD":
-          ob = "해외";
+        case 'WORLD':
+          ob = '해외';
           break;
-        case "ECONOMY":
-          ob = "경제";
+        case 'ECONOMY':
+          ob = '경제';
           break;
-        case "SPORTS":
-          ob = "스포츠";
+        case 'SPORTS':
+          ob = '스포츠';
           break;
-        case "POLITICS":
-          ob = "정치";
+        case 'POLITICS':
+          ob = '정치';
           break;
-        case "SOCIETY/LIVING":
-          ob = "사회/생활";
+        case 'SOCIETY/LIVING':
+          ob = '사회/생활';
           break;
       }
       return ob;
@@ -221,36 +320,49 @@ export default {
     getObject(check) {
       let ob = null;
       switch (check) {
-        case "연예":
-        case "ENTERTAINMENT":
+        case '연예':
+        case 'ENTERTAINMENT':
           ob = this.issueEntertainment;
           break;
-        case "IT/과학":
-        case "IT_SCIENCE":
+        case 'IT/과학':
+        case 'IT_SCIENCE':
           ob = this.issueITScience;
           break;
-        case "해외":
-        case "WORLD":
+        case '해외':
+        case 'WORLD':
           ob = this.issueWorld;
           break;
-        case "경제":
-        case "ECONOMY":
+        case '경제':
+        case 'ECONOMY':
           ob = this.issueEconomy;
           break;
-        case "스포츠":
-        case "SPORTS":
+        case '스포츠':
+        case 'SPORTS':
           ob = this.issueSports;
           break;
-        case "정치":
-        case "POLITICS":
+        case '정치':
+        case 'POLITICS':
           ob = this.issuePolitics;
           break;
-        case "사회/생활":
-        case "SOCIETY/LIVING":
+        case '사회/생활':
+        case 'SOCIETY/LIVING':
           ob = this.issueSociety;
           break;
       }
       return ob;
+    },
+
+    onScroll() {
+      console.log('하이');
+      if (
+        window.scrollY + document.documentElement.clientHeight >
+          document.documentElement.scrollHeight - 50 &&
+        this.overlay == false
+      ) {
+        console.log('하이2');
+        window.scrollTo(0, document.documentElement.scrollHeight - 70);
+        this.newsAixos();
+      }
     },
 
     async issueAixos(category, date) {
@@ -259,10 +371,9 @@ export default {
           this.category = res.data[0].category;
           this.date = res.data[0].date;
           this.datePicker = res.data[0].date;
-          if (this.issue != "") this.issue = res.data[0].content;
+          if (this.issue != '') this.issue = res.data[0].content;
           else this.issue = res.data[this.selectedItem].content;
           this.categoryItems = res.data;
-          console.log("하이");
           this.newsAixos();
         })
         .catch((err) => {
@@ -271,23 +382,69 @@ export default {
     },
 
     async newsAixos() {
+      this.overlay = true;
       await Axios.post(`${API_BASE_URL}issue/issue_search/news/`, {
         sort: this.sort,
         content: this.issue,
         start: this.newsCurPage * 10 + 1,
       })
         .then((res) => {
-          this.newsData = res.data.news;
+          for (let i = 1; i < res.data.news.length; i++) {
+            this.newsData[this.newsData.length] = res.data.news[i];
+          }
           console.log(res.data.news);
+          //페이징 값
+          this.newsPageCnt = Math.floor(res.data.news[0].total / 10);
+
+          if (this.newsPageCnt == this.newsCurPage) {
+            console.log('완료');
+          }
+          this.newsCurPage = this.newsCurPage + 1;
+
+          this.overlay = false;
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
+
+    async youtubeAixos() {
+      this.overlay = true;
+      await Axios.post(`${API_BASE_URL}issue/issue_search/youtube/`, {
+        order: this.order,
+        content: this.issue,
+      })
+        .then((res) => {
+          this.overlay = false;
+          this.youtubeData = res.data.youtube;
+          //페이징 값
+          delete this.youtubeData[0];
         })
         .catch((err) => {
           console.log(err.response);
         });
     },
   },
+  // 무한스크롤
+  mounted() {
+    window.addEventListener('scroll', this.onScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.onScroll);
+  },
+  //---- 무한스크롤
+
   created() {
     this.selectedItem = Number(this.$route.query.no);
     this.issueAixos(this.$route.query.category, this.$route.query.date);
   },
 };
 </script>
+
+<style>
+.cate-select {
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 1px 1px 1px 1px gray;
+}
+</style>

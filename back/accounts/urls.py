@@ -17,5 +17,9 @@ urlpatterns = [
     path('passwordChange/', views.passwordChange),
     path('sendPassword/', views.sendPassword),
 
+    path('alarm/',views.alarm),
+    path('alarm_total/',views.alarm_total),
+    path('alarm_check/',views.alarm_check),
     # path('<int:user_pk>/mypage/',views.mypage),
+    path('profile_image/',views.profile_image),
 ]
