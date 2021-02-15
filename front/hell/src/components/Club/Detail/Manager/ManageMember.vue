@@ -22,7 +22,7 @@
         small
         @click="deleteItem(item)"
       >
-        mdi-delete
+        fas fa-user-minus
       </v-icon>
     </template>
     <template v-slot:no-data>
@@ -54,15 +54,17 @@ export default {
       }
     },
     methods: {
-        ...mapActions( 'clubStore', ['clubMangeList']),
-        getList() {
-            // axios.post(`${ API_BASE_URL }club/member_check/${this.$route.query.id}/`, '')
-            // .then((res) => {
-                // console.log(res.data)
-            // })
-            this.clubMangeList({type: '승인'});
-            
-        }
+      ...mapActions( 'clubStore', ['clubMangeList', 'clubMemberRemove']),
+      getList() {
+          // axios.post(`${ API_BASE_URL }club/member_check/${this.$route.query.id}/`, '')
+          // .then((res) => {
+              // console.log(res.data)
+          // })
+          this.clubMangeList({type: '승인'});
+      },
+      deleteItem(item){
+        this.clubMemberRemove({user: item.user})
+      }
     },
     created() {
         this.getList();

@@ -98,8 +98,7 @@
         <!-- 내용 -->
         <v-row class="mr-tp">
           <v-col v-if="viewType == 'list'"><opinion-table /></v-col>
-          <v-col v-if="viewType == 'card'"
-            >
+          <v-col v-if="viewType == 'card'">
             <v-list two-line>
             <card-list
               v-for="(item, index) in opinionPaging"

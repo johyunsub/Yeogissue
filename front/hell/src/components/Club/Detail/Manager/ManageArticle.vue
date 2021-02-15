@@ -3,7 +3,7 @@
     <!-- <h1>게시글 관리 - 게시물 번호,  코멘트, 게시물 url, 작성자</h1> -->
     <v-card>
       <v-card-title>
-        가입요청 관리
+        게시글 관리
         <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
@@ -15,17 +15,10 @@
       </v-card-title>
       <v-data-table
         :headers="headers"
-        :items="clubManageMemberList"
+        :items="clubManageArticleList"
         :search="search"
       >
       <template v-slot:item.actions="{ item }">
-      <v-icon
-        small
-        class="mr-2"
-        @click="approve(item)"
-      >
-        mdi-pencil
-      </v-icon>
       <v-icon
         small
         @click="disapprove(item)"
@@ -41,24 +34,29 @@
   </v-container>
 </template>
 <script>
-import {mapState } from 'vuex';
+import {mapState, mapActions } from 'vuex';
 export default {
     computed:{
-        ...mapState('clubStore', [ 'clubManageMemberList' ])
+        ...mapState('clubStore', [ 'clubManageMemberList', 'clubManageArticleList' ])
     },
     data () {
       return {
         search: '',
         headers: [
-          { text: 'No.', value: 'no' },
           { text: '카테고리', value: 'category' },
-          { text: '제목', value: 'title' },
-          { text: '가입동기', value: 'comment' },
+          // { text: '제목', value: 'title' },
+          { text: '내용', value: 'comment' },
           { text: '게시글 링크', value: 'url' },
-          { text: '작성자', value: 'writer' },
-          { text: '승인 | 취소', value: 'actions',sortable: false },
+          { text: '작성일', value: 'created_at' },
+          { text: '삭제', value: 'actions',sortable: false },
         ],
       }
     },
+    methods:{
+       ...mapActions( 'clubStore', [ 'clubManageArticle']),
+    },
+    created() {
+      this.clubManageArticle();
+    }
 }
 </script>
