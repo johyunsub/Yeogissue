@@ -12,6 +12,7 @@ import Join from '../views/Member/Join.vue';
 import Mypage from '../views/Member/Mypage.vue';
 import MyPageCert from '../views/Member/Cert.vue';
 import FindPW from '../views/Member/FindPW';
+import Magazine from '../views/Magazine/Magazine.vue'
 
 Vue.use(VueRouter);
 
@@ -85,6 +86,12 @@ const routes = [
     path: '/findPW',
     name: 'FindPW',
     component: FindPW
+  },
+  // 매거진
+  {
+    path: '/magazine',
+    name: 'Magazine',
+    component: Magazine
   },
  
 ]
