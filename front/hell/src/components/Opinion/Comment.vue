@@ -84,35 +84,46 @@
           <!-- <v-avatar class="profile ml-10" color="grey" size="80">
             <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
           </v-avatar> -->
-          
-        </v-col>
+          </v-col>
 
-        <v-col cols="9">
-          <span class="ml-5">{{ content }}</span>
-        </v-col>
-      </v-row>
-    </v-card-text>
-  </v-card>
+          <v-col cols="9">
+            <span class="ml-5">{{ content }}</span>
+          </v-col>
+        </v-row>
+      </v-alert>
+    </div>
+
+    <div v-if="isUpdate == true">
+      <comment-create
+        :type="'update'"
+        :propContent="content"
+        :no="id"
+        v-on:CommentDown="changeUpdate(false)"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
+import CommentCreate from '../../components/Opinion/CommentCreate.vue';
 import CommentMenu from './CommentMenu.vue';
 import { mapState } from 'vuex';
 import axios from 'axios';
-import { API_BASE_URL } from "../../config";
+import { API_BASE_URL } from '../../config';
 
 export default {
-  components: { CommentMenu },
+  components: { CommentMenu, CommentCreate },
   computed: {
     ...mapState('opinionStore', ['opinionComment']),
+    ...mapState(['isLoginToken', 'userInfo']),
     getLike: {
-      get: function(){
-        if(this.like_users.includes(this.$store.state.userInfo.id)){
-            return true;
-          }
+      get: function() {
+        if (this.like_users.includes(this.$store.state.userInfo.id)) {
+          return true;
+        }
         return false;
-      }
-    }
+      },
+    },
   },
   props: {
     id: { type: Number },
@@ -122,49 +133,72 @@ export default {
     updated_at: { type: String },
     user: { type: Number },
     article: { type: Number },
-    emotion: { type: String},
+    emotion: { type: String },
     like_users_count: { type: Number },
     like_users: { type: Array },
-    username: {type: String},
+    username: { type: String },
   },
-  data: () =>{
+  data: () => {
     return {
       isLike: false,
       // likeCnt: this.like_users_count,
       articleno: '',
-      // article_id: this.article,
-      // like_count: this.like_users_count,
-    }
+      isUpdate: false,
+      borderColor: '#2962FF',
+    };
   },
   methods: {
-
     thumbUp() {
-      axios.post(`${API_BASE_URL}articles/${this.id}/comment_like/`, {user: this.$store.state.userInfo.id})
-        .then((res)=>{
+      if (this.isLoginToken == '') {
+        this.$store.commit('CHANGE_DIALOG', true);
+        return;
+      }
+      axios
+        .post(`${API_BASE_URL}articles/${this.id}/comment_like/`, {
+          user: this.$store.state.userInfo.id,
+        })
+        .then((res) => {
           console.log(res);
-          if(this.getLike) {
+          if (this.getLike) {
             this.like_users_count--;
-            console.log(this.like_users_count)
-          }else{
+            console.log(this.like_users_count);
+          } else {
             this.like_users_count++;
-            console.log(this.like_users_count)
+            console.log(this.like_users_count);
           }
-          this.$store.dispatch('opinionStore/opinionDetail',this.article)
+          this.$store.dispatch('opinionStore/opinionDetail', this.article);
         })
-        .catch((err) =>{
+        .catch((err) => {
           console.log(err.response);
-        })
+        });
+    },
 
-    }
+    changeUpdate(check) {
+      this.isUpdate = check;
+    },
+
+    getBorder(type) {
+      let choice = 'left';
+      this.borderColor = '#2962FF';
+      if (type == true) {
+        choice = 'right';
+        this.borderColor = '#D50000';
+      }
+
+      return choice;
+    },
   },
-  created() {
-
-  }
+  created() {},
 };
 </script>
 
 <style scoped>
 .mr-le {
   margin-left: 15px;
+}
+
+.border-line {
+  border: 1px solid #cfd8dc;
+  margin-bottom: 7px;
 }
 </style>
