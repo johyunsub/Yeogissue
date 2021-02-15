@@ -10,7 +10,6 @@ djangorestframework-jwt==1.11.0
 Faker==5.8.0
 idna==2.10
 mysql-connector-python==8.0.22
-Pillow==8.1.0
 protobuf==3.14.0
 PyJWT==1.7.1
 python-dateutil==2.8.1
@@ -21,4 +20,3 @@ soupsieve==2.1
 sqlparse==0.4.1
 text-unidecode==1.3
 urllib3==1.26.2
-yum==0.0.1
