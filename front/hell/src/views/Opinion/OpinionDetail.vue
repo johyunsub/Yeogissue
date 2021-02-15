@@ -8,15 +8,18 @@
           <v-icon
             medium
             color="yellow"
-            style="float:right; cursor: pointer"
-            v-if="!opinionData.scrap_users.includes(userInfo.id) || isLoginToken == ''"
+            style="float: right; cursor: pointer"
+            v-if="
+              !opinionData.scrap_users.includes(userInfo.id) ||
+              isLoginToken == ''
+            "
             @click="bookmarkChange('far')"
             >far fa-bookmark</v-icon
           >
           <v-icon
             medium
             color="yellow"
-            style="float:right; cursor: pointer"
+            style="float: right; cursor: pointer"
             v-if="opinionData.scrap_users.includes(userInfo.id)"
             @click="bookmarkChange('fas')"
             >fas fa-bookmark</v-icon
@@ -25,12 +28,13 @@
         <p class="display-2 text-center py-4">{{ opinionData.title }}</p>
 
         <!-- 밑으로 float 적용 안되게 -->
-        <div style="clear:both;"></div>
+        <div style="clear: both"></div>
 
         <div class="grey--text text-center">
           by <a text @click="ProfileOn('profile')">{{ opinionData.username }}</a>  | 날짜 {{ opinionData.created_at.substr(0, 10) }}
           <span v-if="opinionData.user == userInfo.id">
-            <span>| </span><span class="choice_cursor text-bt" @click="opUpdate">수정</span> |
+            <span>| </span
+            ><span class="choice_cursor text-bt" @click="opUpdate">수정</span> |
             <span class="choice_cursor text-bt" @click="opDelete">삭제</span>
           </span>
         </div>
@@ -44,8 +48,8 @@
         <v-row v-if="!opinionData.comment_type">
           <v-col></v-col>
           <v-card>
-            <div >
-            <pros-and-cons-chart :id="parseInt(this.$route.query.id)" />
+            <div>
+              <pros-and-cons-chart :id="parseInt(this.$route.query.id)" />
             </div>
           </v-card>
           <v-col></v-col>
@@ -69,12 +73,22 @@
           <v-col cols="4"></v-col>
         </v-row>
         <v-divider></v-divider>
-       
+
         <v-row class="mt-3">
-          <v-icon v-if="!getLike" medium color="red" class="choice_cursor" @click="isLogin"
+          <v-icon
+            v-if="!getLike"
+            medium
+            color="red"
+            class="choice_cursor"
+            @click="isLogin"
             >far fa-heart</v-icon
           >
-          <v-icon v-if="getLike" medium color="red" class="choice_cursor" @click="isLogin"
+          <v-icon
+            v-if="getLike"
+            medium
+            color="red"
+            class="choice_cursor"
+            @click="isLogin"
             >fas fa-heart</v-icon
           >
           <span class="ml-3">
@@ -86,32 +100,35 @@
         <v-row>
           <v-col></v-col>
         </v-row>
- <v-row style="height:100px"></v-row>
+        <v-row style="height: 100px"></v-row>
 
         <div>
-           <v-col cols="1"></v-col>
-    <v-alert
-
-      color="cyan"
-      border="left"
-      elevation="2"
-      colored-border
-      icon="fas fa-volume-up"
-    >
-      <span>
-      올바른 댓글 문화를 양성하기 위해 작성한 댓글의 감정을 AI로 분석하여 나타냅니다.</span>
-      <br>
-      <span>
-      댓글의 감정이 '혐오' 또는 '분노'로 나타날 경우 한 번 더 검토해보실 것을 권장합니다. </span>
-    </v-alert>
-
-  </div>
-
+          <v-col cols="1"></v-col>
+          <v-alert
+            color="cyan"
+            border="left"
+            elevation="2"
+            colored-border
+            icon="fas fa-volume-up"
+          >
+            <span>
+              올바른 댓글 문화를 양성하기 위해 작성한 댓글의 감정을 AI로
+              분석하여 나타냅니다.</span
+            >
+            <br />
+            <span>
+              댓글의 감정이 '혐오' 또는 '분노'로 나타날 경우 한 번 더 검토해보실
+              것을 권장합니다.
+            </span>
+          </v-alert>
+        </div>
 
         <!-- 댓글 -->
         <v-row class="mt-10 mb-10">
           <v-col cols="1"></v-col>
-          <v-col class="mr-auto"> <comment-create :type="'create'" :propContent="''"/></v-col>
+          <v-col class="mr-auto">
+            <comment-create :type="'create'" :propContent="''"
+          /></v-col>
         </v-row>
 
         <v-row>
@@ -137,9 +154,12 @@
 
         <!-- 댓글 paging -->
         <div class="text-center mr-tp">
-          <v-pagination v-model="page" :length="opinionCommentPagingCnt" circle></v-pagination>
+          <v-pagination
+            v-model="page"
+            :length="opinionCommentPagingCnt"
+            circle
+          ></v-pagination>
         </div>
-        
       </v-col>
       <v-col cols="2"></v-col>
 
@@ -173,16 +193,18 @@ export default {
     ]),
     ...mapState(["userInfo", "isLoginToken"]),
     getLike: {
-      get: function() {
-        if (this.opinionData.like_users.includes(this.$store.state.userInfo.id)) {
+      get: function () {
+        if (
+          this.opinionData.like_users.includes(this.$store.state.userInfo.id)
+        ) {
           return true;
         }
         return false;
       },
-      set: function() {},
+      set: function () {},
     },
   },
-  data: function() {
+  data: function () {
     return {
       page: 1,
       pageCnt: 3,
@@ -191,9 +213,15 @@ export default {
     };
   },
   watch: {
-    page: function(newVal) {
-      this.$store.commit("opinionStore/SET_OPINION_COMMENT_SELECT", (newVal - 1) * 10);
-      this.$store.commit("opinionStore/SET_OPINION_COMMENT_PAGING", (newVal - 1) * 10);
+    page: function (newVal) {
+      this.$store.commit(
+        "opinionStore/SET_OPINION_COMMENT_SELECT",
+        (newVal - 1) * 10
+      );
+      this.$store.commit(
+        "opinionStore/SET_OPINION_COMMENT_PAGING",
+        (newVal - 1) * 10
+      );
     },
   },
   methods: {
@@ -261,6 +289,7 @@ export default {
   },
   created() {
     // this.opinionDetail(this.$route.query.id);
+    window.scrollTo(0, 0);
 
     axios
       .get(`${API_BASE_URL}articles/${this.$route.query.id}/`)
@@ -268,7 +297,10 @@ export default {
         console.log(res.data.content);
         this.content = res.data.content;
         this.$store.commit("opinionStore/SET_OPINION_DETAIL", res.data);
-        this.$store.commit("opinionStore/SET_OPINION_COMMENT", res.data.comment_set);
+        this.$store.commit(
+          "opinionStore/SET_OPINION_COMMENT",
+          res.data.comment_set
+        );
         this.$store.commit("opinionStore/SET_OPINION_COMMENT_PAGING", 0);
       })
       .catch((err) => console.log(err.response));
