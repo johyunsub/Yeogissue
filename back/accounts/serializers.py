@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
 class GetUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id','email','nickname','introduce_text','image']
+        fields = ['id','email','nickname','introduce_text']
 
 
 class AlarmSerializer(serializers.ModelSerializer):
