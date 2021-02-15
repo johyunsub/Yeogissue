@@ -202,18 +202,16 @@ const clubStore = {
     },
 
     //url삭제
-    clubDetailUrlDelete({state}, data){
-      instance
-        .delete(`club/club_article_detail/${data}/`)
-        .then(() => {
-          for(var i=0; i<state.clubManageArticleList.length; i++){
-            if(state.clubManageArticleList[i].id == data) {
-              state.clubManageArticleList.splice(i, 1);
-              break;
-            }
+    clubDetailUrlDelete({ state }, data) {
+      instance.delete(`club/club_article_detail/${data}/`).then(() => {
+        for (var i = 0; i < state.clubManageArticleList.length; i++) {
+          if (state.clubManageArticleList[i].id == data) {
+            state.clubManageArticleList.splice(i, 1);
+            break;
           }
-          // dispatch('clubManageArticle');
-        })
+        }
+        // dispatch('clubManageArticle');
+      });
     },
 
     // 클럽 멤버 관리
@@ -302,31 +300,31 @@ const clubStore = {
       instance
         .get(`club/club_article_list/${state.clubData.id}/news/`)
         .then((res) => {
-          for (var i = 0; i < res.data.length; i++) {
-            if (res.data[i] == "") {
-              break;
+          if (res.data.length > 0) {
+            for (var i = 0; i < res.data.length; i++) {
+              if (res.data[i] == "") {
+                break;
+              }
+              state.clubManageArticleList.push(res.data[i]);
             }
-            state.clubManageArticleList.push(res.data[i]);
           }
           instance
-            .get(`club/club_article_list/${state.clubData.id}/youtube/`)
-            .then((res1) => {
-              for (var i = 0; i < res.data.length; i++) {
+          .get(`club/club_article_list/${state.clubData.id}/youtube/`)
+          .then((res1) => {
+              for (var i = 0; i < res1.data.length; i++) {
                 if (res1.data[i] == "") {
                   break;
                 }
                 state.clubManageArticleList.push(res1.data[i]);
-                console.log(res1.data[i] + " " + i);
               }
               instance
                 .get(`club/club_article_list/${state.clubData.id}/etc/`)
                 .then((res2) => {
-                  for (var i = 0; i < res.data.length; i++) {
+                  for (var i = 0; i < res2.data.length; i++) {
                     if (res2.data[i] == "") {
                       break;
                     }
                     state.clubManageArticleList.push(res2.data[i]);
-                    console.log(res2.data[i] + " " + i);
                   }
                 });
             });

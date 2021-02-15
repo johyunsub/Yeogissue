@@ -15,7 +15,7 @@
       </v-card-title>
       <v-data-table
         :headers="headers"
-        :items="clubManageMemberList"
+        :items="clubManageArticleList"
         :search="search"
       >
         <template v-slot:item.actions="{ item }">
@@ -42,7 +42,7 @@ export default {
       headers: [
         { text: "카테고리", value: "category" },
         // { text: '제목', value: 'title' },
-        { text: "가입동기", value: "comment" },
+        { text: "내용", value: "comment" },
         { text: "게시글 링크", value: "url" },
         { text: "작성일", value: "created_at" },
         { text: "삭제", value: "actions", sortable: false },
