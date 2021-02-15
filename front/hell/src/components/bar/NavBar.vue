@@ -27,17 +27,19 @@
     <login />
     
     <youtube-dialog/>
+    <my-profile-modal />
   </v-app-bar>
 </template>
 
 <script>
 import Login from "../Login/Login.vue";
 import youtubeDialog from "../Issue/IssueYoutubeDialog.vue"
+import MyProfileModal from '../../components/Mypage/MyProfileModal.vue';
 import Notification from "./Notification.vue";
 import { mapState } from "vuex";
 
 export default {
-  components: { Notification, Login, youtubeDialog },
+  components: { Notification, Login, youtubeDialog, MyProfileModal},
   computed: {
     ...mapState(["userInfo", "isLoginToken"]),
   },

@@ -18,7 +18,7 @@ from accounts.models import Alarm
 @api_view(['GET'])
 def club_list(request):
     club = Club.objects.all().order_by('-id')
-    serializer = ClublistSerializer(club,many=True)
+    serializer = ClubInfoSerializer(club,many=True)
     return Response(serializer.data)
 
 

@@ -4,7 +4,6 @@
 
         <h1>안녕하세요, <a text @click="ProfileOn('profile')">{{ userInfo.nickname }}</a>님</h1>
         
-        <my-profile-modal />
         <v-row class="py-5">
             <v-col cols="3">
                 <v-row class="py-4" justify="center">
@@ -119,12 +118,11 @@ import MyScrap from '../../components/Mypage/MyScrap.vue';
 import MyUpdate from '../../components/Mypage/MyUpdate.vue';
 import MyWrite from '../../components/Mypage/MyWrite.vue';
 import MyChangepw from '../../components/Mypage/MyChangepw.vue';
-import MyProfileModal from '../../components/Mypage/MyProfileModal.vue';
 
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
-  components: { MyClub, MyFeeling, MyGraph, MyRecently, MyScrap, MyUpdate, MyWrite, MyChangepw, MyProfileModal },
+  components: { MyClub, MyFeeling, MyGraph, MyRecently, MyScrap, MyUpdate, MyWrite, MyChangepw },
   computed: {
     ...mapState(["userInfo"]),
   },
@@ -141,16 +139,18 @@ export default {
 
           nickname: '',
           image : '',
-          link:"https://medium.com",
       }
   },
   methods: {
+    ...mapActions(['getProfile']),
+
       setImage: function() {
           this.image = 'http://127.0.0.1:8000' + this.userInfo.image;
       },
       ProfileOn: function(message) {
         switch (message) {
             case "profile":
+            this.getProfile(this.userInfo.id);
             this.$store.commit("CHANGE_PROFILE", true);
             break;
         }

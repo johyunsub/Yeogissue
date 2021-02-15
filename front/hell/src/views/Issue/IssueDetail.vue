@@ -208,7 +208,7 @@ export default {
     //-----------------------유튜브 태그용
     order: "relevance",
     youtuData: [],
-    token: "",
+    youtubeCurPage: 0,
     selectYoutu: "",
     youtubuComplete: true,
   }),
@@ -241,7 +241,7 @@ export default {
       this.newsData = [];
       this.newsCurPage = 0;
       this.youtuData = [];
-      this.token = "";
+      this.youtubeCurPage = 0;
       this.categoryType = "news";
       this.date = this.datePicker;
       this.issueAixos(this.category, this.date);
@@ -256,7 +256,7 @@ export default {
       this.newsData = [];
       this.newsCurPage = 0;
       this.youtuData = [];
-      this.token = "";
+      this.youtubeCurPage = 0;
       this.issueAixos(this.category, this.date);
     },
 
@@ -265,7 +265,7 @@ export default {
       this.newsData = [];
       this.newsCurPage = 0;
       this.youtuData = [];
-      this.token = "";
+      this.youtubeCurPage = 0;
       this.categoryType = "news";
       this.issue = issue;
       this.newsAixos();
@@ -276,7 +276,7 @@ export default {
       this.newsData = [];
       this.newsCurPage = 0;
       this.youtuData = [];
-      this.token = "";
+      this.youtubeCurPage = 0;
 
       if (this.categoryType == "news" && this.selectNews == "유사도순") this.sort = "sim";
       else if (this.categoryType == "youtube" && this.selectNews == "유사도순")
@@ -414,7 +414,7 @@ export default {
       await Axios.post(`${API_BASE_URL}issue/issue_search/youtube/`, {
         order: this.order,
         content: this.issue,
-        token: this.token,
+        start: this.youtubeCurPage* 10 + 1,
       })
         .then((res) => {
           for (let i = 1; i < res.data.youtube.length; i++) {
@@ -423,7 +423,7 @@ export default {
 
           console.log("유튜브데이터vv");
           console.log(res.data.youtube);
-          this.token = res.data.youtube[0].nextToken;
+          this.youtubeCurPage = this.youtubeCurPage + 1;
 
           this.overlay = false;
           this.youtubeComplete = true;
