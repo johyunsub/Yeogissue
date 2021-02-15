@@ -41,4 +41,5 @@ urlpatterns = [
     path('like_rank/', views.like_rank),
 
     path('hash_emotion/', views.hash_emotion),
+    path('hash_all/', views.hash_all),
 ]
