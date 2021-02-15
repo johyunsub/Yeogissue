@@ -68,7 +68,7 @@ export default {
           this.$router.push({ name: "Issue" });
           break;
         case "data":
-          this.$router.push({ name: "data" });
+          this.$router.push({ name: "Magazine" });
           break;
         case "join":
           this.$router.push({ name: "Join" });
