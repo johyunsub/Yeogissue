@@ -35,6 +35,7 @@ def myclub(request):
 
     serializer = ClubInfoSerializer(club, many=True)
     return Response(serializer.data)
+    
 # 클럽 이미지 바꾸기
 @api_view(['POST']) 
 def club_image(request,club_pk):

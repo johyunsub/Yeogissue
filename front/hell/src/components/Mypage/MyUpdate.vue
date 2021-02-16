@@ -131,6 +131,8 @@ export default {
       this.$store.dispatch("userUpdate", this.modData);
       this.modData.imageUrl = this.$refs.imageInput.files
 
+      this.changeImage();
+      
       console.log("지금" + this.modData);
       this.$fire({
         title: "회원 정보가 수정되었습니다.",
@@ -182,13 +184,16 @@ export default {
       this.modData.imageUrl = URL.createObjectURL(file);
       
       this.files = this.$refs.imageInput.files[0]
+      
+    },
+    
+    changeImage() {
       const formdata = new FormData();
       formdata.append('image',this.files);
       axios
         .post(`${API_BASE_URL}accounts/profile_image/${this.userInfo.id}/`,formdata)
         .then((res) => console.log(res))
         .catch((res) => console.log(res))
-      
     },
     
   },
