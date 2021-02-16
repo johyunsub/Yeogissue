@@ -95,6 +95,10 @@ def user_delete(request):
     
     return Response({'fail'})
 
+import base64
+import os
+from datetime import datetime
+
 @api_view(['POST'])
 def user_update(request):
     email = request.data.get('email')
@@ -107,10 +111,11 @@ def user_update(request):
         if request.data.get('introduce'):
             introduce = request.data.get('introduce')
             user.introduce_text = introduce
-        if request.data.get('imageUrl'):
-            image = request.data.get('imageUrl')
-            print(image)
-            user.image = image
+        # if request.data.get('images'):
+        #     image = request.data.get('images')
+        #     print(image,'123132123312 ')
+            
+        #     user.image = image
         user.save()
         return Response({'success'})
     return Response({'없는계정'})
@@ -199,11 +204,11 @@ def alarm_check(request):
 
 
 @api_view(['POST']) 
-def profile_image(request):
+def profile_image(request,user_id):
     image = request.data.get('image')
     print(image)
     print(type(image))
-    user_id = request.data.get('user')
+    print(user_id)    
     user = User.objects.get(id=user_id)
     user.image = image
     user.save()
