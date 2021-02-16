@@ -29,7 +29,7 @@
         small
         @click="disapprove(item)"
       >
-        mdi-delete
+        fas fa-ban
       </v-icon>
     </template>
     <template v-slot:no-data>

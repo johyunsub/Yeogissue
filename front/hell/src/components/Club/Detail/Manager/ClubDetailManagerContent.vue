@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 카테고리 if문 처리-->
-    <div class="category mt-15">
+    <v-row class="category mt-15">
       <v-col cols="4"></v-col>
       <v-col>
         <v-tabs>
@@ -11,7 +11,7 @@
         </v-tabs>
       </v-col>
       <v-col cols="3"></v-col>
-    </div>
+    </v-row>
 
     <!-- 내용 -->
     <div class="mr-tp">
