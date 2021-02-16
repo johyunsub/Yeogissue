@@ -2,18 +2,13 @@
   <div>
     <v-row class="mr-tp">
       <!-- <h1 v-for='item in opinionPaging' :key='item.title'>{{item}}이게 맞냐</h1> -->
-      <v-col cols='1'>
-      </v-col>
+      <v-col cols="1"> </v-col>
       <v-col>
-
         <v-list two-line>
-          <card-list
-            v-for="(item, index) in opinionPaging"
-            :key="`${index}_items`"
-            :data="item"
-          />
+          <card-list v-for="(item, index) in opinionPaging" :key="`${index}_items`" :data="item" />
         </v-list>
       </v-col>
+      <v-col cols="1"> </v-col>
     </v-row>
     <div class="text-center">
       <v-pagination v-model="page" :length="pagingCnt" circle></v-pagination>
@@ -27,6 +22,7 @@
           <span style="color: white;"> 글쓰기 </span></v-btn
         >
       </v-col>
+      <v-col cols="1"> </v-col>
     </v-row>
   </div>
 </template>
