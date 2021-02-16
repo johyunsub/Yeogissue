@@ -23,6 +23,7 @@
           </div>
           <div class="text--primary mt-5 choice_cursor" style="fontSize: 13px;" @click="MovePage">
             <p style="color: #6a7e88">출처 : {{ data.channelTitle }}</p>
+            <p style="color: #6a7e88">날짜 : {{data.publishTime.substr(0,10)}}</p>
           </div>
         </div>
       </div>

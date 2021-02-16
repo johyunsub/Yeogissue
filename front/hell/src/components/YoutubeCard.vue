@@ -11,6 +11,9 @@
         >
         </v-img>
         <div class="right mt-2">
+          <div class="text--primary choice_cursor" style="fontSize: 13px;" @click="MovePage">
+            <p style="fontSize: 18px; color: #64B5F6">> {{ data.comment }}</p>
+          </div>
           <p
             class="text--primary choice_cursor"
             style=" fontSize: 18px; font-weight: bold "
@@ -23,9 +26,6 @@
           </div>
           <div class="text--primary mt-5 choice_cursor" style="fontSize: 13px;" @click="MovePage">
             <p style="color: #6a7e88">생성일 : {{ data.updated_at.substr(0, 10) }}</p>
-          </div>
-          <div class="text--primary mt-5 choice_cursor" style="fontSize: 13px;" @click="MovePage">
-            <p style="color: #64B5F6">{{ data.comment }}</p>
           </div>
         </div>
       </div>
@@ -41,15 +41,15 @@ export default {
   },
   data: () => ({
     dialog: false,
-    videoUrl: '',
+    videoUrl: "",
   }),
 
   methods: {
     MovePage() {
-      this.$store.commit('issueStore/SET_ISSUE_DETAIL_YOUTUBE_DIALOG', true);
+      this.$store.commit("issueStore/SET_ISSUE_DETAIL_YOUTUBE_DIALOG", true);
       let url = this.data.video;
       this.$store.commit(
-        'issueStore/SET_ISSUE_DETAIL_VIDEO_URL',
+        "issueStore/SET_ISSUE_DETAIL_VIDEO_URL",
         `<iframe
             src="${url}"
             style="width:800px; height:500px"
