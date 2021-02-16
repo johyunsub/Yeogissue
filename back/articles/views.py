@@ -314,13 +314,15 @@ def club_article(request,club_pk):
 def hashtag_suggest(request):
     title = request.data.get('title')
     content = request.data.get('content')
-    comment = title + content
-    suggest = keyword_mining(comment)
-    info = {
-        'keyword' : suggest 
-    }
-    return Response(info)
 
+    comment = title + content
+    if comment:
+        suggest = keyword_mining(comment)
+        info = {
+            'keyword' : suggest 
+        }
+        return Response(info)
+    return Response({'fail'})
 
 @api_view(['POST'])
 def search_bar(request):
@@ -418,5 +420,35 @@ def hash_all(request):
     serializer = HashtagSerializer(hashtag, many=True)
 
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def my_emotion(request):
+    comments_emotion = Comment.objects.filter(user_id=request.data.get('user')).values('emotion')
+    print(comments_emotion)
+    data = {'기쁨':0,'신뢰':0,'공포':0,'놀라움':0,'슬픔':0,'혐오':0,'분노':0,'기대':0}
+    for i in comments_emotion:
+        if i['emotion'] == '기쁨':
+            data['기쁨'] += 1
+        elif i['emotion'] == '신뢰':
+            data['신뢰'] += 1
+        elif i['emotion'] == '공포':
+            data['공포'] += 1
+        elif i['emotion'] == '놀라움':
+            data['놀라움'] += 1
+        elif i['emotion'] == '슬픔':
+            data['슬픔'] += 1
+        elif i['emotion'] == '혐오':
+            data['혐오'] += 1
+        elif i['emotion'] == '분노':
+            data['분노'] += 1
+        elif i['emotion'] == '기대':
+            data['기대'] += 1
+    return Response(data)
+        
+    # return Response(serializer.data)
+
+
+
 
     
