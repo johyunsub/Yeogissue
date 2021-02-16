@@ -6,17 +6,51 @@
       alt=""
     />
 
+    <!-- 인기 순위 -->
+    <v-card class="mx-auto my-5 ml-5 elevation-5" style="border-radius: 15px;" max-width="400" :elevation="2">
+     <v-card-title class="headline pl-6 h6" style="background-color: white;">
+        <span class="ma-auto" style="">
+           <span class="ml-3">댓글 많은 순</span>
+          </span>
+      </v-card-title>
+      <v-divider></v-divider>
+
+     <v-card-text class="mt-4">
+        <div v-for="(item, n) in commentRank" :key="item.id">
+            <span style="color:blue;">{{ n + 1 }}</span>
+            <span class="ml-4">{{ item.title }}</span>
+          </div>
+      </v-card-text>
+    </v-card>
+
+        <!-- 좋아요 순위 -->
+    <v-card class="mx-auto my-5 ml-5 elevation-5" style="border-radius: 15px;" max-width="400" :elevation="2">
+     <v-card-title class="headline pl-6 h6" style="background-color: white;">
+        <span class="ma-auto" style="">
+           <span class="ml-3">좋아요 많은 순</span>
+          </span>
+      </v-card-title>
+      <v-divider></v-divider>
+
+     <v-card-text class="mt-4">
+        <div v-for="(item, n) in likeRank" :key="item.id">
+            <span style="color:blue;">{{ n + 1 }}</span>
+            <span class="ml-4">{{ item.title }}</span>
+          </div>
+      </v-card-text>
+    </v-card>
+
     <!-- 해시태그 워드 클라우드 -->
     <wordcloud
-      :data="defaultWords"
+      :data="hashAll"
       nameKey="name"
-      valueKey="value"
+      valueKey="post_cnt"
       color="Accent"
       :showTooltip="true"
       :wordClick="wordClickHandler"
     >
     </wordcloud>
-    {{hashAll[0].name}}
+
   </v-row>
 </template>
 
@@ -48,6 +82,22 @@ export default {
           console.log(this.hashAll[0]);
         })
         .catch((err) => console.log(err.response));
+    },
+    getCommentRank(){
+      axios.get(`${API_BASE_URL}articles/comment_rank/`)
+      .then((res) => {
+        this.commentRank = res.data;
+        console.log(this.commentRank);
+      })
+      .catch((err) => console.log(err.response));
+    },
+    getLikeRank(){
+      axios.get(`${API_BASE_URL}articles/like_rank/`)
+      .then((res) => {
+        this.likeRank = res.data;
+        console.log(this.likeRank);
+      })
+      .catch((err) => console.log(err.response));
     }
   },
   data() {
@@ -55,48 +105,15 @@ export default {
       myColors: ["#1f77b4", "#629fc9", "#94bedb", "#c9e0ef"],
       emotionData : {},
       hashAll:{},
-      defaultWords: [
-        {
-          name: "Cat",
-          value: 26,
-        },
-        {
-          name: "fish",
-          value: 19,
-        },
-        {
-          name: "things",
-          value: 18,
-        },
-        {
-          name: "look",
-          value: 16,
-        },
-        {
-          name: "two",
-          value: 15,
-        },
-        {
-          name: "fun",
-          value: 9,
-        },
-        {
-          name: "know",
-          value: 9,
-        },
-        {
-          name: "good",
-          value: 9,
-        },
-        {
-          name: "play",
-          value: 6,
-        },
-      ],
+      commentRank:{},
+      likeRank:{},
+     
     };
   },
   created(){
     this.getHashAll();
+    this.getCommentRank();
+    this.getLikeRank();
   }
 };
 </script>
