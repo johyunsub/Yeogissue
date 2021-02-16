@@ -4,7 +4,7 @@
       <div class="cover">
         <v-img
           class="left choice_cursor"
-          :src="data.thumbnails"
+          :src="data.image"
           max-height="180"
           max-width="320"
           @click="MovePage"
