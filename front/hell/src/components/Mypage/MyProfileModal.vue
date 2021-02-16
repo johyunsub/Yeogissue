@@ -47,7 +47,12 @@
                   {{profileData.email}} 
                 </v-row> 
                 <v-row class="mt-9 font-weight-bold text-h6">
-                  {{profileData.introduce_text}} 
+                  <v-textarea
+                    no-resize
+                    rows="3"
+                    :value="profileData.introduce_text"
+                  >
+                  </v-textarea>
                 </v-row>
               </v-col>    
               
@@ -84,7 +89,6 @@ export default {
     nickname: '',
     introduce_text: '',
     email:'',
-   
   }),
   computed: {
     ...mapState(['profileData']),
