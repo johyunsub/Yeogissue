@@ -18,11 +18,11 @@
           >
             {{ urlData.title }}
           </p>
-          <div class="text--primary mt-5 choice_cursor" style="fontSize: 13px;" @click="MovePage">
+          <div class="text--primary choice_cursor" style="fontSize: 13px;" @click="MovePage">
             <p style="color: #666">{{ urlData.description }}</p>
           </div>
 
-          <div class="text--primary mt-5 choice_cursor" style="fontSize: 13px;" @click="MovePage">
+          <div class="text--primary choice_cursor" style="fontSize: 13px;" @click="MovePage">
             <p style="color: #64B5F6">{{ urlData.comment }}</p>
           </div>
         </div>

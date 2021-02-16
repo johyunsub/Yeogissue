@@ -57,9 +57,22 @@
       :wordClick="wordClickHandler"
     >
     </wordcloud>
-    
-
    
+   <div>
+  <graph-bubblecloud
+            :width="500"
+            :height="500"
+            :padding-top="5"
+            :padding-bottom="0"
+            :padding-left="0"
+            :padding-right="0"
+            :values="emotionData"
+            :colors="colors"
+            :render-interval="0"
+            @click="onClickEvent">
+        <note :text="'Bubble Cloud (Created by luavis)'" :align="'left'"></note>
+    </graph-bubblecloud>
+</div>
 
   </v-row>
 </template>
@@ -69,21 +82,24 @@ import wordcloud from "vue-wordcloud";
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
 
+
 export default {
   name: "Magazine",
   components: {
     wordcloud,
+
   },
   methods: {
     wordClickHandler(name, value, vm) {
       console.log("wordClickHandler", name, value, vm);
       this.getHashTag(name)
+      console.log(this.emotionData)
     },
     getHashTag(data){
         axios.post(`${API_BASE_URL}articles/hash_emotion/`, {hashtag: data})
         .then((res) => {
           this.emotionData = res.data;
-          console.log(this.emotionData)
+          console.log(this.emotionData,'12312312312 ')
         })
         .catch((err) => console.log(err.response));
     },
@@ -91,7 +107,7 @@ export default {
       axios.get(`${API_BASE_URL}articles/hash_all/`)
         .then((res) => {
           this.hashAll = res.data;
-          console.log(this.hashAll[0]);
+          console.log(this.hashAll[0]); 
         })
         .catch((err) => console.log(err.response));
     },
@@ -110,15 +126,35 @@ export default {
         console.log(this.likeRank);
       })
       .catch((err) => console.log(err.response));
-    }
+    },
+    onClickEvent: function(obj) {
+            console.log(obj.data);
+        }
   },
   data() {
     return {
       myColors: ["#1f77b4", "#629fc9", "#94bedb", "#c9e0ef"],
-      emotionData : [],
+      // emotionData : [],
+      emotionData : [[ "/index.jsp", 100, 1000 ],
+            [ "/home.jsp", 70, 2000 ],
+            [ "/admin.jsp", 30, 3000 ],
+            [ "/test/a.jsp", 5, 8000 ],
+            [ "/test/b.jsp", 50, 5000 ],
+            [ "/test/c.jsp", 1, 10000 ],
+            [ "/test/d.jsp", 1, 1000 ]],
+      colors: function(data) {
+            if(data[2] > 4000) {
+                return 2;
+            } else if(data[2] > 3000) {
+                return 1;
+            }
+
+            return 0;
+        },
       hashAll:[],
       commentRank:{},
       likeRank:{},
+ 
      
     };
   },
