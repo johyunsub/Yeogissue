@@ -5,8 +5,8 @@
         <v-img
           class="left choice_cursor"
           :src="urlData.image"
-          max-height="100"
-          max-width="200"
+          max-height="130"
+          max-width="250"
           @click="MovePage"
         >
         </v-img>
@@ -48,7 +48,7 @@ export default {
       // this.dialog = true;
       const data = this.data();
 
-      console.log(data.qqqq.url, '21313');
+      console.log(data.qqqq.url, "21313");
       window.open(`${data.qqqq.url}`);
     },
   },
