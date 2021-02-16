@@ -155,7 +155,7 @@ def club_article(request):
             article.title=soup.find_all('meta',{'property':'og:title'})[0].get('content')
         if soup.find_all('meta',{'property':'og:description'}):
             # data['description']=soup.find_all('meta',{'property':'og:description'})[0].get('content')
-            article.description = soup.find_all('meta',{'property':'og:description'})[0].get('content')
+            article.decription = soup.find_all('meta',{'property':'og:description'})[0].get('content')
         if soup.find_all('meta',{'property':'og:image'}):
             # data['image']=soup.find_all('meta',{'property':'og:image'})[0].get('content')
             article.image=soup.find_all('meta',{'property':'og:image'})[0].get('content')
