@@ -107,14 +107,14 @@ export default {
       return { ddd: this.type };
     },
 
-    private_ra(check){
+    private_ra(check) {
       this.clubCreateData.is_private = check;
-    }
+    },
   },
 
   updated() {
     if (this.typeCheck().ddd == 'update' && this.flag == false && this.btnCheck == false) {
-      // 시발 비동기 통신하자 그냥 데이터
+      console.log('하이');
       this.clubCreateData.title = this.clubData.title;
       this.clubCreateData.category = this.clubData.category;
       this.clubCreateData.content = this.clubData.content;
@@ -126,7 +126,7 @@ export default {
 </script>
 
 <style>
-.bo-ra{
-  border: 1px solid b
+.bo-ra {
+  border: 1px solid b;
 }
 </style>

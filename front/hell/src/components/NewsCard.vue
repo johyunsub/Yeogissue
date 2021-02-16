@@ -1,19 +1,6 @@
 <template>
-  <!-- <v-sheet height="12vh">
-    <div class="title mt-10 ml-2">기사제목ㅇㅇ</div>
-    <div class="body-2 mt-3 ml-2">Url : {{ urlData.url }}</div>
-    <div class="body-2 mt-8 ml-2" v-if="type === 'club'">코멘트 : {{ urlData.comment }}</div>
-    <v-divider class="my-3"></v-divider>
-  </v-sheet> -->
   <v-list-item>
     <v-list-item-content>
-      <div>내용 : {{urlData.comment}}</div>
-      <div>작성일 : {{urlData.created_at}}</div>
-      <div>사이트 이름 :{{urlData.site_name}}</div>
-      <div>작성자 : {{urlData.user}}</div>
-      <!-- <div>{{urlData.title}}</div>
-      <div>{{urlData.description}}</div>
-      <div>{{urlData.image}}</div> -->
       <div class="cover">
         <v-img
           class="left choice_cursor"
@@ -23,7 +10,7 @@
           @click="MovePage"
         >
         </v-img>
-        <div class="right mt-2">
+        <div class="right mt-1">
           <p
             class="text--primary choice_cursor"
             style=" fontSize: 18px; font-weight: bold "
@@ -32,14 +19,14 @@
             {{ urlData.title }}
           </p>
           <div class="text--primary mt-5 choice_cursor" style="fontSize: 13px;" @click="MovePage">
-            <p>{{ urlData.description }}</p>
+            <p style="color: #666">{{ urlData.description }}</p>
+          </div>
+
+          <div class="text--primary mt-5 choice_cursor" style="fontSize: 13px;" @click="MovePage">
+            <p style="color: #64B5F6">{{ urlData.comment }}</p>
           </div>
         </div>
       </div>
-      <v-divider class="my-4"></v-divider>
-      <v-dialog v-model="dialog" max-width="700">
-        <iframe src="urlData.video" height="400"></iframe>
-      </v-dialog>
     </v-list-item-content>
   </v-list-item>
 </template>
@@ -52,21 +39,20 @@ export default {
   },
   methods: {
     data() {
-      return { 
+      return {
         qqqq: this.urlData,
-        dialog: false, 
+        dialog: false,
       };
     },
     MovePage() {
       // this.dialog = true;
       const data = this.data();
 
-      console.log(data.qqqq.url,'21313');
+      console.log(data.qqqq.url, '21313');
       window.open(`${data.qqqq.url}`);
     },
   },
-  
-  
+
   created() {
     console.log(this.data());
   },

@@ -1,30 +1,31 @@
 <template>
   <div>
-
     <!-- 카테고리 if문 처리-->
-    <v-row class="category">
-      <v-tabs>
-        <v-tab @click="SelectCategory('member')">멤버관리</v-tab>
-        <v-tab @click="SelectCategory('board')">게시물 관리</v-tab>
-        <v-tab @click="SelectCategory('join')">가입요청</v-tab>
-      </v-tabs>
-    </v-row>
+    <div class="category mt-15">
+      <v-col cols="4"></v-col>
+      <v-col>
+        <v-tabs>
+          <v-tab @click="SelectCategory('member')">멤버관리</v-tab>
+          <v-tab @click="SelectCategory('board')">게시물 관리</v-tab>
+          <v-tab @click="SelectCategory('join')">가입요청</v-tab>
+        </v-tabs>
+      </v-col>
+      <v-col cols="3"></v-col>
+    </div>
 
     <!-- 내용 -->
-    <v-row class="mr-tp">
+    <div class="mr-tp">
       <v-col v-if="categoryType == 'member'">
-        <manage-member 
-         
-        />
+        <manage-member />
       </v-col>
-      <v-col v-if="categoryType == 'board'"><manage-article />
-      </v-col>
+      <v-col v-if="categoryType == 'board'"><manage-article /> </v-col>
       <v-col v-if="categoryType == 'join'"><manage-join /></v-col>
-    </v-row>
+    </div>
 
     <!-- paging -->
 
     <!-- 수정 -->
+    <v-btn @click="OnOff"></v-btn>
     <club-create :type="'update'" />
   </div>
 </template>
@@ -33,14 +34,18 @@
 import ManageJoin from './ManageJoin.vue';
 import ManageArticle from './ManageArticle.vue';
 import ManageMember from './ManageMember.vue';
-import {mapState, mapActions } from 'vuex';
+import ClubCreate from '../../ClubCreate.vue';
+import { mapState, mapActions } from 'vuex';
 
 export default {
-  computed:{
-        ...mapState('clubStore', [ 'clubManageMemberList'])
-    },
+  computed: {
+    ...mapState('clubStore', ['clubManageMemberList']),
+  },
   components: {
-    ManageJoin, ManageArticle, ManageMember
+    ManageJoin,
+    ManageArticle,
+    ManageMember,
+    ClubCreate,
   },
 
   data() {
@@ -49,14 +54,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions( 'clubStore', ['clubMangeList']),
+    ...mapActions('clubStore', ['clubMangeList']),
     SelectCategory: function(category) {
       this.categoryType = category;
-      switch(category) {
+      switch (category) {
         case 'member':
           // this.getList();
           break;
-
       }
     },
     OnOff: function() {

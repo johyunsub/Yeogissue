@@ -10,7 +10,7 @@
           @click="MovePage"
         >
         </v-img>
-        <div class="right mt-2">
+        <div class="right mt-1">
           <p
             class="text--primary choice_cursor"
             style=" fontSize: 18px; font-weight: bold "
