@@ -148,68 +148,68 @@
 </template>
 
 <script>
-import Axios from "axios";
-import { API_BASE_URL } from "../../config";
-import { mapActions, mapState } from "vuex";
-import IssueNewsList from "../../components/Issue/IssueNewsList.vue";
-import IssueYoutubeList from "../../components/Issue/IssueYoutubeList.vue";
+import Axios from 'axios';
+import { API_BASE_URL } from '../../config';
+import { mapActions, mapState } from 'vuex';
+import IssueNewsList from '../../components/Issue/IssueNewsList.vue';
+import IssueYoutubeList from '../../components/Issue/IssueYoutubeList.vue';
 
 export default {
   components: { IssueNewsList, IssueYoutubeList },
   computed: {
-    ...mapState("issueStore", [
-      "issueDetail",
-      "issueEntertainment",
-      "issueITScience",
-      "issueWorld",
-      "issueEconomy",
-      "issueSports",
-      "issuePolitics",
-      "issueSociety",
+    ...mapState('issueStore', [
+      'issueDetail',
+      'issueEntertainment',
+      'issueITScience',
+      'issueWorld',
+      'issueEconomy',
+      'issueSports',
+      'issuePolitics',
+      'issueSociety',
     ]),
   },
   data: () => ({
     selectedItem: 0,
-    categoryType: "news",
-    ob: "",
+    categoryType: 'news',
+    ob: '',
 
-    category: "",
-    issue: "",
-    date: "",
+    category: '',
+    issue: '',
+    date: '',
 
-    datePicker: "",
+    datePicker: '',
 
     menu1: false,
     menu2: false,
 
     categoryItems: {},
 
-    categoryKorean: ["연예", "스포츠", "해외", "IT/과학", "경제", "정치", "사회/생활"],
+    categoryKorean: ['연예', '스포츠', '해외', 'IT/과학', '경제', '정치', '사회/생활'],
     categoryEnglish: [
-      "ENTERTAINMENT",
-      "SPORTS",
-      "WORLD",
-      "IT_SCIENCE",
-      "ECONOMY",
-      "POLITICS",
-      "SOCIETY/LIVING",
+      'ENTERTAINMENT',
+      'SPORTS',
+      'WORLD',
+      'IT_SCIENCE',
+      'ECONOMY',
+      'POLITICS',
+      'SOCIETY/LIVING',
     ],
     // 로딩창
     overlay: false,
     //-----------------------뉴스 태그용
     newsCurPage: 0,
     newsPageCnt: 0,
-    sort: "sim",
+    sort: 'sim',
     newsData: [],
-    selectItem: ["유사도순", "최신순"],
-    selectNews: "",
+    selectItem: ['유사도순', '최신순'],
+    selectNews: '',
     newsComplete: true,
 
     //-----------------------유튜브 태그용
-    order: "relevance",
+    order: 'relevance',
     youtuData: [],
     youtubeCurPage: 0,
-    selectYoutu: "",
+    selectYoutu: '',
     youtubuComplete: true,
   }),
 
@@ -225,11 +225,11 @@ export default {
   },
 
   methods: {
-    ...mapActions("issueStore", ["issueCategory"]),
+    ...mapActions('issueStore', ['issueCategory']),
     SelectCategory(type) {
       window.scrollTo(0, 0);
-      if (type == "news" && this.newsCurPage == 0) this.newsAixos();
-      else if (type == "youtube" && this.token == "") this.youtubeAixos();
+      if (type == 'news' && this.newsCurPage == 0) this.newsAixos();
+      else if (type == 'youtube' && this.youtubeCurPage == 0) this.youtubeAixos();
 
       this.categoryType = type;
     },
@@ -242,7 +242,6 @@ export default {
       this.newsCurPage = 0;
       this.youtuData = [];
       this.youtubeCurPage = 0;
-      this.categoryType = "news";
       this.date = this.datePicker;
       this.issueAixos(this.category, this.date);
     },
@@ -252,7 +251,6 @@ export default {
       this.selectedItem = 0;
       this.menu1 = false;
       this.category = this.categoryEnglish[no];
-      this.categoryType = "news";
       this.newsData = [];
       this.newsCurPage = 0;
       this.youtuData = [];
@@ -266,9 +264,9 @@ export default {
       this.newsCurPage = 0;
       this.youtuData = [];
       this.youtubeCurPage = 0;
-      this.categoryType = "news";
       this.issue = issue;
-      this.newsAixos();
+      if (this.categoryType == 'news') this.newsAixos();
+      else this.youtubeAixos();
     },
 
     changeSelect() {
@@ -278,38 +276,38 @@ export default {
       this.youtuData = [];
       this.youtubeCurPage = 0;
 
-      if (this.categoryType == "news" && this.selectNews == "유사도순") this.sort = "sim";
-      else if (this.categoryType == "youtube" && this.selectNews == "유사도순")
-        this.order = "relevance";
-      else this.sort = "date";
+      if (this.categoryType == 'news' && this.selectNews == '유사도순') this.sort = 'sim';
+      else if (this.categoryType == 'youtube' && this.selectNews == '유사도순')
+        this.order = 'relevance';
+      else this.sort = 'date';
 
-      if (this.categoryType == "news") this.newsAixos();
-      else if (this.categoryType == "youtube") this.youtubeAixos();
+      if (this.categoryType == 'news') this.newsAixos();
+      else if (this.categoryType == 'youtube') this.youtubeAixos();
     },
 
     changeNameCategory(check) {
       let ob = null;
       switch (check) {
-        case "ENTERTAINMENT":
-          ob = "연예";
+        case 'ENTERTAINMENT':
+          ob = '연예';
           break;
-        case "IT_SCIENCE":
-          ob = "IT/과학";
+        case 'IT_SCIENCE':
+          ob = 'IT/과학';
           break;
-        case "WORLD":
-          ob = "해외";
+        case 'WORLD':
+          ob = '해외';
           break;
-        case "ECONOMY":
-          ob = "경제";
+        case 'ECONOMY':
+          ob = '경제';
           break;
-        case "SPORTS":
-          ob = "스포츠";
+        case 'SPORTS':
+          ob = '스포츠';
           break;
-        case "POLITICS":
-          ob = "정치";
+        case 'POLITICS':
+          ob = '정치';
           break;
-        case "SOCIETY/LIVING":
-          ob = "사회/생활";
+        case 'SOCIETY/LIVING':
+          ob = '사회/생활';
           break;
       }
       return ob;
@@ -318,32 +316,32 @@ export default {
     getObject(check) {
       let ob = null;
       switch (check) {
-        case "연예":
-        case "ENTERTAINMENT":
+        case '연예':
+        case 'ENTERTAINMENT':
           ob = this.issueEntertainment;
           break;
-        case "IT/과학":
-        case "IT_SCIENCE":
+        case 'IT/과학':
+        case 'IT_SCIENCE':
           ob = this.issueITScience;
           break;
-        case "해외":
-        case "WORLD":
+        case '해외':
+        case 'WORLD':
           ob = this.issueWorld;
           break;
-        case "경제":
-        case "ECONOMY":
+        case '경제':
+        case 'ECONOMY':
           ob = this.issueEconomy;
           break;
-        case "스포츠":
-        case "SPORTS":
+        case '스포츠':
+        case 'SPORTS':
           ob = this.issueSports;
           break;
-        case "정치":
-        case "POLITICS":
+        case '정치':
+        case 'POLITICS':
           ob = this.issuePolitics;
           break;
-        case "사회/생활":
-        case "SOCIETY/LIVING":
+        case '사회/생활':
+        case 'SOCIETY/LIVING':
           ob = this.issueSociety;
           break;
       }
@@ -357,8 +355,8 @@ export default {
         this.overlay == false
       ) {
         window.scrollTo(0, document.documentElement.scrollHeight - 70);
-        if (this.categoryType == "news" && this.newsComplete) this.newsAixos();
-        if (this.categoryType == "youtube" && this.youtubuComplete) this.youtubeAixos();
+        if (this.categoryType == 'news' && this.newsComplete) this.newsAixos();
+        if (this.categoryType == 'youtube' && this.youtubuComplete) this.youtubeAixos();
       }
     },
 
@@ -368,10 +366,12 @@ export default {
           this.category = res.data[0].category;
           this.date = res.data[0].date;
           this.datePicker = res.data[0].date;
-          if (this.issue != "") this.issue = res.data[0].content;
+          if (this.issue != '') this.issue = res.data[0].content;
           else this.issue = res.data[this.selectedItem].content;
           this.categoryItems = res.data;
-          this.newsAixos();
+          console.log(this.categoryType);
+          if (this.categoryType == 'news') this.newsAixos();
+          else this.youtubeAixos();
         })
         .catch((err) => {
           console.log(err.response);
@@ -390,13 +390,13 @@ export default {
           for (let i = 1; i < res.data.news.length; i++) {
             this.newsData[this.newsData.length] = res.data.news[i];
           }
-          console.log("뉴스데이터vv");
+          console.log('뉴스데이터vv');
           console.log(res.data.news);
           //페이징 값
           this.newsPageCnt = Math.floor(res.data.news[0].total / 10);
 
           if (this.newsPageCnt == this.newsCurPage) {
-            console.log("완료");
+            console.log('완료');
           }
           this.newsCurPage = this.newsCurPage + 1;
 
@@ -414,14 +414,14 @@ export default {
       await Axios.post(`${API_BASE_URL}issue/issue_search/youtube/`, {
         order: this.order,
         content: this.issue,
-        start: this.youtubeCurPage* 10 + 1,
+        start: this.youtubeCurPage * 10 + 1,
       })
         .then((res) => {
           for (let i = 1; i < res.data.youtube.length; i++) {
             this.youtuData[this.youtuData.length] = res.data.youtube[i];
           }
 
-          console.log("유튜브데이터vv");
+          console.log('유튜브데이터vv');
           console.log(res.data.youtube);
           this.youtubeCurPage = this.youtubeCurPage + 1;
 
@@ -429,17 +429,17 @@ export default {
           this.youtubeComplete = true;
         })
         .catch((err) => {
-          console.log("에러");
+          console.log('에러');
           console.log(err.response);
         });
     },
   },
   // 무한스크롤
   mounted() {
-    window.addEventListener("scroll", this.onScroll);
+    window.addEventListener('scroll', this.onScroll);
   },
   beforeDestroy() {
-    window.removeEventListener("scroll", this.onScroll);
+    window.removeEventListener('scroll', this.onScroll);
   },
   //---- 무한스크롤
 

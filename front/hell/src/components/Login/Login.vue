@@ -1,72 +1,80 @@
 <template>
-    <v-dialog v-model="getDialog" max-width="450px" persistent>
-      <v-form ref="form" v-model="valid" lazy-validation>
-        <v-card>
-            <div class="headline text-center pt-10">
-              로그인
-            </div>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    label="Email*"
-                    required
-                    :rules="emailRules"
-                    v-model="logindata.email"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                    label="Password*"
-                    type="password"
-                    v-model="logindata.password"
-                    hint="영문,숫자 포함 8자리 이상 적어주세요."
-                    required
-                  ></v-text-field>
-                </v-col>
+  <v-dialog v-model="getDialog" max-width="450px" persistent>
+    <v-form ref="form" v-model="valid" lazy-validation>
+      <v-card>
+        <div class="headline text-center pt-10">
+          로그인
+        </div>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  label="Email*"
+                  required
+                  :rules="emailRules"
+                  v-model="logindata.email"
+                  @keypress.enter="certCheck"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  label="Password*"
+                  type="password"
+                  v-model="logindata.password"
+                  hint="영문,숫자 포함 8자리 이상 적어주세요."
+                  required
+                  @keypress.enter="certCheck"
+                ></v-text-field>
+              </v-col>
 
-                <v-col v-if="accounts_valid" cols="12" sm="12">
-                  <v-alert dense border="left" type="warning" small>
-                    <strong>아이디</strong> 또는 <strong>비밀번호</strong>가 틀렸습니다
-                  </v-alert>
-                </v-col>
+              <v-col v-if="accounts_valid" cols="12" sm="12">
+                <v-alert dense border="left" type="warning" small>
+                  <strong>아이디</strong> 또는 <strong>비밀번호</strong>가 틀렸습니다
+                </v-alert>
+              </v-col>
 
-                <v-col cols="12" sm="12">
-                  <v-btn tile block large color="info" :disabled="!valid" @click="certCheck"
-                    >로그인</v-btn
-                  >
-                </v-col>
+              <v-col cols="12" sm="12">
+                <v-btn tile block large color="info" :disabled="!valid" @click="certCheck"
+                  >로그인</v-btn
+                >
+              </v-col>
 
-                <v-col cols="12" sm="12">
-                  <v-btn tile block large color="green accent-4" @click="loginWithKakao">네이버</v-btn>
-                </v-col>
+              <v-col cols="12" sm="12">
+                <v-btn tile block large color="green accent-4" @click="loginWithKakao"
+                  >네이버</v-btn
+                >
+              </v-col>
 
-                <v-col cols="12" sm="12">
-                  <v-btn tile block large color="green accent-4" @click="loginWithKakao">구글</v-btn>
-                </v-col>
+              <v-col cols="12" sm="12">
+                <v-btn tile block large color="green accent-4" @click="loginWithKakao">구글</v-btn>
+              </v-col>
 
-                <v-col cols="12" sm="6" class="mt-3 ml-2">
-                  <span>비밀번호를 잊으셨습니까?</span>
-                </v-col>
-                <v-col cols="12" sm="5" class="mt-3">
-                  <span class="choice_cursor" style="color:#2196f3" @click="forgotpw">비밀번호 찾기</span>
-                </v-col>
-                <v-col cols="12" sm="6" class="ml-2">
-                  <span> 회원가입을 하시겠습니까</span>
-                </v-col>
-                <v-col cols="12" sm="5" >
-                  <span class="choice_cursor" style="color:#2196f3" @click="gojoin">회원가입</span>
-                </v-col>
+              <v-col cols="12" sm="6" class="mt-3 ml-2">
+                <span>비밀번호를 잊으셨습니까?</span>
+              </v-col>
+              <v-col cols="12" sm="5" class="mt-3">
+                <span class="choice_cursor" style="color:#2196f3" @click="forgotpw"
+                  >비밀번호 찾기</span
+                >
+              </v-col>
+              <v-col cols="12" sm="6" class="ml-2">
+                <span> 회원가입을 하시겠습니까</span>
+              </v-col>
+              <v-col cols="12" sm="5">
+                <span class="choice_cursor" style="color:#2196f3" @click="gojoin">회원가입</span>
+              </v-col>
 
-                <v-col cols="12" sm="9" ></v-col>
-                <v-col cols="12" sm="3"><v-btn color="blue darken-1" text @click="OnOffLoign()">Close</v-btn></v-col>
-              </v-row>
-            </v-container>
-          </v-card-text>
-        </v-card>
-      </v-form>
-    </v-dialog>
+              <v-col cols="12" sm="9"></v-col>
+              <v-col cols="12" sm="3"
+                ><v-btn color="blue darken-1" text @click="OnOffLoign()">Close</v-btn></v-col
+              >
+            </v-row>
+          </v-container>
+        </v-card-text>
+      </v-card>
+    </v-form>
+  </v-dialog>
 </template>
 
 <script>
@@ -76,7 +84,6 @@ import { API_BASE_URL } from '../../config';
 
 export default {
   data: () => ({
-    dialog: false,
     valid: false,
     accounts_valid: false,
     logindata: {
@@ -102,6 +109,8 @@ export default {
     ...mapActions(['userData']),
     OnOffLoign: function() {
       this.$store.commit('CHANGE_DIALOG', false);
+      this.logindata.email = '';
+      this.logindata.password = '';
     },
     validate() {
       axios
@@ -160,7 +169,7 @@ export default {
     },
     gojoin() {
       this.$store.commit('CHANGE_DIALOG', false);
-      this.$router.push({ name: 'Home' });
+      this.$router.push({ name: 'Join' });
     },
   },
 };

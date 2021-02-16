@@ -1,7 +1,7 @@
 <template>
   <v-list-item>
     <v-list-item-content>
-      <div class="cover">
+      <div class="cover mt-1">
         <v-img
           class="left choice_cursor"
           :src="data.image"
@@ -23,7 +23,6 @@
           </div>
         </div>
       </div>
-      <v-divider class="my-4"></v-divider>
     </v-list-item-content>
   </v-list-item>
 </template>
