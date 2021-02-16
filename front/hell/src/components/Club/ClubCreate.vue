@@ -83,7 +83,7 @@ export default {
     btnCheck: false,
     files: null,
 
-    image: '',
+    image: 'https://cdn.vuetifyjs.com/images/cards/cooking.png',
     
     categoryItems: ['연예', 'IT/과학', '해외', '경제', '스포츠', '정치', '사회', '생활'],
     clubCreateData: {
