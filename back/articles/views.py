@@ -137,7 +137,7 @@ def create_comment(request, article_pk):
 
 @api_view(['GET'])
 def comment_list(request):
-    comments = Comment.objects.all().order_by('-id')
+    comments = Comment.objects.all().order_by('id')
     serializer = CommentSerializer(comments, many=True)
     return Response(serializer.data)
 
