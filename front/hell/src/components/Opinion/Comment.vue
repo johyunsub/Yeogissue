@@ -137,6 +137,7 @@ export default {
     like_users_count: { type: Number },
     like_users: { type: Array },
     username: { type: String },
+    board_type: {type: Boolean},
   },
   data: () => {
     return {
@@ -188,9 +189,14 @@ export default {
     },
 
     getBorder(type) {
+      if(this.board_type) {
+        this.borderColor ="#fff";
+        return "";
+      }
+
       let choice = "left";
       this.borderColor = "#2962FF";
-      if (type == true) {
+      if (type == false) {
         choice = "right";
         this.borderColor = "#D50000";
       }

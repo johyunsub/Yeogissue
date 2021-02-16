@@ -64,6 +64,7 @@
               v-for="(item, index) in opinionPaging"
               :key="`${index}_items`"
               :data="item"
+              @search="hashtagClick"
             />
           </v-list>
         </v-col>

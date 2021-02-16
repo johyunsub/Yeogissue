@@ -72,7 +72,6 @@ export default {
         return;
       }
 
-      this.opinion_type = false;
       this.createData.content = this.content;
       this.createData.user = this.$store.state.userInfo.id;
 
