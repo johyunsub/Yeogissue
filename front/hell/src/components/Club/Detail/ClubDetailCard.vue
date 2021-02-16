@@ -21,7 +21,6 @@
             />
           </div>
         </v-col>
-
         <v-col cols="auto">
           <span>
             <v-btn v-if="!clubDetailManegerBtn" class="mt-4 mx-5" text color="blue darken-1" @click="isClubJoin">
@@ -35,7 +34,6 @@
           <span v-if="clubDetailManegerBtn === false">
             <v-btn
               v-if="clubData.master == userInfo.id"
-              class="mt-4 ml-2"
               color="blue darken-1"
               text
               @click="managerOnOff(true)"
@@ -99,11 +97,9 @@
               </v-card>
             </template>
           </v-dialog>
-          <span v-if="clubDetailManegerBtn === true && clubData.master == userInfo.id">
-            <v-btn class="mt-4 ml-2" color="blue darken-1" text @click="managerOnOff(false)"
-              >홈으로</v-btn
-            >
-          </span>
+          <div v-if="clubDetailManegerBtn === true && clubData.master == userInfo.id">
+            <v-btn color="blue darken-1" text @click="managerOnOff(false)">홈으로</v-btn>
+          </div>
         </v-col>
       </v-row>
     </v-sheet>
