@@ -17,9 +17,8 @@
                   size="164"
                   tile
                 >
-                  <img src="https://static.some.co.kr/sometrend/images/mypage/profile/w_01.png" id="picture" class="profileImg">
+                 <img :src="url+this.profileData.image.substr(1)">
                 </v-avatar>
-                <Viewer v-if="profileData.introduce_text != null" :initialValue="profileData.introduce_text" /> 
               <v-col cols="1"></v-col>
               <v-col
                   cols="2"
@@ -33,6 +32,7 @@
                 </v-row>
                 <v-row class="mt-9  text-h6">
                   나의 소개 :
+                  
                 </v-row>
               </v-col>    
               <v-col
@@ -47,12 +47,8 @@
                   {{profileData.email}} 
                 </v-row> 
                 <v-row class="mt-9 font-weight-bold text-h6">
-                  <v-textarea
-                    no-resize
-                    rows="3"
-                    :value="profileData.introduce_text"
-                  >
-                  </v-textarea>
+                  <Viewer v-if="profileData.introduce_text != null" :initialValue="profileData.introduce_text" /> 
+
                 </v-row>
               </v-col>    
               
@@ -80,23 +76,32 @@ import { mapState, mapActions } from 'vuex';
 import "codemirror/lib/codemirror.css"; 
 import "@toast-ui/editor/dist/toastui-editor.css"; 
 import { Viewer } from "@toast-ui/vue-editor";
+import { API_BASE_URL } from '../../config';
 
 export default {
   components: { Viewer },
   data: () => ({
     profile: false,
-    //image: '',
+    image: '',
     nickname: '',
     introduce_text: '',
     email:'',
+    url:'',
+    newimage:'',
+   
   }),
+  created(){
+    this.url = API_BASE_URL;
+  },
   computed: {
     ...mapState(['profileData']),
     getDialog: {
-      get: function() {
+      get: function() { 
         return this.$store.state.profile;
       },
       set: function() {
+        
+   
       },
     },
   },
@@ -105,7 +110,8 @@ export default {
     ...mapActions(['userData']),
     OnOffProfile: function() {
       this.$store.commit('CHANGE_PROFILE', false);
-    }
+    },
+   
   },
 };
 </script>
