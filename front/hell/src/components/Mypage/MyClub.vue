@@ -5,7 +5,7 @@
       <i class="fas fa-network-wired"></i>
     </p>
     <hr class="ml-7" width="98%" color="purple" />
-    <div class="mt-7"></div>
+    
     <v-row class="justify-center">
       
     <!-- <div style="clear:both;"></div> -->
