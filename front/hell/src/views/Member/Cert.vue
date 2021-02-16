@@ -41,9 +41,11 @@ export default {
           if(res.data == 'success'){
             this.$fire({
               title: "인증되었습니다!",
+              text: " 다시 로그인해주세요!",
               type: "success",
             }).then(r => {
               console.log(r.value);
+              this.$store.commit("CHANGE_DIALOG", true);
               this.$router.push({ name: 'Home' });
             });
           }

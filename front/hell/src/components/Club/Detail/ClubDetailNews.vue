@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import NewsCard from '../../NewsCard';
+import NewsCard from '../../NewsCard.vue';
 import { mapState, mapActions } from 'vuex';
 
 export default {
@@ -17,11 +17,11 @@ export default {
     categoryType: { Type: String },
   },
   methods: {
-    ...mapActions('clubStore', ['clubDetailUrlList']),
+    ...mapActions('clubStore', ['clubDetailUrlListNews']),
   },
   created() {
     console.log('되나?');
-    this.clubDetailUrlList();
+    this.clubDetailUrlListNews();
   },
 };
 </script>

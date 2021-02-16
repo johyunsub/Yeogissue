@@ -25,6 +25,7 @@ urlpatterns = [
     path('<int:article_pk>/scrap/', views.scrap),
 
     path('myscrap/<int:user_pk>/',views.myscrap),
+    path('my_articles/',views.my_articles),
 
     path('club/<int:club_pk>/',views.club_article),
 
@@ -35,4 +36,11 @@ urlpatterns = [
     #path('comment_emotion',views.comment_emotion),
 
     path('top_hashtag/', views.top_hashtag),
+
+    
+    path('comment_rank/', views.comment_rank),
+    path('like_rank/', views.like_rank),
+
+    path('hash_emotion/', views.hash_emotion),
+    path('hash_all/', views.hash_all),
 ]

@@ -1,4 +1,5 @@
 import { createInstance } from '../../api/index.js';
+import Swal from 'sweetalert2';
 
 const instance = createInstance();
 
@@ -14,23 +15,43 @@ const opinionStore = {
     opinionCategory: null,
 
     // 디테일 변수
-    opinionData: null,
+    opinionData: {
+      agree_count: 0,
+      category: '',
+      club_pk: 0,
+      comment_count: 0,
+      comment_set: [],
+      comment_type: false,
+      content: '',
+      created_at: '',
+      disagree_count: 0,
+      hashtags: [],
+      id: 0,
+      like_users: [],
+      like_users_count: 0,
+      read_count: 117,
+      scrap_users: [],
+      scrap_users_count: 0,
+      title: '',
+      updated_at: '',
+      user: 0,
+      username: '',
+    },
 
     //댓글
     opinionComment: null,
     opinionCommentPaging: {},
     opinionCommentPagingCnt: 0,
-
+    opinionCommentSelect: 0,
 
     //해시태그
-    top_hashtags : [],
-    hashtags : [],
-
+    top_hashtags: [],
+    hashtags: [],
   },
   getters: {},
   mutations: {
-    SET_TOP_HASHTAGS(state,hashtags) {
-      state.top_hashtags = hashtags
+    SET_TOP_HASHTAGS(state, hashtags) {
+      state.top_hashtags = hashtags;
     },
     SET_HASHTAGS(state, hashtags) {
       state.hashtags = hashtags;
@@ -89,11 +110,14 @@ const opinionStore = {
       }
     },
 
-    //의견 LIKED 상태로 변경 << 
+    SET_OPINION_COMMENT_SELECT(state, cur) {
+      state.opinionCommentSelect = cur;
+    },
+
+    //의견 LIKED 상태로 변경 <<
     // SET_OPINION_LIKED(state, id) {
     //   state.opinionLike.push(id);
     // },
-    
   },
   actions: {
     //조회
@@ -107,10 +131,21 @@ const opinionStore = {
         })
         .catch((err) => console.log(err.response));
     },
-    //해시태그 조회
-    hashOpinionList({ commit },data) {
+    //클럽 조회
+    opinionListClub({ commit },id) {
       instance
-        .post('/articles/search_bar/',data)
+        .get(`/articles/club/${id}/`)
+        .then((res) => {
+          commit("SET_OPINIONS", res.data);
+          commit("SET_OPINION_CATEGORY", "전체");
+          commit("SET_OPINION_PAGING", 0);
+        })
+        .catch((err) => console.log(err.response));
+    },
+    //해시태그 조회
+    hashOpinionList({ commit }, data) {
+      instance
+        .post('/articles/search_bar/', data)
         .then((res) => {
           commit('SET_OPINIONS', res.data);
           commit('SET_OPINION_CATEGORY', '전체');
@@ -119,13 +154,13 @@ const opinionStore = {
         .catch((err) => console.log(err.response));
     },
     // 해시태그 탑 10
-    hash_top10({commit}) {
+    hash_top10({ commit }) {
       instance
         .get('/articles/top_hashtag/')
-        .then((res)=> {
-          commit('SET_TOP_HASHTAGS',res.data);
+        .then((res) => {
+          commit('SET_TOP_HASHTAGS', res.data);
         })
-        .catch((err)=> console.log(err.response))
+        .catch((err) => console.log(err.response));
     },
     //생성
     opinionCreate({ dispatch }, data) {
@@ -164,13 +199,13 @@ const opinionStore = {
     },
 
     // 디테일
-    opinionDetail({ commit }, id) {
+    opinionDetail({ commit, state }, id) {
       instance
         .get(`/articles/${id}`)
         .then((res) => {
           commit('SET_OPINION_DETAIL', res.data);
           commit('SET_OPINION_COMMENT', res.data.comment_set);
-          commit('SET_OPINION_COMMENT_PAGING', 0);
+          commit('SET_OPINION_COMMENT_PAGING', state.opinionCommentSelect);
         })
         .catch((err) => console.log(err.response));
     },
@@ -178,10 +213,10 @@ const opinionStore = {
     // 해시태그 추천
     getHashtag({ commit }, data) {
       instance
-        .post('/articles/make_hashtag/',data)
+        .post('/articles/make_hashtag/', data)
         .then((res) => {
-          console.log(res.data)
-          commit('SET_HASHTAGS',res.data);
+          console.log(res.data);
+          commit('SET_HASHTAGS', res.data);
         })
         .catch((err) => console.log(err.response));
     },
@@ -195,7 +230,73 @@ const opinionStore = {
         })
         .catch((err) => console.log(err.response));
     },
+
+    // 댓글 수정
+    opinionCommentUpdate({ dispatch, state }, updateData) {
+      instance
+        .put(`/articles/comments/${updateData.no}/`, updateData.data)
+        .then(() => {
+          dispatch('opinionDetail', state.opinionData.id);
+        })
+        .catch((err) => console.log(err.response));
+    },
+
+    // 댓글 삭제
+    opinionCommentDelete({ dispatch, state }, commentid) {
+      instance
+        .delete(`/articles/comments/${commentid}/`)
+        .then(() => {
+          dispatch('opinionDetail', state.opinionData.id);
+        })
+        .catch((err) => console.log(err.response));
+    },
+
+    // 댓글 신고
+    opinionBadComment({ dispatch, state }, commentid) {
+      instance
+        .put(`/articles/badcomments/${commentid}/`)
+        .then(() => {
+          dispatch('opinionDetail', state.opinionData.id);
+        })
+        .catch((err) => console.log(err.response));
+    },
+
+    // 댓글 감정
+    opinionCommentEmotion({ dispatch }, data) {
+      instance
+        .post(`/articles/emotion_comment/`, data)
+        .then((res) => {
+          if (res.data.emotion == '분노' || res.data.emotion == '혐오') {
+            Swal.fire({
+              title: '화가 많아보이는 댓글입니다. 그대로 저장하시겠습니까?',
+
+              showCancelButton: true,
+              confirmButtonText: `Save`,
+            }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                Swal.fire('Saved!', '', 'success');
+                dispatch('opinionCommentCreate', res.data);
+              }
+            });
+          } else {
+            console.log(res.data);
+            dispatch('opinionCommentCreate', res.data);
+          }
+        })
+        .catch((err) => console.log(err.response));
+    },
+
+    //북마크 버튼
+    bookmarkUpdate({ state, dispatch }, user) {
+      instance
+        .post(`/articles/${state.opinionData.id}/scrap/`, { user: user })
+        .then(() => {
+          dispatch('opinionDetail', state.opinionData.id);
+        })
+        .catch((err) => console.log(err.response));
+    },
   },
-}
+};
 
 export default opinionStore;

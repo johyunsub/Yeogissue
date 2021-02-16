@@ -14,5 +14,13 @@ urlpatterns = [
     path('login/', views.login),
     path('make_admin/', views.make_admin),
     path('get_user/', views.get_user),
+    path('get_user_id/', views.get_user_id),
+    path('passwordChange/', views.passwordChange),
+    path('sendPassword/', views.sendPassword),
+
+    path('alarm/',views.alarm),
+    path('alarm_total/',views.alarm_total),
+    path('alarm_check/',views.alarm_check),
     # path('<int:user_pk>/mypage/',views.mypage),
+    path('profile_image/<str:user_id>/',views.profile_image),
 ]

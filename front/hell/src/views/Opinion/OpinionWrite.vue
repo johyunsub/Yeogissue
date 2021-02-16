@@ -3,21 +3,23 @@
     <v-row class="mr-tp mb-10">
       <v-col cols="3"></v-col>
       <v-col>
-        <v-row class="mr-tp">
-          <v-col class="d-flex" sm="2">
+        <v-row class="mr-tp mx-auto mr-5">
+          <v-col class="d-flex" sm="3">
             <v-select
               v-model="createData.category"
               :items="categoryItems"
               label="카테고리"
               solo
+              rounded
             ></v-select>
           </v-col>
-          <v-col class="d-flex" sm="2">
+          <v-col class="d-flex" sm="3">
             <v-select
               v-model="comment_type"
               :items="commentItems"
               label="댓글 형태"
               solo
+              rounded
             ></v-select>
           </v-col>
         </v-row>
@@ -41,10 +43,19 @@
         </v-row>
 
         <!-- 해시태그 -->
-        <v-row class="mr-tp">#해시태그</v-row>
-        <v-btn color="pink" small @click="hashtag_suggest">해시태그 추천</v-btn>
+        <v-sheet height="7vh" lighten-5></v-sheet>
         <v-row>
-          <v-text-field v-model="input_tag" @keypress.enter="createHashtags" label="해시태그" hide-details="auto" width=""></v-text-field>
+        <v-tooltip right>
+        <template v-slot:activator="{ on, attrs }">
+           <v-btn color="pink" rounded outlined medium @click="hashtag_suggest" v-bind="attrs" v-on="on">해시태그 추천</v-btn>
+        </template>
+        <span
+          >입력된 글을 분석하여, 해당 문서에 중요하게 작용하는 키워드를 추출해드립니다.</span>
+      </v-tooltip>
+        
+        </v-row>
+        <v-row>
+          <v-text-field v-model="input_tag" @keypress.enter="createHashtags" label="해시태그 입력 후 엔터로 등록해주세요 :) (최대 10개)" hide-details="auto" width=""></v-text-field>
           <v-col cols="3"></v-col>
         </v-row>
         <v-row class="mr-tp">
@@ -57,9 +68,12 @@
           <v-col cols="4"></v-col>
         </v-row>
 
-        <v-row class="mt-10">
-          <v-btn class="" color="blue" large @click="createform_check">작성완료</v-btn>
-        </v-row>
+          <div cols="4" class="" style="text-align : center">
+            <!-- <v-spacer></v-spacer> -->
+            <v-btn  color="blue" rounded large  @click="createform_check">
+              <span style="color: white;"> 작성완료 </span></v-btn>
+            
+          </div>
 
       </v-col>
       <v-col cols="1"></v-col>
@@ -93,6 +107,7 @@ export default {
         //미정
         user: '',
         name: [],
+        club_pk:'',
       },
       initialValue: '',
       id: '',
@@ -103,10 +118,7 @@ export default {
       categoryItems: ['연예', 'IT/과학', '해외', '경제', '스포츠', '정치', '사회', '생활'],
       commentItems: ['토의', '찬반'],
 
-      tags: [
-        'a',
-        'b',
-      ],
+      tags: [],
       input_tag : '',
     };
   },
@@ -115,7 +127,7 @@ export default {
     CreateOpinion: function() {
       if (this.comment_type == '토의') this.createData.comment_type = true;
       else this.createData.comment_type = false;
-
+      this.createData.club_pk = this.$route.query.club_pk;
       this.createData.content = this.$refs.toastuiEditor.invoke("getMarkdown");
       this.createData.name = this.tags;
 
@@ -124,8 +136,15 @@ export default {
       this.createData.user = this.$store.state.userInfo.id;
       if (this.$route.query.type === 'write') {
         this.opinionCreate(this.createData);
-        console.log(this.createData.content);
-        this.$router.push({ name: 'Opinion' });
+        console.log(this.createData.content, this.club_pk);
+        if (this.createData.club_pk == '0') {
+          console.log(this.$route.query.club_pk,'2121212121212');
+          this.$router.push({ name: 'Opinion' });
+        }
+        else {
+          console.log(this.$route.query.club_pk,'121221121212');
+          this.$router.push(`/clubDetail?id=${this.createData.club_pk}`);
+        }
       } else if (this.$route.query.type === 'update') {
         this.opinionUpdate(this.createData);
         this.$router.push(`/opinionDetail?id=${this.id}`);

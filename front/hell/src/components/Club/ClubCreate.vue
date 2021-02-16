@@ -25,9 +25,9 @@
                 <!-- 공개 비공개 -->
                 <div class="ml-3">
                   <!--  v-model="clubCreateData.check" -->
-                  <v-radio-group row>
-                    <v-radio label="공개" value="공개"></v-radio>
-                    <v-radio label="비공개" value="비공개"></v-radio>
+                  <v-radio-group row mandatory>
+                    <v-radio label="공개" value="공개" @click="private_ra(false)"></v-radio>
+                    <v-radio label="비공개" value="비공개" @click="private_ra(true)"></v-radio>
                   </v-radio-group>
                 </div>
               </v-row>
@@ -63,7 +63,7 @@ export default {
       category: '',
       content: '',
       master: '',
-      user: '',
+      is_private: false,
     },
   }),
   props: {
@@ -106,11 +106,15 @@ export default {
     typeCheck() {
       return { ddd: this.type };
     },
+
+    private_ra(check) {
+      this.clubCreateData.is_private = check;
+    },
   },
 
   updated() {
     if (this.typeCheck().ddd == 'update' && this.flag == false && this.btnCheck == false) {
-      // 시발 비동기 통신하자 그냥 데이터
+      console.log('하이');
       this.clubCreateData.title = this.clubData.title;
       this.clubCreateData.category = this.clubData.category;
       this.clubCreateData.content = this.clubData.content;
@@ -120,3 +124,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.bo-ra {
+  border: 1px solid b;
+}
+</style>

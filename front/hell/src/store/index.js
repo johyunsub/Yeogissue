@@ -17,14 +17,24 @@ export default new Vuex.Store({
 
     // 유저 정보
     userInfo: {
-      email : '',
-      id : '',
-      nickname : '',
+      email: '',
+      id: 0,
+      nickname: '',
+      introduce_text: '',
+      image: '',
     },
+
+    //프로필 유저 정보
+    profileData:{},
+
+    // 알림
+    alarms: [],
 
     //Meun 상태
     drawer: false,
     dialog: false,
+
+    profile: false,
   },
   getters: {},
   mutations: {
@@ -46,27 +56,69 @@ export default new Vuex.Store({
     CHANGE_DIALOG(state, dialog) {
       state.dialog = dialog;
     },
+
+    CHANGE_PROFILE(state, profile) {
+      state.profile = profile;
+    },
+
+    SET_PROFILE_DATA(state, data){
+      state.profileData = data;
+    },
+
+    //d알람
+    SET_USER_ALARM(state, data) {
+      state.alarms = data;
+    },
   },
   actions: {
+    // 알림
+    alarm({ state, commit }) {
+      instance
+        .post(`/accounts/alarm/`, { user: state.userInfo.id })
+        .then((res) => {
+          console.log(res.data, '12211212');
+          commit('SET_USER_ALARM', res.data);
+        })
+        .catch((err) => console.log(err.response));
+    },
     //유저 정보 받아오기
-    userData({ commit }, data) {
-      console.log("index usderdata "+data)
+    userData({ dispatch, commit }, data) {
+      console.log('index usderdata ' + data);
       instance
         .post('/accounts/get_user/', { email: data })
         .then((res) => {
           commit('SET_USER_INFO', res.data);
+          dispatch('alarm');
+        })
+        .catch((err) => console.log(err.response));
+    },
+ //유저 프로필 정보
+    getProfile({ commit }, id) {
+      console.log('index profile ' + id);
+      instance
+        .post('/accounts/get_user_id/', { id: id })
+        .then((res) => {
+          commit('SET_PROFILE_DATA', res.data);
         })
         .catch((err) => console.log(err.response));
     },
 
+    userUpdate({ dispatch }, data) {
+      instance
+        .post(`/accounts/user_update/`, data)
+        .then(() => {
+          dispatch('userData', data.email);
+        })
+        .catch((err) => console.log(err.response));
+    },
     //로그아웃
     userLogout({ commit }) {
       commit('SET_LOGIN_TOKEN', '');
-      commit('SET_USER_INFO', null);
+      commit('SET_USER_INFO', {});
       localStorage.removeItem('token');
       localStorage.removeItem('email');
-                                             
     },
+    
   },
   modules: {
     opinionStore: opinionStore,

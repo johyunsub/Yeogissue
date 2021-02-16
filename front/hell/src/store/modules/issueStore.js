@@ -14,15 +14,18 @@ const issueStore = {
     issuePolitics: null,
     issueSociety: null,
 
-    // 이슈 디테일 정보
-    issueDetail: {
-      category: '',
-      date: '',
-      search: '',
-    },
+    issueDetailYoutubeDialog: false,
+    issueDetailVideoUrl: '',
+
   },
   getters: {},
   mutations: {
+    SET_ISSUE_DETAIL_YOUTUBE_DIALOG(state, dialog){
+      state.issueDetailYoutubeDialog= dialog;
+    },
+    SET_ISSUE_DETAIL_VIDEO_URL(state, url){
+      state.issueDetailVideoUrl= url;
+    },
     SET_ISSUE_ENTERTAINMENT(state, issue) {
       state.issueEntertainment = issue;
     },
@@ -45,9 +48,7 @@ const issueStore = {
       state.issueSociety = issue;
     },
 
-    SET_ISSUE_DETAIL(state, issue){
-      state.issueDetail = issue;
-    }
+
   },
   actions: {
     issueCategory({ commit }, data) {
@@ -82,7 +83,6 @@ const issueStore = {
           console.log(err.response);
         });
     },
-
   },
 };
 
