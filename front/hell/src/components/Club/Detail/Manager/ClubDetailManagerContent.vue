@@ -24,9 +24,7 @@
 
     <!-- paging -->
 
-    <!-- 수정 -->
-    <v-btn @click="OnOff"></v-btn>
-    <club-create :type="'update'" />
+
   </div>
 </template>
 
@@ -34,7 +32,6 @@
 import ManageJoin from './ManageJoin.vue';
 import ManageArticle from './ManageArticle.vue';
 import ManageMember from './ManageMember.vue';
-import ClubCreate from '../../ClubCreate.vue';
 import { mapState, mapActions } from 'vuex';
 
 export default {
@@ -45,7 +42,7 @@ export default {
     ManageJoin,
     ManageArticle,
     ManageMember,
-    ClubCreate,
+
   },
 
   data() {
@@ -63,9 +60,7 @@ export default {
           break;
       }
     },
-    OnOff: function() {
-      this.$store.commit('clubStore/CLUB_CREATE_DIALOG', true);
-    },
+
   },
   created() {
     //멤버 정보와 게시물 정보 가입 정보

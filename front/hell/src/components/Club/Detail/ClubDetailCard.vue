@@ -21,17 +21,19 @@
             />
           </div>
         </v-col>
-
         <v-col cols="auto">
-          <span
-            ><v-btn class="btnLC" text color="blue darken-1" @click="isClubJoin">
-              <i class="fas fa-chevron-circle-up"> </i>URL 등록</v-btn
-            ></span
-          >
+          <span>
+            <v-btn v-if="!clubDetailManegerBtn" class="mt-4 mx-5" text color="blue darken-1" @click="isClubJoin">
+              <i class="fas fa-chevron-circle-up"> </i>URL 등록
+            </v-btn>
+            <!-- 수정 -->
+            <v-btn v-if="clubDetailManegerBtn" class="mt-4 mx-5" text color="blue darken-1" @click="OnOffCreate">
+              클럽수정 <club-create :type="'update'" />
+            </v-btn>
+          </span>
           <span v-if="clubDetailManegerBtn === false">
             <v-btn
               v-if="clubData.master == userInfo.id"
-              class="mt-4 ml-2"
               color="blue darken-1"
               text
               @click="managerOnOff(true)"
@@ -44,6 +46,7 @@
             v-if="clubData.master != userInfo.id && clubDetailIsMember"
             color="blue darken-1"
             text
+            class="mt-4 ml-2"
             @click="doLeave()"
             >클럽탈퇴</v-btn
           >
@@ -51,6 +54,7 @@
             v-if="clubData.master != userInfo.id && !clubDetailIsMember && clubDetailIsWaiting"
             color="blue darken-1"
             text
+            class="mt-4 ml-2"
             >가입대기중</v-btn
           >
           <v-dialog
@@ -59,7 +63,7 @@
             max-width="600"
           >
             <template v-slot:activator="{ on, attrs }">
-              <v-btn color="blue darken-1" text v-bind="attrs" v-on="on">
+              <v-btn class="mt-4 ml-2" color="blue darken-1" text v-bind="attrs" v-on="on">
                 <v-icon color="blue">fas fa-user-friends</v-icon>
                 <span style="color: blue;">가입하기</span>
               </v-btn>
@@ -93,11 +97,9 @@
               </v-card>
             </template>
           </v-dialog>
-          <span v-if="clubDetailManegerBtn === true && clubData.master == userInfo.id">
-            <v-btn class="mt-4 ml-2" color="blue darken-1" text @click="managerOnOff(false)"
-              >홈으로</v-btn
-            >
-          </span>
+          <div v-if="clubDetailManegerBtn === true && clubData.master == userInfo.id">
+            <v-btn color="blue darken-1" text @click="managerOnOff(false)">홈으로</v-btn>
+          </div>
         </v-col>
       </v-row>
     </v-sheet>
@@ -106,8 +108,10 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import ClubCreate from '../ClubCreate.vue';
+
 export default {
-  components: {},
+  components: { ClubCreate,},
   computed: {
     ...mapState('clubStore', [
       'clubData',
@@ -160,10 +164,13 @@ export default {
     OnOff: function() {
       this.$store.commit('clubStore/CLUB_DETAIL_URL_DIALOG', true);
     },
+    OnOffCreate: function() {
+    this.$store.commit('clubStore/CLUB_CREATE_DIALOG', true);
+    },
   },
-  created() {
-    this.isClubMember({ user: this.userInfo.id });
-  },
+  created(){
+    // this.isClubMember( {user: this.userInfo.id})
+  }
 };
 </script>
 
