@@ -55,11 +55,15 @@ export default {
     ...mapActions('clubStore', ['clubDetailUrlCreate', 'clubDetailUrlUpdate']),
     CreateOption(check) {
       if (check === 'create') {
+        if (!this.DetailUrlData.url.includes('http'))
+          this.DetailUrlData.url = 'https://' + this.DetailUrlData.url;
+
         this.DetailUrlData.user = this.$store.state.userInfo.id;
         console.log(this.$store.state.clubData);
         this.DetailUrlData.club = this.clubData.id;
         console.log(this.DetailUrlData);
         this.clubDetailUrlCreate(this.DetailUrlData);
+        this.DetailUrlData.category = '';
       } else if (this.check === 'update') {
         this.clubDetailUrlUpdate(this.DetailUrlData);
       }
@@ -68,6 +72,7 @@ export default {
     },
     OnOff: function() {
       this.$store.commit('clubStore/CLUB_DETAIL_URL_DIALOG', false);
+      this.DetailUrlData.category = '';
     },
     validate() {
       this.$refs.form.validate();
