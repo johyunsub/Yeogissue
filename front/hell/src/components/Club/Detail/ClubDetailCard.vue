@@ -12,7 +12,7 @@
         <v-col cols="4">
           <div class="mx-4">
             <v-img
-              src="../../../assets/logo.png"
+              :src="image"
               max-height="370"
               aspect-ratio="1.5"
               contain
@@ -128,6 +128,7 @@ export default {
   data() {
     return {
       content: '',
+      image:'https://cdn.vuetifyjs.com/images/cards/cooking.png',
     };
   },
   props: {
@@ -170,8 +171,17 @@ export default {
     OnOffCreate: function() {
       this.$store.commit('clubStore/CLUB_CREATE_DIALOG', true);
     },
+    setImage: function() {
+      console.log(this.clubData.image)
+      if (this.clubData.image) 
+      { this.image = 'http://127.0.0.1:8000' + this.clubData.image;
+        console.log(this.image,'image')
+      }
+    //   this.image = 'http://i4d108.p.ssafy.io:8000' + this.userInfo.image;
+    },
   },
-  created() {
+  created(){
+    this.setImage();
     // this.isClubMember( {user: this.userInfo.id})
   },
 };
