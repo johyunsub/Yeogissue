@@ -15,4 +15,5 @@ urlpatterns = [
     path('member_delete/<str:club_pk>/<str:member_id>/',views.member_delete),
     path('member_check/<str:club_pk>/',views.member_check),
     path('club_member_delete/<str:club_pk>/',views.club_member_delete),
-]
+    path('myclub/',views.myclub),
+]   
