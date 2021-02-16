@@ -47,7 +47,6 @@
               v-if="clubData.master != userInfo.id && clubDetailIsMember"
               color="blue darken-1"
               text
-              class="mt-4 ml-2"
               @click="doLeave()"
               >클럽탈퇴</v-btn
             >
@@ -55,7 +54,6 @@
               v-if="clubData.master != userInfo.id && !clubDetailIsMember && clubDetailIsWaiting"
               color="blue darken-1"
               text
-              class="mt-4 ml-2"
               >가입대기중</v-btn
             >
             <v-btn color="blue darken-1" text v-if="isLoginToken == ''" @click="isLogin">

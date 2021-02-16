@@ -188,6 +188,11 @@ export default {
     },
 
     getBorder(type) {
+      if(type == 1) {
+        this.borderColor ="#fff";
+        return "";
+      }
+
       let choice = "left";
       this.borderColor = "#2962FF";
       if (type == true) {

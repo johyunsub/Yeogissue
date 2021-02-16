@@ -1,12 +1,12 @@
 <template>
   <v-list-item>
     <v-list-item-content>
-      <div class="cover mt-1">
+      <div class="cover mt-2">
         <v-img
           class="left choice_cursor"
           :src="data.image"
-          max-height="100"
-          max-width="200"
+          max-height="130"
+          max-width="250"
           @click="MovePage"
         >
         </v-img>
@@ -18,8 +18,11 @@
           >
             {{ data.title }}
           </p>
-          <div class="text--primary mt-5 choice_cursor" style="fontSize: 13px;" @click="MovePage">
-            <p style="color: #666">{{ data.description }}</p>
+          <div class="text--primary mt-2 choice_cursor" style="fontSize: 13px;" @click="MovePage">
+            <p class="target_new" style="color: #666">{{ data.description }}</p>
+          </div>
+          <div class="text--primary mt-2 choice_cursor" style="fontSize: 13px;" @click="MovePage">
+            <p style="color: #6a7e88" v-if="data.site_name !=''">출처 : {{ data.site_name }} | {{ getDate() }}</p>
           </div>
         </div>
       </div>
@@ -40,6 +43,10 @@ export default {
       // this.dialog = true;
       window.open(`${this.data.link}`);
     },
+    getDate(){
+      let a = this.data.image.indexOf('202');
+      return this.data.image.substr(a,10);
+    }
   },
 };
 </script>
@@ -54,4 +61,5 @@ export default {
   margin-right: 20px;
   border-radius: 7px;
 }
+
 </style>
