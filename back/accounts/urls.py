@@ -22,5 +22,5 @@ urlpatterns = [
     path('alarm_total/',views.alarm_total),
     path('alarm_check/',views.alarm_check),
     # path('<int:user_pk>/mypage/',views.mypage),
-    path('profile_image/',views.profile_image),
+    path('profile_image/<str:user_id>/',views.profile_image),
 ]

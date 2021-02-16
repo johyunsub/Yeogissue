@@ -14,6 +14,40 @@ import urllib
 from bs4 import BeautifulSoup
 from accounts.models import Alarm
 
+# 내가 가입한 클럽
+@api_view(['POST']) 
+def myclub(request):
+    user = request.data.get('user')
+    clubs = Club_member.objects.filter(Q(user_id=user)&Q(is_active=True)).values('club_id')
+    
+    print(clubs)
+    data = {}
+    j = 0
+    for i in clubs:
+        j += 1
+        club_ = Club.objects.filter(id=i['club_id'])
+        if j == 1:
+            club = club_
+        else:
+            # print(club)
+            # print(club_)
+            club = club.union(club_,all=True).order_by('-id')
+
+    serializer = ClubInfoSerializer(club, many=True)
+    return Response(serializer.data)
+# 클럽 이미지 바꾸기
+@api_view(['POST']) 
+def club_image(request,club_pk):
+    image = request.data.get('image')
+    print(image)
+    print(type(image))
+    # user_id = request.data.get('user')
+    # user_id = '1'
+    club = Club.objects.get(id=club_pk)
+    club.image = image
+    club.save()
+    return Response({'success'})
+
 # 클럽 리스트 보기
 @api_view(['GET'])
 def club_list(request):

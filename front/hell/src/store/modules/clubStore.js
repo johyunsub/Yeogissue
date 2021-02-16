@@ -157,6 +157,7 @@ const clubStore = {
       instance
         .get(`club/club_article_list/${state.clubData.id}/news/`)
         .then((res) => {
+          console.log(res.data);
           commit('SET_CLUB_DETAIL_URL', res.data);
         })
         .catch((err) => console.log(err.response));
