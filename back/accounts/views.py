@@ -23,6 +23,7 @@ def make_admin(request):
     if User.objects.filter(email=email).exists():
         user = User.objects.get(email=email)
         user.is_admin = True
+        user.is_active = True
         user.save()
         return Response({'success'})
     return Response({'fail'})
