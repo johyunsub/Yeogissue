@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import NewsCard from '../../NewsCard';
+import NewsCard from '../../NewsCard.vue';
 import { mapState, mapActions } from 'vuex';
 
 export default {

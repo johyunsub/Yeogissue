@@ -149,6 +149,7 @@ export default {
           nickname: this.modData.nickname,
         })
         .then((res) => {
+          console.log('dd');
           console.log(res.data);
           if (res.data == "success") {
             this.message = "사용할 수 있는 닉네임입니다.";

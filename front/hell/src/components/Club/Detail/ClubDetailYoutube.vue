@@ -1,15 +1,15 @@
 <template>
   <v-container>
-    <news-card v-for="(urlData, n) in clubDetailUrl" :key="n" :urlData="urlData" :type="'club'" />
+    <youtube-card v-for="(urlData, n) in clubDetailUrl" :key="n" :data="urlData" :type="'club'" />
   </v-container>
 </template>
 
 <script>
-import NewsCard from '../../NewsCard';
+import YoutubeCard from '../../YoutubeCard';
 import { mapState, mapActions } from 'vuex';
 
 export default {
-  components: { NewsCard },
+  components: { YoutubeCard },
   computed: {
     ...mapState('clubStore', ['clubDetailUrl']),
   },
