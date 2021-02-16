@@ -118,6 +118,7 @@ import MyWrite from '../../components/Mypage/MyWrite.vue';
 import MyChangepw from '../../components/Mypage/MyChangepw.vue';
 
 import { mapState, mapActions } from 'vuex';
+import { API_BASE_URL } from '../../config';
 
 export default {
   components: { MyClub, MyFeeling, MyGraph, MyRecently, MyScrap, MyUpdate, MyWrite, MyChangepw },
@@ -143,8 +144,8 @@ export default {
     ...mapActions(['getProfile']),
 
     setImage: function() {
-      this.image = 'http://127.0.0.1:8000' + this.userInfo.image;
-    //   this.image = 'http://i4d108.p.ssafy.io:8000' + this.userInfo.image;
+      this.image = API_BASE_URL+this.userInfo.image.substr(1);
+      //this.image = 'http://i4d108.p.ssafy.io:8000' + this.userInfo.image;
     },
     ProfileOn: function(message) {
       switch (message) {
@@ -246,6 +247,7 @@ export default {
     },
   },
   created() {
+    this.$store.dispatch('userData', localStorage.getItem('email'));
     this.setImage();
   },
 };
