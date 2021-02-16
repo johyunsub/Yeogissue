@@ -73,11 +73,8 @@ export default {
     menu2: false,
 
     slickOptions: {
-      infinite:true,
       slidesToShow: 4,
       slidesToScroll: 1,
-      vertical: true,
-      verticalSwiping: true,
       speed: 400,
       autoplay: true,
       autoplaySpeed: 3000,
