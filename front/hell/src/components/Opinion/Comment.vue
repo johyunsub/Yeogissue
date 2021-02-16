@@ -43,7 +43,8 @@
         <v-row>
           <v-col cols="2">
             <div v-if="emotion == '기쁨'">
-              <i class="far fa-grin-squint positive fa-2x" ></i>기쁨
+              <i class="far fa-grin-squint positive fa-2x" ></i><br>
+              기쁨
             </div>
 
             <div v-else-if="emotion == '감정불가'">
@@ -57,27 +58,27 @@
             </div>
 
             <div v-else-if="emotion == '놀라움'">
-              <i class="far fa-surprise positive fa-2x">놀라움</i>
+              <i class="far fa-surprise positive fa-2x"></i><br>놀라움
             </div>
 
             <div v-else-if="emotion == '슬픔'">
-              <i class="far fa-sad-tear positive fa-2x">슬픔</i>
+              <i class="far fa-sad-tear positive fa-2x"></i><br>슬픔
             </div>
 
             <div v-else-if="emotion == '공포'">
-              <i class="far fa-grimace bad fa-2x">공포</i>
+              <i class="far fa-grimace positive fa-2x"></i><br>공포
             </div>
 
             <div v-else-if="emotion == '기대'">
-              <i class="far fa-kiss-beam positive fa-2x">기대</i>
+              <i class="far fa-kiss-beam positive fa-2x"></i><br>기대
             </div>
 
             <div v-else-if="emotion == '혐오'">
-              <i class="far fa-dizzy bad fa-2x">혐오</i>
+              <i class="far fa-dizzy bad fa-2x"></i><br>혐오
             </div>
 
             <div v-else>
-              <i class="far fa-angry">분노</i>
+              <i class="far fa-angry bad fa-2x"></i><br>분노
             </div>
 
       

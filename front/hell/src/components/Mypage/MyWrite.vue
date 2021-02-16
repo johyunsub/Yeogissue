@@ -66,12 +66,9 @@ export default {
     },
 
     mywriteList() {
-      console.log('userid' + this.userInfo.id);
-
       axios
         .post(`${API_BASE_URL}articles/my_articles/`, { user: this.userInfo.id })
         .then((res) => {
-          console.log(res.data);
           this.writeData = res.data;
         })
         .catch((err) => console.log(err.response));
