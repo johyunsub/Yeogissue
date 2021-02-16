@@ -145,8 +145,7 @@ const clubStore = {
       instance
         .get(`club/club_detail/${id}/`)
         .then((res) => {
-          console.log(res);
-          commit('SET_CLUB_DETAIL', res.data);
+          commit("SET_CLUB_DETAIL", res.data);
         })
         .catch((err) => console.log(err.response));
     },
@@ -261,37 +260,52 @@ const clubStore = {
     },
 
     //클럽 탈퇴
-    clubLeave({ state, dispatch }, data) {
-      instance.post(`club/club_member_delete/${state.clubData.id}/`, data).then(() => {
-        dispatch('isClubMember', { type: '승인' });
-      });
+    clubLeave({ state, commit }, data) {
+      instance
+        .post(`club/club_member_delete/${state.clubData.id}/`, data)
+        .then(() => {
+          commit("SET_IS_MEMBER", false);
+        });
     },
 
     //클럽멤버인지
     isClubMember({ state, commit }, data) {
       instance
-        .post(`club/member_check/${state.clubData.id}/`, { type: '승인' })
-        .then((res) => {
-          commit('SET_MANAGE_MEMBER_LIST', res.data);
-          for (var i = 0; i < res.data.length; i++) {
-            if (res.data[i].user === data.user) {
-              commit('SET_IS_MEMBER', true);
-              return;
-            }
-          }
-          commit('SET_IS_MEMBER', false);
-          instance.post(`club/member_check/${state.clubData.id}/`, { type: '' }).then((res1) => {
-            for (var j = 0; j < res1.data.length; j++) {
-              if (res1.data[j].user === data.user) {
-                commit('SET_IS_WAITING', true);
-                return;
+        .get(`club/club_detail/${data.id}/`)
+        .then((result) => {
+          console.log(data.user + " 여기유저");
+          commit("SET_CLUB_DETAIL", result.data);
+          instance
+          .post(`club/member_check/${state.clubData.id}/`, { type: "승인" })
+          .then((res) => {
+            commit("SET_MANAGE_MEMBER_LIST", res.data);
+            var b = false;
+            for (var i = 0; i < res.data.length; i++) {
+              if (res.data[i].user === data.user) {
+                b = true;
+                commit("SET_IS_MEMBER", true);
+                break;
               }
             }
-            commit('SET_IS_WAITING', false);
-            return;
-          });
+            if(!b){
+              commit("SET_IS_MEMBER", false);
+            }
+            instance
+            .post(`club/member_check/${state.clubData.id}/`, { type: "" })
+            .then((res1) => {
+              for (var j = 0; j < res1.data.length; j++) {
+                if (res1.data[j].user === data.user) {
+                  commit("SET_IS_WAITING", true);
+                  return;
+                }
+              }
+              commit("SET_IS_WAITING", false);
+              console.log("여기2222 " + data.id)
+                  return;
+                });
+            })
+            .catch((err) => console.log(err.response));
         })
-        .catch((err) => console.log(err.response));
     },
 
     //클럽 게시판 관리 조회

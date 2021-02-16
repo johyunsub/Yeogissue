@@ -9,22 +9,8 @@
 
         <!-- <v-divider class="my-10"></v-divider> -->
 
-        <!-- 관리자창x && 관리자o && 비공개 게시판=> 클럽게시판 보이게 -->
-        <club-detail-content
-          v-if="!clubDetailManegerBtn && clubData.master == userInfo.id && clubData.is_private"
-        />
-        <!-- 관리자창o && 관리자o && 비공개 게시판=> 관리자창 보이게 -->
-        <club-detail-manager-content
-          v-if="clubDetailManegerBtn && clubData.master == userInfo.id && clubData.is_private"
-        />
-        <!-- 관리자창x && 관리자o && 공개 게시판=> 클럽게시판 보이게 -->
-        <club-detail-content
-          v-if="!clubDetailManegerBtn && clubData.master == userInfo.id && !clubData.is_private"
-        />
-        <!-- 관리자창o && 관리자o && 공개 게시판=> 관리자창 보이게 -->
-        <club-detail-manager-content
-          v-if="clubDetailManegerBtn && clubData.master == userInfo.id && !clubData.is_private"
-        />
+        <!-- 관리자창x && 관리자o => 클럽게시판 보이게 -->
+        <club-detail-content v-if="!clubDetailManegerBtn && clubData.master == userInfo.id" />
         <!-- 클럽멤버o && 관리자x  => 클럽게시판 보이게 -->
         <club-detail-content
           v-if="clubDetailIsMember && clubData.master != userInfo.id && clubData.is_private"
@@ -32,11 +18,13 @@
         <!-- 클럽멤버x && 공개게시판  => 클럽게시판 보이게 -->
         <club-detail-content v-if="!clubDetailIsMember && !clubData.is_private" />
         <!-- 클럽멤버o && 공개게시판  => 클럽게시판 보이게 -->
-        <club-detail-content
-          v-if="clubDetailIsMember && !clubData.is_private && clubData.master != userInfo.id"
+        <club-detail-content v-if="clubDetailIsMember && clubData.master != userInfo.id" />
+        <!-- 관리자창o && 관리자o && 공개 게시판=> 관리자창 보이게 -->
+        <club-detail-manager-content
+          v-if="clubDetailManegerBtn && clubData.master == userInfo.id"
         />
         <!-- 클럽멤버o && 관리자x && 비공개게시판 => 클럽소개페이지 보이게-->
-        <club-detail-content-Intro
+        <club-detail-Intro
           v-if="!clubDetailIsMember && clubData.master != userInfo.id && clubData.is_private"
         />
 
@@ -49,7 +37,7 @@
 
 <script>
 import ClubDetailContent from '../../components/Club/Detail/ClubDetailContent.vue';
-import ClubDetailContentIntro from '../../components/Club/Detail/ClubDetailContentIntro.vue';
+import ClubDetailIntro from '../../components/Club/Detail/ClubDetailIntro.vue';
 import ClubDetailManagerContent from '../../components/Club/Detail/Manager/ClubDetailManagerContent.vue';
 import ClubDetailCard from '../../components/Club/Detail/ClubDetailCard.vue';
 
@@ -60,7 +48,7 @@ export default {
     ClubDetailContent,
     ClubDetailCard,
     ClubDetailManagerContent,
-    ClubDetailContentIntro,
+    ClubDetailIntro,
   },
   computed: {
     ...mapState('clubStore', ['clubData', 'clubDetailManegerBtn', 'clubDetailIsMember']),
@@ -70,12 +58,14 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions('clubStore', ['clubDetail']),
+    ...mapActions('clubStore', ['clubDetail', 'isClubMember']),
   },
   created() {
     console.log(this.$route.query.id);
     console.log(this.userInfo.id);
-    this.clubDetail(this.$route.query.id);
+    window.scrollTo(0, 0);
+    // this.clubDetail(this.$route.query.id);
+    this.isClubMember({ id: this.$route.query.id, user: this.userInfo.id });
   },
 };
 </script>

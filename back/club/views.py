@@ -304,3 +304,25 @@ def club_member_delete(request, club_pk):
 
         return Response({'탈퇴했음'})
     return Response({'그런사람 없음'})
+
+# 내가 가입한 클럽
+@api_view(['POST']) 
+def myclub(request):
+    user = request.data.get('user')
+    clubs = Club_member.objects.filter(Q(user_id=user)&Q(is_active=True)).values('club_id')
+    
+    print(clubs)
+    data = {}
+    j = 0
+    for i in clubs:
+        j += 1
+        club_ = Club.objects.filter(id=i['club_id'])
+        if j == 1:
+            club = club_
+        else:
+            # print(club)
+            # print(club_)
+            club = club.union(club_,all=True).order_by('-id')
+
+    serializer = ClubInfoSerializer(club, many=True)
+    return Response(serializer.data)    
