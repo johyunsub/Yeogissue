@@ -11,7 +11,7 @@
         <div class="d-flex flex-no-wrap">
           <img
             style="width: 150px; height:150px"
-            src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+            :src="image"
           />
           <div>
             <v-card-title @click="MovePage('detail')" class="headline mb-0 h6"
@@ -42,19 +42,27 @@ import { mapState } from 'vuex';
 export default {
   name: 'clubCard',
   computed: {
-    ...mapState('clubStore', ['clubManageMemberList']),
+    ...mapState('clubStore', ['clubManageMemberList','clubData']),
     ...mapState(['userInfo']),
   },
   data() {
     return {
       show: false,
+      image: 'https://cdn.vuetifyjs.com/images/cards/cooking.png',
     };
   },
   props: {
     clubInfo: Object,
   },
-  created() {},
+  created() {
+    this.setImage();
+  },
   methods: {
+    setImage: function() {
+      if (this.clubInfo.image) 
+      { this.image = 'http://127.0.0.1:8000' + this.clubInfo.image;}
+    //   this.image = 'http://i4d108.p.ssafy.io:8000' + this.userInfo.image;
+    },
     MovePage: function(check) {
       switch (check) {
         case 'detail':
