@@ -22,7 +22,7 @@
         small
         @click="deleteItem(item)"
       >
-        mdi-delete
+        fas fa-users-slash
       </v-icon>
     </template>
     <template v-slot:no-data>

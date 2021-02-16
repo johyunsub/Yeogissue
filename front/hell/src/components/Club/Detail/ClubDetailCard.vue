@@ -25,10 +25,11 @@
           <span class="ml-10">
             <span>
               <v-btn v-if="!clubDetailManegerBtn" text color="blue darken-1" @click="isClubJoin">
-                <i class="fas fa-chevron-circle-up"> </i>URL 등록
+                <i class="fas fa-plus mr-1"></i>URL 등록
               </v-btn>
               <!-- 수정 -->
               <v-btn v-if="clubDetailManegerBtn" text color="blue darken-1" @click="OnOffCreate">
+                <i class="fas fa-wrench mr-1" color="blue"></i>
                 클럽수정
               </v-btn>
             </span>
@@ -102,7 +103,7 @@
               </template>
             </v-dialog>
             <span v-if="clubDetailManegerBtn === true && clubData.master == userInfo.id">
-              <v-btn color="blue darken-1" text @click="managerOnOff(false)">홈으로</v-btn>
+              <v-btn color="blue darken-1" text @click="managerOnOff(false)"><i class="fas fa-home mr-1" color="blue"></i>홈으로</v-btn>
             </span>
           </span>
         </v-col>
