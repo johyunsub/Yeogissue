@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     # path('myclub/', views.myclub),
-    # path('club_image/<str:club_pk>/', views.club_image),
+    path('club_image/<str:club_pk>/', views.club_image),
     path('', views.club_list),
     path('create/', views.club_create),
     path('club_detail/<str:club_pk>/', views.club_detail),
