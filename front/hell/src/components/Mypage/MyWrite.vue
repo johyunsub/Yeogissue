@@ -1,72 +1,36 @@
 <template>
+  <div class="ml-7">
+    <p class="text-h4 font-weight-black ml-7">
+      내가 작성한 글 목록
+      <i class="fas fa-edit mx-3"></i>
+    </p>
 
-  <v-container>
-    <v-row>
-      <v-col cols="1"></v-col>
-      <v-col id="opinion_main">
-        <v-row>
-          <v-col cols="7">
-            <p class="text-h4 font-weight-black mt-2">내가 작성한 글 목록
-              <i class="fas fa-edit mx-3"></i>
-            </p>
-            
-          </v-col>
-          </v-row>
-          <hr width = "100%" color = "purple">
-        <div class="mt-10"></div>
-        <!-- 카테고리 -->
-        <!-- <opinion-category /> -->
+    <hr class="ml-7" width="98%" color="purple" />
+    <div class="mt-7"></div>
 
-        <!-- 내용 -->
-        <v-row class="mr-tp">
-          <v-col v-if="viewType == 'list'"><opinion-table /></v-col>
-          <v-col v-if="viewType == 'card'"
-            >
-            <v-list two-line>
-            <card-list
-              v-for="(item, index) in writeData"
-              :key="`${index}_items`"
-              :data="item"
-            />
-            </v-list>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col cols="auto" class="mr-auto"></v-col>
-          <v-col cols="auto">
-                <!-- <v-btn class="ma-2 btnLC" outlined large fab color="indigo"  @click="MovePage('write')"> <v-icon>mdi-pencil</v-icon></v-btn> -->
-           <!-- <v-btn class="btnLC" color="blue" rounded @click="MovePage('write')"> <v-icon color="white">mdi-pencil</v-icon> -->
-           <!-- <span style="color: white;"> 글쓰기 </span></v-btn> -->
-          </v-col>
-        </v-row>
-
-        <!-- paging -->
-        <div class="text-center">
-          <v-pagination v-model="page" :length="pagingCnt" circle></v-pagination>
-        </div>
+    <!-- 내용 -->
+    <v-row class="mr-tp">
+      <v-col v-if="viewType == 'card'">
+        <v-list two-line>
+          <card-list v-for="(item, index) in writeData" :key="`${index}_items`" :data="item" />
+        </v-list>
       </v-col>
-
-      <div style="float: right;">
-      <v-col cols="1"></v-col>
-      </div>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>
 import CardList from '../../components/Opinion/CardList.vue';
-import OpinionTable from '../../components/Opinion/OpinionTable.vue';
 // import SideList from '../../components/Opinion/SideList.vue';
 import { mapState, mapActions } from 'vuex';
-import axios from "axios";
-import { API_BASE_URL } from "../../config";
+import axios from 'axios';
+import { API_BASE_URL } from '../../config';
 // import OpinionCategory from '../../components/Opinion/OpinionCategory.vue';
 
 export default {
-  components: { OpinionTable, CardList, },
+  components: { CardList },
   computed: {
-    ...mapState('opinionStore', ['opinionPaging', 'pagingCnt','top_hashtags']),
+    ...mapState('opinionStore', ['opinionPaging', 'pagingCnt', 'top_hashtags']),
     ...mapState(['userInfo']),
   },
   data: function() {
@@ -77,7 +41,7 @@ export default {
       viewType: 'card',
       page: 1,
       id: '',
-      writeData:[],
+      writeData: [],
     };
   },
   watch: {
@@ -86,22 +50,26 @@ export default {
     },
   },
   methods: {
-    ...mapActions('opinionStore', ['opinionList', 'opinionDetail','hashOpinionList','hash_top10']),
-    
+    ...mapActions('opinionStore', [
+      'opinionList',
+      'opinionDetail',
+      'hashOpinionList',
+      'hash_top10',
+    ]),
 
     ChageType(type) {
       this.viewType = type;
     },
-  
+
     gotoList() {
       this.opinionList();
     },
 
     mywriteList() {
-      console.log("userid"+this.userInfo.id);
-      
+      console.log('userid' + this.userInfo.id);
+
       axios
-        .post(`${API_BASE_URL}articles/my_articles/`, { user: this.userInfo.id})
+        .post(`${API_BASE_URL}articles/my_articles/`, { user: this.userInfo.id })
         .then((res) => {
           console.log(res.data);
           this.writeData = res.data;
@@ -145,9 +113,9 @@ export default {
 // }
 
 .v-btn--example {
-    bottom: 0;
-    position:fixed;
-    margin: 0 0 16px 16px;
-    right: 100;
-  }
+  bottom: 0;
+  position: fixed;
+  margin: 0 0 16px 16px;
+  right: 100;
+}
 </style>

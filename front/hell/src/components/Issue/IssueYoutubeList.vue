@@ -4,7 +4,7 @@
       <div class="cover">
         <v-img
           class="left choice_cursor"
-          :src="data.thumbnails.url"
+          :src="data.thumbnails"
           max-height="180"
           max-width="320"
           @click="MovePage"
@@ -32,7 +32,6 @@
 </template>
 
 <script>
-
 export default {
   props: {
     data: { type: Object },
@@ -45,11 +44,14 @@ export default {
   methods: {
     MovePage() {
       this.$store.commit('issueStore/SET_ISSUE_DETAIL_YOUTUBE_DIALOG', true);
-      let url = this.data.videoId.replace('watch?v=', 'embed/')
-      this.$store.commit('issueStore/SET_ISSUE_DETAIL_VIDEO_URL', `<iframe
+      let url = this.data.videoId.replace('watch?v=', 'embed/');
+      this.$store.commit(
+        'issueStore/SET_ISSUE_DETAIL_VIDEO_URL',
+        `<iframe
             src="${url}"
             style="width:800px; height:500px"
-          ></iframe>`);
+          ></iframe>`
+      );
     },
   },
 };

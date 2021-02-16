@@ -9,10 +9,7 @@
             medium
             color="yellow"
             style="float: right; cursor: pointer"
-            v-if="
-              !opinionData.scrap_users.includes(userInfo.id) ||
-              isLoginToken == ''
-            "
+            v-if="!opinionData.scrap_users.includes(userInfo.id) || isLoginToken == ''"
             @click="bookmarkChange('far')"
             >far fa-bookmark</v-icon
           >
@@ -31,10 +28,10 @@
         <div style="clear: both"></div>
 
         <div class="grey--text text-center">
-          by <a text @click="ProfileOn('profile')">{{ opinionData.username }}</a>  | 날짜 {{ opinionData.created_at.substr(0, 10) }}
+          by <a text @click="ProfileOn('profile')">{{ opinionData.username }}</a> | 날짜
+          {{ opinionData.created_at.substr(0, 10) }}
           <span v-if="opinionData.user == userInfo.id">
-            <span>| </span
-            ><span class="choice_cursor text-bt" @click="opUpdate">수정</span> |
+            <span>| </span><span class="choice_cursor text-bt" @click="opUpdate">수정</span> |
             <span class="choice_cursor text-bt" @click="opDelete">삭제</span>
           </span>
         </div>
@@ -64,20 +61,10 @@
         <v-divider></v-divider>
 
         <v-row class="mt-3">
-          <v-icon
-            v-if="!getLike"
-            medium
-            color="red"
-            class="choice_cursor"
-            @click="isLogin"
+          <v-icon v-if="!getLike" medium color="red" class="choice_cursor" @click="isLogin"
             >far fa-heart</v-icon
           >
-          <v-icon
-            v-if="getLike"
-            medium
-            color="red"
-            class="choice_cursor"
-            @click="isLogin"
+          <v-icon v-if="getLike" medium color="red" class="choice_cursor" @click="isLogin"
             >fas fa-heart</v-icon
           >
           <span class="ml-3">
@@ -93,32 +80,23 @@
 
         <div>
           <v-col cols="1"></v-col>
-          <v-alert
-            color="cyan"
-            border="left"
-            elevation="2"
-            colored-border
-            icon="fas fa-volume-up"
-          >
+          <v-alert color="cyan" border="left" elevation="2" colored-border icon="fas fa-volume-up">
             <span>
-              올바른 댓글 문화를 양성하기 위해 작성한 댓글의 감정을 AI로
-              분석하여 나타냅니다.</span
+              올바른 댓글 문화를 양성하기 위해 작성한 댓글의 감정을 AI로 분석하여 나타냅니다.</span
             >
             <br />
             <span>
-              댓글의 감정이 '혐오' 또는 '분노'로 나타날 경우 한 번 더 검토해보실
-              것을 권장합니다.
+              댓글의 감정이 '혐오' 또는 '분노'로 나타날 경우 한 번 더 검토해보실 것을 권장합니다.
             </span>
           </v-alert>
         </div>
 
-        
         <!-- 그래프 -->
-        <v-row v-if="!opinionData.comment_type">
+        <v-row class="mt-5" v-if="!opinionData.comment_type">
           <v-col></v-col>
           <v-card>
-            <div >
-            <pros-and-cons-chart :id="parseInt(this.$route.query.id)" />
+            <div>
+              <pros-and-cons-chart :id="parseInt(this.$route.query.id)" />
             </div>
           </v-card>
           <v-col></v-col>
@@ -127,9 +105,7 @@
         <!-- 댓글 -->
         <v-row class="mt-10 mb-10">
           <v-col cols="1"></v-col>
-          <v-col class="mr-auto">
-            <comment-create :type="'create'" :propContent="''"
-          /></v-col>
+          <v-col class="mr-auto"> <comment-create :type="'create'" :propContent="''"/></v-col>
         </v-row>
 
         <v-row>
@@ -155,11 +131,7 @@
 
         <!-- 댓글 paging -->
         <div class="text-center mr-tp">
-          <v-pagination
-            v-model="page"
-            :length="opinionCommentPagingCnt"
-            circle
-          ></v-pagination>
+          <v-pagination v-model="page" :length="opinionCommentPagingCnt" circle></v-pagination>
         </div>
       </v-col>
       <v-col cols="2"></v-col>
@@ -170,69 +142,61 @@
 </template>
 
 <script>
-import Comment from "../../components/Opinion/Comment.vue";
-import ProsAndConsChart from "../../components/Opinion/ProsAndConsChart.vue";
-import CommentCreate from "../../components/Opinion/CommentCreate.vue";
+import Comment from '../../components/Opinion/Comment.vue';
+import ProsAndConsChart from '../../components/Opinion/ProsAndConsChart.vue';
+import CommentCreate from '../../components/Opinion/CommentCreate.vue';
 
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex';
 
-import "codemirror/lib/codemirror.css";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import { Viewer } from "@toast-ui/vue-editor";
+import 'codemirror/lib/codemirror.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Viewer } from '@toast-ui/vue-editor';
 
-import axios from "axios";
-import { API_BASE_URL } from "../../config";
+import axios from 'axios';
+import { API_BASE_URL } from '../../config';
 
 export default {
-  components: { Comment, CommentCreate, Viewer, ProsAndConsChart  },
+  components: { Comment, CommentCreate, Viewer, ProsAndConsChart },
   computed: {
-    ...mapState("opinionStore", [
-      "opinionData",
-      "opinionComment",
-      "opinionCommentPaging",
-      "opinionCommentPagingCnt",
+    ...mapState('opinionStore', [
+      'opinionData',
+      'opinionComment',
+      'opinionCommentPaging',
+      'opinionCommentPagingCnt',
     ]),
-    ...mapState(["userInfo", "isLoginToken"]),
+    ...mapState(['userInfo', 'isLoginToken']),
     getLike: {
-      get: function () {
-        if (
-          this.opinionData.like_users.includes(this.$store.state.userInfo.id)
-        ) {
+      get: function() {
+        if (this.opinionData.like_users.includes(this.$store.state.userInfo.id)) {
           return true;
         }
         return false;
       },
-      set: function () {},
+      set: function() {},
     },
   },
-  data: function () {
+  data: function() {
     return {
       page: 1,
       pageCnt: 3,
-      content: "",
+      content: '',
       alert: true,
     };
   },
   watch: {
-    page: function (newVal) {
-      this.$store.commit(
-        "opinionStore/SET_OPINION_COMMENT_SELECT",
-        (newVal - 1) * 10
-      );
-      this.$store.commit(
-        "opinionStore/SET_OPINION_COMMENT_PAGING",
-        (newVal - 1) * 10
-      );
+    page: function(newVal) {
+      this.$store.commit('opinionStore/SET_OPINION_COMMENT_SELECT', (newVal - 1) * 10);
+      this.$store.commit('opinionStore/SET_OPINION_COMMENT_PAGING', (newVal - 1) * 10);
     },
   },
   methods: {
-    ...mapActions("opinionStore", ["opinionDetail", "opinionDelete", "bookmarkUpdate"]),
+    ...mapActions('opinionStore', ['opinionDetail', 'opinionDelete', 'bookmarkUpdate']),
     ...mapActions(['getProfile']),
     ProfileOn: function(message) {
       switch (message) {
-          case "profile":
+        case 'profile':
           this.getProfile(this.opinionData.user);
-          this.$store.commit("CHANGE_PROFILE", true);
+          this.$store.commit('CHANGE_PROFILE', true);
           break;
       }
     },
@@ -241,11 +205,11 @@ export default {
     },
     opDelete() {
       this.opinionDelete(this.opinionData.id);
-      this.$router.push({ name: "Opinion" });
+      this.$router.push({ name: 'Opinion' });
     },
     isLogin() {
-      if (this.isLoginToken == "") {
-        this.$store.commit("CHANGE_DIALOG", true);
+      if (this.isLoginToken == '') {
+        this.$store.commit('CHANGE_DIALOG', true);
         return;
       }
       this.thumbUp();
@@ -263,23 +227,23 @@ export default {
     },
 
     take() {
-      console.log("받음");
+      console.log('받음');
     },
 
     bookmarkChange(check) {
-      let message = "";
-      if (check == "far") {
-        if (this.isLoginToken == "") {
-          this.$store.commit("CHANGE_DIALOG", true);
+      let message = '';
+      if (check == 'far') {
+        if (this.isLoginToken == '') {
+          this.$store.commit('CHANGE_DIALOG', true);
           return;
         }
-        message = "저장 되었습니다.";
-      } else message = "취소 되었습니다.";
+        message = '저장 되었습니다.';
+      } else message = '취소 되었습니다.';
 
       this.bookmarkUpdate(this.userInfo.id);
       this.$toasted.show(message, {
-        theme: "outline",
-        position: "bottom-center",
+        theme: 'outline',
+        position: 'bottom-center',
         duration: 500,
       });
     },
@@ -297,12 +261,9 @@ export default {
       .then((res) => {
         console.log(res.data.content);
         this.content = res.data.content;
-        this.$store.commit("opinionStore/SET_OPINION_DETAIL", res.data);
-        this.$store.commit(
-          "opinionStore/SET_OPINION_COMMENT",
-          res.data.comment_set
-        );
-        this.$store.commit("opinionStore/SET_OPINION_COMMENT_PAGING", 0);
+        this.$store.commit('opinionStore/SET_OPINION_DETAIL', res.data);
+        this.$store.commit('opinionStore/SET_OPINION_COMMENT', res.data.comment_set);
+        this.$store.commit('opinionStore/SET_OPINION_COMMENT_PAGING', 0);
       })
       .catch((err) => console.log(err.response));
   },
