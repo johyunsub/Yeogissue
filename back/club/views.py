@@ -14,9 +14,22 @@ import urllib
 from bs4 import BeautifulSoup
 from accounts.models import Alarm
 
+
+    
+# 클럽 이미지 바꾸기
+@api_view(['POST']) 
+def club_image(request,club_pk):
+    image = request.data.get('image')
+    print(image)
+    print(type(image))
+    # user_id = request.data.get('user')
+    # user_id = '1'
+    club = Club.objects.get(id=club_pk)
+    club.image = image
+    club.save()
+    return Response({'success'})
+
 # 클럽 리스트 보기
-
-
 @api_view(['GET'])
 def club_list(request):
     club = Club.objects.all().order_by('-id')
@@ -311,7 +324,7 @@ def myclub(request):
     user = request.data.get('user')
     clubs = Club_member.objects.filter(Q(user_id=user)&Q(is_active=True)).values('club_id')
     
-    print(clubs)
+    # print(clubs)
     data = {}
     j = 0
     for i in clubs:
@@ -322,7 +335,7 @@ def myclub(request):
         else:
             # print(club)
             # print(club_)
-            club = club.union(club_,all=True).order_by('-id')
-
+            club = club.union(club_,all=True)
+    club.order_by('-id')
     serializer = ClubInfoSerializer(club, many=True)
     return Response(serializer.data)    

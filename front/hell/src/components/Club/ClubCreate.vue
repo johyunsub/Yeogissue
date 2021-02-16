@@ -15,6 +15,28 @@
                     outlined
                   ></v-select>
                 </v-col>
+                <v-col>
+
+                 <figure class="profile_area" id="preview">
+                  <img
+                    v-if="image"
+                    :src="image"
+                    id="picture"
+                    class="profileImg"
+                  />
+                </figure>
+                  <div class="filebox">
+                  <label for="ex_file">프로필 사진 변경</label>
+                  <input
+                    type="file"
+                    ref="imageInput"
+                    id="ex_file"
+                    class="inp-img profileChage_btn"
+                    accept=".gif, .jpg, .png"
+                    @change="onChangeImages"
+                  />
+                </div>
+                </v-col>
                 <v-col cols="12">
                   <v-text-field v-model="clubCreateData.title" label="제목*"></v-text-field>
                 </v-col>
@@ -47,6 +69,9 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import axios from "axios";
+import { API_BASE_URL } from "../../config";
+
 export default {
   data: () => ({
     valid: true,
@@ -56,7 +81,10 @@ export default {
 
     flag: false,
     btnCheck: false,
+    files: null,
 
+    image: 'https://cdn.vuetifyjs.com/images/cards/cooking.png',
+    
     categoryItems: ['연예', 'IT/과학', '해외', '경제', '스포츠', '정치', '사회', '생활'],
     clubCreateData: {
       title: '',
@@ -64,6 +92,7 @@ export default {
       content: '',
       master: '',
       is_private: false,
+      
     },
   }),
   props: {
@@ -90,6 +119,7 @@ export default {
         this.clubUpdate(this.clubCreateData);
         this.clubCreateData = {};
         this.flag = false;
+        this.changeImage();
       }
 
       this.OnOff('create');
@@ -109,6 +139,21 @@ export default {
 
     private_ra(check) {
       this.clubCreateData.is_private = check;
+    },
+    changeImage() {
+      const formdata = new FormData();
+      formdata.append('image',this.files);
+      axios
+        .post(`${API_BASE_URL}club/club_image/${this.clubData.id}/`,formdata)
+        .then((res) => console.log(res))
+        .catch((res) => console.log(res))
+    },
+    onChangeImages(e) {
+      const file = e.target.files[0];
+      this.image = URL.createObjectURL(file);
+      
+      this.files = this.$refs.imageInput.files[0]
+      
     },
   },
 

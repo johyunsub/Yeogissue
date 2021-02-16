@@ -5,10 +5,9 @@
       <v-row class="py-5">
         <v-col sm="3">
           <h1>My 이슈</h1>
-          <h1>
-            안녕하세요, <a text @click="ProfileOn('profile')">{{ userInfo.nickname }}</a
-            >님
-          </h1>
+          <h2>
+            안녕하세요, <a text @click="ProfileOn('profile')">{{ userInfo.nickname }}</a>님
+          </h2>
 
           <v-row class="py-4" justify="center">
             <v-avatar class="profile mt-5" color="grey" size="164" rounded>
@@ -145,6 +144,7 @@ export default {
 
     setImage: function() {
       this.image = 'http://127.0.0.1:8000' + this.userInfo.image;
+    //   this.image = 'http://i4d108.p.ssafy.io:8000' + this.userInfo.image;
     },
     ProfileOn: function(message) {
       switch (message) {

@@ -151,6 +151,7 @@ def youtube(issue,order,token):
         news['description']=i['snippet']['description'][:150]
         news['thumbnails']=i['snippet']['thumbnails']['medium']['url']
         news['channelTitle']=i['snippet']['channelTitle'][:50]
+        news['publishTime']=i['snippet']['publishTime'][:50]
         news['videoId']='http://youtube.com/watch?v='+i['id']['videoId']
         # data.append(news)
         news['content'] = issue
