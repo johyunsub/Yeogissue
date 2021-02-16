@@ -143,7 +143,7 @@ def youtube(issue,order,token):
     #     data[0]['prevToken']=response_dict['prevPageToken']
     # if response_dict.get('nextPageToken'):
     #     data[0]['nextToken']=response_dict['nextPageToken']
-    print(response_dict)
+    # print(response_dict)
     j=0
     for i in response_dict['items']:
         news = {}
