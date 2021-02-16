@@ -6,11 +6,15 @@
       alt=""
     />
 
+<v-sheet height="100" width="100%" color=""></v-sheet>
+  
+      <h1>1활발한 논쟁이 이루어지고 있는 댓글 많은 게시글과 많은 사람들의 공감을 얻은 좋아요 많은 게시글을 확인해보세요!</h1>
+
     <!-- 인기 순위 -->
     <v-card class="mx-auto my-5 ml-5 elevation-5" style="border-radius: 15px;" max-width="400" :elevation="2">
      <v-card-title class="headline pl-6 h6" style="background-color: white;">
         <span class="ma-auto" style="">
-           <span class="ml-3">댓글 많은 순</span>
+           <span class="ml-3">댓글 많은 게시글</span>
           </span>
       </v-card-title>
       <v-divider></v-divider>
@@ -27,7 +31,7 @@
     <v-card class="mx-auto my-5 ml-5 elevation-5" style="border-radius: 15px;" max-width="400" :elevation="2">
      <v-card-title class="headline pl-6 h6" style="background-color: white;">
         <span class="ma-auto" style="">
-           <span class="ml-3">좋아요 많은 순</span>
+           <span class="ml-3">좋아요 많은 게시글</span>
           </span>
       </v-card-title>
       <v-divider></v-divider>
@@ -40,7 +44,10 @@
       </v-card-text>
     </v-card>
 
+
+
     <!-- 해시태그 워드 클라우드 -->
+    
     <wordcloud
       :data="hashAll"
       nameKey="name"
@@ -50,6 +57,9 @@
       :wordClick="wordClickHandler"
     >
     </wordcloud>
+    
+
+   
 
   </v-row>
 </template>
@@ -67,11 +77,13 @@ export default {
   methods: {
     wordClickHandler(name, value, vm) {
       console.log("wordClickHandler", name, value, vm);
+      this.getHashTag(name)
     },
-    getHashTag(){
-        axios.post(`${API_BASE_URL}articles/hash_emotion`, {hashtag: '문제인'})
+    getHashTag(data){
+        axios.post(`${API_BASE_URL}articles/hash_emotion/`, {hashtag: data})
         .then((res) => {
           this.emotionData = res.data;
+          console.log(this.emotionData)
         })
         .catch((err) => console.log(err.response));
     },
@@ -103,8 +115,8 @@ export default {
   data() {
     return {
       myColors: ["#1f77b4", "#629fc9", "#94bedb", "#c9e0ef"],
-      emotionData : {},
-      hashAll:{},
+      emotionData : [],
+      hashAll:[],
       commentRank:{},
       likeRank:{},
      
