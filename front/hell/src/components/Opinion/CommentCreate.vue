@@ -7,8 +7,8 @@
       <div v-if="opinionData.comment_type == false">
       <v-col cols="auto" class="mr-2"
         ><v-radio-group row mandatory>
-          <v-radio label="찬성" selected @click="private_ra(false)"></v-radio>
-          <v-radio label="반대" @click="private_ra(true)"></v-radio> </v-radio-group
+          <v-radio label="찬성" selected @click="private_ra(true)"></v-radio>
+          <v-radio label="반대" @click="private_ra(false)"></v-radio> </v-radio-group
       ></v-col>
       </div>
     </v-row>
@@ -57,7 +57,7 @@ export default {
       content: this.propContent,
       massage: '댓글을 입력하세요', // 로그인에 따라 내용 바꿔주고 disabled
       createData: {
-        opinion_type: false, // 찬반 추후 수정
+        opinion_type: true, // 찬반 추후 수정
         content: '',
         user: 0, // 찬한 추후 수정
         emotion: '',

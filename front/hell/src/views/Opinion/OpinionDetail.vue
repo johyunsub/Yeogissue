@@ -132,6 +132,7 @@
               :like_users_count="item.like_users_count"
               :like_users="item.like_users"
               :username="item.username"
+              :board_type="opinionData.comment_type"
               @take="take"
           /></v-col>
         </v-row>
