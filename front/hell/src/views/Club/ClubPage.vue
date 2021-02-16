@@ -45,15 +45,15 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import ClubCard from '../../components/Club/ClubCard.vue';
-import ClubCreate from '../../components/Club/ClubCreate.vue';
-import ClubCategory from '../../components/Club/ClubCategory.vue';
+import { mapState, mapActions } from "vuex";
+import ClubCard from "../../components/Club/ClubCard.vue";
+import ClubCreate from "../../components/Club/ClubCreate.vue";
+import ClubCategory from "../../components/Club/ClubCategory.vue";
 
 export default {
   components: { ClubCard, ClubCreate, ClubCategory },
   computed: {
-    ...mapState('clubStore', ['clubsPaging', 'clubsPaginCnt']),
+    ...mapState("clubStore", ["clubsPaging", "clubsPaginCnt"]),
   },
   data: function() {
     return {
@@ -61,21 +61,21 @@ export default {
       pageCnt: 3,
       clubData: [
         {
-          id: '',
-          title: '',
-          category: '',
-          content: '',
-          master: '',
-          created_at: '',
-          is_private: '',
-          member_cnt: '',
+          id: "",
+          title: "",
+          category: "",
+          content: "",
+          master: "",
+          created_at: "",
+          is_private: "",
+          member_cnt: "",
         },
       ],
     };
   },
   watch: {
     page: function(newVal) {
-      this.$store.commit('clubStore/SET_CLUBS_PAGING', (newVal - 1) * 10);
+      this.$store.commit("clubStore/SET_CLUBS_PAGING", (newVal - 1) * 10);
     },
   },
   created() {
@@ -83,9 +83,13 @@ export default {
     this.clubList();
   },
   methods: {
-    ...mapActions('clubStore', ['clubList']),
+    ...mapActions("clubStore", ["clubList"]),
     OnOff() {
-      this.$store.commit('clubStore/CLUB_CREATE_DIALOG', true);
+      if (this.$store.state.isLoginToken == "") {
+        this.$store.commit("CHANGE_DIALOG", true);
+        return;
+      }
+      this.$store.commit("clubStore/CLUB_CREATE_DIALOG", true);
     },
   },
 };
@@ -95,7 +99,7 @@ export default {
 .club-image {
   width: 100%;
   height: 600px;
-  background-image: url('../../assets/모여 이슈.png');
+  background-image: url("../../assets/모여 이슈.png");
   background-size: 100% 600px;
 }
 </style>

@@ -40,6 +40,13 @@
                 {{ tag.name }}
               </span>
             </v-chip>
+            <!-- 클럽 -->
+            <v-chip outlined v-if="clubTag != ''" @click="movePage()"
+              ><span style="color: blue; font-weight: 600">
+                <v-icon small color="blue">fas fa-hashtag</v-icon>
+                {{ clubTag }}</span
+              ></v-chip
+            >
           </v-chip-group>
           <v-col cols="4"></v-col>
         </v-row>
@@ -148,29 +155,29 @@
 </template>
 
 <script>
-import Comment from '../../components/Opinion/Comment.vue';
-import ProsAndConsChart from '../../components/Opinion/ProsAndConsChart.vue';
-import CommentCreate from '../../components/Opinion/CommentCreate.vue';
+import Comment from "../../components/Opinion/Comment.vue";
+import ProsAndConsChart from "../../components/Opinion/ProsAndConsChart.vue";
+import CommentCreate from "../../components/Opinion/CommentCreate.vue";
 
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions } from "vuex";
 
-import 'codemirror/lib/codemirror.css';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import { Viewer } from '@toast-ui/vue-editor';
+import "codemirror/lib/codemirror.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import { Viewer } from "@toast-ui/vue-editor";
 
-import axios from 'axios';
-import { API_BASE_URL } from '../../config';
+import axios from "axios";
+import { API_BASE_URL } from "../../config";
 
 export default {
   components: { Comment, CommentCreate, Viewer, ProsAndConsChart },
   computed: {
-    ...mapState('opinionStore', [
-      'opinionData',
-      'opinionComment',
-      'opinionCommentPaging',
-      'opinionCommentPagingCnt',
+    ...mapState("opinionStore", [
+      "opinionData",
+      "opinionComment",
+      "opinionCommentPaging",
+      "opinionCommentPagingCnt",
     ]),
-    ...mapState(['userInfo', 'isLoginToken']),
+    ...mapState(["userInfo", "isLoginToken"]),
     getLike: {
       get: function() {
         if (this.opinionData.like_users.includes(this.$store.state.userInfo.id)) {
@@ -185,24 +192,26 @@ export default {
     return {
       page: 1,
       pageCnt: 3,
-      content: '',
+      content: "",
       alert: true,
+      clubTag: "",
+      club_pk: '',
     };
   },
   watch: {
     page: function(newVal) {
-      this.$store.commit('opinionStore/SET_OPINION_COMMENT_SELECT', (newVal - 1) * 10);
-      this.$store.commit('opinionStore/SET_OPINION_COMMENT_PAGING', (newVal - 1) * 10);
+      this.$store.commit("opinionStore/SET_OPINION_COMMENT_SELECT", (newVal - 1) * 10);
+      this.$store.commit("opinionStore/SET_OPINION_COMMENT_PAGING", (newVal - 1) * 10);
     },
   },
   methods: {
-    ...mapActions('opinionStore', ['opinionDetail', 'opinionDelete', 'bookmarkUpdate']),
-    ...mapActions(['getProfile']),
+    ...mapActions("opinionStore", ["opinionDetail", "opinionDelete", "bookmarkUpdate"]),
+    ...mapActions(["getProfile"]),
     ProfileOn: function(message) {
       switch (message) {
-        case 'profile':
+        case "profile":
           this.getProfile(this.opinionData.user);
-          this.$store.commit('CHANGE_PROFILE', true);
+          this.$store.commit("CHANGE_PROFILE", true);
           break;
       }
     },
@@ -211,11 +220,11 @@ export default {
     },
     opDelete() {
       this.opinionDelete(this.opinionData.id);
-      this.$router.push({ name: 'Opinion' });
+      this.$router.push({ name: "Opinion" });
     },
     isLogin() {
-      if (this.isLoginToken == '') {
-        this.$store.commit('CHANGE_DIALOG', true);
+      if (this.isLoginToken == "") {
+        this.$store.commit("CHANGE_DIALOG", true);
         return;
       }
       this.thumbUp();
@@ -233,23 +242,23 @@ export default {
     },
 
     take() {
-      console.log('받음');
+      console.log("받음");
     },
 
     bookmarkChange(check) {
-      let message = '';
-      if (check == 'far') {
-        if (this.isLoginToken == '') {
-          this.$store.commit('CHANGE_DIALOG', true);
+      let message = "";
+      if (check == "far") {
+        if (this.isLoginToken == "") {
+          this.$store.commit("CHANGE_DIALOG", true);
           return;
         }
-        message = '저장 되었습니다.';
-      } else message = '취소 되었습니다.';
+        message = "저장 되었습니다.";
+      } else message = "취소 되었습니다.";
 
       this.bookmarkUpdate(this.userInfo.id);
       this.$toasted.show(message, {
-        theme: 'outline',
-        position: 'bottom-center',
+        theme: "outline",
+        position: "bottom-center",
         duration: 500,
       });
     },
@@ -257,19 +266,32 @@ export default {
     search(search) {
       this.$router.push(`/opinion?search=${search}`);
     },
+
+    getClubTagName() {
+      axios
+        .get(`${API_BASE_URL}club/club_detail/${this.club_pk}/`)
+        .then((res) => {
+          this.clubTag = res.data.title;
+        })
+        .catch((err) => console.log(err.response));
+    },
+    movePage() {
+      this.$router.push(`/clubDetail?id=${this.club_pk}`);
+    },
   },
   created() {
     // this.opinionDetail(this.$route.query.id);
     window.scrollTo(0, 0);
-
     axios
       .get(`${API_BASE_URL}articles/${this.$route.query.id}/`)
       .then((res) => {
         console.log(res.data.content);
         this.content = res.data.content;
-        this.$store.commit('opinionStore/SET_OPINION_DETAIL', res.data);
-        this.$store.commit('opinionStore/SET_OPINION_COMMENT', res.data.comment_set);
-        this.$store.commit('opinionStore/SET_OPINION_COMMENT_PAGING', 0);
+        this.club_pk = res.data.club_pk;
+        this.getClubTagName();
+        this.$store.commit("opinionStore/SET_OPINION_DETAIL", res.data);
+        this.$store.commit("opinionStore/SET_OPINION_COMMENT", res.data.comment_set);
+        this.$store.commit("opinionStore/SET_OPINION_COMMENT_PAGING", 0);
       })
       .catch((err) => console.log(err.response));
   },

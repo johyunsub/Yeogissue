@@ -12,7 +12,7 @@
         <v-col cols="4">
           <div class="mx-4">
             <v-img
-              src="../../../assets/logo.png"
+              :src="image"
               max-height="370"
               aspect-ratio="1.5"
               contain
@@ -47,7 +47,6 @@
               v-if="clubData.master != userInfo.id && clubDetailIsMember"
               color="blue darken-1"
               text
-              class="mt-4 ml-2"
               @click="doLeave()"
               >클럽탈퇴</v-btn
             >
@@ -55,11 +54,14 @@
               v-if="clubData.master != userInfo.id && !clubDetailIsMember && clubDetailIsWaiting"
               color="blue darken-1"
               text
-              class="mt-4 ml-2"
               >가입대기중</v-btn
             >
+            <v-btn color="blue darken-1" text v-if="isLoginToken == ''" @click="isLogin">
+              <v-icon color="blue">fas fa-user-friends</v-icon>
+              <span style="color: blue;">가입하기</span>
+            </v-btn>
             <v-dialog
-              v-if="clubData.master != userInfo.id && !clubDetailIsMember && !clubDetailIsWaiting"
+              v-if="clubData.master != userInfo.id && !clubDetailIsMember && !clubDetailIsWaiting && isLoginToken != ''"
               transition="dialog-bottom-transition"
               max-width="600"
             >
@@ -68,6 +70,7 @@
                   <v-icon color="blue">fas fa-user-friends</v-icon>
                   <span style="color: blue;">가입하기</span>
                 </v-btn>
+
               </template>
               <template v-slot:default="dialog">
                 <v-card>
@@ -106,6 +109,30 @@
       </v-row>
     </v-sheet>
     <club-create :type="'update'" />
+
+    <div class="text-center" v-if="clubData.is_private">
+    <v-bottom-sheet
+      v-model="sheet"
+      inset
+    >
+      <v-sheet
+        class="text-center"
+        height="200px"
+      >
+        <v-btn
+          class="mt-6"
+          text
+          color="error"
+          @click="sheet = !sheet"
+        >
+          close
+        </v-btn>
+        <div class="my-3">
+          비공개 클럽입니다. 게시물 열람은 가입 후 가능합니다.
+        </div>
+      </v-sheet>
+    </v-bottom-sheet>
+  </div>
   </v-row>
 </template>
 
@@ -123,11 +150,13 @@ export default {
       'clubDetailIsWaiting',
       'clubManageMemberList',
     ]),
-    ...mapState(['userInfo']),
+    ...mapState(['userInfo', 'isLoginToken']),
   },
   data() {
     return {
       content: '',
+      image:'https://cdn.vuetifyjs.com/images/cards/cooking.png',
+      sheet: true,
     };
   },
   props: {
@@ -170,8 +199,25 @@ export default {
     OnOffCreate: function() {
       this.$store.commit('clubStore/CLUB_CREATE_DIALOG', true);
     },
+    setImage: function() {
+      console.log(this.clubData.image)
+      if (this.clubData.image) 
+      { this.image = 'http://127.0.0.1:8000' + this.clubData.image;
+        console.log(this.image,'image')
+      }
+    //   this.image = 'http://i4d108.p.ssafy.io:8000' + this.userInfo.image;
+    },
+    isLogin(){
+      console.log("여기여기")
+      if (this.isLoginToken == '') {
+        this.$store.commit('CHANGE_DIALOG', true);
+      }
+    }
   },
-  created() {
+  created(){
+    this.setImage();
+
+
     // this.isClubMember( {user: this.userInfo.id})
   },
 };
