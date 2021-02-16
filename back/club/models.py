@@ -24,7 +24,7 @@ class Club_article(models.Model):
     
     site_name = models.CharField(max_length=50,blank=True)
     title = models.CharField(max_length=50,blank=True)
-    decription = models.CharField(max_length=150,blank=True)
+    description = models.CharField(max_length=150,blank=True)
     image = models.CharField(max_length=150,blank=True)
     video = models.CharField(max_length=150,blank=True)
     
