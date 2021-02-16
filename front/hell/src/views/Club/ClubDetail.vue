@@ -18,7 +18,7 @@
         <!-- 클럽멤버x && 공개게시판  => 클럽게시판 보이게 -->
         <club-detail-content v-if="!clubDetailIsMember && !clubData.is_private" />
         <!-- 클럽멤버o && 공개게시판  => 클럽게시판 보이게 -->
-        <club-detail-content v-if="clubDetailIsMember && clubData.master != userInfo.id" />
+        <club-detail-content v-if="clubDetailIsMember && clubData.master != userInfo.id && !clubData.is_private" />
         <!-- 관리자창o && 관리자o && 공개 게시판=> 관리자창 보이게 -->
         <club-detail-manager-content
           v-if="clubDetailManegerBtn && clubData.master == userInfo.id"
