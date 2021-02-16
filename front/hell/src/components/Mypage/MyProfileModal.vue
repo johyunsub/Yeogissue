@@ -17,7 +17,7 @@
                   size="164"
                   tile
                 >
-                 <img :src="url+this.profileData.image.substr(1)">
+                 <img :src="url+this.profileData.image.substring(1)">
                 </v-avatar>
               <v-col cols="1"></v-col>
               <v-col
