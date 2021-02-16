@@ -8,6 +8,8 @@ class Club(models.Model):
     is_private = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     master = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='images/', blank=True,null=True)
+
     def __str__(self):              # __unicode__ on Python 2
         return self.title
 
@@ -22,7 +24,7 @@ class Club_article(models.Model):
     
     site_name = models.CharField(max_length=50,blank=True)
     title = models.CharField(max_length=50,blank=True)
-    decription = models.CharField(max_length=150,blank=True)
+    description = models.CharField(max_length=150,blank=True)
     image = models.CharField(max_length=150,blank=True)
     video = models.CharField(max_length=150,blank=True)
     
