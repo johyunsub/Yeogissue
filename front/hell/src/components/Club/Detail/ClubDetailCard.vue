@@ -22,87 +22,90 @@
           </div>
         </v-col>
         <v-col cols="auto">
-          <span>
-            <v-btn v-if="!clubDetailManegerBtn" class="mt-4 mx-5" text color="blue darken-1" @click="isClubJoin">
-              <i class="fas fa-chevron-circle-up"> </i>URL 등록
-            </v-btn>
-            <!-- 수정 -->
-            <v-btn v-if="clubDetailManegerBtn" class="mt-4 mx-5" text color="blue darken-1" @click="OnOffCreate">
-              클럽수정 <club-create :type="'update'" />
-            </v-btn>
-          </span>
-          <span v-if="clubDetailManegerBtn === false">
+          <span class="ml-10">
+            <span>
+              <v-btn v-if="!clubDetailManegerBtn" text color="blue darken-1" @click="isClubJoin">
+                <i class="fas fa-chevron-circle-up"> </i>URL 등록
+              </v-btn>
+              <!-- 수정 -->
+              <v-btn v-if="clubDetailManegerBtn" text color="blue darken-1" @click="OnOffCreate">
+                클럽수정
+              </v-btn>
+            </span>
+            <span v-if="clubDetailManegerBtn === false">
+              <v-btn
+                v-if="clubData.master == userInfo.id"
+                color="blue darken-1"
+                text
+                @click="managerOnOff(true)"
+              >
+                <v-icon color="blue">fas fa-user-cog</v-icon>
+                <span style="color: blue;">관리 </span>
+              </v-btn>
+            </span>
             <v-btn
-              v-if="clubData.master == userInfo.id"
+              v-if="clubData.master != userInfo.id && clubDetailIsMember"
               color="blue darken-1"
               text
-              @click="managerOnOff(true)"
+              class="mt-4 ml-2"
+              @click="doLeave()"
+              >클럽탈퇴</v-btn
             >
-              <v-icon color="blue">fas fa-user-cog</v-icon>
-              <span style="color: blue;">관리 </span>
-            </v-btn>
+            <v-btn
+              v-if="clubData.master != userInfo.id && !clubDetailIsMember && clubDetailIsWaiting"
+              color="blue darken-1"
+              text
+              class="mt-4 ml-2"
+              >가입대기중</v-btn
+            >
+            <v-dialog
+              v-if="clubData.master != userInfo.id && !clubDetailIsMember && !clubDetailIsWaiting"
+              transition="dialog-bottom-transition"
+              max-width="600"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="blue darken-1" text v-bind="attrs" v-on="on">
+                  <v-icon color="blue">fas fa-user-friends</v-icon>
+                  <span style="color: blue;">가입하기</span>
+                </v-btn>
+              </template>
+              <template v-slot:default="dialog">
+                <v-card>
+                  <v-toolbar color="primary" dark> {{ clubData.title }}클럽 가입신청서</v-toolbar>
+                  <v-card-text>
+                    <div class="text-h6 font-weight-black pa-12">
+                      반가워요 {{ userInfo.nickname }}님.
+                    </div>
+                  </v-card-text>
+                  <v-sheet class="mx-8">
+                    <v-textarea
+                      class="px-3"
+                      label="가입동기를 적어주세요"
+                      auto-grow
+                      outlined
+                      rows="4"
+                      row-height="30"
+                      shaped
+                      v-model="content"
+                    ></v-textarea>
+                  </v-sheet>
+                  <v-card-actions class="justify-end">
+                    <v-div @click="dialog.value = false">
+                      <v-btn text @click="goJoin">제출</v-btn>
+                    </v-div>
+                    <v-btn text @click="dialog.value = false">닫기</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </template>
+            </v-dialog>
+            <span v-if="clubDetailManegerBtn === true && clubData.master == userInfo.id">
+              <v-btn color="blue darken-1" text @click="managerOnOff(false)">홈으로</v-btn>
+            </span>
           </span>
-          <v-btn
-            v-if="clubData.master != userInfo.id && clubDetailIsMember"
-            color="blue darken-1"
-            text
-            class="mt-4 ml-2"
-            @click="doLeave()"
-            >클럽탈퇴</v-btn
-          >
-          <v-btn
-            v-if="clubData.master != userInfo.id && !clubDetailIsMember && clubDetailIsWaiting"
-            color="blue darken-1"
-            text
-            class="mt-4 ml-2"
-            >가입대기중</v-btn
-          >
-          <v-dialog
-            v-if="clubData.master != userInfo.id && !clubDetailIsMember && !clubDetailIsWaiting"
-            transition="dialog-bottom-transition"
-            max-width="600"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn class="mt-4 ml-2" color="blue darken-1" text v-bind="attrs" v-on="on">
-                <v-icon color="blue">fas fa-user-friends</v-icon>
-                <span style="color: blue;">가입하기</span>
-              </v-btn>
-            </template>
-            <template v-slot:default="dialog">
-              <v-card>
-                <v-toolbar color="primary" dark> {{ clubData.title }}클럽 가입신청서</v-toolbar>
-                <v-card-text>
-                  <div class="text-h6 font-weight-black pa-12">
-                    반가워요 {{ userInfo.nickname }}님.
-                  </div>
-                </v-card-text>
-                <v-sheet class="mx-8">
-                  <v-textarea
-                    class="px-3"
-                    label="가입동기를 적어주세요"
-                    auto-grow
-                    outlined
-                    rows="4"
-                    row-height="30"
-                    shaped
-                    v-model="content"
-                  ></v-textarea>
-                </v-sheet>
-                <v-card-actions class="justify-end">
-                  <v-div @click="dialog.value = false">
-                    <v-btn text @click="goJoin">제출</v-btn>
-                  </v-div>
-                  <v-btn text @click="dialog.value = false">닫기</v-btn>
-                </v-card-actions>
-              </v-card>
-            </template>
-          </v-dialog>
-          <div v-if="clubDetailManegerBtn === true && clubData.master == userInfo.id">
-            <v-btn color="blue darken-1" text @click="managerOnOff(false)">홈으로</v-btn>
-          </div>
         </v-col>
       </v-row>
     </v-sheet>
+    <club-create :type="'update'" />
   </v-row>
 </template>
 
@@ -111,7 +114,7 @@ import { mapActions, mapState } from 'vuex';
 import ClubCreate from '../ClubCreate.vue';
 
 export default {
-  components: { ClubCreate,},
+  components: { ClubCreate },
   computed: {
     ...mapState('clubStore', [
       'clubData',
@@ -165,12 +168,12 @@ export default {
       this.$store.commit('clubStore/CLUB_DETAIL_URL_DIALOG', true);
     },
     OnOffCreate: function() {
-    this.$store.commit('clubStore/CLUB_CREATE_DIALOG', true);
+      this.$store.commit('clubStore/CLUB_CREATE_DIALOG', true);
     },
   },
-  created(){
+  created() {
     // this.isClubMember( {user: this.userInfo.id})
-  }
+  },
 };
 </script>
 

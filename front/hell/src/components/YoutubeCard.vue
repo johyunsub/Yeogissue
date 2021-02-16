@@ -22,7 +22,7 @@
             <p style="color: #666;">{{ data.description }}</p>
           </div>
           <div class="text--primary mt-5 choice_cursor" style="fontSize: 13px;" @click="MovePage">
-            <p style="color: #6a7e88">출처 : {{ data.channelTitle }}</p>
+            <p style="color: #6a7e88">생성일 : {{ data.updated_at.substr(0, 10) }}</p>
           </div>
           <div class="text--primary mt-5 choice_cursor" style="fontSize: 13px;" @click="MovePage">
             <p style="color: #64B5F6">{{ data.comment }}</p>
@@ -47,7 +47,7 @@ export default {
   methods: {
     MovePage() {
       this.$store.commit('issueStore/SET_ISSUE_DETAIL_YOUTUBE_DIALOG', true);
-      let url = this.data.videoId.replace('watch?v=', 'embed/');
+      let url = this.data.video;
       this.$store.commit(
         'issueStore/SET_ISSUE_DETAIL_VIDEO_URL',
         `<iframe
