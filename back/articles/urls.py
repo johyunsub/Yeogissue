@@ -37,6 +37,8 @@ urlpatterns = [
 
     path('top_hashtag/', views.top_hashtag),
 
+    path('my_emotion/', views.my_emotion),
+
     
     path('comment_rank/', views.comment_rank),
     path('like_rank/', views.like_rank),

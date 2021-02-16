@@ -25,10 +25,11 @@
           <span class="ml-10">
             <span>
               <v-btn v-if="!clubDetailManegerBtn" text color="blue darken-1" @click="isClubJoin">
-                <i class="fas fa-chevron-circle-up"> </i>URL 등록
+                <i class="fas fa-plus mr-1"></i>URL 등록
               </v-btn>
               <!-- 수정 -->
               <v-btn v-if="clubDetailManegerBtn" text color="blue darken-1" @click="OnOffCreate">
+                <i class="fas fa-wrench mr-1" color="blue"></i>
                 클럽수정
               </v-btn>
             </span>
@@ -102,7 +103,7 @@
               </template>
             </v-dialog>
             <span v-if="clubDetailManegerBtn === true && clubData.master == userInfo.id">
-              <v-btn color="blue darken-1" text @click="managerOnOff(false)">홈으로</v-btn>
+              <v-btn color="blue darken-1" text @click="managerOnOff(false)"><i class="fas fa-home mr-1" color="blue"></i>홈으로</v-btn>
             </span>
           </span>
         </v-col>
@@ -139,6 +140,8 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import ClubCreate from '../ClubCreate.vue';
+import { API_BASE_URL } from "../../../config";
+import axios from "axios";
 
 export default {
   components: { ClubCreate },
@@ -200,11 +203,22 @@ export default {
       this.$store.commit('clubStore/CLUB_CREATE_DIALOG', true);
     },
     setImage: function() {
+      console.log(this.$route.query.id)
       console.log(this.clubData.image)
-      if (this.clubData.image) 
-      { this.image = 'http://127.0.0.1:8000' + this.clubData.image;
-        console.log(this.image,'image')
-      }
+      axios.get(`${API_BASE_URL}club/club_detail/${this.$route.query.id}/`)
+            .then((res)=>{
+              
+              if (res.data.image) 
+              { this.image = API_BASE_URL + this.clubData.image.substr(1); console.log(this.image,'image') }
+              else if (res.data.category == "IT/과학") {this.image = `${API_BASE_URL}media/images/%EA%B3%BC%ED%95%99.JPG` }
+              else if (res.data.category == "경제") {this.image = `${API_BASE_URL}media/images/%EA%B2%BD%EC%A0%9C.JPG`}
+              else if (res.data.category == "사회") {this.image = `${API_BASE_URL}media/images/%EC%82%AC%ED%9A%8C.JPG`}
+              else if (res.data.category == "생활") {this.image = `${API_BASE_URL}media/images/%EC%8A%A4%ED%8F%AC%EC%B8%A0.JPG`}
+              else if (res.data.category == "스포츠") {this.image = `${API_BASE_URL}media/images/%EC%8A%A4%ED%8F%AC%EC%B8%A0.JPG`}
+              else if (res.data.category == "연예") {this.image = `${API_BASE_URL}media/images/%EC%97%B0%EC%98%88.JPG`}
+              else if (res.data.category == "정치") {this.image = `${API_BASE_URL}media/images/%EC%A0%95%EC%B9%98.JPG`}
+              else if (res.data.category == "해외") {this.image = `${API_BASE_URL}media/images/%ED%95%B4%EC%99%B8.JPG`}
+            })
     //   this.image = 'http://i4d108.p.ssafy.io:8000' + this.userInfo.image;
     },
     isLogin(){
@@ -216,7 +230,6 @@ export default {
   },
   created(){
     this.setImage();
-
 
     // this.isClubMember( {user: this.userInfo.id})
   },
