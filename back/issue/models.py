@@ -29,6 +29,7 @@ class Youtube(models.Model):
     title = models.CharField(max_length = 50,blank=True)
     description = models.CharField(max_length = 150,blank=True)
     thumbnails = models.CharField(max_length = 150,blank=True)
+    publishTime = models.CharField(max_length = 150,blank=True)
     
     
     

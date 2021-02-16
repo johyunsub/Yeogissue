@@ -4,32 +4,58 @@
      
         <v-card>
           <v-card-title>
-            <span class="headline"> {{profileData.nickname}} 님의 프로필</span>
+            <span class="headline font-weight-bold"> {{profileData.nickname}} 님의 프로필</span>
           </v-card-title>
 
          <v-container class="grey lighten-5">
             <v-row rows="8" >
-                <figure class="profile_area" id="preview">
+                <!-- <figure class="profile_area" id="preview">
                     <img src="https://static.some.co.kr/sometrend/images/mypage/profile/w_01.png" id="picture" class="profileImg">
-                </figure>
-                <Viewer v-if="profileData.introduce_text != null" :initialValue="profileData.introduce_text" /> 
-            <v-col
-                cols="12"
-                sm="4"
-            >   
-            
-            </v-col>
+                </figure> -->
+                <v-avatar
+                  class="profile ma-4"
+                  size="164"
+                  tile
+                >
+                 <img :src="url+this.profileData.image.substr(1)">
+                </v-avatar>
+              <v-col cols="1"></v-col>
+              <v-col
+                  cols="2"
+                  class="mt-4"
+              >   
+                <v-row class="mt-1  text-h6">
+                  닉네임 :
+                </v-row>
+                <v-row class="mt-9  text-h6">
+                  아이디 :
+                </v-row>
+                <v-row class="mt-9  text-h6">
+                  나의 소개 :
+                  
+                </v-row>
+              </v-col>    
+              <v-col
+                  cols="2"
+                  sm="4"
+                  class="my-4"
+              >  
+                <v-row class="mt-1 font-weight-bold text-h6">
+                  {{profileData.nickname}} 
+                </v-row> 
+                <v-row class="mt-9 font-weight-bold text-h6">
+                  {{profileData.email}} 
+                </v-row> 
+                <v-row class="mt-9 font-weight-bold text-h6">
+                  <Viewer v-if="profileData.introduce_text != null" :initialValue="profileData.introduce_text" /> 
 
-            <v-col
-                cols="12"
-                sm="4"
-            >   
-            </v-col>    
-
+                </v-row>
+              </v-col>    
+              
             </v-row>
 
             <v-row rows="4" >
-                {{profileData.email}} 
+                
             </v-row>
             
 
@@ -50,24 +76,32 @@ import { mapState, mapActions } from 'vuex';
 import "codemirror/lib/codemirror.css"; 
 import "@toast-ui/editor/dist/toastui-editor.css"; 
 import { Viewer } from "@toast-ui/vue-editor";
+import { API_BASE_URL } from '../../config';
 
 export default {
   components: { Viewer },
   data: () => ({
     profile: false,
-    //image: '',
+    image: '',
     nickname: '',
     introduce_text: '',
     email:'',
+    url:'',
+    newimage:'',
    
   }),
+  created(){
+    this.url = API_BASE_URL;
+  },
   computed: {
     ...mapState(['profileData']),
     getDialog: {
-      get: function() {
+      get: function() { 
         return this.$store.state.profile;
       },
       set: function() {
+        
+   
       },
     },
   },
@@ -76,7 +110,8 @@ export default {
     ...mapActions(['userData']),
     OnOffProfile: function() {
       this.$store.commit('CHANGE_PROFILE', false);
-    }
+    },
+   
   },
 };
 </script>

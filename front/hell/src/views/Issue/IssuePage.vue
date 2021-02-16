@@ -1,6 +1,10 @@
 <template>
   <v-sheet height="100%" color="#D6A9A9" lighten-5>
-  <img :src="require('../../assets/이슈메인.png')" style="height:250; width:100%; position: relative;" alt="">
+    <img
+      :src="require('../../assets/이슈메인.png')"
+      style="height:250; width:100%; position: relative;"
+      alt=""
+    />
 
     <div class="ma-auto mt-3" style="width: 190px">
       <v-menu
@@ -9,7 +13,7 @@
         :nudge-right="40"
         transition="scale-transition"
         offset-y
-        min-width="auto" 
+        min-width="auto"
       >
         <template v-slot:activator="{ on }">
           <v-text-field
@@ -29,19 +33,15 @@
     </div>
 
     <div class="text-center">
-    <v-tooltip right>
+      <v-tooltip right>
         <template v-slot:activator="{ on, attrs }">
           <v-icon color="primary" v-bind="attrs" v-on="on">
             fas fa-exclamation-circle
           </v-icon>
         </template>
-        <span
-          >본 검색은 당일 많이 생성된 이슈를 기반으로 합니다.</span>
-          <br>
-          <span>
-           만약 검색어가 별로 없다면 그날은 해당
-          카테고리에 이슈가 적다는 걸 의미합니다.</span
-        >
+        <span>본 검색은 당일 많이 생성된 이슈를 기반으로 합니다.</span>
+        <br />
+        <span> 만약 검색어가 별로 없다면 그날은 해당 카테고리에 이슈가 적다는 걸 의미합니다.</span>
       </v-tooltip>
     </div>
     <div class="ma-auto mt-10" style="width: 60%">
@@ -56,13 +56,11 @@
       </VueSlickCarousel>
     </div>
   </v-sheet>
-
 </template>
 
 <script>
 import VueSlickCarousel from 'vue-slick-carousel';
 import 'vue-slick-carousel/dist/vue-slick-carousel.css';
-// optional style for arrows & dots
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css';
 import IssueCategoryCard from '../../components/Issue/IssueCategoryCard.vue';
 
@@ -75,8 +73,11 @@ export default {
     menu2: false,
 
     slickOptions: {
-      slidesToShow: 3,
-      slidesToScroll: 3,
+      infinite:true,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      vertical: true,
+      verticalSwiping: true,
       speed: 400,
       autoplay: true,
       autoplaySpeed: 3000,
@@ -119,6 +120,7 @@ export default {
   },
 
   created() {
+    window.scrollTo(0, 0);
     this.getIssue();
   },
 };
@@ -146,9 +148,7 @@ export default {
 }
 
 .bgimage {
-  background-image:
-      url("../../assets/이슈.png");
+  background-image: url('../../assets/이슈.png');
   background-size: 100% 100%;
-  
 }
 </style>
