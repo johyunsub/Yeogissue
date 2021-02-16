@@ -75,12 +75,12 @@
                         ></v-textarea>
                       </v-sheet>
                       <v-card-actions class="justify-end">
-                        <v-div @click="dialog.value = false">
+                        <div @click="dialog.value = false">
                         <v-btn
                           text
                           @click="goJoin"
                         >제출</v-btn>
-                        </v-div>
+                        </div>
                         <v-btn
                           text
                           @click="dialog.value = false"
@@ -156,7 +156,7 @@ export default {
     },
   },
   created(){
-    this.isClubMember( {user: this.userInfo.id})
+    // this.isClubMember( {user: this.userInfo.id})
   }
 };
 </script>
