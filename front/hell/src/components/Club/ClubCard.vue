@@ -68,7 +68,7 @@ export default {
       else if (this.clubInfo.category == "IT/과학") {this.image = `${API_BASE_URL}media/images/%EA%B3%BC%ED%95%99.JPG` }
       else if (this.clubInfo.category == "경제") {this.image = `${API_BASE_URL}media/images/%EA%B2%BD%EC%A0%9C.JPG`}
       else if (this.clubInfo.category == "사회") {this.image = `${API_BASE_URL}media/images/%EC%82%AC%ED%9A%8C.JPG`}
-      else if (this.clubInfo.category == "생활") {this.image = `${API_BASE_URL}media/images/%EC%8A%A4%ED%8F%AC%EC%B8%A0.JPG`}
+      else if (this.clubInfo.category == "생활") {this.image = `${API_BASE_URL}media/images/%EC%83%9D%ED%99%9C.JPG`}
       else if (this.clubInfo.category == "스포츠") {this.image = `${API_BASE_URL}media/images/%EC%8A%A4%ED%8F%AC%EC%B8%A0.JPG`}
       else if (this.clubInfo.category == "연예") {this.image = `${API_BASE_URL}media/images/%EC%97%B0%EC%98%88.JPG`}
       else if (this.clubInfo.category == "정치") {this.image = `${API_BASE_URL}media/images/%EC%A0%95%EC%B9%98.JPG`}
