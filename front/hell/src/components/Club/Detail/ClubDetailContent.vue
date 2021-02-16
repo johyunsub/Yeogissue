@@ -1,11 +1,9 @@
 <template>
   <div>
-    <v-row class="my-8"></v-row>
     <!-- 카테고리 if문 처리-->
-    <v-row class="category">
-      <v-col cols='4'></v-col>
+    <v-row class="category mt-15">
+      <v-col cols="4"></v-col>
       <v-col>
-
         <v-tabs>
           <v-tab @click="SelectCategory('intro')">소개</v-tab>
           <v-tab @click="SelectCategory('news')">뉴스</v-tab>
@@ -14,7 +12,7 @@
           <v-tab @click="SelectCategory('opinion')">의견나눔</v-tab>
         </v-tabs>
       </v-col>
-      <v-col cols='3'></v-col>
+      <v-col cols="3"></v-col>
     </v-row>
 
     <!-- 내용 -->
@@ -57,11 +55,9 @@ export default {
     };
   },
   methods: {
-
     SelectCategory: function(category) {
       this.categoryType = category;
     },
-    
   },
   // {% comment %} created() {
   //   this.$store.dispatch('clubStore/clubDetailUrlList');
