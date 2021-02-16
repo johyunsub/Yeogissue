@@ -324,7 +324,7 @@ def myclub(request):
     user = request.data.get('user')
     clubs = Club_member.objects.filter(Q(user_id=user)&Q(is_active=True)).values('club_id')
     
-    print(clubs)
+    # print(clubs)
     data = {}
     j = 0
     for i in clubs:
@@ -335,7 +335,7 @@ def myclub(request):
         else:
             # print(club)
             # print(club_)
-            club = club.union(club_,all=True).order_by('-id')
-
+            club = club.union(club_,all=True)
+    club.order_by('-id')
     serializer = ClubInfoSerializer(club, many=True)
     return Response(serializer.data)    
