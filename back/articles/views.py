@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.http import JsonResponse
 
 from .serializers import ArticleListSerializer, ArticleSerializer,HashtagSerializer,CommentSerializer, HashtagSerializer2,ReCommentSerializer
 from .models import Article, Hashtag, Comment, ReComment
@@ -384,31 +385,32 @@ def hash_emotion(request):
     hash_tag = request.data.get('hashtag')
     hashtag = Hashtag.objects.get(name=hash_tag)
     articles = hashtag.articles.all()
-    data = {'기쁨':0,'신뢰':0,'공포':0,'놀라움':0,'슬픔':0,'혐오':0,'분노':0,'기대':0}
+    data = [['기쁨',0],['신뢰',0],['공포',0],['놀라움',0],['슬픔',0],['혐오',0],['분노',0],['기대',0]]
     for article in articles:
         comments = article.comment_set.all()
         # print(comments)
         for comment in comments:
             # print(comment.emotion)
             if comment.emotion == '기쁨':
-                data['기쁨'] += 1
+                data[0][1] += 1
             elif comment.emotion == '신뢰':
-                data['신뢰'] += 1
+                data[1][1] += 1
             elif comment.emotion == '공포':
-                data['공포'] += 1
+                data[2][1] += 1
             elif comment.emotion == '놀라움':
-                data['놀라움'] += 1
+                data[3][1] += 1
             elif comment.emotion == '슬픔':
-                data['슬픔'] += 1
+                data[4][1] += 1
             elif comment.emotion == '혐오':
-                data['혐오'] += 1
+                data[5][1] += 1
             elif comment.emotion == '분노':
-                data['분노'] += 1
+                data[6][1] += 1
             elif comment.emotion == '기대':
-                data['기대'] += 1
-    # print(data)
-    
-    return Response(data)
+                data[7][1] += 1
+    print(data)
+    return JsonResponse(data,safe=False,json_dumps_params={'ensure_ascii': False})
+
+    # return Response(data)
 
 @api_view(['GET'])
 def hash_all(request):
