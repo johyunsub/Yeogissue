@@ -55,7 +55,13 @@ export default {
     ...mapState(['userInfo']),
   },
   data: function() {
-    return {};
+    return {
+      count : 0,
+    };
+  },
+  updated(){
+    if(this.count ==0) this.isClubMember({ id: this.$route.query.id, user: this.userInfo.id });
+    this.count++;
   },
   methods: {
     ...mapActions('clubStore', ['clubDetail', 'isClubMember']),
