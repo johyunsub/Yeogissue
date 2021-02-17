@@ -133,6 +133,7 @@ export default {
       else if (check == 'close') this.btnCheck = true;
 
       this.$store.commit('clubStore/CLUB_CREATE_DIALOG', false);
+      if (check == 'create') this.$router.go(this.$router.currentRoute);
     },
     validate() {
       this.$refs.form.validate();

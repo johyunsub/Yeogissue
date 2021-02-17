@@ -308,16 +308,6 @@ const opinionStore = {
         .catch((err) => console.log(err.response));
     },
 
-    commentThumUp({ state, dispatch }, data) {
-      instance
-        .post(`/articles/${data.id}/comment_like/`, { user:data.user })
-        .then((res) => {
-          console.log(res.data);
-          console.log("댓글 좋아요 성공")
-          dispatch("opinionDetail", state.opinionData.id);
-        })
-        .catch((err) => console.log(err.response));
-    },
   },
 };
 

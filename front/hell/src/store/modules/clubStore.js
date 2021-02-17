@@ -31,6 +31,9 @@ const clubStore = {
     clubManageMemberList: [],
     clubManageJoinList: [],
     clubManageArticleList: [],
+
+    //쓰레기 값 저장
+    demo: '',
   },
   getters: {},
   mutations: {
@@ -105,6 +108,10 @@ const clubStore = {
       console.log('데이터 변경 ' + data);
       state.clubDetailIsWaiting = data;
     },
+
+    SET_DD(state, str){
+      state.demo = str;
+    }
   },
   actions: {
     // 조회
@@ -120,11 +127,11 @@ const clubStore = {
     },
 
     // 생성
-    clubCreate({ dispatch }, data) {
+    clubCreate({ commit }, data) {
       instance
         .post('/club/create/', data)
         .then(() => {
-          dispatch('clubList');
+          commit('SET_DD','dd');
         })
         .catch((err) => console.log(err.response));
     },
@@ -183,12 +190,17 @@ const clubStore = {
 
     // Url 등록
     clubDetailUrlCreate({ dispatch }, data) {
+      let dd =data.category;
       instance
         .post(`club/club_article/`, data)
         .then(() => {
-          dispatch('clubDetailUrlListNews');
-          dispatch('clubDetailUrlListYoutube');
-          dispatch('clubDetailUrlListetc');
+          console.log("카테고리 -"+dd)
+          if(dd == 'News'){
+            console.log("URL 등록 뉴스 잘 됨")
+            dispatch('clubDetailUrlListNews');
+          }
+          else if(dd == 'Youtube')dispatch('clubDetailUrlListYoutube');
+          else dispatch('clubDetailUrlListetc');
         })
         .catch((err) => console.log(err.response));
     },
@@ -198,9 +210,9 @@ const clubStore = {
       instance
         .put(`club/club_article_detail/2/`, data)
         .then(() => {
-          dispatch('clubDetailUrlListNews');
-          dispatch('clubDetailUrlListYoutube');
-          dispatch('clubDetailUrlListetc');
+          if(data.category == 'News')dispatch('clubDetailUrlListNews');
+          else if(data.category == 'Youtube')dispatch('clubDetailUrlListYoutube');
+          else dispatch('clubDetailUrlListetc');
         })
         .catch((err) => console.log(err.response));
     },
