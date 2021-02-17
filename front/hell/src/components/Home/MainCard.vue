@@ -16,13 +16,18 @@
         >{{ data.title }}
       </v-card-title>
       <v-card-text>
-        <span class="subtitle-1 ml-5 menu-descText" :id="'cardContent' + data.id">{{
-          data.content
-        }}</span>
-        <v-btn class="btnLC ml-3" color="blue" rounded>
-          <span style="color: white;"> 바로가기 </span></v-btn
+        <span
+          class="subtitle-1 ml-5 menu-descText"
+          :id="'cardContent' + data.id"
+          style="height:100px"
+          >{{ data.content }}</span
         >
       </v-card-text>
+      <v-card-actions>
+        <v-btn class=" ml-5" color="white" rounded>
+          <span style="color: black;"> 바로가기 > </span></v-btn
+        >
+      </v-card-actions>
     </v-card>
   </v-hover>
 </template>
@@ -62,12 +67,12 @@ export default {
   line-height: 23px;
   letter-spacing: -0.05em;
   opacity: 0.4;
+  font-weight: 400;
   text-align: left;
 }
 
 .menu-subject {
   font-size: 21px;
-  line-height: 29px;
   letter-spacing: -0.05em;
   font-weight: 600;
   margin: 4px 0 21px;
