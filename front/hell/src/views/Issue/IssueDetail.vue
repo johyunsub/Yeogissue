@@ -114,6 +114,7 @@
 
           <!-- 뉴스 리스트 부분 -->
           <v-list two-line>
+            <div class="text-center" v-if="newsData.length ==0"><span>뉴스 자료가 없네요...</span></div>
             <issue-news-list v-for="(item, index) in newsData" :key="index" :data="item" />
           </v-list>
         </div>
@@ -124,6 +125,7 @@
 
           <!-- 유튜브 리스트 부분 -->
           <v-list two-line>
+            <div class="text-center" v-if="youtuData.length ==0"><span>유튜브 자료가 없네요...</span></div>
             <issue-youtube-list v-for="(item, index) in youtuData" :key="index" :data="item" />
           </v-list>
         </div>

@@ -88,6 +88,7 @@ def article_detail(request, article_pk):
         article.read_count += 1
         article.save()
         serializer = ArticleSerializer(article)
+        print(serializer.data)
         return Response(serializer.data)
     elif request.method == 'PUT':
         # print(request.data)
@@ -283,8 +284,9 @@ def like_comment(request, comment_pk):
     # user가 article을 좋아요 누른 전체유저에 존재하는지.
     if comment.like_users.filter(pk=request.data.get('user')).exists():
         # 좋아요 취소
-        print('a')
         comment.like_users.remove(request.data.get('user'))
+        
+        print('a')
         return Response({'success', 'dislike'},status=status.HTTP_201_CREATED)
     else:
         # 좋아요
@@ -295,6 +297,7 @@ def like_comment(request, comment_pk):
         alarm.object_id = comment_pk
         alarm.object_content = comment.content
         alarm.save()
+        print('b')
         return Response({'success', 'like'},status=status.HTTP_201_CREATED)
 
 

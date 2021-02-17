@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="4"></v-col>
+      <v-col cols="3" class="mr-auto"></v-col>
       <v-col>
         <v-sheet height="5vh" />
         <v-sheet width="600" height="80vh" rounded elevation="2">
@@ -92,6 +92,7 @@
           </form>
         </v-sheet>
       </v-col>
+      <v-col cols="1" class="mr-auto"></v-col>
     </v-row>
   </v-container>
 </template>
