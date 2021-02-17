@@ -12,7 +12,6 @@
           <v-col>
             <div class="text--primary ">
                     <v-avatar class="profile ml-3 mr-2" color="grey" size="50">
-            <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
           </v-avatar>
               <a text @click="ProfileOn('profile')">{{ username }}</a> | {{ updated_at.replace("T", " ").substr(0, 16) }}
             </div>

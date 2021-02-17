@@ -329,8 +329,8 @@ def search_bar(request):
     name = request.data.get('name')
     articles = 0
     articles_title = 0
-    if Hashtag.objects.filter(name__contains=name).exists():
-        hash = Hashtag.objects.get(name__contains=name)
+    if Hashtag.objects.filter(name=name).exists():
+        hash = Hashtag.objects.get(name=name)
         articles = hash.articles.all()
 
     if Article.objects.filter(title__contains=name).exists():

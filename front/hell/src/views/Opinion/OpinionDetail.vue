@@ -5,22 +5,7 @@
       <v-col>
         <p class="blue--text mr-bt text-center">
           <v-icon small>fas fa-bars</v-icon> {{ opinionData.category }}
-          <v-icon
-            medium
-            color="yellow"
-            style="float: right; cursor: pointer"
-            v-if="!opinionData.scrap_users.includes(userInfo.id) || isLoginToken == ''"
-            @click="bookmarkChange('far')"
-            >far fa-bookmark</v-icon
-          >
-          <v-icon
-            medium
-            color="yellow"
-            style="float: right; cursor: pointer"
-            v-if="opinionData.scrap_users.includes(userInfo.id)"
-            @click="bookmarkChange('fas')"
-            >fas fa-bookmark</v-icon
-          >
+         
         </p>
         <p class="display-2 text-center py-4">{{ opinionData.title }}</p>
 
@@ -77,7 +62,28 @@
           <span class="ml-3">
             {{ opinionData.like_users_count }}
           </span>
-          <v-spacer></v-spacer>
+
+           <v-spacer></v-spacer>
+          <span>스크랩 하기</span>
+          <v-icon
+            medium
+            color="yellow"
+            style="float: right; cursor: pointer"
+            class="ml-2"
+            v-if="!opinionData.scrap_users.includes(userInfo.id) || isLoginToken == ''"
+            @click="bookmarkChange('far')"
+            >far fa-bookmark</v-icon
+          >
+          <v-icon
+            medium
+            color="yellow"
+            style="float: right; cursor: pointer"
+            v-if="opinionData.scrap_users.includes(userInfo.id)"
+            @click="bookmarkChange('fas')"
+            >fas fa-bookmark</v-icon
+          >
+
+         
           <!-- <p class="text-right"><span class="choice_cursor text-bt" @click="opUpdate">수정</span> | <span class="choice_cursor text-bt" @click="opDelete">삭제</span></p> -->
         </v-row>
         <v-row>
