@@ -124,7 +124,7 @@ const opinionStore = {
     //조회
     opinionList({ commit }) {
       instance
-        .get("/articles/article_list")
+        .get("/articles/article_list/")
         .then((res) => {
           commit("SET_OPINIONS", res.data);
           commit("SET_OPINION_CATEGORY", "전체");

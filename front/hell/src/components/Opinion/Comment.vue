@@ -88,8 +88,8 @@ import CommentCreate from "../../components/Opinion/CommentCreate.vue";
 import CommentMenu from "./CommentMenu.vue";
 
 import { mapState, mapActions } from "vuex";
-// import axios from "axios";
-// import { API_BASE_URL } from "../../config";
+import axios from "axios";
+import { API_BASE_URL } from "../../config";
 
 export default {
   components: { CommentMenu, CommentCreate },
@@ -123,7 +123,6 @@ export default {
   },
   methods: {
     ...mapActions(["getProfile"]),
-    ...mapActions("opinionStore", ["commentThumUp"]),
 
     ProfileOn: function(message) {
       switch (message) {
@@ -138,11 +137,22 @@ export default {
         this.$store.commit("CHANGE_DIALOG", true);
         return;
       }
-      console.log("저장이유");
-      this.commentThumUp({
-        id: this.$route.query.id,
-        user:this.userInfo.id
-      });
+      // console.log("저장이유");
+      // this.commentThumUp({
+      //   id: this.$route.query.id,
+      //   user:this.userInfo.id
+      // });
+      axios
+        .post(`${API_BASE_URL}articles/${this.id}/comment_like/`, {
+          user: this.$store.state.userInfo.id,
+        })
+        .then((res) => {
+          console.log(res);
+          this.$store.dispatch("opinionStore/opinionDetail", this.article);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
     },
 
     changeUpdate(check) {

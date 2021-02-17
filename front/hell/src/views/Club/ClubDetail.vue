@@ -71,7 +71,7 @@ export default {
     console.log(this.userInfo.id);
     window.scrollTo(0, 0);
     // this.clubDetail(this.$route.query.id);
-    // this.isClubMember({ id: this.$route.query.id, user: this.userInfo.id });
+    this.isClubMember({ id: this.$route.query.id, user: this.userInfo.id });
   },
 };
 </script>

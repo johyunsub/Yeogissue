@@ -40,14 +40,14 @@
                 {{ tag.name }}
               </span>
             </v-chip>
+          </v-chip-group>
             <!-- 클럽 -->
-            <v-chip outlined v-if="clubTag != ''" @click="movePage()"
+            <v-chip outlined v-if="opinionData.clubname != ''" @click="movePage()"
               ><span style="color: blue; font-weight: 600">
                 <v-icon small color="blue">fas fa-hashtag</v-icon>
-                {{ clubTag }}</span
+                {{ opinionData.clubname }}</span
               ></v-chip
             >
-          </v-chip-group>
           <v-col cols="4"></v-col>
         </v-row>
         <v-divider></v-divider>
