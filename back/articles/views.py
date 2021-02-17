@@ -31,12 +31,12 @@ def article_list(request):
     articles = Article.objects.all().order_by('-id')
     
     serializer = ArticleListSerializer(articles, many=True)
-    k=0
-    for i in serializer.data:
-        if i['club_pk'] != 0:
+    # k=0
+    # for i in serializer.data:
+        # if i['club_pk'] != 0:
             # serializer.data[k].
             # print('clubname',clubname(i['club_pk']))
-        k += 1
+        # k += 1
     return Response(serializer.data)
 
 @api_view(['POST'])
