@@ -35,7 +35,7 @@ def article_list(request):
     for i in serializer.data:
         if i['club_pk'] != 0:
             # serializer.data[k].
-            print('clubname',clubname(i['club_pk']))
+            # print('clubname',clubname(i['club_pk']))
         k += 1
     return Response(serializer.data)
 
@@ -88,7 +88,7 @@ def article_detail(request, article_pk):
         article.read_count += 1
         article.save()
         serializer = ArticleSerializer(article)
-        print(serializer.data)
+        # print(serializer.data)
         return Response(serializer.data)
     elif request.method == 'PUT':
         # print(request.data)

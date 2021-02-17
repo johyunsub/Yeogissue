@@ -63,7 +63,7 @@ def signup(request):
         user.set_password(request.data.get('password'))
         token = make_code()
         user.token = token
-        user.image = 'images/profile-picture.png'
+        user.image = 'images/profile.jpg'
         user.save()
         print(token)
         message = f'이메일 인증을 위해서 {token} 을 입력해주세요'
