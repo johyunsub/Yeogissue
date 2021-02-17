@@ -155,21 +155,21 @@ export default {
 
     createform_check() {
       //변수에 담아주기
-      
+      // console.log("ada" + this.createData.category)
       // var uid = document.getElementById("uid");
       
-      if (this.createData.category === '') { //해당 입력값이 없을 경우 같은말: if(!uid.value)
+      if (this.createData.category === null) { //해당 입력값이 없을 경우 같은말: if(!uid.value)
         alert("카테고리를 선택해주세요");
         //uid.focus(); //focus(): 커서가 깜빡이는 현상, blur(): 커서가 사라지는 현상
         return; //return: 반환하다 return false:  아무것도 반환하지 말아라 아래 코드부터 아무것도 진행하지 말것
       }
 
-      if (this.createData.comment_type === '') { 
+      if (this.createData.comment_type === null) { 
         alert("댓글 형태를 선택해주세요");
         return; 
       }
 
-      if (this.createData.title === '') { 
+      if (this.createData.title === null) { 
         alert("제목을 입력해주세요");
         return; 
       }
