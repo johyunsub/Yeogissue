@@ -234,7 +234,11 @@ const clubStore = {
     //클럽 가입신청
     clubJoin({ state, commit }, data) {
       instance.post(`club/club_signup/${state.clubData.id}/`, data).then(() => {
-        commit('SET_IS_WAITING', true);
+        if(state.clubData.is_private){
+          commit('SET_IS_WAITING', true);
+        }else{
+          commit('SET_IS_MEMBER', true)
+        }
       });
     },
 
