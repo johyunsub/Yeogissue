@@ -23,6 +23,7 @@ def make_admin(request):
     if User.objects.filter(email=email).exists():
         user = User.objects.get(email=email)
         user.is_admin = True
+        user.is_active = True
         user.save()
         return Response({'success'})
     return Response({'fail'})
@@ -62,6 +63,7 @@ def signup(request):
         user.set_password(request.data.get('password'))
         token = make_code()
         user.token = token
+        user.image = 'images/profile-picture.png'
         user.save()
         print(token)
         message = f'이메일 인증을 위해서 {token} 을 입력해주세요'
