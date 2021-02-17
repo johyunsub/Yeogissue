@@ -50,7 +50,6 @@
       </div>
 
       <v-sheet height="15vh" color="#F4CECE"></v-sheet>
-
       <v-row>
         <v-col class="mx-auto"></v-col>
         <div data-aos="fade-up" data-aos-duration="1000" v-for="item in items" :key="item.content">

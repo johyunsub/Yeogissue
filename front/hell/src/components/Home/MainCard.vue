@@ -11,9 +11,14 @@
       @mouseover="changeBack('over')"
       @mouseout="changeBack('out')"
     >
-      <v-card-title class="headline mt-5 ml-5 pt-7 " :id="'cardTitle' + data.id"
-        style="font-weight: 600;">{{ data.title }}
+      <v-card-title class="headline mt-5 ml-5 pt-7" :id="'cardTitle' + data.id"
+        style="font-weight: 600;">{{ data.title }} 
+        <i style="color:#29B6F6" class="far fa-comment-dots ml-2" v-if="data.id ==1"></i>
+        <i style="color:#D81B60" class="fas fa-users ml-2" v-if="data.id ==2"></i>
+        <i style="color:#F9A825" class="fas fa-crown ml-2" v-if="data.id ==3"></i>
+        <i style="color:#6D4C41" class="fas fa-book-reader ml-2" v-if="data.id ==4"></i>
       </v-card-title>
+      
       <v-card-text>
         <span
           class="subtitle-1 ml-5 pt-3 menu-descText"
