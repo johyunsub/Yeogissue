@@ -37,8 +37,8 @@
             :key="tag.name"
             @click="search_tag(tag.name)"
             medium
-            class="justify-center mr-3"
-            color="white"
+            class="justify-center mr-3 main-chip"
+            color="#7c6bff"
           >
             <span style="color: black; font-weight: 600;">
               <v-icon small color="pink">fas fa-hashtag</v-icon>
@@ -63,20 +63,20 @@
 </template>
 
 <script>
-import VueSlickCarousel from 'vue-slick-carousel';
-import 'vue-slick-carousel/dist/vue-slick-carousel.css';
-import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css';
-import { mapState, mapActions } from 'vuex';
-import MainCard from '../components/Home/MainCard.vue';
+import VueSlickCarousel from "vue-slick-carousel";
+import "vue-slick-carousel/dist/vue-slick-carousel.css";
+import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
+import { mapState, mapActions } from "vuex";
+import MainCard from "../components/Home/MainCard.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: { VueSlickCarousel, MainCard },
   computed: {
-    ...mapState('opinionStore', ['top_hashtags']),
+    ...mapState("opinionStore", ["top_hashtags"]),
   },
   data: () => ({
-    search: '',
+    search: "",
 
     slickData: {
       slidesToShow: 1,
@@ -91,31 +91,34 @@ export default {
     items: [
       {
         id: 1,
-        title: '의견이슈',
-        content:
-          '다양한 이슈와 생각을 가득한곳! 여러분의 의견을 공유하고, #해시태그로 다른 사람의 의견을 검색해보세요!',
+        title: "의견이슈",
+        content: "다양한 이슈와 생각을 가득한 곳! 여러분의 의견을 공유하고,",
+        content2: "#해시태그로 다른 사람의 의견을 검색해보세요!",
       },
       {
         id: 2,
-        title: '모여이슈',
-        content: '소통해보고 싶은 관심사가 있나요? 클럽을 생성하여 사람들을 모아보세요!',
+        title: "모여이슈",
+        content: "소통해보고 싶은 관심사가 있나요?",
+        content2: "클럽을 생성하여 사람들을 모아보세요!",
       },
       {
         id: 3,
-        title: '이슈랭킹',
-        content: '핫한 트렌드가 궁금할 때! 하루 검색 이슈랭킹에서 확인하세요!',
+        title: "이슈랭킹",
+        content: "핫한 트렌드가 궁금할 때!",
+        content2: "하루 검색 이슈랭킹에서 확인하세요!",
       },
       {
         id: 4,
-        title: '매거진',
-        content: '댓글 많은 게시글과 많은 사람들의 공감을 얻은 좋아요 많은 게시글을 확인해보세요!',
+        title: "매거진",
+        content: "댓글 많은 게시글과 많은 사람들의 공감을 얻은 좋아요 많은 게시글을 확인해보세요!",
+        content2:''
       },
     ],
   }),
   methods: {
-    ...mapActions('opinionStore', ['hash_top10', 'hashOpinionList']),
+    ...mapActions("opinionStore", ["hash_top10", "hashOpinionList"]),
     search_hashtag() {
-      console.log('ggg');
+      console.log("ggg");
       this.hashOpinionList({ name: this.search });
       this.$router.push(`/opinion?search=${this.search}`);
     },
@@ -159,6 +162,10 @@ export default {
 }
 
 .main-image {
-  border-radius: 10px;
+  border-radius: 35px;
+}
+
+.main-chip:hover{
+  color: blue;
 }
 </style>
