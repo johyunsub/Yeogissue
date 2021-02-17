@@ -169,6 +169,7 @@ export default {
     },
   },
   created() {
+    window.scrollTo(0,0);
     this.hash_top10();
     if (this.$route.query.search != undefined) {
       this.search = this.$route.query.search;

@@ -88,6 +88,7 @@ export default {
     },
 
     getClubTagName() {
+      if(this.data.club_pk ==0) return;
       axios
         .get(`${API_BASE_URL}club/club_detail/${this.data.club_pk}/`)
         .then((res) => {
