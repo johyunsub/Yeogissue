@@ -202,7 +202,7 @@ const opinionStore = {
     // 디테일
     opinionDetail({ commit, state }, id) {
       instance
-        .get(`/articles/${id}`)
+        .get(`/articles/${id}/`)
         .then((res) => {
           commit("SET_OPINION_DETAIL", res.data);
           commit("SET_OPINION_COMMENT", res.data.comment_set);
@@ -301,23 +301,23 @@ const opinionStore = {
     //좋아요 버튼
     thumbUp({ state, dispatch }, data) {
       instance
-        .post(`/articles/${data.id}/like/`, {user: data.user})
+        .post(`/articles/${data.id}/like/`, { user: data.user })
         .then(() => {
           dispatch("opinionDetail", state.opinionData.id);
         })
         .catch((err) => console.log(err.response));
     },
 
-    commentThumUp(data){
+    commentThumUp({ state, dispatch }, data) {
       instance
-      .post(`/articles/${data.id}/comment_like/`, { user: data.user })
-      .then(() => {
-        this.$store.dispatch("opinionStore/opinionDetail", data.article);
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
-    }
+        .post(`/articles/${data.id}/comment_like/`, { user:data.user })
+        .then((res) => {
+          console.log(res.data);
+          console.log("댓글 좋아요 성공")
+          dispatch("opinionDetail", state.opinionData.id);
+        })
+        .catch((err) => console.log(err.response));
+    },
   },
 };
 

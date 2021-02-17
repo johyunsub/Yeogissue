@@ -55,7 +55,13 @@ export default {
     ...mapState(['userInfo']),
   },
   data: function() {
-    return {};
+    return {
+      count : 0,
+    };
+  },
+  updated(){
+    if(this.count ==0) this.isClubMember({ id: this.$route.query.id, user: this.userInfo.id });
+    this.count++;
   },
   methods: {
     ...mapActions('clubStore', ['clubDetail', 'isClubMember']),
@@ -65,7 +71,7 @@ export default {
     console.log(this.userInfo.id);
     window.scrollTo(0, 0);
     // this.clubDetail(this.$route.query.id);
-    this.isClubMember({ id: this.$route.query.id, user: this.userInfo.id });
+    // this.isClubMember({ id: this.$route.query.id, user: this.userInfo.id });
   },
 };
 </script>
