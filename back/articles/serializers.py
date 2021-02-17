@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from .models import Article, Hashtag, Comment,ReComment
 from django.contrib.auth import get_user_model
-
+from club.models import Club
+from club.serializers import ClubNameSerializer
 class HashtagSerializer(serializers.ModelSerializer):
    
     class Meta:
@@ -87,6 +88,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
  
 
+
 class ArticleListSerializer(serializers.ModelSerializer):
     hashtags = HashtagSerializer(many=True, read_only=True)
     comment_set = CommentSerializer(
@@ -103,13 +105,24 @@ class ArticleListSerializer(serializers.ModelSerializer):
         read_only=True,
     )
     username = serializers.ReadOnlyField(source='user.nickname')
- 
+    
+
+    # clubname = ClubNameSerializer(read_only=True)
+    # clubname = serializers.CharField(
+        
+    #     source=clubname(club_pk),
+    #     read_only=True, 
+    # )
 
     class Meta:
         model = Article
         exclude = ('like_users','scrap_users')
+        
         read_only_fields = ('like_users',)
 
 
 
-
+class ArticleCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        exclude = ('like_users','scrap_users')
