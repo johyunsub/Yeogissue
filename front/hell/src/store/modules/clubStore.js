@@ -128,6 +128,7 @@ const clubStore = {
         })
         .catch((err) => console.log(err.response));
     },
+    
 
     // 수정
     clubUpdate({ state, dispatch }, data) {

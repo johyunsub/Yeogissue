@@ -9,7 +9,7 @@
         @click="MovePage('detail')"
       >
         <div class="d-flex flex-no-wrap">
-          <img
+          <img 
             style="width: 150px; height:150px"
             :src="image"
           />
@@ -39,6 +39,8 @@
 
 <script>
 import { mapState } from 'vuex';
+import { API_BASE_URL } from "../../config";
+
 export default {
   name: 'clubCard',
   computed: {
@@ -56,11 +58,20 @@ export default {
   },
   created() {
     this.setImage();
+ 
   },
   methods: {
     setImage: function() {
       if (this.clubInfo.image) 
-      { this.image = 'http://127.0.0.1:8000' + this.clubInfo.image;}
+      { this.image = API_BASE_URL + this.clubInfo.image.substr(1);}
+      else if (this.clubInfo.category == "IT/과학") {this.image = `${API_BASE_URL}media/images/%EA%B3%BC%ED%95%99.JPG` }
+      else if (this.clubInfo.category == "경제") {this.image = `${API_BASE_URL}media/images/%EA%B2%BD%EC%A0%9C.JPG`}
+      else if (this.clubInfo.category == "사회") {this.image = `${API_BASE_URL}media/images/%EC%82%AC%ED%9A%8C.JPG`}
+      else if (this.clubInfo.category == "생활") {this.image = `${API_BASE_URL}media/images/%EC%83%9D%ED%99%9C.JPG`}
+      else if (this.clubInfo.category == "스포츠") {this.image = `${API_BASE_URL}media/images/%EC%8A%A4%ED%8F%AC%EC%B8%A0.JPG`}
+      else if (this.clubInfo.category == "연예") {this.image = `${API_BASE_URL}media/images/%EC%97%B0%EC%98%88.JPG`}
+      else if (this.clubInfo.category == "정치") {this.image = `${API_BASE_URL}media/images/%EC%A0%95%EC%B9%98.JPG`}
+      else if (this.clubInfo.category == "해외") {this.image = `${API_BASE_URL}media/images/%ED%95%B4%EC%99%B8.JPG`}
     //   this.image = 'http://i4d108.p.ssafy.io:8000' + this.userInfo.image;
     },
     MovePage: function(check) {

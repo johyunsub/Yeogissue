@@ -114,12 +114,16 @@ export default {
       if (this.type == 'create') {
         this.clubCreateData.master = this.$store.state.userInfo.id;
         this.clubCreate(this.clubCreateData);
+        
         this.clubCreateData = {};
+        
+
+
       } else if (this.type == 'update') {
         this.clubUpdate(this.clubCreateData);
         this.clubCreateData = {};
         this.flag = false;
-        this.changeImage();
+        this.changeImage()
       }
 
       this.OnOff('create');
@@ -129,6 +133,7 @@ export default {
       else if (check == 'close') this.btnCheck = true;
 
       this.$store.commit('clubStore/CLUB_CREATE_DIALOG', false);
+      this.$router.push({name:'Club'});
     },
     validate() {
       this.$refs.form.validate();
@@ -145,7 +150,7 @@ export default {
       formdata.append('image',this.files);
       axios
         .post(`${API_BASE_URL}club/club_image/${this.clubData.id}/`,formdata)
-        .then((res) => console.log(res))
+        .then(() => this.$router.push(`/clubDetail?id=${this.clubData.id}`))
         .catch((res) => console.log(res))
     },
     onChangeImages(e) {
