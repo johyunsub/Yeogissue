@@ -39,7 +39,7 @@ export default {
 
   mounted() {
     axios
-      .get(`${API_BASE_URL}articles/${this.getId()}`)
+      .get(`${API_BASE_URL}articles/${this.getId()}/`)
       .then((res) => {
         this.chartdata.datasets[0].data[0] = res.data.agree_count;
         this.chartdata.datasets[0].data[1] = res.data.disagree_count;

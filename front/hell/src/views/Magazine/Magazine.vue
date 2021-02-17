@@ -50,7 +50,7 @@
           <v-divider></v-divider>
 
           <v-card-text class="mt-4">
-            <div v-for="(item, n) in likeRank" :key="item.id">
+            <div class="choice_cursor comment-card" v-for="(item, n) in likeRank" :key="item.id" @click="commentMove(item)">
               <span style="color:blue;">{{ n + 1 }}</span>
               <span class="ml-4">{{ item.title }}</span>
             </div>

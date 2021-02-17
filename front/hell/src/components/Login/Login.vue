@@ -40,16 +40,6 @@
                 >
               </v-col>
 
-              <v-col cols="12" sm="12">
-                <v-btn tile block large color="green accent-4" @click="loginWithKakao"
-                  >네이버</v-btn
-                >
-              </v-col>
-
-              <v-col cols="12" sm="12">
-                <v-btn tile block large color="green accent-4" @click="loginWithKakao">구글</v-btn>
-              </v-col>
-
               <v-col cols="12" sm="6" class="mt-3 ml-2">
                 <span>비밀번호를 잊으셨습니까?</span>
               </v-col>

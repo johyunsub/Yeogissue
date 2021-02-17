@@ -21,7 +21,7 @@
       </v-row>
 
       <!-- 해시태그 -->
-      <div class="text--primary ml-8 mb-2 mt-5" v-if="data.hashtags.length != 0">
+      <div class="text--primary ml-8 mb-2 mt-5" v-if="data.hashtags.length != 0 || data.clubname != ''">
         <v-row>
           <v-chip-group>
             <v-chip outlined v-for="tag in data.hashtags" :key="tag.name" @click="search(tag.name)">
@@ -30,15 +30,14 @@
                 {{ tag.name }}</span
               >
             </v-chip>
-
-            <!-- 클럽 -->
-            <v-chip outlined v-if="clubTag != ''" @click="movePage()"
-              ><span style="color: blue; font-weight: 600">
-                <v-icon small color="blue">fas fa-hashtag</v-icon>
-                {{clubTag}}</span
-              ></v-chip
-            >
           </v-chip-group>
+          <!-- 클럽 -->
+          <v-chip outlined v-if="data.clubname != ''" @click="movePage()"
+            ><span style="color: blue; font-weight: 600">
+              <v-icon small color="blue">fas fa-hashtag</v-icon>
+              {{ data.clubname }}</span
+            ></v-chip
+          >
           <v-col cols="4"></v-col>
         </v-row>
       </div>
@@ -62,17 +61,15 @@
 
 <script>
 import { mapActions } from "vuex";
-import axios from "axios";
-import { API_BASE_URL } from "../../config";
 
 export default {
   props: {
     data: { type: Object },
   },
-  data(){
-    return{
-      clubTag: '',
-    }
+  data() {
+    return {
+      clubTag: "",
+    };
   },
   methods: {
     ...mapActions("opinionStore", ["opinionDetail"]),
@@ -87,22 +84,11 @@ export default {
       this.$emit("search", search);
     },
 
-    getClubTagName() {
-      if(this.data.club_pk ==0) return;
-      axios
-        .get(`${API_BASE_URL}club/club_detail/${this.data.club_pk}/`)
-        .then((res) => {
-          this.clubTag = res.data.title;
-        })
-        .catch((err) => console.log(err.response));
-    },
-    movePage(){
+    movePage() {
       this.$router.push(`/clubDetail?id=${this.data.club_pk}`);
-    }
+    },
   },
-  created() {
-    this.getClubTagName();
-  },
+  created() {},
 };
 </script>
 

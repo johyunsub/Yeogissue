@@ -161,9 +161,7 @@ export default {
   height: 98px;
 }
 
-.main-image {
-  border-radius:;
-}
+
 
 .main-chip:hover{
   color: #8C05F7;
