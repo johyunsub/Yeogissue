@@ -13,7 +13,10 @@ class Article(models.Model):
     comment_type = models.BooleanField()
     category = models.CharField(max_length=100)
     read_count = models.IntegerField(default=0)
+
     club_pk = models.IntegerField(default=0)
+    clubname = models.CharField(default='',max_length = 150)
+    
     agree_count = models.IntegerField(default=0)
     disagree_count = models.IntegerField(default=0)
 

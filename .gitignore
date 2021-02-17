@@ -188,4 +188,4 @@ test/
 front/hell/settings.json
 
 # file
-
+back/db.sqlite3
