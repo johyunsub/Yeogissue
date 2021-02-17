@@ -335,7 +335,7 @@ def myclub(request):
         else:
             # print(club)
             # print(club_)
-            club = club.union(club_,all=True)
+            club = club.union(club_)
     club.order_by('-id')
     serializer = ClubInfoSerializer(club, many=True)
     return Response(serializer.data)    

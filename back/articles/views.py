@@ -365,7 +365,7 @@ def search_bar(request):
         # print(articles,'해시태그') 
         # print(articles_title,'제목')
     if articles and articles_title:    
-        articles = articles.union(articles_title,all=True).order_by('-id')
+        articles = articles.union(articles_title).order_by('-id')
         # print(articles,'최종') 
         
         serializer = ArticleListSerializer(articles, many=True) 
