@@ -61,8 +61,6 @@
 
 <script>
 import { mapActions } from "vuex";
-import axios from "axios";
-import { API_BASE_URL } from "../../config";
 
 export default {
   props: {
@@ -86,21 +84,11 @@ export default {
       this.$emit("search", search);
     },
 
-    getClubTagName() {
-      if(this.data.club_pk ==0) return;
-      axios
-        .get(`${API_BASE_URL}club/club_detail/${this.data.club_pk}/`)
-        .then((res) => {
-          this.clubTag = res.data.title;
-        })
-        .catch((err) => console.log(err.response));
-    },
     movePage(){
       this.$router.push(`/clubDetail?id=${this.data.club_pk}`);
     }
   },
   created() {
-    this.getClubTagName();
   },
 };
 </script>

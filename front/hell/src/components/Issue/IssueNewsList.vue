@@ -19,10 +19,10 @@
             {{ data.title }}
           </p>
           <div class="text--primary mt-2 choice_cursor" style="fontSize: 13px;" @click="MovePage">
-            <p class="target_new" style="color: #666">{{ data.description }}</p>
+            <p style="color: #6a7e88" v-if="data.site_name !=''">출처 : {{ data.site_name }} | {{ getDate() }}</p>
           </div>
           <div class="text--primary mt-2 choice_cursor" style="fontSize: 13px;" @click="MovePage">
-            <p style="color: #6a7e88" v-if="data.site_name !=''">출처 : {{ data.site_name }} | {{ getDate() }}</p>
+            <p class="target_new" style="color: #666">{{ data.description }}</p>
           </div>
         </div>
       </div>

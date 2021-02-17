@@ -53,10 +53,10 @@
         <v-divider></v-divider>
 
         <v-row class="mt-3">
-          <v-icon v-if="!getLike" medium color="red" class="choice_cursor" @click="isLogin"
+          <v-icon v-if="!opinionData.like_users.includes(userInfo.id)" medium color="red" class="choice_cursor" @click="isLogin"
             >far fa-heart</v-icon
           >
-          <v-icon v-if="getLike" medium color="red" class="choice_cursor" @click="isLogin"
+          <v-icon v-if="opinionData.like_users.includes(userInfo.id)" medium color="red" class="choice_cursor" @click="isLogin"
             >fas fa-heart</v-icon
           >
           <span class="ml-3">
@@ -128,6 +128,7 @@
               v-for="item in opinionCommentPaging"
               :key="item.id"
               :id="item.id"
+              :badcomment="item.badcomment"
               :opinion_type="item.opinion_type"
               :content="item.content"
               :created_at="item.created_at"
@@ -206,7 +207,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("opinionStore", ["opinionDetail", "opinionDelete", "bookmarkUpdate"]),
+    ...mapActions("opinionStore", ["opinionDetail", "opinionDelete", "bookmarkUpdate","thumbUp"]),
     ...mapActions(["getProfile"]),
     ProfileOn: function(message) {
       switch (message) {
@@ -228,18 +229,8 @@ export default {
         this.$store.commit("CHANGE_DIALOG", true);
         return;
       }
-      this.thumbUp();
-    },
-    thumbUp() {
-      axios.post(`${API_BASE_URL}articles/${this.$route.query.id}/like/`, {
-        user: this.$store.state.userInfo.id,
-      });
-      if (this.getLike) {
-        this.opinionData.like_users_count--;
-      } else {
-        this.opinionData.like_users_count++;
-      }
-      this.opinionDetail(this.opinionData.id);
+      console.log("좋아요 버튼"+this.$route.query.id);
+      this.thumbUp({id:this.$route.query.id, user:this.userInfo.id});
     },
 
     take() {
@@ -269,12 +260,14 @@ export default {
     },
 
     getClubTagName() {
-      axios
-        .get(`${API_BASE_URL}club/club_detail/${this.club_pk}/`)
-        .then((res) => {
-          this.clubTag = res.data.title;
-        })
-        .catch((err) => console.log(err.response));
+      if(this.data.club_pk !=0){
+        axios
+          .get(`${API_BASE_URL}club/club_detail/${this.club_pk}/`)
+          .then((res) => {
+            this.clubTag = res.data.title;
+          })
+          .catch((err) => console.log(err.response));
+      }
     },
     movePage() {
       this.$router.push(`/clubDetail?id=${this.club_pk}`);
@@ -289,7 +282,7 @@ export default {
         console.log(res.data.content);
         this.content = res.data.content;
         this.club_pk = res.data.club_pk;
-        this.getClubTagName();
+        // this.getClubTagName();
         this.$store.commit("opinionStore/SET_OPINION_DETAIL", res.data);
         this.$store.commit("opinionStore/SET_OPINION_COMMENT", res.data.comment_set);
         this.$store.commit("opinionStore/SET_OPINION_COMMENT_PAGING", 0);

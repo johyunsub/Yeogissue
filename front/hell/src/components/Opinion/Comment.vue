@@ -15,11 +15,10 @@
           </v-avatar>
               <a text @click="ProfileOn('profile')">{{ username }}</a> | {{ updated_at.replace("T", " ").substr(0, 16) }}
             </div>
-        
 
           </v-col>
           <v-col
-            v-if="!getLike"
+            v-if="!like_users.includes(this.$store.state.userInfo.id)"
             cols="auto"
             class="choice_cursor"
             @click="thumbUp"
@@ -27,7 +26,7 @@
             <v-icon small>mdi-thumb-up-outline</v-icon> {{ like_users_count }}
           </v-col>
           <v-col
-            v-if="getLike"
+            v-if="like_users.includes(this.$store.state.userInfo.id)"
             cols="auto"
             class="choice_cursor"
             @click="thumbUp"
@@ -79,12 +78,11 @@
             <div v-else>
               <i class="far fa-angry bad fa-2x"></i><br>분노
             </div>
-
-      
           </v-col>
 
           <v-col cols="9">
-            <span class="ml-5">{{ content }}</span>
+            <span class="ml-5" v-if="badcomment >=30" style="color: red"> 신고회수가 30회 이상입니다.</span>
+            <span class="ml-5" v-if="badcomment < 30">{{ content }}</span>
           </v-col>
         </v-row>
       </v-alert>
@@ -106,26 +104,18 @@ import CommentCreate from "../../components/Opinion/CommentCreate.vue";
 import CommentMenu from "./CommentMenu.vue";
 
 import { mapState,mapActions } from "vuex";
-import axios from "axios";
-import { API_BASE_URL } from "../../config";
+// import axios from "axios";
+// import { API_BASE_URL } from "../../config";
 
 export default {
   components: { CommentMenu, CommentCreate },
   computed: {
-    ...mapState("opinionStore", ["opinionComment"]),
+    ...mapState("opinionStore", ["opinionComment","commentThumUp"]),
     ...mapState(["isLoginToken", "userInfo"]),
-    
-    getLike: {
-      get: function() {
-        if (this.like_users.includes(this.$store.state.userInfo.id)) {
-          return true;
-        }
-        return false;
-      },
-    },
   },
   props: {
     id: { type: Number },
+    badcomment : {type:Number},
     opinion_type: { type: Boolean },
     content: { type: String },
     created_at: { type: String },
@@ -163,24 +153,7 @@ export default {
         this.$store.commit("CHANGE_DIALOG", true);
         return;
       }
-      axios
-        .post(`${API_BASE_URL}articles/${this.id}/comment_like/`, {
-          user: this.$store.state.userInfo.id,
-        })
-        .then((res) => {
-          console.log(res);
-          if (this.getLike) {
-            this.like_users_count--;
-            console.log(this.like_users_count);
-          } else {
-            this.like_users_count++;
-            console.log(this.like_users_count);
-          }
-          this.$store.dispatch("opinionStore/opinionDetail", this.article);
-        })
-        .catch((err) => {
-          console.log(err.response);
-        });
+      this.commentThumUp({id:this.$route.query.id, user:this.userInfo.id, article:this.article});
     },
 
     changeUpdate(check) {
