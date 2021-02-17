@@ -190,12 +190,17 @@ const clubStore = {
 
     // Url 등록
     clubDetailUrlCreate({ dispatch }, data) {
+      let dd =data.category;
       instance
         .post(`club/club_article/`, data)
         .then(() => {
-          dispatch('clubDetailUrlListNews');
-          dispatch('clubDetailUrlListYoutube');
-          dispatch('clubDetailUrlListetc');
+          console.log("카테고리 -"+dd)
+          if(dd == 'News'){
+            console.log("URL 등록 뉴스 잘 됨")
+            dispatch('clubDetailUrlListNews');
+          }
+          else if(dd == 'Youtube')dispatch('clubDetailUrlListYoutube');
+          else dispatch('clubDetailUrlListetc');
         })
         .catch((err) => console.log(err.response));
     },
@@ -205,9 +210,9 @@ const clubStore = {
       instance
         .put(`club/club_article_detail/2/`, data)
         .then(() => {
-          dispatch('clubDetailUrlListNews');
-          dispatch('clubDetailUrlListYoutube');
-          dispatch('clubDetailUrlListetc');
+          if(data.category == 'News')dispatch('clubDetailUrlListNews');
+          else if(data.category == 'Youtube')dispatch('clubDetailUrlListYoutube');
+          else dispatch('clubDetailUrlListetc');
         })
         .catch((err) => console.log(err.response));
     },
