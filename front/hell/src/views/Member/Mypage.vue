@@ -120,10 +120,11 @@ import MyChangepw from '../../components/Mypage/MyChangepw.vue';
 import { mapState, mapActions } from 'vuex';
 import { API_BASE_URL } from "../../config";
 
+
 export default {
   components: { MyClub, MyFeeling, MyGraph, MyRecently, MyScrap, MyUpdate, MyWrite, MyChangepw },
   computed: {
-    ...mapState(['userInfo']),
+    ...mapState(['userInfo','profileData']),
   },
   data: function() {
     return {
@@ -146,6 +147,7 @@ export default {
     setImage: function() {
       this.image = API_BASE_URL + this.userInfo.image.substr(1);
     //   this.image =  + this.userInfo.image;
+      
     },
     ProfileOn: function(message) {
       switch (message) {
@@ -249,6 +251,7 @@ export default {
   created() {
     this.$store.dispatch('userData', localStorage.getItem('email'));
     this.setImage();
+    
   },
 };
 </script>

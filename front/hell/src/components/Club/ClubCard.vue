@@ -13,8 +13,7 @@
             style="width: 150px; height:150px"
             :src="image"
           />
-          
-          <div>
+          <div class="ml-4 mt-2">
             <v-card-title @click="MovePage('detail')" class="headline mb-0 h6"
               >{{ clubInfo.title }}
             </v-card-title>
@@ -25,10 +24,10 @@
                 <span style="color: blueviolet">{{ clubInfo.category }} </span>
               </div>
               <div>
-                <v-icon v-if="clubInfo.is_private" small color="">fas fa-lock</v-icon>
+                <v-icon v-if="clubInfo.is_private" small class="mb-1" color="red accent-3">fas fa-lock</v-icon>
                 <v-icon v-if="!clubInfo.is_private" small color=""></v-icon>
-                <v-icon class="ml-3" small color="blue">fas fa-user-friends</v-icon>
-                {{ clubInfo.member_cnt }}
+                <v-icon class="ml-3 mr-1 mb-1" small color="blue">fas fa-user-friends</v-icon>
+                <span style="color: blue">{{ clubInfo.member_cnt }}</span>
               </div>
             </v-card-text>
           </div>

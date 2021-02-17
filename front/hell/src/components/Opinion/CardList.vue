@@ -4,6 +4,7 @@
       <v-row>
         <v-col cols="auto" class="mr-auto ml-6">
           <p
+            id="title"
             class="text--primary choice_cursor"
             @click="MovePage('opinionDetail', data.id)"
             style=" fontSize: 25px; font-weight: bold "
@@ -87,6 +88,7 @@ export default {
     },
 
     getClubTagName() {
+      if(this.data.club_pk ==0) return;
       axios
         .get(`${API_BASE_URL}club/club_detail/${this.data.club_pk}/`)
         .then((res) => {
@@ -104,4 +106,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 600px;
+}
+</style>
