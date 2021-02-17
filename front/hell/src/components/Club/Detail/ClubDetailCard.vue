@@ -165,7 +165,7 @@ export default {
   data() {
     return {
       content: '',
-      image:'https://cdn.vuetifyjs.com/images/cards/cooking.png',
+      image:'',
       sheet: true,
     };
   },
