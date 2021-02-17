@@ -8,10 +8,10 @@
           style="height:80px;"
         />
       </v-btn>
-      <v-btn text @click="MovePage('opinion')">의견나눔공간</v-btn>
-      <v-btn text @click="MovePage('club')">클럽</v-btn>
-      <v-btn text @click="MovePage('issue')">이슈모음</v-btn>
-      <v-btn text @click="MovePage('data')">데이터</v-btn>
+      <v-btn text @click="MovePage('opinion')">의견이슈</v-btn>
+      <v-btn text @click="MovePage('club')">모여이슈</v-btn>
+      <v-btn text @click="MovePage('issue')">이슈랭킹</v-btn>
+      <v-btn text @click="MovePage('data')">매거진</v-btn>
     </v-col>
 
     <v-col cols="auto" v-if="isLoginToken == ''">
