@@ -60,7 +60,8 @@
     </div>
 
     <!-- 해시태그 워드 클라우드 -->
-
+    <v-sheet height="100" width="100%" color=""></v-sheet>
+<h1>여기 이슈의 모든 해시태그의 감정 그래프를 확인해보세요!</h1>
     <wordcloud
       class="mt-10"
       :data="hashAll"
@@ -77,7 +78,7 @@
         class="mt-10"
         :width="1000"
         :height="500"
-        :padding-top="5"
+        :padding-top="10"
         :padding-bottom="0"
         :padding-left="0"
         :padding-right="0"
@@ -93,6 +94,7 @@
         ></note>
       </graph-bubblecloud>
     </div>
+    
   </v-row>
 </template>
 
@@ -190,5 +192,8 @@ export default {
   background-color: #FAEAD4;
   border-radius: 20px 20px 20px 20px;
   padding: 4px;
+}
+.mgz {
+  background-color: F4F4F4;
 }
 </style>
