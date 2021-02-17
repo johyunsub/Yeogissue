@@ -1,18 +1,18 @@
 <template>
   <v-row class="justify-center">
     <div class="home-image" id="out">
-      <v-sheet height="10vh" color="#5e35b1"></v-sheet>
+      <v-sheet height="10vh" color="#F4CECE"></v-sheet>
       <div class="ma-auto mt-10" id="in">
         <VueSlickCarousel v-bind="slickData" :style="{ height: '250px' }">
-          <div><img :src="require('../assets/의견.png')" class="main-image" alt="" /></div>
-          <div><img :src="require('../assets/모야.png')" class="main-image" alt="" /></div>
-          <div><img :src="require('../assets/랭킹.png')" class="main-image" alt="" /></div>
-          <div><img :src="require('../assets/매거진.png')" class="main-image" alt="" /></div>
+          <div><img :src="require('../assets/메인1.png')" class="main-image" alt="" /></div>
+          <div><img :src="require('../assets/메인2.png')" class="main-image" alt="" /></div>
+          <div><img :src="require('../assets/메인3.png')" class="main-image" alt="" /></div>
+          <div><img :src="require('../assets/메인4.png')" class="main-image" alt="" /></div>
         </VueSlickCarousel>
       </div>
       <div class="mt-10">
         <v-row>
-          <v-col cols="3" class="mr-auto"></v-col>
+          <v-col cols="4" class="mr-auto"></v-col>
           <v-text-field
             @keypress.enter="search_hashtag"
             color="purple"
@@ -25,7 +25,7 @@
             prepend-inner-icon="fas fa-hashtag"
             clear-icon="mdi-close-circle-outline"
           ></v-text-field>
-          <v-col cols="3" class="mr-auto"></v-col>
+          <v-col cols="4" class="mr-auto"></v-col>
         </v-row>
       </div>
 
@@ -37,8 +37,8 @@
             :key="tag.name"
             @click="search_tag(tag.name)"
             medium
-            class="justify-center mr-3 main-chip"
-            color="#7c6bff"
+            class="justify-center mr-1 main-chip"
+            color="#F4CECE"
           >
             <span style="color: black; font-weight: 600;">
               <v-icon small color="pink">fas fa-hashtag</v-icon>
@@ -49,7 +49,7 @@
         </v-row>
       </div>
 
-      <v-sheet height="15vh" color="#5e35b1"></v-sheet>
+      <v-sheet height="15vh" color="#F4CECE"></v-sheet>
 
       <v-row>
         <v-col class="mx-auto"></v-col>
@@ -137,7 +137,7 @@ export default {
 .home-image {
   width: 100%;
   height: 100%;
-  background-color: #5e35b1;
+  background-color: #F4CECE;
   background-size: 100% 600px;
 }
 
@@ -161,11 +161,9 @@ export default {
   height: 98px;
 }
 
-.main-image {
-  border-radius: 35px;
-}
+
 
 .main-chip:hover{
-  color: blue;
+  color: #8C05F7;
 }
 </style>
