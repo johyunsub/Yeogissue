@@ -1,12 +1,12 @@
 <template>
   <v-container>
     <v-sheet height="80"></v-sheet>
-    <div class="ml-15 pl-10">
+    <div class="ml-10">
       <v-row class="py-5">
         <v-col sm="3">
           <h1>My 이슈</h1>
           <h2>
-            안녕하세요, <a text @click="ProfileOn('profile')">{{ userInfo.nickname }}</a>님
+            안녕하세요, <a text @click="ProfileOn('profile')" >{{ userInfo.nickname }}</a>님
           </h2>
 
           <v-row class="py-4" justify="center">
@@ -50,16 +50,6 @@
                       <v-list-item @click="OnOff('feeling')">
                         <v-list-item-content>
                           <v-list-item-title>내가 쓴 글 감정분석</v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                      <v-list-item @click="OnOff('recently')">
-                        <v-list-item-content>
-                          <v-list-item-title>최근에 본 게시물</v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                      <v-list-item @click="OnOff('graph')">
-                        <v-list-item-content>
-                          <v-list-item-title>자주 보는 카테고리 그래프</v-list-item-title>
                         </v-list-item-content>
                       </v-list-item>
                     </v-list-item-group>
@@ -110,8 +100,6 @@
 <script>
 import MyClub from '../../components/Mypage/MyClub.vue';
 import MyFeeling from '../../components/Mypage/MyFeeling.vue';
-import MyGraph from '../../components/Mypage/MyGraph.vue';
-import MyRecently from '../../components/Mypage/MyRecently.vue';
 import MyScrap from '../../components/Mypage/MyScrap.vue';
 import MyUpdate from '../../components/Mypage/MyUpdate.vue';
 import MyWrite from '../../components/Mypage/MyWrite.vue';
@@ -122,7 +110,7 @@ import { API_BASE_URL } from "../../config";
 
 
 export default {
-  components: { MyClub, MyFeeling, MyGraph, MyRecently, MyScrap, MyUpdate, MyWrite, MyChangepw },
+  components: { MyClub, MyFeeling, MyScrap, MyUpdate, MyWrite, MyChangepw },
   computed: {
     ...mapState(['userInfo','profileData']),
   },
@@ -249,9 +237,10 @@ export default {
     },
   },
   created() {
+    window.scrollTo(0,0);
     this.$store.dispatch('userData', localStorage.getItem('email'));
     this.setImage();
-    
+    this.$store.dispatch('getEmotion');
   },
 };
 </script>

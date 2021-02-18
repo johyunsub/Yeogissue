@@ -5,7 +5,6 @@
       <v-col>
         <p class="blue--text mr-bt text-center">
           <v-icon small>fas fa-bars</v-icon> {{ opinionData.category }}
-         
         </p>
         <p class="display-2 text-center py-4">{{ opinionData.title }}</p>
 
@@ -41,29 +40,39 @@
               </span>
             </v-chip>
           </v-chip-group>
-            <!-- 클럽 -->
-            <v-chip outlined v-if="opinionData.clubname != ''" @click="movePage()"
-              ><span style="color: blue; font-weight: 600">
-                <v-icon small color="blue">fas fa-hashtag</v-icon>
-                {{ opinionData.clubname }}</span
-              ></v-chip
-            >
+          <!-- 클럽 -->
+          <v-chip outlined v-if="opinionData.clubname != ''" @click="movePage()"
+            ><span style="color: blue; font-weight: 600">
+              <v-icon small color="blue">fas fa-hashtag</v-icon>
+              {{ opinionData.clubname }}</span
+            ></v-chip
+          >
           <v-col cols="4"></v-col>
         </v-row>
         <v-divider></v-divider>
 
         <v-row class="mt-3">
-          <v-icon v-if="!opinionData.like_users.includes(userInfo.id)" medium color="red" class="choice_cursor" @click="isLogin"
+          <v-icon
+            v-if="!opinionData.like_users.includes(userInfo.id)"
+            medium
+            color="red"
+            class="choice_cursor"
+            @click="isLogin"
             >far fa-heart</v-icon
           >
-          <v-icon v-if="opinionData.like_users.includes(userInfo.id)" medium color="red" class="choice_cursor" @click="isLogin"
+          <v-icon
+            v-if="opinionData.like_users.includes(userInfo.id)"
+            medium
+            color="red"
+            class="choice_cursor"
+            @click="isLogin"
             >fas fa-heart</v-icon
           >
           <span class="ml-3">
             {{ opinionData.like_users_count }}
           </span>
 
-           <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
           <span>스크랩 하기</span>
           <v-icon
             medium
@@ -83,7 +92,6 @@
             >fas fa-bookmark</v-icon
           >
 
-         
           <!-- <p class="text-right"><span class="choice_cursor text-bt" @click="opUpdate">수정</span> | <span class="choice_cursor text-bt" @click="opDelete">삭제</span></p> -->
         </v-row>
         <v-row>
@@ -197,7 +205,8 @@ export default {
       content: "",
       alert: true,
       clubTag: "",
-      club_pk: '',
+      club_pk: "",
+      creat: false,
     };
   },
   watch: {
@@ -207,7 +216,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("opinionStore", ["opinionDetail", "opinionDelete", "bookmarkUpdate","thumbUp"]),
+    ...mapActions("opinionStore", ["opinionDetail", "opinionDelete", "bookmarkUpdate", "thumbUp"]),
     ...mapActions(["getProfile"]),
     ProfileOn: function(message) {
       switch (message) {
@@ -229,8 +238,8 @@ export default {
         this.$store.commit("CHANGE_DIALOG", true);
         return;
       }
-      console.log("좋아요 버튼"+this.$route.query.id);
-      this.thumbUp({id:this.$route.query.id, user:this.userInfo.id});
+      console.log("좋아요 버튼" + this.$route.query.id);
+      this.thumbUp({ id: this.$route.query.id, user: this.userInfo.id });
     },
 
     take() {
@@ -260,7 +269,7 @@ export default {
     },
 
     getClubTagName() {
-      if(this.data.club_pk !=0){
+      if (this.data.club_pk != 0) {
         axios
           .get(`${API_BASE_URL}club/club_detail/${this.club_pk}/`)
           .then((res) => {
@@ -272,22 +281,30 @@ export default {
     movePage() {
       this.$router.push(`/clubDetail?id=${this.club_pk}`);
     },
+    getDetail() {
+      axios
+        .get(`${API_BASE_URL}articles/${this.$route.query.id}/`)
+        .then((res) => {
+          console.log(res.data.content);
+          this.content = res.data.content;
+          this.club_pk = res.data.club_pk;
+          // this.getClubTagName();
+          this.$store.commit("opinionStore/SET_OPINION_DETAIL", res.data);
+          this.$store.commit("opinionStore/SET_OPINION_COMMENT", res.data.comment_set);
+          this.$store.commit("opinionStore/SET_OPINION_COMMENT_PAGING", 0);
+        })
+        .catch((err) => console.log(err.response));
+    },
   },
+
+  updated() {
+    console.log("의견디테일 업데이트");
+  },
+
   created() {
     // this.opinionDetail(this.$route.query.id);
     window.scrollTo(0, 0);
-    axios
-      .get(`${API_BASE_URL}articles/${this.$route.query.id}/`)
-      .then((res) => {
-        console.log(res.data.content);
-        this.content = res.data.content;
-        this.club_pk = res.data.club_pk;
-        // this.getClubTagName();
-        this.$store.commit("opinionStore/SET_OPINION_DETAIL", res.data);
-        this.$store.commit("opinionStore/SET_OPINION_COMMENT", res.data.comment_set);
-        this.$store.commit("opinionStore/SET_OPINION_COMMENT_PAGING", 0);
-      })
-      .catch((err) => console.log(err.response));
+    this.getDetail();
   },
 };
 </script>

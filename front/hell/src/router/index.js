@@ -93,6 +93,7 @@ const routes = [
     name: 'Magazine',
     component: Magazine
   },
+
  
 ]
 

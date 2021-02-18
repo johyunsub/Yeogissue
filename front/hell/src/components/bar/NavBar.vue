@@ -19,27 +19,28 @@
       <v-btn text @click="MovePage('join')">회원가입</v-btn>
     </v-col>
     <v-col cols="auto" v-if="isLoginToken != ''">
-      <span class="mr-2" style="font-Size:15px"> 안녕하세요 {{ userInfo.nickname }}님 </span>
+      <span class="mr-2" style="font-Size:18px"> 안녕하세요 </span><span  style="font-Size:20px;color:#DF01D7">{{ userInfo.nickname }}</span> <span style="font-Size:18px">님 </span>
       <span class="mr-1 ml-1"><notification /></span>
       <v-btn text @click="MovePage('myPage')">마이페이지</v-btn>
       <v-btn text color="red" @click="Out">로그아웃</v-btn>
     </v-col>
     <login />
-    
-    <youtube-dialog/>
+
+    <youtube-dialog />
     <my-profile-modal />
   </v-app-bar>
 </template>
 
 <script>
 import Login from "../Login/Login.vue";
-import youtubeDialog from "../Issue/IssueYoutubeDialog.vue"
-import MyProfileModal from '../../components/Mypage/MyProfileModal.vue';
+import youtubeDialog from "../Issue/IssueYoutubeDialog.vue";
+import MyProfileModal from "../../components/Mypage/MyProfileModal.vue";
 import Notification from "./Notification.vue";
 import { mapState } from "vuex";
+import $ from "jquery";
 
 export default {
-  components: { Notification, Login, youtubeDialog, MyProfileModal},
+  components: { Notification, Login, youtubeDialog, MyProfileModal },
   computed: {
     ...mapState(["userInfo", "isLoginToken"]),
   },
@@ -59,6 +60,7 @@ export default {
       }
     },
     MovePage: function(check) {
+      $("div").remove(".tooltip");
       switch (check) {
         case "opinion":
           this.$router.push({ name: "Opinion" });
@@ -94,6 +96,6 @@ export default {
 
 <style lang="scss">
 #navbar {
-  outline: 1px solid  rgb(225, 225, 225);
+  outline: 1px solid rgb(225, 225, 225);
 }
 </style>

@@ -135,7 +135,7 @@ export default {
 <style>
 .home-image {
   width: 100%;
-  height: 100%;
+  height: 1000px;
   background-color: #F4CECE;
   background-size: 100% 600px;
 }
