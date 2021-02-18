@@ -50,7 +50,7 @@
           내가 쓴 '{{ item.object_content }}'댓글에 좋아요 눌림
         </div>
         <div
-          v-else-if="item.message_type == '클럽승인'"
+          v-else-if="item.message_type == '클럽승인신청'"
           class="alarm choice_cursor"
           @click="alarmClub(item.object_id, 2, item.id)"
         >

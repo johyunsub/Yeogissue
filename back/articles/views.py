@@ -294,7 +294,8 @@ def like_comment(request, comment_pk):
         alarm = Alarm()
         alarm.message_type = '댓글좋아요'
         alarm.user_id = comment.user.id
-        alarm.object_id = comment_pk
+        alarm.object_id = comment.article_id
+        # print(comment.article_id)
         alarm.object_content = comment.content
         alarm.save()
         print('b')
