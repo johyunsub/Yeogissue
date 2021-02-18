@@ -14,14 +14,15 @@
                         </div> -->
             <div class="mr-10" align="center">
               <div class="mypage_profileBox">
-                <figure class="profile_area" id="preview">
+                <v-avatar class="profile_area" id="preview" size=164>
                   <img
                     v-if="modData.imageUrl"
                     :src="modData.imageUrl"
                     id="picture"
                     class="profileImg"
                   />
-                </figure>
+                </v-avatar>
+              <br />
                 <div class="filebox my-5">
                   <label for="ex_file">프로필 사진 변경</label>
                   <input
@@ -265,9 +266,7 @@ body {
 }
 
 .profile_area {
-  width: 158px;
-  height: 158px;
-  border-radius: 50%;
+  size: "164";
   margin: 0 auto;
   overflow: hidden;
   border: 1px solid #cdd4db;
