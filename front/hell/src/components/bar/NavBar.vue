@@ -19,7 +19,7 @@
       <v-btn text @click="MovePage('join')">회원가입</v-btn>
     </v-col>
     <v-col cols="auto" v-if="isLoginToken != ''">
-      <span class="mr-2" style="font-Size:15px"> 안녕하세요 {{ userInfo.nickname }}님 </span>
+      <span class="mr-2" style="font-Size:18px"> 안녕하세요 </span><span  style="font-Size:20px;color:#DF01D7">{{ userInfo.nickname }}</span> <span style="font-Size:18px">님 </span>
       <span class="mr-1 ml-1"><notification /></span>
       <v-btn text @click="MovePage('myPage')">마이페이지</v-btn>
       <v-btn text color="red" @click="Out">로그아웃</v-btn>
