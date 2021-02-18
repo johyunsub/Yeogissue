@@ -45,7 +45,7 @@
           class="alarm choice_cursor"
           @click="alarmClub(item.object_id, 2)"
         >
-        <v-icon v-if="clubInfo.is_private" small class="mr-1" color="red accent-3">fas fa-lock</v-icon>
+        <v-icon small class="mr-1" color="red accent-3">fas fa-lock</v-icon>
           '{{ item.object_content }}'클럽에 클럽승인 요청
         </div>
         <div
