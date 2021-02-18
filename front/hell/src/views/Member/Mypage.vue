@@ -6,7 +6,7 @@
         <v-col sm="3">
           <h1>My 이슈</h1>
           <h2>
-            안녕하세요, <a text @click="ProfileOn('profile')">{{ userInfo.nickname }}</a>님
+            안녕하세요, <a text @click="ProfileOn('profile')" >{{ userInfo.nickname }}</a>님
           </h2>
 
           <v-row class="py-4" justify="center">

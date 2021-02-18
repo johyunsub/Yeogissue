@@ -2,7 +2,7 @@
   <v-row class="justify-center">
     <v-sheet height="200" width="100%" color="#F1D883">
       <v-card-title class="justify-center mt-7">
-        <h1 class="font-weight-bold display-3 basil--text mb-3">
+        <h1 class="font-weight-bold display-3 basil--text mb-3"  style="color:#1565C0">
           {{ clubData.title }}
         </h1>
       </v-card-title>
