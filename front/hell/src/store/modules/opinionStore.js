@@ -229,7 +229,10 @@ const opinionStore = {
         .then(() => {
           dispatch("opinionDetail", state.opinionData.id);
         })
-        .catch((err) => console.log(err.response));
+        .catch((err) => {
+          console.log("에러")
+          console.log(err.response);
+        });
     },
 
     // 댓글 수정
@@ -307,7 +310,6 @@ const opinionStore = {
         })
         .catch((err) => console.log(err.response));
     },
-
   },
 };
 
