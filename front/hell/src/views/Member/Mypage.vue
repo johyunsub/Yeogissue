@@ -110,8 +110,6 @@
 <script>
 import MyClub from '../../components/Mypage/MyClub.vue';
 import MyFeeling from '../../components/Mypage/MyFeeling.vue';
-import MyGraph from '../../components/Mypage/MyGraph.vue';
-import MyRecently from '../../components/Mypage/MyRecently.vue';
 import MyScrap from '../../components/Mypage/MyScrap.vue';
 import MyUpdate from '../../components/Mypage/MyUpdate.vue';
 import MyWrite from '../../components/Mypage/MyWrite.vue';
@@ -122,7 +120,7 @@ import { API_BASE_URL } from "../../config";
 
 
 export default {
-  components: { MyClub, MyFeeling, MyGraph, MyRecently, MyScrap, MyUpdate, MyWrite, MyChangepw },
+  components: { MyClub, MyFeeling, MyScrap, MyUpdate, MyWrite, MyChangepw },
   computed: {
     ...mapState(['userInfo','profileData']),
   },
