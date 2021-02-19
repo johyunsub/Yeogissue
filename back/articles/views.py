@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import JsonResponse
 
-from .serializers import ArticleListSerializer, ArticleSerializer,HashtagSerializer,CommentSerializer, HashtagSerializer2,ReCommentSerializer
+from .serializers import ArticleListSerializer, ArticleSerializer,HashtagSerializer,CommentSerializer, HashtagSerializer2,ReCommentSerializer,ArticleCreateSerializer
 from .models import Article, Hashtag, Comment, ReComment
 
 from .use_ai import keyword_mining, emotion
@@ -15,22 +15,46 @@ from accounts.models import MyUser as User
 from accounts.models import Alarm
 
 from django.db.models import Count
+
+from club.models import Club
+
+def clubname(pk):
+    # print('작동')
+    if Club.objects.filter(id=pk).exists():
+        return Club.objects.get(id=pk).title
+    return 0
+
 # 의견나눔 게시글
 @api_view(['GET'])
 def article_list(request):
+
     articles = Article.objects.all().order_by('-id')
+    
     serializer = ArticleListSerializer(articles, many=True)
+    k=0
+    for i in serializer.data:
+        if i['club_pk'] != 0:
+            # serializer.data[k].
+            print('clubname',clubname(i['club_pk']))
+        k += 1
     return Response(serializer.data)
 
 @api_view(['POST'])
 def article_create(request):
-    serializer = ArticleSerializer(data=request.data)
+    serializer = ArticleCreateSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save()
+        # 클럽에서 작성된 글일때
+        if serializer.data['club_pk'] != '0':
+            club_name = clubname(serializer.data['club_pk'])
+            if club_name != 0:
+                article = Article.objects.get(id=serializer.data['id'])
+                article.clubname = club_name
+                article.save()
         data = {}
         data['articles']=[serializer.data['id']]
         data['user']=[request.data.get('user')]
-        print(request.data.get('name'))
+        # print(request.data.get('name'))
         # for i in list(map(str,request.data.get('name').split(','))):
         for i in request.data.get('name'):
             # print(i.strip(),'i')
@@ -64,6 +88,7 @@ def article_detail(request, article_pk):
         article.read_count += 1
         article.save()
         serializer = ArticleSerializer(article)
+        print(serializer.data)
         return Response(serializer.data)
     elif request.method == 'PUT':
         # print(request.data)
@@ -259,8 +284,9 @@ def like_comment(request, comment_pk):
     # user가 article을 좋아요 누른 전체유저에 존재하는지.
     if comment.like_users.filter(pk=request.data.get('user')).exists():
         # 좋아요 취소
-        print('a')
         comment.like_users.remove(request.data.get('user'))
+        
+        print('a')
         return Response({'success', 'dislike'},status=status.HTTP_201_CREATED)
     else:
         # 좋아요
@@ -271,6 +297,7 @@ def like_comment(request, comment_pk):
         alarm.object_id = comment_pk
         alarm.object_content = comment.content
         alarm.save()
+        print('b')
         return Response({'success', 'like'},status=status.HTTP_201_CREATED)
 
 
@@ -329,8 +356,8 @@ def search_bar(request):
     name = request.data.get('name')
     articles = 0
     articles_title = 0
-    if Hashtag.objects.filter(name__contains=name).exists():
-        hash = Hashtag.objects.get(name__contains=name)
+    if Hashtag.objects.filter(name=name).exists():
+        hash = Hashtag.objects.get(name=name)
         articles = hash.articles.all()
 
     if Article.objects.filter(title__contains=name).exists():

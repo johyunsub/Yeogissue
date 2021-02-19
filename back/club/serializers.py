@@ -6,6 +6,11 @@ class ClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club
         fields = '__all__'
+        
+class ClubNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Club
+        fields = ('name',)
 
 
 class ClubInfoSerializer(serializers.ModelSerializer):

@@ -4,15 +4,17 @@
     <v-main class="">
       <router-view />
     </v-main>
+    <foot/>
   </v-app>
 </template>
 
 <script>
 import NavBar from './components/bar/NavBar.vue';
+import Foot from './components/Footer.vue';
 
 export default {
   name: 'App',
-  components: { NavBar },
+  components: { NavBar, Foot},
   created() {
     if (localStorage.getItem('token') != null) {
       console.log(localStorage.getItem('token') + '<<<adfdddd');

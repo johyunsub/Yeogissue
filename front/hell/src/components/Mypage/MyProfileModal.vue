@@ -17,7 +17,7 @@
                   size="164"
                   tile
                 >
-                 <img :src="url+this.profileData.image.substring(1)">
+                 <img :src="url+this.profileData.image.substr(1)" alt="">
                 </v-avatar>
               <v-col cols="1"></v-col>
               <v-col
@@ -47,8 +47,8 @@
                   {{profileData.email}} 
                 </v-row> 
                 <v-row class="mt-9 font-weight-bold text-h6">
-                  <Viewer v-if="profileData.introduce_text != null" :initialValue="profileData.introduce_text" /> 
-
+                  <!-- <Viewer v-if="profileData.introduce_text != null" :initialValue="profileData.introduce_text" />  -->
+                  {{profileData.introduce_text}} 
                 </v-row>
               </v-col>    
               
@@ -75,23 +75,28 @@ import { mapState, mapActions } from 'vuex';
 
 import "codemirror/lib/codemirror.css"; 
 import "@toast-ui/editor/dist/toastui-editor.css"; 
-import { Viewer } from "@toast-ui/vue-editor";
+// import { Viewer } from "@toast-ui/vue-editor";
 import { API_BASE_URL } from '../../config';
 
+// import axios from "axios";
+
 export default {
-  components: { Viewer },
-  data: () => ({
-    profile: false,
-    image: '',
-    nickname: '',
-    introduce_text: '',
-    email:'',
-    url:'',
-    newimage:'',
-   
-  }),
+  components: {  },
+  data: function() {
+    return {
+      profile: false,
+      image: '',
+      nickname: '',
+      introduce_text: '',
+      email:'',
+      url:'',
+      newimage:'',
+    }
+  },
   created(){
     this.url = API_BASE_URL;
+    console.log("aDADAD"+this.profileData.introduce_text)
+  
   },
   computed: {
     ...mapState(['profileData']),

@@ -1,7 +1,7 @@
 <template>
   <v-container borederd="1px">
     <section class="section">
-      <div class="contentInner">
+      <div class="contentInner ml-10 mt-10">
         <h3 class="mypage_contentsTitle">
           <span class="title_text">회원 정보</span>
         </h3>
@@ -12,17 +12,18 @@
                                 <a href="/mypage/account/withdrawal" class=""><span class="withdraw_text"><i class="zmdi zmdi-info"></i> 회원 탈퇴</span></a>
                             </div>
                         </div> -->
-            <div class="" align="center">
+            <div class="mr-10" align="center">
               <div class="mypage_profileBox">
-                <figure class="profile_area" id="preview">
+                <v-avatar class="profile_area" id="preview" size=164>
                   <img
                     v-if="modData.imageUrl"
                     :src="modData.imageUrl"
                     id="picture"
                     class="profileImg"
                   />
-                </figure>
-                <div class="filebox">
+                </v-avatar>
+              <br />
+                <div class="filebox my-5">
                   <label for="ex_file">프로필 사진 변경</label>
                   <input
                     type="file"
@@ -35,16 +36,17 @@
                 </div>
               </div>
             </div>
-            <div class="border-box">
+            <div class="border-box" >
               <table height="50">
-                <tr height="50">
+                <tr height="100">
                   <th>이메일</th>
                   <td>{{ userInfo.email }}</td>
                 </tr>
                 <tr>
-                  <th width="100">닉네임</th>
+                  <th width="120">닉네임</th>
                   <td>
                     <v-text-field
+                      
                       v-model="modData.nickname"
                       solo
                       :label="userInfo.nickname"
@@ -53,6 +55,7 @@
                   </td>
                   <td align="center" valign="top">
                     <v-btn
+                      class="ml-10"
                       @click="nicknameCheck"
                       v-bind:disabled="modData.nickname.length < 1"
                       >닉네임 중복확인</v-btn
@@ -60,14 +63,21 @@
                   </td>
                 </tr>
                 <tr>
-                  <th>자기소개</th>
+                  <th>나의 소개</th>
                   <td colspan="2">
-                    <Editor
+                    <!-- <textarea
                       ref="toastuiEditor"
                       height="500px"
-                      initialEditType="wysiwyg"
                       :initialValue="initialValue"
-                    />
+                    /> -->
+                    <v-textarea
+                      outlined
+                      name="input-7-4"
+                      label="나의 소개글을 입력해주세요"
+                      height="150px"
+                      no-resize
+                      v-model="modData.introduce"
+                    ></v-textarea>
                   </td>
                 </tr>
                 <tr>
@@ -90,13 +100,12 @@ import { mapState } from "vuex";
 
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { Editor } from "@toast-ui/vue-editor";
 import axios from "axios";
 import { API_BASE_URL } from "../../config";
 
 export default {
   components: {
-    Editor,
+  
   },
   computed: {
     ...mapState(["userInfo"]),
@@ -112,28 +121,27 @@ export default {
         introduce: null,
         imageUrl: null,
       },
-      initialValue: "",
       message: "",
       valid: "",
       files: null,
+      flag: false,
     };
   },
   created() {
-    console.log(this.userInfo.email);
     this.modData.email = this.userInfo.email;
     this.modData.nickname = this.userInfo.nickname;
-    this.initialValue = this.userInfo.introduce_text; //
+    this.modData.introduce = this.userInfo.introduce_text; //
     this.modData.imageUrl = this.image;
   },
   methods: {
     modify() {
-      this.modData.introduce = this.$refs.toastuiEditor.invoke("getMarkdown");
+      // this.modData.introduce = this.$refs.toastuiEditor.invoke("getMarkdown");
       this.$store.dispatch("userUpdate", this.modData);
       this.modData.imageUrl = this.$refs.imageInput.files
-
-      this.changeImage();
+      if(this.flag){
+        this.changeImage();
+      }
       
-      console.log("지금" + this.modData);
       this.$fire({
         title: "회원 정보가 수정되었습니다.",
         type: "success",
@@ -185,7 +193,7 @@ export default {
       this.modData.imageUrl = URL.createObjectURL(file);
       
       this.files = this.$refs.imageInput.files[0]
-      
+      this.flag = true;
     },
     
     changeImage() {
@@ -258,9 +266,7 @@ body {
 }
 
 .profile_area {
-  width: 158px;
-  height: 158px;
-  border-radius: 50%;
+  size: "164";
   margin: 0 auto;
   overflow: hidden;
   border: 1px solid #cdd4db;

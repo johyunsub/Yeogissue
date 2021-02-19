@@ -47,7 +47,11 @@ export default {
   methods: {
     MovePage() {
       this.$store.commit("issueStore/SET_ISSUE_DETAIL_YOUTUBE_DIALOG", true);
-      let url = this.data.video;
+      let url = this.data.url.replace('watch?v=', 'embed/');
+      let position = url.indexOf('&');
+      
+      if(position != -1) url = url.substr(0,position);
+      
       this.$store.commit(
         "issueStore/SET_ISSUE_DETAIL_VIDEO_URL",
         `<iframe

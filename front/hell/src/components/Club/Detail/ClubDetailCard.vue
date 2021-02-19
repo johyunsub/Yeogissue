@@ -2,7 +2,7 @@
   <v-row class="justify-center">
     <v-sheet height="200" width="100%" color="#F1D883">
       <v-card-title class="justify-center mt-7">
-        <h1 class="font-weight-bold display-3 basil--text mb-3">
+        <h1 class="font-weight-bold display-3 basil--text mb-3"  style="color:#1565C0">
           {{ clubData.title }}
         </h1>
       </v-card-title>
@@ -25,12 +25,12 @@
           <span class="ml-10">
             <span>
               <v-btn v-if="!clubDetailManegerBtn" text color="blue darken-1" @click="isClubJoin">
-                <i class="fas fa-plus mr-1"></i>URL 등록
+                <v-icon midium class="fas fa-plus mr-1" ></v-icon><span style="color: blue;">URL 등록 </span>
               </v-btn>
               <!-- 수정 -->
               <v-btn v-if="clubDetailManegerBtn" text color="blue darken-1" @click="OnOffCreate">
-                <i class="fas fa-wrench mr-1" color="blue"></i>
-                클럽수정
+                <v-icon class="mr-1">fas fa-wrench</v-icon>
+                <span style="color: blue;">클럽수정 </span> 
               </v-btn>
             </span>
             <span v-if="clubDetailManegerBtn === false">
@@ -49,13 +49,17 @@
               color="blue darken-1"
               text
               @click="doLeave()"
-              >클럽탈퇴</v-btn
-            >
+              >
+              <v-icon class="fas fa-door-open"></v-icon>
+              <span style="color: blue;">클럽탈퇴</span>
+            </v-btn>
             <v-btn
               v-if="clubData.master != userInfo.id && !clubDetailIsMember && clubDetailIsWaiting"
               color="blue darken-1"
               text
-              >가입대기중</v-btn
+              >
+              <v-icon class="far fa-pause-circle"></v-icon>
+              <span style="color: blue;">가입대기중</span></v-btn
             >
             <v-btn color="blue darken-1" text v-if="isLoginToken == ''" @click="isLogin">
               <v-icon color="blue">fas fa-user-friends</v-icon>
@@ -103,7 +107,10 @@
               </template>
             </v-dialog>
             <span v-if="clubDetailManegerBtn === true && clubData.master == userInfo.id">
-              <v-btn color="blue darken-1" text @click="managerOnOff(false)"><i class="fas fa-home mr-1" color="blue"></i>홈으로</v-btn>
+              <v-btn color="blue darken-1" text @click="managerOnOff(false)">
+                <v-icon midium class="fas fa-home mr-1" color="blue"></v-icon>
+                <span style="color: blue;">홈으로</span>
+              </v-btn>
             </span>
           </span>
         </v-col>
@@ -158,7 +165,7 @@ export default {
   data() {
     return {
       content: '',
-      image:'https://cdn.vuetifyjs.com/images/cards/cooking.png',
+      image:'',
       sheet: true,
     };
   },

@@ -57,7 +57,7 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="ClubCreate()">등록</v-btn>
+              <v-btn color="blue darken-1" text @click="createform_check()">등록</v-btn>
               <v-btn color="blue darken-1" text @click="OnOff('close')">취소</v-btn>
             </v-card-actions>
           </div>
@@ -87,9 +87,9 @@ export default {
     
     categoryItems: ['연예', 'IT/과학', '해외', '경제', '스포츠', '정치', '사회', '생활'],
     clubCreateData: {
-      title: '',
-      category: '',
-      content: '',
+      title: null,
+      category: null,
+      content: null,
       master: '',
       is_private: false,
       
@@ -133,7 +133,7 @@ export default {
       else if (check == 'close') this.btnCheck = true;
 
       this.$store.commit('clubStore/CLUB_CREATE_DIALOG', false);
-      this.$router.push({name:'Club'});
+      if (check == 'create') this.$router.go(this.$router.currentRoute);
     },
     validate() {
       this.$refs.form.validate();
@@ -159,6 +159,22 @@ export default {
       
       this.files = this.$refs.imageInput.files[0]
       
+    },
+    createform_check() {
+      if (this.clubCreateData.category === null) {
+        alert("카테고리를 선택해주세요");
+        return; 
+      }
+
+      if (this.clubCreateData.title === null) { 
+        alert("제목을 입력해주세요");
+        return; 
+      }
+      if (this.clubCreateData.content === null) { 
+        alert("내용을 입력해주세요");
+        return; 
+      }
+      this.ClubCreate();   
     },
   },
 
