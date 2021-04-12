@@ -14,6 +14,7 @@
         <v-icon>mdi-bell-outline</v-icon>
       </v-btn>
     </template>
+    {{alarm}}
     <div v-if="alarms.length == 0">알람이 없습니다.</div>
     <v-list v-if="alarms.length != 0">
       <div class="pl-4 pb-3 border-bt">VIEW READ</div>
@@ -50,7 +51,7 @@
           내가 쓴 '{{ item.object_content }}'댓글에 좋아요 눌림
         </div>
         <div
-          v-else-if="item.message_type == '클럽승인'"
+          v-else-if="item.message_type == '클럽승인신청' || item.message_type == '클럽가입됨'" 
           class="alarm choice_cursor"
           @click="alarmClub(item.object_id, 2, item.id)"
         >

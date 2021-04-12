@@ -30,7 +30,6 @@
                 {{ tag.name }}</span
               >
             </v-chip>
-          </v-chip-group>
           <!-- 클럽 -->
           <v-chip outlined v-if="data.clubname != ''" @click="movePage()"
             ><span style="color: blue; font-weight: 600">
@@ -38,6 +37,7 @@
               {{ data.clubname }}</span
             ></v-chip
           >
+          </v-chip-group>
           <v-col cols="4"></v-col>
         </v-row>
       </div>

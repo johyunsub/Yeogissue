@@ -240,13 +240,7 @@ def club_signup(request, club_pk):
         club_member.is_active = True
         club_member.is_admin = False
         club_member.save()
-        alarm = Alarm()
-        alarm.message_type = '클럽가입됨'
-        alarm.user_id = Club.objects.get(id=club_pk).master.id
-        alarm.object_id = club_pk
-        alarm.object_content = Club.objects.get(id=club_pk).title
-        alarm.save()
-
+        
         return Response({'가입성공'})
     club_member.is_active = False
     club_member.is_admin = False
@@ -335,7 +329,7 @@ def myclub(request):
         else:
             # print(club)
             # print(club_)
-            club = club.union(club_,all=True)
+            club = club.union(club_)
     club.order_by('-id')
     serializer = ClubInfoSerializer(club, many=True)
     return Response(serializer.data)    

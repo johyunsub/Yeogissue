@@ -7,13 +7,15 @@
     />
 
     <v-sheet height="100" width="100%" color=""></v-sheet>
-    <h1 style="text-align:center">
-      활발한 논쟁이 이루어지고 있는 댓글 많은 게시글과 <br />
-      많은 사람들의 공감을 얻은 좋아요 많은 게시글을 확인해보세요!
-    </h1>
-    <!-- 인기 순위 -->
-    <div class="mt-10">
-      <v-row>
+
+    <div>
+      <h1 style="text-align:center">
+        활발한 논쟁이 이루어지고 있는 댓글 많은 게시글과 <br />
+        많은 사람들의 공감을 얻은 좋아요 많은 게시글을 확인해보세요!
+      </h1>
+      <!-- 인기 순위 -->
+      <v-row class="mt-10">
+        <v-col cols="auto" class="mr-auto"></v-col>
         <v-card
           class="my-5 ml-5 elevation-5"
           style="border-radius: 15px;"
@@ -38,6 +40,7 @@
               <span class="ml-4">{{ item.title }}</span>
             </div>
           </v-card-text>
+          
         </v-card>
 
         <!-- 좋아요 순위 -->
@@ -66,6 +69,7 @@
             </div>
           </v-card-text>
         </v-card>
+        <v-col cols="auto" class="mr-auto"></v-col>
       </v-row>
     </div>
 
