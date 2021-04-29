@@ -138,7 +138,7 @@
   * Tool : Figma
   * 상세 보기 : https://www.figma.com/proto/wzRcxL6gBvTedlRG3ditq2/%EC%97%AC%EA%B8%B0%EC%9D%B4%EC%8A%88_%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84?node-id=11%3A532&scaling=min-zoom
 
-![와이어 프레임_여기이슈](C:\Users\multicampus\Desktop\와이어 프레임_여기이슈.JPG)
+![와이어 프레임_여기이슈](와이어프레임/와이어 프레임_여기이슈.JPG)
 
 
 
