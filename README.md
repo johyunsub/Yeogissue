@@ -130,7 +130,7 @@
 * ERD 
   * 상세 보기 : https://www.erdcloud.com/d/HonMGuMMNZuuPfgrA
 
-![db_modeling](C:\Users\multicampus\Desktop\Sub3\README.assets\db_modeling.png)
+![db_modeling](document/image-20210403224517409.png)
 
 
 
