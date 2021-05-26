@@ -13,7 +13,8 @@
 
 
 -----
-![메인페이지](https://user-images.githubusercontent.com/42338624/119616075-27804e00-be3b-11eb-9eb1-c623ed35df08.gif)
+![메인페이지](document/메인화면.gif)
+
 
 
 ### 📍여기이슈란?
